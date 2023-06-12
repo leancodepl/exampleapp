@@ -8,9 +8,9 @@ namespace ExampleApp.Api;
 
 public static class Config
 {
-    public static class SqlServer
+    public static class PostgreSQL
     {
-        public static string ConnectionString(IConfiguration cfg) => cfg.GetString("SqlServer:ConnectionString");
+        public static string ConnectionString(IConfiguration cfg) => cfg.GetString("PostgreSQL:ConnectionString");
     }
 
     public static class BlobStorage

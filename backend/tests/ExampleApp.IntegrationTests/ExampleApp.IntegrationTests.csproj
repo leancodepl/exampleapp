@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="../../src/Apps/ExampleApp.Api/ExampleApp.Api.csproj" />
+    <ProjectReference Include="../../src/Apps/ExampleApp.Migrations/ExampleApp.Migrations.csproj" />
     <ProjectReference Include="../../src/Core/ExampleApp.Core.Services/ExampleApp.Core.Services.csproj" />
 
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />

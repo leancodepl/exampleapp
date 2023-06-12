@@ -4,6 +4,7 @@ using LeanCode.Components;
 using LeanCode.DomainModels.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Npgsql;
 
 namespace ExampleApp.Core.Services;
 
@@ -18,8 +19,25 @@ public class CoreModule : AppModule
 
     public override void ConfigureServices(IServiceCollection services)
     {
+        services.AddSingleton(sp =>
+        {
+            var builder = new NpgsqlDataSourceBuilder(connectionString);
+
+            if (sp.GetService<Azure.Core.TokenCredential>() is { } credential)
+            {
+                builder.UseAzureActiveDirectoryAuthentication(credential);
+            }
+
+            return builder.Build();
+        });
+
         services.AddDbContext<CoreDbContext>(
-            opts => opts.UseSqlServer(connectionString, cfg => cfg.MigrationsAssembly("ExampleApp.Migrations"))
+            opts =>
+                opts
+#if DEBUG
+                .EnableSensitiveDataLogging()
+#endif
+                    .UseNpgsql(cfg => cfg.MigrationsAssembly("ExampleApp.Migrations").SetPostgresVersion(14, 0))
         );
     }
 

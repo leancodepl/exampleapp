@@ -24,8 +24,8 @@ spec:
               cpu: 50m
               memory: 200Mi
           env:
-            - name: SqlServer__ConnectionString
+            - name: PostgreSQL__ConnectionString
               valueFrom:
                 secretKeyRef:
                   name: exampleapp-migrations
-                  key: SqlServer__ConnectionString
+                  key: PostgreSQL__ConnectionString
