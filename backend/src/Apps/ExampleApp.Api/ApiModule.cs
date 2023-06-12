@@ -34,8 +34,7 @@ internal class ApiModule : AppModule
     {
         services.AddCors(ConfigureCORS);
         services.AddRouting();
-        services.AddHealthChecks()
-            .AddDbContextCheck<CoreDbContext>();
+        services.AddHealthChecks().AddDbContextCheck<CoreDbContext>();
 
         services.Configure<ForwardedHeadersOptions>(options =>
         {
@@ -50,15 +49,12 @@ internal class ApiModule : AppModule
         {
             services
                 .AddOpenTelemetry()
-                .ConfigureResource(
-                    r => r.AddService("ExampleApp.Api", serviceInstanceId: Environment.MachineName)
-                )
+                .ConfigureResource(r => r.AddService("ExampleApp.Api", serviceInstanceId: Environment.MachineName))
                 .WithTracing(builder =>
                 {
                     builder
                         .AddAspNetCoreInstrumentation(
-                            opts =>
-                                opts.Filter = ctx => !ctx.Request.Path.StartsWithSegments("/live")
+                            opts => opts.Filter = ctx => !ctx.Request.Path.StartsWithSegments("/live")
                         )
                         .AddHttpClientInstrumentation()
                         .AddSqlClientInstrumentation(opts => opts.SetDbStatementForText = true)
@@ -90,20 +86,21 @@ internal class ApiModule : AppModule
     {
         Config.RegisterMappedConfiguration(builder, config, hostEnv);
 
-        builder.RegisterType<AppRoles>()
-            .AsImplementedInterfaces();
+        builder.RegisterType<AppRoles>().AsImplementedInterfaces();
     }
 
     private void ConfigureCORS(CorsOptions opts)
     {
-        opts.AddPolicy(ApiCorsPolicy, cfg =>
-        {
-            cfg
-                .WithOrigins(Config.Services.AllowedOrigins(config))
-                .AllowAnyMethod()
-                .AllowAnyHeader()
-                .AllowCredentials()
-                .SetPreflightMaxAge(TimeSpan.FromMinutes(60));
-        });
+        opts.AddPolicy(
+            ApiCorsPolicy,
+            cfg =>
+            {
+                cfg.WithOrigins(Config.Services.AllowedOrigins(config))
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials()
+                    .SetPreflightMaxAge(TimeSpan.FromMinutes(60));
+            }
+        );
     }
 }

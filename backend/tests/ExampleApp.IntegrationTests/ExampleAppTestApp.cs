@@ -4,9 +4,7 @@ using LeanCode.Components;
 using LeanCode.Components.Startup;
 using LeanCode.CQRS.RemoteHttp.Client;
 using LeanCode.IntegrationTestHelpers;
-using ExampleApp.Core.Contracts;
 using ExampleApp.Core.Services.DataAccess;
-using ExampleApp.Core.Services.DataAccess.Entities;
 using ExampleApp.IntegrationTests.Overrides;
 using ExampleApp.Api;
 using Microsoft.AspNetCore.Hosting;
@@ -19,8 +17,8 @@ namespace ExampleApp.IntegrationTests
 {
     public class ExampleAppTestApp : LeanCodeTestFactory<Startup>
     {
-        protected override ConfigurationOverrides Configuration { get; }
-            = new ConfigurationOverrides(LogEventLevel.Debug, true);
+        protected override ConfigurationOverrides Configuration { get; } =
+            new ConfigurationOverrides(LogEventLevel.Debug, true);
 
         static ExampleAppTestApp()
         {
@@ -49,7 +47,8 @@ namespace ExampleApp.IntegrationTests
                 .BuildMinimalHost<TestStartup>()
                 .ConfigureDefaultLogging(
                     projectName: "ExampleApp-tests",
-                    destructurers: new TypesCatalog(typeof(Program)))
+                    destructurers: new TypesCatalog(typeof(Program))
+                )
                 .UseEnvironment(Environments.Development);
         }
 

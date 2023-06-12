@@ -29,10 +29,6 @@ public class CoreModule : AppModule
 
         builder.Register(c => c.Resolve<CoreDbContext>()).AsImplementedInterfaces();
 
-        builder
-            .RegisterAssemblyTypes(self)
-            .AsClosedTypesOf(typeof(IRepository<,>))
-            .AsImplementedInterfaces()
-            .AsSelf();
+        builder.RegisterAssemblyTypes(self).AsClosedTypesOf(typeof(IRepository<,>)).AsImplementedInterfaces().AsSelf();
     }
 }

@@ -13,7 +13,9 @@ namespace ExampleApp.IntegrationTests
         }
 
         Task IAsyncLifetime.InitializeAsync() => App.InitializeAsync();
+
         Task IAsyncLifetime.DisposeAsync() => App.DisposeAsync().AsTask();
+
         void IDisposable.Dispose() => App.Dispose();
     }
 }
