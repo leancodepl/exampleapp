@@ -12,11 +12,17 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog.Events;
+using LeanCode;
+using System.Text.Json;
+using MassTransit.Testing.Implementations;
+using Xunit;
 
 namespace ExampleApp.IntegrationTests
 {
     public class ExampleAppTestApp : LeanCodeTestFactory<Startup>
     {
+        protected virtual JsonSerializerOptions JsonOptions { get; } = new();
+
         protected override ConfigurationOverrides Configuration { get; } =
             new(
                 LogEventLevel.Debug,
@@ -33,7 +39,7 @@ namespace ExampleApp.IntegrationTests
 
                 while (!Debugger.IsAttached)
                 {
-                    System.Threading.Thread.Sleep(100);
+                    Thread.Sleep(100);
                 }
             }
         }
@@ -57,6 +63,33 @@ namespace ExampleApp.IntegrationTests
                 .UseEnvironment(Environments.Development);
         }
 
+        public override HttpClient CreateApiClient()
+        {
+            var client = CreateDefaultClient(new Uri(UrlHelper.Concat("http://localhost/", ApiBaseAddress)));
+
+            if (!string.IsNullOrEmpty(CurrentUserToken))
+            {
+                client.DefaultRequestHeaders.Authorization = new("Bearer", CurrentUserToken);
+            }
+
+            return client;
+        }
+
+        public override HttpQueriesExecutor CreateQueriesExecutor()
+        {
+            return new(CreateApiClient(), JsonOptions);
+        }
+
+        public override HttpCommandsExecutor CreateCommandsExecutor()
+        {
+            return new(CreateApiClient(), JsonOptions);
+        }
+
+        public virtual HttpOperationsExecutor CreateOperationsExecutor()
+        {
+            return new(CreateApiClient(), JsonOptions);
+        }
+
         public override async Task InitializeAsync()
         {
             await base.InitializeAsync();
@@ -67,7 +100,7 @@ namespace ExampleApp.IntegrationTests
             }
         }
 
-        public Task<bool> AuthenticateAsync()
+        public Task AuthenticateAsync()
         {
             throw new NotImplementedException("Needs better Kratos integration.");
         }
@@ -86,29 +119,40 @@ namespace ExampleApp.IntegrationTests
         {
             throw new NotImplementedException("Needs better Kratos integration.");
         }
+
+        public async Task WaitForProcessingAsync()
+        {
+            using var scope = Services.CreateScope();
+            var monitor = scope.ServiceProvider.GetRequiredService<IBusActivityMonitor>();
+            // Allow some processing time, selected arbitrarily
+            var res = await monitor.AwaitBusInactivity(TimeSpan.FromSeconds(30));
+            Assert.True(res, "The service bus should finish processing in allowed time.");
+        }
     }
 
     public class AuthenticatedExampleAppTestApp : ExampleAppTestApp
     {
         public HttpQueriesExecutor Query { get; private set; } = default!;
         public HttpCommandsExecutor Command { get; private set; } = default!;
+        public HttpOperationsExecutor Operation { get; private set; } = default!;
 
         public override async Task InitializeAsync()
         {
             await base.InitializeAsync();
-            if (!await AuthenticateAsync())
-            {
-                throw new Xunit.Sdk.XunitException("Authentication failed.");
-            }
+            await AuthenticateAsync();
 
             Query = CreateQueriesExecutor();
             Command = CreateCommandsExecutor();
+            Operation = CreateOperationsExecutor();
+
+            await WaitForProcessingAsync();
         }
 
         public override async ValueTask DisposeAsync()
         {
             Command = default!;
             Query = default!;
+            Operation = default!;
             await base.DisposeAsync();
         }
     }
@@ -117,6 +161,7 @@ namespace ExampleApp.IntegrationTests
     {
         public HttpQueriesExecutor Query { get; private set; } = default!;
         public HttpCommandsExecutor Command { get; private set; } = default!;
+        public HttpOperationsExecutor Operation { get; private set; } = default!;
 
         public override async Task InitializeAsync()
         {
@@ -124,12 +169,16 @@ namespace ExampleApp.IntegrationTests
 
             Query = CreateQueriesExecutor();
             Command = CreateCommandsExecutor();
+            Operation = CreateOperationsExecutor();
+
+            await WaitForProcessingAsync();
         }
 
         public override async ValueTask DisposeAsync()
         {
             Command = default!;
             Query = default!;
+            Operation = default!;
             await base.DisposeAsync();
         }
     }
