@@ -18,7 +18,6 @@
 
     <PackageReference Include="Azure.Storage.Blobs" />
 
-    <PackageReference Include="LeanCode.Cache.AspNet" />
     <PackageReference Include="LeanCode.ClientCredentialsHandler" />
     <PackageReference Include="LeanCode.Components.Startup" />
     <PackageReference Include="LeanCode.OpenTelemetry" />
