@@ -9,7 +9,7 @@ resource "docker_image" "traefik" {
   name = local.traefik_image
 
   build {
-    path       = "./apps"
+    context    = "./apps"
     dockerfile = "Dockerfile.traefik"
     build_arg = {
       dockerfile_trigger   = filemd5("./apps/Dockerfile.traefik")

@@ -1,16 +1,20 @@
 terraform {
   required_providers {
-    kubernetes = {
-      source  = "hashicorp/kubernetes"
-      version = "2.7.1"
-    }
     docker = {
       source  = "kreuzwerker/docker"
-      version = "2.16.0"
+      version = "3.0.2"
     }
     helm = {
       source  = "hashicorp/helm"
-      version = "2.4.1"
+      version = "2.10.1"
+    }
+    kubernetes = {
+      source  = "hashicorp/kubernetes"
+      version = "2.21.1"
+    }
+    postgresql = {
+      source  = "cyrilgdn/postgresql"
+      version = "1.19.0"
     }
   }
 }
