@@ -1,7 +1,8 @@
-apiVersion: k3d.io/v1alpha3
+apiVersion: k3d.io/v1alpha5
 kind: Simple
-name: exampleapp
-image: rancher/k3s:v1.23.3-k3s1
+metadata:
+  name: exampleapp
+image: docker.io/rancher/k3s:v1.27.3-k3s1
 servers: 1
 agents: 0
 kubeAPI:
@@ -16,6 +17,9 @@ ports:
     nodeFilters:
       - loadbalancer
   - port: 1433:1433
+    nodeFilters:
+      - loadbalancer
+  - port: 5432:5432
     nodeFilters:
       - loadbalancer
   - port: 10000:10000
@@ -36,4 +40,4 @@ options:
           - server:*
   kubeconfig:
     updateDefaultKubeconfig: true
-    switchCurrentContext: true
+    switchCurrentContext: false
