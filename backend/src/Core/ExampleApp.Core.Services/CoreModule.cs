@@ -1,10 +1,7 @@
 using Autofac;
 using ExampleApp.Core.Services.DataAccess;
-using ExampleApp.Core.Services.DataAccess.Entities;
-using ExampleApp.Core.Services.DataAccess.Repositories;
 using LeanCode.Components;
 using LeanCode.DomainModels.DataAccess;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -24,19 +21,6 @@ public class CoreModule : AppModule
         services.AddDbContext<CoreDbContext>(
             opts => opts.UseSqlServer(connectionString, cfg => cfg.MigrationsAssembly("ExampleApp.Migrations"))
         );
-
-        services.AddIdentity<AuthUser, AuthRole>().AddEntityFrameworkStores<CoreDbContext>().AddDefaultTokenProviders();
-
-        services.Configure<IdentityOptions>(options =>
-        {
-            options.User.AllowedUserNameCharacters =
-                @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!#$%&'*+-/=?^_`{|}~.""(),:;<>@[\] ";
-            options.Password.RequiredLength = 1;
-            options.Password.RequireDigit = false;
-            options.Password.RequireLowercase = false;
-            options.Password.RequireNonAlphanumeric = false;
-            options.Password.RequireUppercase = false;
-        });
     }
 
     protected override void Load(ContainerBuilder builder)
@@ -45,6 +29,10 @@ public class CoreModule : AppModule
 
         builder.Register(c => c.Resolve<CoreDbContext>()).AsImplementedInterfaces();
 
-        builder.RegisterAssemblyTypes(self).AsClosedTypesOf(typeof(IRepository<,>)).AsImplementedInterfaces().AsSelf();
+        builder
+            .RegisterAssemblyTypes(self)
+            .AsClosedTypesOf(typeof(IRepository<,>))
+            .AsImplementedInterfaces()
+            .AsSelf();
     }
 }
