@@ -12,7 +12,7 @@ RUN mkdir /app && chown dotnet:dotnet /app
 USER dotnet
 
 ENV PATH="$PATH:/home/dotnet/.dotnet/tools"
-RUN dotnet tool install -g dotnet-ef --version '6.0.0-*'
+RUN dotnet tool install -g dotnet-ef --version '7.0.0-*'
 
 ARG APP_VERSION
 
