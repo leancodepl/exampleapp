@@ -72,8 +72,6 @@ leancode.builder('exampleapp-backend')
             stage('Integration test') {
                 try {
                     dir('tests/ExampleApp.IntegrationTests') {
-                        env.Domains__Public = 'localhost'
-                        env.Domains__ApiInternal = 'localhost'
                         env.SqlServer__ConnectionStringBase = "Server=localhost,1433;User Id=sa;Password=$dbPassword;Connection Timeout=60;Encrypt=false"
 
                         sh 'dotnet test -c Release -l "trx;LogFileName=$PWD/test-results/integration.trx" -p:MaxParallelThreads=2'

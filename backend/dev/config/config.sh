@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 
-export Domains__Public='exampleapp.local.lncd.pl'
-export Domains__ApiInternal='exampleapp.local.lncd.pl'
-
 export Logging__EnableDetailedInternalLogs=true
 export Logging__MinimumLevel=Verbose
 export Logging__SeqEndpoint='http://seq-svc.shared.svc.cluster.local'

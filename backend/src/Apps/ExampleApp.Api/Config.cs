@@ -8,27 +8,6 @@ namespace ExampleApp.Api;
 
 public static class Config
 {
-    public static class App
-    {
-        public static string PublicDomain(IConfiguration cfg) => cfg.GetString("Domains:Public");
-
-        public static string InternalApiDomain(IConfiguration cfg) => cfg.GetString("Domains:ApiInternal");
-
-        public static string InternalApiBase(IConfiguration cfg) => $"http://{InternalApiDomain(cfg)}";
-
-        public static string PublicComponent(IConfiguration cfg, string component) =>
-            $"https://{component}.{PublicDomain(cfg)}";
-    }
-
-    public static class KeyVault
-    {
-        private const string KeyAddress = "keys/token-signing";
-
-        public static string VaultUrl(IConfiguration cfg) => cfg.GetString("KeyVault:VaultUrl") ?? string.Empty;
-
-        public static string KeyId(IConfiguration cfg) => UrlHelper.Concat(VaultUrl(cfg), KeyAddress);
-    }
-
     public static class SqlServer
     {
         public static string ConnectionString(IConfiguration cfg) => cfg.GetString("SqlServer:ConnectionString");
@@ -54,14 +33,6 @@ public static class Config
 
         public static string[] ExternalApps(IConfiguration cfg) =>
             cfg?.GetSection("CORS:External").Get<string[]>() ?? Array.Empty<string>();
-
-        public static class Auth
-        {
-            public static string Address(IConfiguration cfg) => UrlHelper.Concat(App.InternalApiBase(cfg), "auth");
-
-            public static string ExternalAddress(IConfiguration cfg) =>
-                UrlHelper.Concat(App.PublicComponent(cfg, "api"), "auth");
-        }
     }
 
     public static class Logging
@@ -86,16 +57,6 @@ public static class Config
     private static bool GetBool(this IConfiguration configuration, string key)
     {
         return configuration.GetValue<bool>(key)!;
-    }
-
-    private static string GetService(this IConfiguration configuration, string rest)
-    {
-        return configuration.GetValue<string>($"Services:{rest}")!;
-    }
-
-    private static string GetSecret(this IConfiguration configuration, string api)
-    {
-        return configuration.GetValue<string>($"Secrets:{api}")!;
     }
 
     public static void RegisterConfig<TConfig>(this ContainerBuilder builder, TConfig config)
