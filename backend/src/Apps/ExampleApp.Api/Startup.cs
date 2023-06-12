@@ -9,12 +9,10 @@ using LeanCode.CQRS.Validation;
 using LeanCode.CQRS.Validation.Fluent;
 using LeanCode.DomainModels.MassTransitRelay;
 using LeanCode.DomainModels.MassTransitRelay.Middleware;
-using LeanCode.IdentityServer.KeyVault;
 using LeanCode.Localization;
 using LeanCode.OpenTelemetry;
 using LeanCode.ViewRenderer.Razor;
 using ExampleApp.Core.Services;
-using ExampleApp.Api.Auth;
 using ExampleApp.Api.Handlers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -53,7 +51,6 @@ public class Startup : LeanStartup
         {
             new ApiModule(config, hostEnv),
             new CoreModule(dbConnStr),
-            new AuthModule(hostEnv, config),
             new OpenTelemetryModule(),
             new CQRSModule().WithCustomPipelines<CoreContext>(
                 AllHandlers,
@@ -67,19 +64,12 @@ public class Startup : LeanStartup
             new LocalizationModule(LocalizationConfiguration.For<Strings.Strings>()),
         };
 
-        if (!hostEnv.IsDevelopment())
-        {
-            modules.Add(new IdentityServerKeyVaultModule());
-        }
-
         return modules.ToArray();
     }
 
     protected override void ConfigureApp(IApplicationBuilder app)
     {
         app.UseRouting().UseForwardedHeaders().UseCors(ApiModule.ApiCorsPolicy);
-
-        app.Map("/auth", auth => auth.UseIdentityServer());
 
         app.Map("/api", api => api.UseAuthentication().UseRemoteCQRS(Api, CoreContext.FromHttp));
 
