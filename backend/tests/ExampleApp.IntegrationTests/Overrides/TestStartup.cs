@@ -1,4 +1,5 @@
 using LeanCode.Components;
+using LeanCode.DomainModels.MassTransitRelay.Testing;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 
@@ -11,6 +12,7 @@ namespace ExampleApp.IntegrationTests.Overrides
         {
             Modules = base.Modules
                 .Prepend(new TestOverridesPreModule())
+                .Append(new MassTransitTestRelayModule())
                 .Append(new TestOverridesPostModule())
                 .ToArray();
         }
