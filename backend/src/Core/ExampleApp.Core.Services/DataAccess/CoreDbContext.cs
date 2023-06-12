@@ -32,8 +32,8 @@ public class CoreDbContext : DbContext, IOutboxContext, IConsumedMessagesContext
 
             e.Property(t => t.Id).IsTypedId();
 
-            e.Property(t => t.Name).HasMaxLength(500);
-            e.Property(t => t.Email).HasMaxLength(500);
+            e.Property(t => t.Name);
+            e.Property(t => t.Email);
         });
 
         builder.Entity<Project>(e =>
@@ -42,7 +42,7 @@ public class CoreDbContext : DbContext, IOutboxContext, IConsumedMessagesContext
 
             e.Property(t => t.Id).IsTypedId();
 
-            e.Property(t => t.Name).HasMaxLength(500);
+            e.Property(t => t.Name);
 
             e.OwnsMany(
                 p => p.Assignments,
@@ -50,13 +50,10 @@ public class CoreDbContext : DbContext, IOutboxContext, IConsumedMessagesContext
                 {
                     inner.WithOwner(a => a.ParentProject).HasForeignKey(a => a.ParentProjectId);
 
-                    inner.Property(a => a.Name).HasMaxLength(500);
+                    inner.Property(a => a.Name);
                     inner.Property(a => a.Id).IsTypedId();
                     inner.Property(a => a.ParentProjectId).IsTypedId();
                     inner.Property(a => a.AssignedEmployeeId).IsTypedId();
-
-                    inner.HasKey(a => new { a.Id }).IsClustered(false);
-                    inner.HasIndex(a => new { a.ParentProjectId, a.Id }).IsClustered(true);
 
                     inner.ToTable("Assignments");
                 }

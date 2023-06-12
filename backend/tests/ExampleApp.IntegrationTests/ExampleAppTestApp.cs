@@ -18,7 +18,12 @@ namespace ExampleApp.IntegrationTests
     public class ExampleAppTestApp : LeanCodeTestFactory<Startup>
     {
         protected override ConfigurationOverrides Configuration { get; } =
-            new ConfigurationOverrides(LogEventLevel.Debug, true);
+            new(
+                LogEventLevel.Debug,
+                true,
+                connectionStringBase: "PostgreSQL__ConnectionStringBase",
+                connectionStringKey: "PostgresSQL:ConnectionString"
+            );
 
         static ExampleAppTestApp()
         {

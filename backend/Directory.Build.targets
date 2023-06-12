@@ -5,6 +5,7 @@
     <EFCoreVersion>7.0.5</EFCoreVersion>
     <AspNetCoreVersion>7.0.5</AspNetCoreVersion>
     <MassTransitVersion>8.0.9</MassTransitVersion>
+    <NpgsqlVersion>7.0.4</NpgsqlVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -47,7 +48,6 @@
     <PackageReference Update="Microsoft.EntityFrameworkCore" Version="$(EFCoreVersion)" />
     <PackageReference Update="Microsoft.EntityFrameworkCore.Design" Version="$(EFCoreVersion)" />
     <PackageReference Update="Microsoft.EntityFrameworkCore.InMemory" Version="$(EFCoreVersion)" />
-    <PackageReference Update="Microsoft.EntityFrameworkCore.SqlServer" Version="$(EFCoreVersion)" />
 
     <PackageReference Update="Microsoft.Extensions.Azure" Version="1.6.3" />
 
@@ -71,6 +71,9 @@
     <PackageReference Update="MassTransit" Version="$(MassTransitVersion)" />
     <PackageReference Update="MassTransit.Azure.ServiceBus.Core" Version="$(MassTransitVersion)" />
     <PackageReference Update="MassTransit.RabbitMQ" Version="$(MassTransitVersion)" />
+
+    <PackageReference Update="Npgsql" Version="$(NpgsqlVersion)" />
+    <PackageReference Update="Npgsql.EntityFrameworkCore.PostgreSQL" Version="$(NpgsqlVersion)" />
 
     <PackageReference Update="OpenTelemetry" Version="1.5.0" />
     <PackageReference Update="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.5.0" />

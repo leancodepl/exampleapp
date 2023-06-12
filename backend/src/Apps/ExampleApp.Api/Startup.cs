@@ -41,7 +41,7 @@ public class Startup : LeanStartup
 
     protected static IAppModule[] ConfigureModules(IWebHostEnvironment hostEnv, IConfiguration config)
     {
-        var dbConnStr = Config.SqlServer.ConnectionString(config);
+        var dbConnStr = Config.PostgreSQL.ConnectionString(config);
 
         var modules = new List<IAppModule>
         {
