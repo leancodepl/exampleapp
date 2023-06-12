@@ -11,6 +11,7 @@ using Microsoft.Extensions.Azure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 
@@ -47,19 +48,31 @@ internal class ApiModule : AppModule
 
         if (!string.IsNullOrWhiteSpace(otlp))
         {
-            services.AddOpenTelemetryTracing(builder =>
-            {
-                builder
-                    .AddAspNetCoreInstrumentation(opts => opts.Filter = ctx =>
-                    {
-                        return !ctx.Request.Path.StartsWithSegments("/live");
-                    })
-                    .AddHttpClientInstrumentation()
-                    .AddSqlClientInstrumentation(opts => opts.SetDbStatementForText = true)
-                    .AddLeanCodeTelemetry()
-                    .SetResourceBuilder(ResourceBuilder.CreateDefault().AddService("ExampleApp.Api"))
-                    .AddOtlpExporter(cfg => cfg.Endpoint = new(otlp));
-            });
+            services
+                .AddOpenTelemetry()
+                .ConfigureResource(
+                    r => r.AddService("ExampleApp.Api", serviceInstanceId: Environment.MachineName)
+                )
+                .WithTracing(builder =>
+                {
+                    builder
+                        .AddAspNetCoreInstrumentation(
+                            opts =>
+                                opts.Filter = ctx => !ctx.Request.Path.StartsWithSegments("/live")
+                        )
+                        .AddHttpClientInstrumentation()
+                        .AddSqlClientInstrumentation(opts => opts.SetDbStatementForText = true)
+                        .AddSource("MassTransit")
+                        .AddLeanCodeTelemetry()
+                        .AddOtlpExporter(cfg => cfg.Endpoint = new(otlp));
+                })
+                .WithMetrics(builder =>
+                {
+                    builder
+                        .AddAspNetCoreInstrumentation()
+                        .AddHttpClientInstrumentation()
+                        .AddOtlpExporter(cfg => cfg.Endpoint = new(otlp));
+                });
         }
 
         services.AddAzureClients(cfg =>
