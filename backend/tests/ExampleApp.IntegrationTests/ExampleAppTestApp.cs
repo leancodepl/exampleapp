@@ -1,6 +1,5 @@
 using System.Diagnostics;
 using System.Reflection;
-using IdentityModel.Client;
 using LeanCode.Components;
 using LeanCode.Components.Startup;
 using LeanCode.CQRS.RemoteHttp.Client;
@@ -67,15 +66,7 @@ namespace ExampleApp.IntegrationTests
 
         public Task<bool> AuthenticateAsync()
         {
-            return AuthenticateAsync(new PasswordTokenRequest
-            {
-                UserName = UserEmail,
-                Password = UserPassword,
-                Scope = $"profile openid {Auth.Scopes.InternalApi}",
-
-                ClientId = Auth.Clients.ClientApp,
-                ClientSecret = string.Empty,
-            });
+            throw new NotImplementedException("Needs better Kratos integration.");
         }
 
         protected override void ConfigureWebHost(IWebHostBuilder builder)

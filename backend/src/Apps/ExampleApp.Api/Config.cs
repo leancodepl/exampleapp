@@ -1,6 +1,5 @@
 using Autofac;
 using LeanCode;
-using LeanCode.IdentityServer.KeyVault;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Serilog.Events;

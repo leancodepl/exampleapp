@@ -1,7 +1,6 @@
 using Autofac;
 using LeanCode.AzureIdentity;
 using LeanCode.Components;
-using LeanCode.IdentityServer.KeyVault;
 using LeanCode.OpenTelemetry;
 using ExampleApp.Core.Services.DataAccess;
 using Microsoft.AspNetCore.Builder;
@@ -69,8 +68,6 @@ internal class ApiModule : AppModule
 
             if (!hostEnv.IsDevelopment())
             {
-                cfg.AddKeyClient(new(Config.KeyVault.VaultUrl(config)));
-                cfg.AddIdentityServerTokenSigningKey(new(Config.KeyVault.KeyId(config)));
                 cfg.UseCredential(DefaultLeanCodeCredential.Create(config));
             }
         });

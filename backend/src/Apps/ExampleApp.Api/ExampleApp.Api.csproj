@@ -18,10 +18,6 @@
 
     <PackageReference Include="Azure.Storage.Blobs" />
 
-    <PackageReference Include="IdentityServer4" />
-    <PackageReference Include="IdentityServer4.AspNetIdentity" />
-    <PackageReference Include="IdentityServer4.EntityFramework" />
-
     <PackageReference Include="LeanCode.Cache.AspNet" />
     <PackageReference Include="LeanCode.ClientCredentialsHandler" />
     <PackageReference Include="LeanCode.Components.Startup" />
@@ -30,7 +26,6 @@
     <PackageReference Include="LeanCode.CQRS.RemoteHttp.Server" />
     <PackageReference Include="LeanCode.CQRS.Validation.Fluent" />
     <PackageReference Include="LeanCode.DomainModels.MassTransitRelay" />
-    <PackageReference Include="LeanCode.IdentityServer.KeyVault" />
     <PackageReference Include="LeanCode.Logging" />
     <PackageReference Include="LeanCode.Localization" />
     <PackageReference Include="LeanCode.UrlHelper" />
