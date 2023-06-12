@@ -1,0 +1,80 @@
+version: v0.13.0
+serve:
+  public:
+    cors:
+      enabled: true
+      allowed_origins:
+        - https://${domain}
+        - https://*.${domain}
+cookies:
+  domain: "${domain}"
+  same_site: Lax
+session:
+  cookie:
+    same_site: Strict
+selfservice:
+  default_browser_return_url: https://${domain}/
+  allowed_return_urls:
+    - https://${domain}/
+  methods:
+    link:
+      config:
+        lifespan: 1h
+      enabled: true
+    password:
+      enabled: true
+    lookup_secret:
+      enabled: true
+    totp:
+      enabled: true
+      config:
+        issuer: "${totp_issuer}"
+    profile:
+      enabled: true
+    code:
+      enabled: true
+  flows:
+    login:
+      ui_url: https://${domain}/login
+      lifespan: 1h
+      after:
+        password:
+          hooks:
+            - hook: require_verified_address # ensures that user has confirmed email when signing in with a password
+    registration:
+      ui_url: https://${domain}/registration
+      lifespan: 1h
+      enabled: true
+      after:
+        password:
+          hooks:
+            - hook: show_verification_ui
+        oidc:
+          hooks:
+            - hook: session
+    verification:
+      ui_url: https://${domain}/verification
+      enabled: true
+      use: code
+    recovery:
+      ui_url: https://${domain}/recovery
+      enabled: true
+      use: code
+    settings:
+      ui_url: https://${domain}/settings
+    error:
+      ui_url: https://${domain}/error
+log:
+  level: info
+  format: json
+ciphers:
+  algorithm: xchacha20-poly1305
+hashers:
+  algorithm: bcrypt
+  bcrypt:
+    cost: 8
+identity:
+  default_schema_id: user
+  schemas:
+    - id: user
+      url: file:///etc/kratos/identity.user.schema.json
