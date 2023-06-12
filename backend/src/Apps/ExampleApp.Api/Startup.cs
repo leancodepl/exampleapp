@@ -1,13 +1,10 @@
-using LeanCode.Cache.AspNet;
 using LeanCode.Components;
 using LeanCode.Components.Startup;
-using LeanCode.CQRS.Cache;
 using LeanCode.CQRS.Default;
 using LeanCode.CQRS.RemoteHttp.Server;
 using LeanCode.CQRS.Security;
 using LeanCode.CQRS.Validation;
 using LeanCode.CQRS.Validation.Fluent;
-using LeanCode.DomainModels.MassTransitRelay;
 using LeanCode.DomainModels.MassTransitRelay.Middleware;
 using LeanCode.Localization;
 using LeanCode.OpenTelemetry;
@@ -18,7 +15,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
 using ExampleApp.Core.Contracts.Projects;
 using ExampleApp.Core.Domain.Events;
 
@@ -55,11 +51,10 @@ public class Startup : LeanStartup
             new CQRSModule().WithCustomPipelines<CoreContext>(
                 AllHandlers,
                 c => c.Trace().Secure().Validate().StoreAndPublishEvents(),
-                q => q.Trace().Secure().Cache(),
+                q => q.Trace().Secure(),
                 o => o.Trace().Secure().StoreAndPublishEvents()
             ),
             new FluentValidationModule(AllHandlers),
-            new InMemoryCacheModule(),
             new ExampleAppMassTransitModule(AllHandlers, Domain, config, hostEnv),
             new LocalizationModule(LocalizationConfiguration.For<Strings.Strings>()),
         };
