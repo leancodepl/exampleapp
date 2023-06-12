@@ -17,8 +17,7 @@ namespace ExampleApp.IntegrationTests.Overrides
 
     public sealed class TestOverridesPostModule : AppModule
     {
-        public TestOverridesPostModule()
-        { }
+        public TestOverridesPostModule() { }
 
         protected override void Load(ContainerBuilder builder)
         {

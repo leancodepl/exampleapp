@@ -64,6 +64,5 @@ public class CoreDbContext : DbContext, IOutboxContext, IConsumedMessagesContext
         });
     }
 
-    public Task CommitAsync(CancellationToken cancellationToken = default) =>
-        SaveChangesAsync(cancellationToken);
+    public Task CommitAsync(CancellationToken cancellationToken = default) => SaveChangesAsync(cancellationToken);
 }

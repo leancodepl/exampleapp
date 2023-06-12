@@ -26,7 +26,8 @@ public class ExampleAppMassTransitModule : MassTransitRelayModule
         TypesCatalog consumersCatalog,
         TypesCatalog eventsCatalog,
         IConfiguration config,
-        IWebHostEnvironment hostEnv)
+        IWebHostEnvironment hostEnv
+    )
         : base(eventsCatalog)
     {
         this.consumersCatalog = consumersCatalog;
@@ -50,26 +51,32 @@ public class ExampleAppMassTransitModule : MassTransitRelayModule
                     {
                         cfg.UseDelayedMessageScheduler();
                         ConfigureBusCommon(ctx, cfg);
-                    });
+                    }
+                );
             }
             else
             {
                 var endpoint = Config.MassTransit.AzureServiceBus.Endpoint(config);
 
                 cfg.AddServiceBusMessageScheduler();
-                cfg.UsingAzureServiceBus((ctx, cfg) =>
-                {
-                    cfg.UseDelayedMessageScheduler();
-
-                    cfg.Host(new Uri(endpoint), host =>
+                cfg.UsingAzureServiceBus(
+                    (ctx, cfg) =>
                     {
-                        host.RetryLimit = 5;
-                        host.RetryMinBackoff = TimeSpan.FromSeconds(3);
-                        host.TokenCredential = DefaultLeanCodeCredential.Create(config);
-                    });
+                        cfg.UseDelayedMessageScheduler();
 
-                    ConfigureBusCommon(ctx, cfg);
-                });
+                        cfg.Host(
+                            new Uri(endpoint),
+                            host =>
+                            {
+                                host.RetryLimit = 5;
+                                host.RetryMinBackoff = TimeSpan.FromSeconds(3);
+                                host.TokenCredential = DefaultLeanCodeCredential.Create(config);
+                            }
+                        );
+
+                        ConfigureBusCommon(ctx, cfg);
+                    }
+                );
             }
         });
     }
@@ -93,14 +100,16 @@ public class ExampleAppMassTransitModule : MassTransitRelayModule
             rcv =>
             {
                 rcv.UseLogsCorrelation();
-                rcv.UseRetry(retryConfig =>
-                    retryConfig.Incremental(5, TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(5)));
+                rcv.UseRetry(
+                    retryConfig => retryConfig.Incremental(5, TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(5))
+                );
                 rcv.UseConsumedMessagesFiltering(ctx);
                 rcv.StoreAndPublishDomainEvents(ctx);
 
                 rcv.ConfigureConsumers(ctx);
                 rcv.ConnectReceiveEndpointObservers(ctx);
-            });
+            }
+        );
 
         cfg.ConnectBusObservers(ctx);
     }
