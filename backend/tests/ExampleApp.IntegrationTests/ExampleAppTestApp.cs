@@ -10,7 +10,6 @@ using ExampleApp.Core.Services.DataAccess.Entities;
 using ExampleApp.IntegrationTests.Overrides;
 using ExampleApp.Api;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -79,27 +78,9 @@ namespace ExampleApp.IntegrationTests
             });
         }
 
-        private async Task CreateTestUserAsync(IServiceProvider services)
+        private Task CreateTestUserAsync(IServiceProvider services)
         {
-            var userId = Guid.NewGuid();
-
-            // var user = User.Create();
-            // var dbContext = services.GetService<CoreDbContext>();
-            // dbContext.Users.Add(user);
-            // await dbContext.SaveChangesAsync();
-
-            var userManager = services.GetService<UserManager<AuthUser>>();
-            var authUser = new AuthUser
-            {
-                Id = userId,
-                Email = UserEmail,
-                UserName = UserEmail,
-                Claims =
-                {
-                    new IdentityUserClaim<Guid>() { ClaimType = Auth.KnownClaims.Role, ClaimValue = Auth.Roles.User },
-                },
-            };
-            await userManager.CreateAsync(authUser, UserPassword);
+            throw new NotImplementedException("Needs better Kratos integration.");
         }
     }
 
