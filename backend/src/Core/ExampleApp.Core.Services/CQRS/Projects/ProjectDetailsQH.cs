@@ -2,7 +2,6 @@ using ExampleApp.Core.Contracts.Projects;
 using ExampleApp.Core.Domain.Projects;
 using ExampleApp.Core.Services.DataAccess;
 using LeanCode.CQRS.Execution;
-using LeanCode.DomainModels.Model;
 using Microsoft.EntityFrameworkCore;
 
 namespace ExampleApp.Core.Services.CQRS.Projects;
@@ -18,7 +17,7 @@ public class ProjectDetailsQH : IQueryHandler<CoreContext, ProjectDetails, Proje
 
     public Task<ProjectDetailsDTO?> ExecuteAsync(CoreContext context, ProjectDetails query)
     {
-        if (!SId<Project>.TryParse(query.Id, out var projectId))
+        if (!ProjectId.TryParse(query.Id, out var projectId))
         {
             return null!;
         }

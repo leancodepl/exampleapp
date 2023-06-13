@@ -25,6 +25,7 @@
     <PackageReference Update="LeanCode.Dapper" Version="$(CoreLibVersion)" />
     <PackageReference Update="LeanCode.DomainModels" Version="$(CoreLibVersion)" />
     <PackageReference Update="LeanCode.DomainModels.EF" Version="$(CoreLibVersion)" />
+    <PackageReference Update="LeanCode.DomainModels.Generators" Version="$(CoreLibVersion)" />
     <PackageReference Update="LeanCode.DomainModels.MassTransitRelay" Version="$(CoreLibVersion)" />
     <PackageReference Update="LeanCode.EFMigrator" Version="$(CoreLibVersion)" />
     <PackageReference Update="LeanCode.Localization" Version="$(CoreLibVersion)" />

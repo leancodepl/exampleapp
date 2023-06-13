@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using ExampleApp.Core.Domain.Employees;
 using ExampleApp.Core.Domain.Projects;
 using LeanCode.DomainModels.Model;
 using LeanCode.Time;
@@ -10,10 +11,10 @@ public class EmployeeAssignedToAssignment : IDomainEvent
     public Guid Id { get; private init; }
     public DateTime DateOccurred { get; private init; }
 
-    public SId<Assignment> AssignmentId { get; private init; }
-    public SId<Employee> EmployeeId { get; private init; }
+    public AssignmentId AssignmentId { get; private init; }
+    public EmployeeId EmployeeId { get; private init; }
 
-    public EmployeeAssignedToAssignment(SId<Projects.Assignment> assignmentId, SId<Employee> employeeId)
+    public EmployeeAssignedToAssignment(AssignmentId assignmentId, EmployeeId employeeId)
     {
         Id = Guid.NewGuid();
         DateOccurred = TimeProvider.Now;
@@ -26,8 +27,8 @@ public class EmployeeAssignedToAssignment : IDomainEvent
     public EmployeeAssignedToAssignment(
         Guid id,
         DateTime dateOccurred,
-        SId<Assignment> assignmentId,
-        SId<Employee> employeeId
+        AssignmentId assignmentId,
+        EmployeeId employeeId
     )
     {
         Id = id;

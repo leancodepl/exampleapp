@@ -3,10 +3,12 @@
   <PropertyGroup>
     <AssemblyName>ExampleApp.Core.Domain</AssemblyName>
     <Nullable>enable</Nullable>
+    <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="LeanCode.DomainModels" />
+    <PackageReference Include="LeanCode.DomainModels.Generators" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
     <PackageReference Include="LeanCode.TimeProvider" />
   </ItemGroup>
 

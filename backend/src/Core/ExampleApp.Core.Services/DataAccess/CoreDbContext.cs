@@ -1,3 +1,4 @@
+using ExampleApp.Core.Domain.Employees;
 using ExampleApp.Core.Domain.Projects;
 using LeanCode.DomainModels.EF;
 using LeanCode.DomainModels.MassTransitRelay.Inbox;
@@ -18,6 +19,13 @@ public class CoreDbContext : DbContext, IOutboxContext, IConsumedMessagesContext
     public CoreDbContext(DbContextOptions<CoreDbContext> options)
         : base(options) { }
 
+    protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
+    {
+        configurationBuilder.Properties<EmployeeId>().ArePrefixedTypedId();
+        configurationBuilder.Properties<ProjectId>().ArePrefixedTypedId();
+        configurationBuilder.Properties<AssignmentId>().ArePrefixedTypedId();
+    }
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
@@ -30,11 +38,6 @@ public class CoreDbContext : DbContext, IOutboxContext, IConsumedMessagesContext
         {
             e.HasKey(t => t.Id);
 
-            e.Property(t => t.Id).IsTypedId();
-
-            e.Property(t => t.Name);
-            e.Property(t => t.Email);
-
             e.IsOptimisticConcurrent(addRowVersion: false);
             e.Property<uint>("xmin").HasColumnName("xmin").IsRowVersion().IsRequired();
         });
@@ -43,20 +46,11 @@ public class CoreDbContext : DbContext, IOutboxContext, IConsumedMessagesContext
         {
             e.HasKey(t => t.Id);
 
-            e.Property(t => t.Id).IsTypedId();
-
-            e.Property(t => t.Name);
-
             e.OwnsMany(
                 p => p.Assignments,
                 inner =>
                 {
                     inner.WithOwner(a => a.ParentProject).HasForeignKey(a => a.ParentProjectId);
-
-                    inner.Property(a => a.Name);
-                    inner.Property(a => a.Id).IsTypedId();
-                    inner.Property(a => a.ParentProjectId).IsTypedId();
-                    inner.Property(a => a.AssignedEmployeeId).IsTypedId();
 
                     inner.ToTable("Assignments");
                 }

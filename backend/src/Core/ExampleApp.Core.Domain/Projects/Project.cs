@@ -1,13 +1,18 @@
+using ExampleApp.Core.Domain.Employees;
 using ExampleApp.Core.Domain.Events;
+using LeanCode.DomainModels.Ids;
 using LeanCode.DomainModels.Model;
 
 namespace ExampleApp.Core.Domain.Projects;
 
-public class Project : IAggregateRoot<SId<Project>>
+[TypedId(TypedIdFormat.PrefixedGuid, CustomPrefix = "project")]
+public readonly partial record struct ProjectId;
+
+public class Project : IAggregateRoot<ProjectId>
 {
     private readonly List<Assignment> assignments = new();
 
-    public SId<Project> Id { get; private init; }
+    public ProjectId Id { get; private init; }
     public string Name { get; private set; } = default!;
 
     public IReadOnlyList<Assignment> Assignments => assignments;
@@ -18,31 +23,31 @@ public class Project : IAggregateRoot<SId<Project>>
 
     public static Project Create(string name)
     {
-        return new Project { Id = SId<Project>.New(), Name = name, };
+        return new Project { Id = ProjectId.New(), Name = name, };
     }
 
     public void AddAssignments(IEnumerable<string> assignmentNames)
     {
-        this.assignments.AddRange(assignmentNames.Select(tn => Assignment.Create(this, tn)));
+        assignments.AddRange(assignmentNames.Select(an => Assignment.Create(this, an)));
     }
 
-    public void EditAssignment(SId<Assignment> assignmentId, string name)
+    public void EditAssignment(AssignmentId assignmentId, string name)
     {
         assignments.Single(t => t.Id == assignmentId).Edit(name);
     }
 
-    public void AssignEmployeeToAssignment(SId<Assignment> assignmentId, SId<Employee> employeeId)
+    public void AssignEmployeeToAssignment(AssignmentId assignmentId, EmployeeId employeeId)
     {
         assignments.Single(t => t.Id == assignmentId).AssignEmployee(employeeId);
         DomainEvents.Raise(new EmployeeAssignedToAssignment(assignmentId, employeeId));
     }
 
-    public void UnassignEmployeeFromAssignment(SId<Assignment> assignmentId)
+    public void UnassignEmployeeFromAssignment(AssignmentId assignmentId)
     {
         assignments.Single(t => t.Id == assignmentId).UnassignEmployee();
     }
 
-    public void ChangeAssignmentStatus(SId<Assignment> assignmentId, Assignment.AssignmentStatus status)
+    public void ChangeAssignmentStatus(AssignmentId assignmentId, Assignment.AssignmentStatus status)
     {
         assignments.Single(t => t.Id == assignmentId).ChangeStatus(status);
     }

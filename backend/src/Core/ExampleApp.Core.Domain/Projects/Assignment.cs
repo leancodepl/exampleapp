@@ -1,15 +1,20 @@
+using ExampleApp.Core.Domain.Employees;
+using LeanCode.DomainModels.Ids;
 using LeanCode.DomainModels.Model;
 
 namespace ExampleApp.Core.Domain.Projects;
 
-public class Assignment : IIdentifiable<SId<Assignment>>
+[TypedId(TypedIdFormat.PrefixedGuid, CustomPrefix = "assignment")]
+public readonly partial record struct AssignmentId;
+
+public class Assignment : IIdentifiable<AssignmentId>
 {
-    public SId<Assignment> Id { get; private init; }
+    public AssignmentId Id { get; private init; }
     public string Name { get; private set; } = default!;
     public AssignmentStatus Status { get; private set; }
-    public SId<Employee>? AssignedEmployeeId { get; private set; }
+    public EmployeeId? AssignedEmployeeId { get; private set; }
 
-    public SId<Project> ParentProjectId { get; private init; } = default!;
+    public ProjectId ParentProjectId { get; private init; } = default!;
     public Project ParentProject { get; private init; } = default!;
 
     private Assignment() { }
@@ -18,7 +23,7 @@ public class Assignment : IIdentifiable<SId<Assignment>>
     {
         return new Assignment
         {
-            Id = SId<Assignment>.New(),
+            Id = AssignmentId.New(),
             Name = name,
             ParentProject = parentProject,
             ParentProjectId = parentProject.Id,
@@ -31,7 +36,7 @@ public class Assignment : IIdentifiable<SId<Assignment>>
         Name = name;
     }
 
-    public void AssignEmployee(SId<Employee> employeeId)
+    public void AssignEmployee(EmployeeId employeeId)
     {
         AssignedEmployeeId = employeeId;
     }

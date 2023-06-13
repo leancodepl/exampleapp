@@ -5,7 +5,6 @@ using FluentValidation;
 using LeanCode.CQRS.Execution;
 using LeanCode.CQRS.Validation.Fluent;
 using LeanCode.DomainModels.DataAccess;
-using LeanCode.DomainModels.Model;
 using Microsoft.EntityFrameworkCore;
 
 namespace ExampleApp.Core.Services.CQRS.Projects;
@@ -31,7 +30,7 @@ public class AddAssignmentsToProjectCV : ContextualValidator<AddAssignmentsToPro
 
     private Task<bool> CheckProjectExistsAsync(IValidationContext ctx, AddAssignmentsToProject command)
     {
-        if (!SId<Project>.TryParse(command.ProjectId, out var projectId))
+        if (!ProjectId.TryParse(command.ProjectId, out var projectId))
         {
             return Task.FromResult(false);
         }
@@ -59,9 +58,9 @@ public class AddAssignmentsToProjectCH : ICommandHandler<CoreContext, AddAssignm
 {
     private readonly Serilog.ILogger logger = Serilog.Log.ForContext<AddAssignmentsToProjectCH>();
 
-    private readonly IRepository<Project, SId<Project>> projects;
+    private readonly IRepository<Project, ProjectId> projects;
 
-    public AddAssignmentsToProjectCH(IRepository<Project, SId<Project>> projects)
+    public AddAssignmentsToProjectCH(IRepository<Project, ProjectId> projects)
     {
         this.projects = projects;
     }
@@ -69,7 +68,7 @@ public class AddAssignmentsToProjectCH : ICommandHandler<CoreContext, AddAssignm
     public async Task ExecuteAsync(CoreContext context, AddAssignmentsToProject command)
     {
         var project = await projects.FindAndEnsureExistsAsync(
-            SId<Project>.From(command.ProjectId),
+            ProjectId.Parse(command.ProjectId),
             context.CancellationToken
         );
         project.AddAssignments(command.Assignments.Select(a => a.Name));
