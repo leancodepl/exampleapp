@@ -34,6 +34,9 @@ public class CoreDbContext : DbContext, IOutboxContext, IConsumedMessagesContext
 
             e.Property(t => t.Name);
             e.Property(t => t.Email);
+
+            e.IsOptimisticConcurrent(addRowVersion: false);
+            e.Property<uint>("xmin").HasColumnName("xmin").IsRowVersion().IsRequired();
         });
 
         builder.Entity<Project>(e =>
@@ -58,6 +61,9 @@ public class CoreDbContext : DbContext, IOutboxContext, IConsumedMessagesContext
                     inner.ToTable("Assignments");
                 }
             );
+
+            e.IsOptimisticConcurrent(addRowVersion: false);
+            e.Property<uint>("xmin").HasColumnName("xmin").IsRowVersion().IsRequired();
         });
     }
 
