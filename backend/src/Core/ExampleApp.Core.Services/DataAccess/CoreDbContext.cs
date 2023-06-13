@@ -21,9 +21,20 @@ public class CoreDbContext : DbContext, IOutboxContext, IConsumedMessagesContext
 
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
     {
-        configurationBuilder.Properties<EmployeeId>().ArePrefixedTypedId();
-        configurationBuilder.Properties<ProjectId>().ArePrefixedTypedId();
-        configurationBuilder.Properties<AssignmentId>().ArePrefixedTypedId();
+        configurationBuilder
+            .Properties<EmployeeId>()
+            .HaveColumnType("dbo.employee_id")
+            .HaveConversion<PrefixedTypedIdConverter<EmployeeId>, PrefixedTypedIdComparer<EmployeeId>>();
+
+        configurationBuilder
+            .Properties<ProjectId>()
+            .HaveColumnType("dbo.project_id")
+            .HaveConversion<PrefixedTypedIdConverter<ProjectId>, PrefixedTypedIdComparer<ProjectId>>();
+
+        configurationBuilder
+            .Properties<AssignmentId>()
+            .HaveColumnType("dbo.assignment_id")
+            .HaveConversion<PrefixedTypedIdConverter<AssignmentId>, PrefixedTypedIdComparer<AssignmentId>>();
     }
 
     protected override void OnModelCreating(ModelBuilder builder)
