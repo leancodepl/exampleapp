@@ -1,10 +1,14 @@
+using LeanCode.DomainModels.Ids;
 using LeanCode.DomainModels.Model;
 
-namespace ExampleApp.Core.Domain.Projects;
+namespace ExampleApp.Core.Domain.Employees;
 
-public class Employee : IAggregateRoot<SId<Employee>>
+[TypedId(TypedIdFormat.PrefixedGuid, CustomPrefix = "employee")]
+public readonly partial record struct EmployeeId;
+
+public class Employee : IAggregateRoot<EmployeeId>
 {
-    public SId<Employee> Id { get; private init; }
+    public EmployeeId Id { get; private init; }
     public string Name { get; private set; } = default!;
     public string Email { get; private set; } = default!;
 
@@ -16,7 +20,7 @@ public class Employee : IAggregateRoot<SId<Employee>>
     {
         return new Employee
         {
-            Id = SId<Employee>.New(),
+            Id = EmployeeId.New(),
             Name = name,
             Email = email,
         };

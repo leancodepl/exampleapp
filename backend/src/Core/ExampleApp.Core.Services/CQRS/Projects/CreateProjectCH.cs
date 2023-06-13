@@ -4,7 +4,6 @@ using FluentValidation;
 using LeanCode.CQRS.Execution;
 using LeanCode.CQRS.Validation.Fluent;
 using LeanCode.DomainModels.DataAccess;
-using LeanCode.DomainModels.Model;
 
 namespace ExampleApp.Core.Services.CQRS.Projects;
 
@@ -24,9 +23,9 @@ public class CreateProjectCH : ICommandHandler<CoreContext, CreateProject>
 {
     private readonly Serilog.ILogger logger = Serilog.Log.ForContext<CreateProjectCH>();
 
-    private readonly IRepository<Project, SId<Project>> projects;
+    private readonly IRepository<Project, ProjectId> projects;
 
-    public CreateProjectCH(IRepository<Project, SId<Project>> projects)
+    public CreateProjectCH(IRepository<Project, ProjectId> projects)
     {
         this.projects = projects;
     }
