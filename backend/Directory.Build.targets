@@ -75,13 +75,13 @@
 
     <PackageReference Update="Npgsql" Version="$(NpgsqlVersion)" />
     <PackageReference Update="Npgsql.EntityFrameworkCore.PostgreSQL" Version="$(NpgsqlVersion)" />
+    <PackageReference Update="Npgsql.OpenTelemetry" Version="$(NpgsqlVersion)" />
 
     <PackageReference Update="OpenTelemetry" Version="1.5.0" />
     <PackageReference Update="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.5.0" />
     <PackageReference Update="OpenTelemetry.Extensions.Hosting" Version="1.5.0" />
     <PackageReference Update="OpenTelemetry.Instrumentation.AspNetCore" Version="1.5.0-beta.1" />
     <PackageReference Update="OpenTelemetry.Instrumentation.Http" Version="1.5.0-beta.1 " />
-    <PackageReference Update="OpenTelemetry.Instrumentation.SqlClient" Version="1.5.0-beta.1 " />
 
     <PackageReference Update="System.IdentityModel.Tokens.Jwt" Version="6.31.0" />
   </ItemGroup>

@@ -14,6 +14,7 @@ using Microsoft.Extensions.Hosting;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
+using Npgsql;
 
 namespace ExampleApp.Api;
 
@@ -57,7 +58,7 @@ internal class ApiModule : AppModule
                             opts => opts.Filter = ctx => !ctx.Request.Path.StartsWithSegments("/live")
                         )
                         .AddHttpClientInstrumentation()
-                        .AddSqlClientInstrumentation(opts => opts.SetDbStatementForText = true)
+                        .AddNpgsql()
                         .AddSource("MassTransit")
                         .AddLeanCodeTelemetry()
                         .AddOtlpExporter(cfg => cfg.Endpoint = new(otlp));
