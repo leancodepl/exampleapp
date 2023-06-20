@@ -15,6 +15,7 @@ using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using Npgsql;
+using static ExampleApp.Core.Contracts.Auth;
 
 namespace ExampleApp.Api;
 
@@ -36,6 +37,25 @@ internal class ApiModule : AppModule
         services.AddCors(ConfigureCORS);
         services.AddRouting();
         services.AddHealthChecks().AddDbContextCheck<CoreDbContext>();
+
+        services
+            .AddAuthentication()
+            .AddKratos(options =>
+            {
+                options.NameClaimType = KnownClaims.UserId;
+                options.RoleClaimType = KnownClaims.Role;
+
+                options.ClaimsExtractor = (s, o, c) =>
+                {
+                    c.Add(new(o.RoleClaimType, Roles.User)); // every identity is a valid User
+                };
+            });
+
+        services.AddKratosClients(builder =>
+        {
+            builder.AddFrontendApiClient(Config.Kratos.PublicEndpoint(config));
+            builder.AddIdentityApiClient(Config.Kratos.AdminEndpoint(config));
+        });
 
         services.Configure<ForwardedHeadersOptions>(options =>
         {

@@ -28,6 +28,7 @@
     <PackageReference Update="LeanCode.DomainModels.Generators" Version="$(CoreLibVersion)" />
     <PackageReference Update="LeanCode.DomainModels.MassTransitRelay" Version="$(CoreLibVersion)" />
     <PackageReference Update="LeanCode.EFMigrator" Version="$(CoreLibVersion)" />
+    <PackageReference Update="LeanCode.Kratos" Version="8.0.1884-preview" />
     <PackageReference Update="LeanCode.Localization" Version="$(CoreLibVersion)" />
     <PackageReference Update="LeanCode.Logging" Version="$(CoreLibVersion)" />
     <PackageReference Update="LeanCode.IntegrationTestHelpers" Version="$(CoreLibVersion)" />
