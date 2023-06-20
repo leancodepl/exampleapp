@@ -1,4 +1,5 @@
 load('ext://restart_process', 'docker_build_with_restart')
+allow_k8s_contexts('k3d-exampleapp')
 default_registry('k3d-exampleapp-registry.local.lncd.pl:21345')
 
 local_resource(
