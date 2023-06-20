@@ -1,5 +1,4 @@
 using Autofac;
-using LeanCode;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Serilog.Events;
@@ -8,6 +7,15 @@ namespace ExampleApp.Api;
 
 public static class Config
 {
+    public static class Kratos
+    {
+        public static string PublicEndpoint(IConfiguration cfg) => cfg.GetString("Kratos:PublicEndpoint");
+
+        public static string AdminEndpoint(IConfiguration cfg) => cfg.GetString("Kratos:AdminEndpoint");
+
+        public static string WebhookApiKey(IConfiguration cfg) => cfg.GetString("Kratos:WebhookApiKey");
+    }
+
     public static class PostgreSQL
     {
         public static string ConnectionString(IConfiguration cfg) => cfg.GetString("PostgreSQL:ConnectionString");
@@ -69,5 +77,10 @@ public static class Config
         ContainerBuilder builder,
         IConfiguration config,
         IWebHostEnvironment hostEnv
-    ) { }
+    )
+    {
+        builder.RegisterConfig(new KratosConfig(Kratos.WebhookApiKey(config)));
+    }
+
+    public sealed record class KratosConfig(string WebhookApiKey);
 }
