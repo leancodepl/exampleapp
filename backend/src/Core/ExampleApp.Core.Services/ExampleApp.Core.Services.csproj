@@ -22,6 +22,7 @@
     <PackageReference Include="LeanCode.Dapper" />
     <PackageReference Include="LeanCode.DomainModels.EF" />
     <PackageReference Include="LeanCode.DomainModels.MassTransitRelay" />
+    <PackageReference Include="LeanCode.Kratos" />
 
     <PackageReference Include="MassTransit" />
 

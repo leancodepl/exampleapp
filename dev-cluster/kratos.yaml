@@ -52,16 +52,79 @@ selfservice:
         oidc:
           hooks:
             - hook: session
+        hooks:
+          - hook: web_hook
+            config:
+              url: "${api}/kratos/sync-identity"
+              method: POST
+              auth:
+                type: api_key
+                config:
+                  in: header
+                  name: X-Api-Key
+                  value: "Passw12#"
+              body: file:///etc/kratos/webhook.identity.mapper.jsonnet
+              response:
+                ignore: false
+                parse: false
     verification:
       ui_url: https://${domain}/verification
       enabled: true
       use: code
+      after:
+        hooks:
+          - hook: web_hook
+            config:
+              url: "${api}/kratos/sync-identity"
+              method: POST
+              auth:
+                type: api_key
+                config:
+                  in: header
+                  name: X-Api-Key
+                  value: "Passw12#"
+              body: file:///etc/kratos/webhook.identity.mapper.jsonnet
+              response:
+                ignore: false
+                parse: false
     recovery:
       ui_url: https://${domain}/recovery
       enabled: true
       use: code
+      after:
+        hooks:
+          - hook: web_hook
+            config:
+              url: "${api}/kratos/sync-identity"
+              method: POST
+              auth:
+                type: api_key
+                config:
+                  in: header
+                  name: X-Api-Key
+                  value: "Passw12#"
+              body: file:///etc/kratos/webhook.identity.mapper.jsonnet
+              response:
+                ignore: false
+                parse: false
     settings:
       ui_url: https://${domain}/settings
+      after:
+        hooks:
+          - hook: web_hook
+            config:
+              url: "${api}/kratos/sync-identity"
+              method: POST
+              auth:
+                type: api_key
+                config:
+                  in: header
+                  name: X-Api-Key
+                  value: "Passw12#"
+              body: file:///etc/kratos/webhook.identity.mapper.jsonnet
+              response:
+                ignore: false
+                parse: false
     error:
       ui_url: https://${domain}/error
 log:
