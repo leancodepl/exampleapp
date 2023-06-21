@@ -17,7 +17,8 @@
           "exec -i -n exampleapp-dev --context k3d-exampleapp deployment/exampleapp-api --"
         ],
         "debuggerPath": "/vsdbg/vsdbg"
-      }
+      },
+      "justMyCode": false
     },
     {
       "name": "Attach to Integration tests",
@@ -46,7 +47,7 @@
       "type": "command",
       "command": "shellCommand.execute",
       "args": {
-        "command": "backend/dev/tools/getpid.sh",
+        "command": "dev/tools/getpid.sh",
         "fieldSeparator": "|",
         "description": "Select the process to attach to",
         "env": {
@@ -64,7 +65,7 @@
       "type": "command",
       "command": "shellCommand.execute",
       "args": {
-        "command": "backend/dev/tools/getpid.sh",
+        "command": "dev/tools/getpid.sh",
         "fieldSeparator": "|",
         "description": "Select the process to attach to",
         "env": {
