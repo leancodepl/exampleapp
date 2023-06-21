@@ -2,6 +2,7 @@ using Autofac;
 using LeanCode.AzureIdentity;
 using LeanCode.Components;
 using LeanCode.OpenTelemetry;
+using ExampleApp.Api.Handlers;
 using ExampleApp.Core.Services.DataAccess;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors.Infrastructure;
@@ -108,6 +109,7 @@ internal class ApiModule : AppModule
         Config.RegisterMappedConfiguration(builder, config, hostEnv);
 
         builder.RegisterType<AppRoles>().AsImplementedInterfaces();
+        builder.RegisterType<KratosIdentitySyncHandler>().AsSelf();
     }
 
     private void ConfigureCORS(CorsOptions opts)

@@ -1,4 +1,5 @@
 using Autofac;
+using ExampleApp.Api.Handlers;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Serilog.Events;
@@ -79,8 +80,6 @@ public static class Config
         IWebHostEnvironment hostEnv
     )
     {
-        builder.RegisterConfig(new KratosConfig(Kratos.WebhookApiKey(config)));
+        builder.RegisterConfig(new KratosWebHookHandler.Config(Kratos.WebhookApiKey(config)));
     }
-
-    public sealed record class KratosConfig(string WebhookApiKey);
 }

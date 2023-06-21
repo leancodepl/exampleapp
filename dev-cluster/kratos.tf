@@ -35,6 +35,7 @@ module "kratos" {
   }
 
   config_yaml = templatefile("./kratos.yaml", {
+    api         = "http://exampleapp-api-svc.exampleapp-dev.svc.cluster.local"
     domain      = "local.lncd.pl"
     totp_issuer = "ExampleApp (dev)"
   })

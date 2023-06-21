@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using ExampleApp.Core.Contracts.Projects;
 using ExampleApp.Core.Domain.Events;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace ExampleApp.Api;
 
@@ -55,7 +56,7 @@ public class Startup : LeanStartup
                 o => o.Trace().Secure().StoreAndPublishEvents()
             ),
             new FluentValidationModule(AllHandlers),
-            new ExampleAppMassTransitModule(AllHandlers, Domain, config, hostEnv),
+            new ExampleAppMassTransitModule(AllHandlers, Domain.Merge(TypesCatalog.Of<Startup>()), config, hostEnv),
             new LocalizationModule(LocalizationConfiguration.For<Strings.Strings>()),
         };
 
@@ -73,6 +74,11 @@ public class Startup : LeanStartup
             endpoints.MapGet("/", VersionHandler.HandleAsync);
             endpoints.MapHealthChecks("/live/health");
             endpoints.MapGet("/live/ready", ReadinessProbe.HandleAsync);
+
+            endpoints.MapPost(
+                "/kratos/sync-identity",
+                ctx => ctx.RequestServices.GetRequiredService<KratosIdentitySyncHandler>().HandleAsync(ctx)
+            );
         });
     }
 }
