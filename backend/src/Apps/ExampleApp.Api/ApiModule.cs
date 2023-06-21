@@ -1,3 +1,4 @@
+using System.Globalization;
 using Autofac;
 using LeanCode.AzureIdentity;
 using LeanCode.Components;
@@ -49,6 +50,18 @@ internal class ApiModule : AppModule
                 options.ClaimsExtractor = (s, o, c) =>
                 {
                     c.Add(new(o.RoleClaimType, Roles.User)); // every identity is a valid User
+
+                    if (
+                        s.Identity.VerifiableAddresses.Any(
+                            kvia =>
+                                kvia.Via == "email"
+                                && kvia.Value.EndsWith("@leancode.pl", false, CultureInfo.InvariantCulture)
+                                && kvia.Verified
+                        )
+                    )
+                    {
+                        c.Add(new(o.RoleClaimType, Roles.Admin));
+                    }
                 };
             });
 
