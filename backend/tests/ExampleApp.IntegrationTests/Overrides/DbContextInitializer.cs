@@ -32,6 +32,20 @@ public class DbContextInitializer<T> : IHostedService
             {
                 await context.Database.EnsureDeletedAsync(token);
                 await context.Database.MigrateAsync(token);
+
+                if (context.Database.GetDbConnection() is NpgsqlConnection connection)
+                {
+                    if (connection.State == System.Data.ConnectionState.Closed)
+                    {
+                        await connection.OpenAsync(token);
+                        await connection.ReloadTypesAsync();
+                        await connection.CloseAsync();
+                    }
+                    else
+                    {
+                        await connection.ReloadTypesAsync();
+                    }
+                }
             },
             cancellationToken
         );
