@@ -1,28 +1,23 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0-preview
 
+USER root
+
 RUN apt-get update \
     && apt-get install -y --no-install-recommends unzip procps \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 RUN curl -sSL https://aka.ms/getvsdbgsh | bash /dev/stdin -v latest -l /vsdbg
 
-RUN groupadd --gid 1000 dotnet \
-    && useradd -s /bin/bash --uid 1000 --gid 1000 -m dotnet
-RUN mkdir /app && chown dotnet:dotnet /app
-USER dotnet
-
-ENV PATH="$PATH:/home/dotnet/.dotnet/tools"
-RUN dotnet tool install -g dotnet-ef --version '8.0.0-*'
+USER $APP_UID
 
 ARG APP_VERSION
 
-ENV ASPNETCORE_URLS=http://*:8080
-ENV ASPNETCORE_ENVIRONMENT=Development
 ENV APP_VERSION=${APP_VERSION}
+ENV ASPNETCORE_ENVIRONMENT=Development
 ENV ASPNETCORE_FORWARDEDHEADERS_ENABLED=true
 
-COPY --chown=dotnet config /app/config
-COPY --chown=dotnet out/api /app/bin
+COPY --chown=$APP_UID config /home/app/config
+COPY --chown=$APP_UID out/api /home/app/bin
 
-WORKDIR /app/code/src/Apps/ExampleApp.Api
+WORKDIR /home/app/code/src/Apps/ExampleApp.Api
 SHELL ["/bin/bash", "-c"]
-ENTRYPOINT /app/config/run.sh
+ENTRYPOINT /home/app/config/run.sh
