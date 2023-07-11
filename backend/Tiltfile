@@ -4,7 +4,7 @@ default_registry('k3d-exampleapp-registry.local.lncd.pl:21345')
 
 local_resource(
   'build-api',
-  'dotnet publish  -o dev/out/api src/Apps/ExampleApp.Api',
+  'dotnet publish -o dev/out/api src/Apps/ExampleApp.Api',
   dir='.',
   deps=['src', 'tests', 'ExampleApp.sln', 'Directory.Build.targets'],
   ignore=['**/obj', '**/bin'],
@@ -14,7 +14,7 @@ local_resource(
 
 local_resource(
   'build-migrations',
-  'dotnet publish  -o dev/out/migrations src/Apps/ExampleApp.Migrations',
+  'dotnet publish -o dev/out/migrations src/Apps/ExampleApp.Migrations',
   dir='.',
   deps=['src', 'tests', 'ExampleApp.sln', 'Directory.Build.targets'],
   ignore=['**/obj', '**/bin'],
@@ -24,7 +24,7 @@ local_resource(
 
 local_resource(
   'build-tests',
-  'dotnet publish  -o dev/out/tests tests/ExampleApp.Tests.csproj',
+  'dotnet publish -o dev/out/tests tests/ExampleApp.Tests.csproj',
   dir='.',
   deps=['src', 'tests', 'ExampleApp.sln', 'Directory.Build.targets'],
   ignore=['**/obj', '**/bin'],
@@ -34,7 +34,7 @@ local_resource(
 
 local_resource(
   'build-integration-tests',
-  'dotnet publish  -o dev/out/integration_tests tests/ExampleApp.IntegrationTests',
+  'dotnet publish -o dev/out/integration_tests tests/ExampleApp.IntegrationTests',
   dir='.',
   deps=['src', 'tests/ExampleApp.IntegrationTests', 'ExampleApp.sln', 'Directory.Build.targets'],
   ignore=['**/obj', '**/bin'],
@@ -46,23 +46,23 @@ docker_build_with_restart(
   'exampleapp-api',
   context='dev',
   dockerfile='dev/Dockerfile.api',
-  entrypoint='/app/config/run.sh',
+  entrypoint='/home/app/config/run.sh',
   only=['out/api', 'config', 'sshd_config'],
   live_update=[
-    sync('dev/out/api', '/app/bin'),
-    sync('dev/config', '/app/config'),
+    sync('dev/out/api', '/home/app/bin'),
+    sync('dev/config', '/home/app/config'),
   ],
 )
 
 docker_build_with_restart(
   'exampleapp-migrations',
   context='dev',
-  entrypoint='/app/config/migrate.sh',
+  entrypoint='/home/app/config/migrate.sh',
   dockerfile='dev/Dockerfile.migrations',
   only=['out/migrations', 'config'],
   live_update=[
-    sync('dev/out/migrations', '/app/bin'),
-    sync('dev/config', '/app/config'),
+    sync('dev/out/migrations', '/home/app/bin'),
+    sync('dev/config', '/home/app/config'),
   ],
 )
 
@@ -73,8 +73,8 @@ docker_build_with_restart(
   entrypoint='dotnet vstest *.Tests.dll; sleep 3600',
   only=['out/tests', 'config'],
   live_update=[
-    sync('dev/out/tests', '/app/bin'),
-    sync('dev/config', '/app/config'),
+    sync('dev/out/tests', '/home/app/bin'),
+    sync('dev/config', '/home/app/config'),
   ],
 )
 
@@ -82,11 +82,11 @@ docker_build_with_restart(
   'exampleapp-integration-tests',
   context='dev',
   dockerfile='dev/Dockerfile.integration_tests',
-  entrypoint='/app/config/run_tests.sh',
+  entrypoint='/home/app/config/run_tests.sh',
   only=['out/integration_tests', 'config', 'sshd_config'],
   live_update=[
-    sync('dev/out/integration_tests', '/app/bin'),
-    sync('dev/config', '/app/config'),
+    sync('dev/out/integration_tests', '/home/app/bin'),
+    sync('dev/config', '/home/app/config'),
   ],
 )
 
