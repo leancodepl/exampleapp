@@ -4,7 +4,7 @@ using Npgsql;
 using Polly;
 using Serilog;
 
-namespace ExampleApp.Core.IntegrationTests.Overrides;
+namespace ExampleApp.IntegrationTests;
 
 public class DbContextInitializer<T> : IHostedService
     where T : DbContext

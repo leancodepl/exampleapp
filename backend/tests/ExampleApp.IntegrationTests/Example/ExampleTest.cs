@@ -8,9 +8,15 @@ namespace ExampleApp.IntegrationTests.Example
         [Fact]
         public async Task Example_test()
         {
-            var result = await App.Command.RunAsync(new CreateProject { Name = "Project", });
+            var result = await App.Command.RunAsync(new CreateProject { Name = "Project" });
 
             Assert.True(result.WasSuccessful);
+
+            var projects = await App.Query.GetAsync(new AllProjects());
+            var project = Assert.Single(projects);
+
+            Assert.Equal("Project", project.Name);
+            Assert.Matches("^project_[0-7][0-9A-HJKMNP-TV-Z]{25}$", project.Id);
         }
     }
 }
