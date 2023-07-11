@@ -9,7 +9,6 @@ using LeanCode.Logging;
 using LeanCode.Startup.MicrosoftDI;
 using MassTransit.Testing.Implementations;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog.Events;
@@ -22,7 +21,7 @@ namespace ExampleApp.IntegrationTests
         protected override ConfigurationOverrides Configuration { get; } =
             new(
                 connectionStringBase: "PostgreSQL__ConnectionStringBase",
-                connectionStringKey: "PostgresSQL:ConnectionString",
+                connectionStringKey: "PostgreSQL:ConnectionString",
                 LogEventLevel.Debug,
                 true
             );
@@ -40,8 +39,6 @@ namespace ExampleApp.IntegrationTests
             }
         }
 
-        public static readonly Guid UserId = Guid.Parse("4d3b45e6-a2c1-4d6a-9e23-94e0d9f8ca01");
-
         protected override IEnumerable<Assembly> GetTestAssemblies()
         {
             yield return typeof(ExampleAppTestApp).Assembly;
@@ -58,16 +55,6 @@ namespace ExampleApp.IntegrationTests
                 .UseEnvironment(Environments.Development);
         }
 
-        public override async Task InitializeAsync()
-        {
-            await base.InitializeAsync();
-
-            using (var scope = Services.CreateScope())
-            {
-                await CreateTestUserAsync(scope.ServiceProvider);
-            }
-        }
-
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
             base.ConfigureWebHost(builder);
@@ -77,11 +64,6 @@ namespace ExampleApp.IntegrationTests
                 services.AddHostedService<DbContextInitializer<CoreDbContext>>();
                 services.AddBusActivityMonitor();
             });
-        }
-
-        private async Task CreateTestUserAsync(IServiceProvider services)
-        {
-            await Task.Yield();
         }
 
         public async Task WaitForProcessingAsync()
