@@ -11,11 +11,13 @@ namespace ExampleApp.Migrations.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.AlterDatabase().Annotation("Npgsql:PostgresExtension:public.citext", ",,");
+
             migrationBuilder.Sql(
                 """
-                create domain dbo.employee_id as text collate "ucs_basic" check(value ~ '^employee_[0-7][0-9A-HJKMNP-TV-Z]{25}$');
-                create domain dbo.project_id as text collate "ucs_basic" check(value ~ '^project_[0-7][0-9A-HJKMNP-TV-Z]{25}$');
-                create domain dbo.assignment_id as text collate "ucs_basic" check(value ~ '^assignment_[0-7][0-9A-HJKMNP-TV-Z]{25}$');
+                create domain dbo.employee_id as citext check(value ~ '^employee_[0-7][0-9A-HJKMNP-TV-Z]{25}$');
+                create domain dbo.project_id as citext check(value ~ '^project_[0-7][0-9A-HJKMNP-TV-Z]{25}$');
+                create domain dbo.assignment_id as citext check(value ~ '^assignment_[0-7][0-9A-HJKMNP-TV-Z]{25}$');
                 """
             );
 
@@ -97,6 +99,8 @@ namespace ExampleApp.Migrations.Migrations
                 drop domain dbo.assignment_id;
                 """
             );
+
+            migrationBuilder.AlterDatabase().OldAnnotation("Npgsql:PostgresExtension:public.citext", ",,");
         }
     }
 }
