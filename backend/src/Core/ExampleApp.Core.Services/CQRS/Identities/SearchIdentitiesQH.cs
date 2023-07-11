@@ -3,10 +3,11 @@ using ExampleApp.Core.Contracts;
 using ExampleApp.Core.Contracts.Identities;
 using ExampleApp.Core.Services.DataAccess;
 using LeanCode.CQRS.Execution;
+using Microsoft.AspNetCore.Http;
 
 namespace ExampleApp.Core.Services.CQRS.Projects;
 
-public class SearchIdentitiesQH : IQueryHandler<CoreContext, SearchIdentities, PaginatedResult<KratosIdentityDTO>>
+public class SearchIdentitiesQH : IQueryHandler<SearchIdentities, PaginatedResult<KratosIdentityDTO>>
 {
     private readonly CoreDbContext dbContext;
 
@@ -15,7 +16,7 @@ public class SearchIdentitiesQH : IQueryHandler<CoreContext, SearchIdentities, P
         this.dbContext = dbContext;
     }
 
-    public Task<PaginatedResult<KratosIdentityDTO>> ExecuteAsync(CoreContext context, SearchIdentities query)
+    public Task<PaginatedResult<KratosIdentityDTO>> ExecuteAsync(HttpContext context, SearchIdentities query)
     {
         return dbContext.KratosIdentities
             .ConditionalWhere(ki => ki.SchemaId == query.SchemaId, query.SchemaId is not null)
@@ -44,6 +45,6 @@ public class SearchIdentitiesQH : IQueryHandler<CoreContext, SearchIdentities, P
                         Traits = ki.Traits,
                     }
             )
-            .ToPaginatedResultAsync(query, context.CancellationToken);
+            .ToPaginatedResultAsync(query, context.RequestAborted);
     }
 }

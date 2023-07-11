@@ -11,9 +11,10 @@ public class AddAssignmentsToProject : ICommand
 
     public static class ErrorCodes
     {
-        public const int ProjectDoesNotExist = 1;
-        public const int AssignmentsCannotBeNull = 2;
-        public const int AssignmentsCannotBeEmpty = 3;
+        public const int ProjectIdNotValid = 1;
+        public const int ProjectDoesNotExist = 2;
+        public const int AssignmentsCannotBeNull = 3;
+        public const int AssignmentsCannotBeEmpty = 4;
     }
 }
 

@@ -2,7 +2,7 @@ using System.Text.Json.Serialization;
 using ExampleApp.Core.Domain.Employees;
 using ExampleApp.Core.Domain.Projects;
 using LeanCode.DomainModels.Model;
-using LeanCode.Time;
+using LeanCode.TimeProvider;
 
 namespace ExampleApp.Core.Domain.Events;
 
@@ -17,7 +17,7 @@ public class EmployeeAssignedToAssignment : IDomainEvent
     public EmployeeAssignedToAssignment(AssignmentId assignmentId, EmployeeId employeeId)
     {
         Id = Guid.NewGuid();
-        DateOccurred = TimeProvider.Now;
+        DateOccurred = Time.NowWithOffset.UtcDateTime;
 
         AssignmentId = assignmentId;
         EmployeeId = employeeId;

@@ -28,7 +28,7 @@ public class KratosIdentity : IIdentifiable<Guid>
         Email = null!;
     }
 
-    public KratosIdentity(LeanCode.Kratos.Client.Model.Identity identity)
+    public KratosIdentity(LeanCode.Kratos.Model.Identity identity)
     {
         Id = identity.Id;
         CreatedAt = identity.CreatedAt;
@@ -46,7 +46,7 @@ public class KratosIdentity : IIdentifiable<Guid>
         CopyVerifiableAddresses(identity.VerifiableAddresses);
     }
 
-    public void Update(LeanCode.Kratos.Client.Model.Identity identity)
+    public void Update(LeanCode.Kratos.Model.Identity identity)
     {
         if (Id != identity.Id)
         {
@@ -69,8 +69,13 @@ public class KratosIdentity : IIdentifiable<Guid>
         CopyVerifiableAddresses(identity.VerifiableAddresses);
     }
 
-    private void CopyRecoveryAddresses(List<LeanCode.Kratos.Client.Model.RecoveryIdentityAddress> addresses)
+    private void CopyRecoveryAddresses(List<LeanCode.Kratos.Model.RecoveryIdentityAddress>? addresses)
     {
+        if (addresses is null)
+        {
+            return;
+        }
+
         recoveryAddresses.AddRange(
             addresses.Select(
                 kria =>
@@ -80,15 +85,20 @@ public class KratosIdentity : IIdentifiable<Guid>
                         Id = kria.Id,
                         CreatedAt = kria.CreatedAt,
                         UpdatedAt = kria.UpdatedAt,
-                        Via = kria.Via,
+                        Via = kria.Via.ToString().ToLowerInvariant(),
                         Value = kria.Value,
                     }
             )
         );
     }
 
-    private void CopyVerifiableAddresses(List<LeanCode.Kratos.Client.Model.VerifiableIdentityAddress> addresses)
+    private void CopyVerifiableAddresses(List<LeanCode.Kratos.Model.VerifiableIdentityAddress>? addresses)
     {
+        if (addresses is null)
+        {
+            return;
+        }
+
         verifiableAddresses.AddRange(
             addresses.Select(
                 kvia =>
@@ -98,7 +108,7 @@ public class KratosIdentity : IIdentifiable<Guid>
                         Id = kvia.Id,
                         CreatedAt = kvia.CreatedAt,
                         UpdatedAt = kvia.UpdatedAt,
-                        Via = kvia.Via,
+                        Via = kvia.Via.ToString().ToLowerInvariant(),
                         Value = kvia.Value,
                         VerifiedAt = kvia.Verified ? kvia.VerifiedAt : null,
                     }

@@ -5,11 +5,12 @@ using FluentValidation;
 using LeanCode.CQRS.Execution;
 using LeanCode.CQRS.Validation.Fluent;
 using LeanCode.DomainModels.DataAccess;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
 namespace ExampleApp.Core.Services.CQRS.Projects;
 
-public class AddAssignmentsToProjectCV : ContextualValidator<AddAssignmentsToProject>
+public class AddAssignmentsToProjectCV : AbstractValidator<AddAssignmentsToProject>
 {
     public AddAssignmentsToProjectCV()
     {
@@ -22,23 +23,30 @@ public class AddAssignmentsToProjectCV : ContextualValidator<AddAssignmentsToPro
         RuleForEach(cmd => cmd.Assignments)
             .ChildRules(child => child.RuleFor(c => c).SetValidator(new AssignmentDTOValidator()));
 
-        RuleForAsync(cmd => cmd, CheckProjectExistsAsync)
-            .Equal(true)
-            .WithCode(AddAssignmentsToProject.ErrorCodes.ProjectDoesNotExist)
-            .WithMessage("A project with given Id does not exist.");
+        RuleFor(cmd => cmd.ProjectId)
+            .Cascade(CascadeMode.Stop)
+            .Must(ProjectId.IsValid)
+            .WithCode(AddAssignmentsToProject.ErrorCodes.ProjectIdNotValid)
+            .WithMessage("ProjectId has invalid format.")
+            .CustomAsync(CheckProjectExistsAsync);
     }
 
-    private Task<bool> CheckProjectExistsAsync(IValidationContext ctx, AddAssignmentsToProject command)
+    private async Task CheckProjectExistsAsync(
+        string pid,
+        ValidationContext<AddAssignmentsToProject> ctx,
+        CancellationToken ct
+    )
     {
-        if (!ProjectId.TryParse(command.ProjectId, out var projectId))
+        if (
+            ProjectId.TryParse(pid, out var projectId)
+            && !await ctx.GetService<CoreDbContext>().Projects.AnyAsync(p => p.Id == projectId, ct)
+        )
         {
-            return Task.FromResult(false);
+            ctx.AddValidationError(
+                "A project with given Id does not exist.",
+                AddAssignmentsToProject.ErrorCodes.ProjectDoesNotExist
+            );
         }
-
-        var appContext = ctx.AppContext<CoreContext>();
-        var dbContext = ctx.GetService<CoreDbContext>();
-
-        return dbContext.Projects.AnyAsync(p => p.Id == projectId, appContext.CancellationToken);
     }
 }
 
@@ -54,7 +62,7 @@ public class AssignmentDTOValidator : AbstractValidator<AssignmentDTO>
     }
 }
 
-public class AddAssignmentsToProjectCH : ICommandHandler<CoreContext, AddAssignmentsToProject>
+public class AddAssignmentsToProjectCH : ICommandHandler<AddAssignmentsToProject>
 {
     private readonly Serilog.ILogger logger = Serilog.Log.ForContext<AddAssignmentsToProjectCH>();
 
@@ -65,11 +73,11 @@ public class AddAssignmentsToProjectCH : ICommandHandler<CoreContext, AddAssignm
         this.projects = projects;
     }
 
-    public async Task ExecuteAsync(CoreContext context, AddAssignmentsToProject command)
+    public async Task ExecuteAsync(HttpContext context, AddAssignmentsToProject command)
     {
         var project = await projects.FindAndEnsureExistsAsync(
             ProjectId.Parse(command.ProjectId),
-            context.CancellationToken
+            context.RequestAborted
         );
         project.AddAssignments(command.Assignments.Select(a => a.Name));
 

@@ -19,15 +19,14 @@
     <PackageReference Include="Azure.Storage.Blobs" />
 
     <PackageReference Include="LeanCode.ClientCredentialsHandler" />
-    <PackageReference Include="LeanCode.Components.Startup" />
-    <PackageReference Include="LeanCode.CQRS.Default" />
-    <PackageReference Include="LeanCode.CQRS.RemoteHttp.Server" />
+    <PackageReference Include="LeanCode.CQRS.AspNetCore" />
+    <PackageReference Include="LeanCode.CQRS.MassTransitRelay" />
     <PackageReference Include="LeanCode.CQRS.Validation.Fluent" />
-    <PackageReference Include="LeanCode.DomainModels.MassTransitRelay" />
     <PackageReference Include="LeanCode.Kratos" />
     <PackageReference Include="LeanCode.Localization" />
     <PackageReference Include="LeanCode.Logging" />
     <PackageReference Include="LeanCode.OpenTelemetry" />
+    <PackageReference Include="LeanCode.Startup.MicrosoftDI" />
     <PackageReference Include="LeanCode.UrlHelper" />
     <PackageReference Include="LeanCode.ViewRenderer.Razor" />
 

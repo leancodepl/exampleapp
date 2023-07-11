@@ -1,11 +1,11 @@
 <Project>
   <PropertyGroup>
-    <CoreLibVersion>7.0.1785</CoreLibVersion>
-    <ExtensionsVersion>7.0.0</ExtensionsVersion>
-    <EFCoreVersion>7.0.5</EFCoreVersion>
-    <AspNetCoreVersion>7.0.5</AspNetCoreVersion>
-    <MassTransitVersion>8.0.9</MassTransitVersion>
-    <NpgsqlVersion>7.0.4</NpgsqlVersion>
+    <CoreLibVersion>8.0.1963-preview</CoreLibVersion>
+    <ExtensionsVersion>8.0.0-preview.5.23280.8</ExtensionsVersion>
+    <EFCoreVersion>8.0.0-preview.5.23280.1</EFCoreVersion>
+    <AspNetCoreVersion>8.0.0-preview.5.23302.2</AspNetCoreVersion>
+    <MassTransitVersion>8.0.15</MassTransitVersion>
+    <NpgsqlVersion>8.0.0-preview.4 </NpgsqlVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,29 +13,29 @@
 
     <PackageReference Update="LeanCode.AzureIdentity" Version="$(CoreLibVersion)" />
     <PackageReference Update="LeanCode.ClientCredentialsHandler" Version="$(CoreLibVersion)" />
-    <PackageReference Update="LeanCode.Components.Startup" Version="$(CoreLibVersion)" />
     <PackageReference Update="LeanCode.Components" Version="$(CoreLibVersion)" />
     <PackageReference Update="LeanCode.CQRS" Version="$(CoreLibVersion)" />
-    <PackageReference Update="LeanCode.CQRS.Default" Version="$(CoreLibVersion)" />
+    <PackageReference Update="LeanCode.CQRS.AspNetCore" Version="$(CoreLibVersion)" />
     <PackageReference Update="LeanCode.CQRS.Execution" Version="$(CoreLibVersion)" />
+    <PackageReference Update="LeanCode.CQRS.MassTransitRelay" Version="$(CoreLibVersion)" />
     <PackageReference Update="LeanCode.CQRS.RemoteHttp.Client" Version="$(CoreLibVersion)" />
-    <PackageReference Update="LeanCode.CQRS.RemoteHttp.Server" Version="$(CoreLibVersion)" />
     <PackageReference Update="LeanCode.CQRS.Security" Version="$(CoreLibVersion)" />
     <PackageReference Update="LeanCode.CQRS.Validation.Fluent" Version="$(CoreLibVersion)" />
     <PackageReference Update="LeanCode.Dapper" Version="$(CoreLibVersion)" />
     <PackageReference Update="LeanCode.DomainModels" Version="$(CoreLibVersion)" />
     <PackageReference Update="LeanCode.DomainModels.EF" Version="$(CoreLibVersion)" />
     <PackageReference Update="LeanCode.DomainModels.Generators" Version="$(CoreLibVersion)" />
-    <PackageReference Update="LeanCode.DomainModels.MassTransitRelay" Version="$(CoreLibVersion)" />
     <PackageReference Update="LeanCode.EFMigrator" Version="$(CoreLibVersion)" />
-    <PackageReference Update="LeanCode.Kratos" Version="8.0.1884-preview" />
+    <PackageReference Update="LeanCode.Kratos" Version="$(CoreLibVersion)" />
     <PackageReference Update="LeanCode.Localization" Version="$(CoreLibVersion)" />
     <PackageReference Update="LeanCode.Logging" Version="$(CoreLibVersion)" />
     <PackageReference Update="LeanCode.IntegrationTestHelpers" Version="$(CoreLibVersion)" />
+    <PackageReference Update="LeanCode.Npgsql.ActiveDirectory" Version="$(CoreLibVersion)" />
     <PackageReference Update="LeanCode.OpenTelemetry" Version="$(CoreLibVersion)" />
     <PackageReference Update="LeanCode.Pipelines" Version="$(CoreLibVersion)" />
     <PackageReference Update="LeanCode.Pipelines.Autofac" Version="$(CoreLibVersion)" />
     <PackageReference Update="LeanCode.Serialization" Version="$(CoreLibVersion)" />
+    <PackageReference Update="LeanCode.Startup.MicrosoftDI" Version="$(CoreLibVersion)" />
     <PackageReference Update="LeanCode.TimeProvider" Version="$(CoreLibVersion)" />
     <PackageReference Update="LeanCode.UrlHelper" Version="$(CoreLibVersion)" />
     <PackageReference Update="LeanCode.ViewRenderer.Razor" Version="$(CoreLibVersion)" />
@@ -65,13 +65,13 @@
     <PackageReference Update="Microsoft.Extensions.Http" Version="$(ExtensionsVersion)" />
     <PackageReference Update="Microsoft.Extensions.Http.Polly" Version="$(ExtensionsVersion)" />
 
-
     <PackageReference Update="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="$(AspNetCoreVersion)" />
     <PackageReference Update="Microsoft.AspNetCore.Authentication.JwtBearer" Version="$(AspNetCoreVersion)" />
     <PackageReference Update="Microsoft.AspNetCore.Mvc.Testing" Version="$(AspNetCoreVersion)" />
 
     <PackageReference Update="MassTransit" Version="$(MassTransitVersion)" />
     <PackageReference Update="MassTransit.Azure.ServiceBus.Core" Version="$(MassTransitVersion)" />
+    <PackageReference Update="MassTransit.EntityFrameworkCore" Version="$(MassTransitVersion)" />
     <PackageReference Update="MassTransit.RabbitMQ" Version="$(MassTransitVersion)" />
 
     <PackageReference Update="Npgsql" Version="$(NpgsqlVersion)" />

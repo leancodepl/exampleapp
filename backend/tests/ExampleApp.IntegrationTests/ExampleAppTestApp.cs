@@ -1,34 +1,30 @@
 using System.Diagnostics;
 using System.Reflection;
-using LeanCode.Components;
-using LeanCode.Components.Startup;
+using ExampleApp.Api;
+using ExampleApp.Core.Services.DataAccess;
+using LeanCode.CQRS.MassTransitRelay;
 using LeanCode.CQRS.RemoteHttp.Client;
 using LeanCode.IntegrationTestHelpers;
-using ExampleApp.Core.Services.DataAccess;
-using ExampleApp.IntegrationTests.Overrides;
-using ExampleApp.Api;
+using LeanCode.Logging;
+using LeanCode.Startup.MicrosoftDI;
+using MassTransit.Testing.Implementations;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog.Events;
-using LeanCode;
-using System.Text.Json;
-using MassTransit.Testing.Implementations;
 using Xunit;
 
 namespace ExampleApp.IntegrationTests
 {
     public class ExampleAppTestApp : LeanCodeTestFactory<Startup>
     {
-        protected virtual JsonSerializerOptions JsonOptions { get; } = new();
-
         protected override ConfigurationOverrides Configuration { get; } =
             new(
-                LogEventLevel.Debug,
-                true,
                 connectionStringBase: "PostgreSQL__ConnectionStringBase",
-                connectionStringKey: "PostgresSQL:ConnectionString"
+                connectionStringKey: "PostgresSQL:ConnectionString",
+                LogEventLevel.Debug,
+                true
             );
 
         static ExampleAppTestApp()
@@ -44,8 +40,7 @@ namespace ExampleApp.IntegrationTests
             }
         }
 
-        public const string UserEmail = "test@leancode.pl";
-        public const string UserPassword = "long_test_password123!";
+        public static readonly Guid UserId = Guid.Parse("4d3b45e6-a2c1-4d6a-9e23-94e0d9f8ca01");
 
         protected override IEnumerable<Assembly> GetTestAssemblies()
         {
@@ -55,39 +50,12 @@ namespace ExampleApp.IntegrationTests
         protected override IHostBuilder CreateHostBuilder()
         {
             return LeanProgram
-                .BuildMinimalHost<TestStartup>()
+                .BuildMinimalHost<Startup>()
                 .ConfigureDefaultLogging(
                     projectName: "ExampleApp-tests",
-                    destructurers: new TypesCatalog(typeof(Program))
+                    destructurers: new[] { typeof(Program).Assembly }
                 )
                 .UseEnvironment(Environments.Development);
-        }
-
-        public override HttpClient CreateApiClient()
-        {
-            var client = CreateDefaultClient(new Uri(UrlHelper.Concat("http://localhost/", ApiBaseAddress)));
-
-            if (!string.IsNullOrEmpty(CurrentUserToken))
-            {
-                client.DefaultRequestHeaders.Authorization = new("Bearer", CurrentUserToken);
-            }
-
-            return client;
-        }
-
-        public override HttpQueriesExecutor CreateQueriesExecutor()
-        {
-            return new(CreateApiClient(), JsonOptions);
-        }
-
-        public override HttpCommandsExecutor CreateCommandsExecutor()
-        {
-            return new(CreateApiClient(), JsonOptions);
-        }
-
-        public virtual HttpOperationsExecutor CreateOperationsExecutor()
-        {
-            return new(CreateApiClient(), JsonOptions);
         }
 
         public override async Task InitializeAsync()
@@ -100,24 +68,20 @@ namespace ExampleApp.IntegrationTests
             }
         }
 
-        public Task AuthenticateAsync()
-        {
-            throw new NotImplementedException("Needs better Kratos integration.");
-        }
-
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
             base.ConfigureWebHost(builder);
 
             builder.ConfigureServices(services =>
             {
-                services.AddTransient<DbContext>(sp => sp.GetService<CoreDbContext>());
+                services.AddHostedService<DbContextInitializer<CoreDbContext>>();
+                services.AddBusActivityMonitor();
             });
         }
 
-        private Task CreateTestUserAsync(IServiceProvider services)
+        private async Task CreateTestUserAsync(IServiceProvider services)
         {
-            throw new NotImplementedException("Needs better Kratos integration.");
+            await Task.Yield();
         }
 
         public async Task WaitForProcessingAsync()
@@ -132,18 +96,26 @@ namespace ExampleApp.IntegrationTests
 
     public class AuthenticatedExampleAppTestApp : ExampleAppTestApp
     {
+        private readonly string tokenPayload;
+
         public HttpQueriesExecutor Query { get; private set; } = default!;
         public HttpCommandsExecutor Command { get; private set; } = default!;
         public HttpOperationsExecutor Operation { get; private set; } = default!;
 
+        public AuthenticatedExampleAppTestApp(string tokenPayload)
+        {
+            this.tokenPayload = tokenPayload;
+        }
+
         public override async Task InitializeAsync()
         {
-            await base.InitializeAsync();
-            await AuthenticateAsync();
+            void ConfigureClient(HttpClient hc) => hc.DefaultRequestHeaders.Authorization = new("Test", tokenPayload);
 
-            Query = CreateQueriesExecutor();
-            Command = CreateCommandsExecutor();
-            Operation = CreateOperationsExecutor();
+            await base.InitializeAsync();
+
+            Query = CreateQueriesExecutor(ConfigureClient);
+            Command = CreateCommandsExecutor(ConfigureClient);
+            Operation = CreateOperationsExecutor(ConfigureClient);
 
             await WaitForProcessingAsync();
         }

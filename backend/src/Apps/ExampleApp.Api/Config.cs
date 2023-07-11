@@ -1,7 +1,6 @@
-using Autofac;
-using ExampleApp.Api.Handlers;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Serilog.Events;
 
 namespace ExampleApp.Api;
@@ -68,18 +67,12 @@ public static class Config
         return configuration.GetValue<bool>(key)!;
     }
 
-    public static void RegisterConfig<TConfig>(this ContainerBuilder builder, TConfig config)
-        where TConfig : class
-    {
-        builder.RegisterInstance(config).AsSelf().SingleInstance();
-    }
-
-    public static void RegisterMappedConfiguration(
-        ContainerBuilder builder,
+    public static void AddMappedConfiguration(
+        this IServiceCollection services,
         IConfiguration config,
         IWebHostEnvironment hostEnv
     )
     {
-        builder.RegisterConfig(new KratosWebHookHandler.Config(Kratos.WebhookApiKey(config)));
+        services.AddSingleton(new LeanCode.Kratos.KratosWebHookHandlerConfig(Kratos.WebhookApiKey(config)));
     }
 }

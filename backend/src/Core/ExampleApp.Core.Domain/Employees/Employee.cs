@@ -3,7 +3,7 @@ using LeanCode.DomainModels.Model;
 
 namespace ExampleApp.Core.Domain.Employees;
 
-[TypedId(TypedIdFormat.PrefixedGuid, CustomPrefix = "employee")]
+[TypedId(TypedIdFormat.PrefixedUlid, CustomPrefix = "employee")]
 public readonly partial record struct EmployeeId;
 
 public class Employee : IAggregateRoot<EmployeeId>

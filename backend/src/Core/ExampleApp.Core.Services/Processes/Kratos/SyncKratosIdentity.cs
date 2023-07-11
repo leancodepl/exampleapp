@@ -1,6 +1,6 @@
 using ExampleApp.Core.Services.DataAccess;
 using LeanCode.DomainModels.Model;
-using LeanCode.Kratos.Client.Model;
+using LeanCode.Kratos.Model;
 using MassTransit;
 
 namespace ExampleApp.Core.Services.Processes.Kratos;
