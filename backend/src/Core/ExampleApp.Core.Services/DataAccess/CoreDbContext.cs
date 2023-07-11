@@ -38,6 +38,7 @@ public class CoreDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
+        builder.HasPostgresExtension("public", "citext");
         builder.HasDefaultSchema("dbo");
 
         builder.AddInboxStateEntity();

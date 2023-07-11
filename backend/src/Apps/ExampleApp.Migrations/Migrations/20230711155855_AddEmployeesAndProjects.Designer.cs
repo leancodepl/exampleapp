@@ -13,7 +13,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ExampleApp.Migrations.Migrations
 {
     [DbContext(typeof(CoreDbContext))]
-    [Migration("20230711150500_AddEmployeesAndProjects")]
+    [Migration("20230711155855_AddEmployeesAndProjects")]
     partial class AddEmployeesAndProjects
     {
         /// <inheritdoc />
@@ -25,6 +25,7 @@ namespace ExampleApp.Migrations.Migrations
                 .HasAnnotation("ProductVersion", "8.0.0-preview.5.23280.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
+            NpgsqlModelBuilderExtensions.HasPostgresExtension(modelBuilder, "citext");
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
             modelBuilder.Entity("ExampleApp.Core.Domain.Projects.Employee", b =>
