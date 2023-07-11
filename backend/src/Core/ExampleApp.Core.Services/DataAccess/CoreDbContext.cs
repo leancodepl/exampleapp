@@ -2,22 +2,17 @@ using ExampleApp.Core.Domain.Employees;
 using ExampleApp.Core.Domain.Projects;
 using ExampleApp.Core.Services.DataAccess.Entities;
 using LeanCode.DomainModels.EF;
-using LeanCode.DomainModels.MassTransitRelay.Inbox;
-using LeanCode.DomainModels.MassTransitRelay.Outbox;
 using Microsoft.EntityFrameworkCore;
+using MassTransit;
 
 namespace ExampleApp.Core.Services.DataAccess;
 
-public class CoreDbContext : DbContext, IOutboxContext, IConsumedMessagesContext
+public class CoreDbContext : DbContext
 {
-    public DbContext Self => this;
-    public DbSet<ConsumedMessage> ConsumedMessages => Set<ConsumedMessage>();
-    public DbSet<RaisedEvent> RaisedEvents => Set<RaisedEvent>();
-
-    public DbSet<Project> Projects => Set<Project>();
-    public DbSet<Employee> Employees => Set<Employee>();
-
     public DbSet<KratosIdentity> KratosIdentities => Set<KratosIdentity>();
+
+    public DbSet<Employee> Employees => Set<Employee>();
+    public DbSet<Project> Projects => Set<Project>();
 
     public CoreDbContext(DbContextOptions<CoreDbContext> options)
         : base(options) { }
@@ -45,15 +40,41 @@ public class CoreDbContext : DbContext, IOutboxContext, IConsumedMessagesContext
         base.OnModelCreating(builder);
         builder.HasDefaultSchema("dbo");
 
-        ConsumedMessage.Configure(builder);
-        RaisedEvent.Configure(builder);
+        builder.AddInboxStateEntity();
+        builder.AddOutboxStateEntity();
+        builder.AddOutboxMessageEntity();
+
+        builder.Entity<KratosIdentity>(e =>
+        {
+            e.OwnsMany(
+                ki => ki.RecoveryAddresses,
+                b =>
+                {
+                    b.WithOwner().HasForeignKey(a => a.IdentityId);
+                    b.HasKey(a => a.Id);
+                    b.ToTable("KratosIdentityRecoveryAddresses");
+                }
+            );
+
+            e.OwnsMany(
+                ki => ki.VerifiableAddresses,
+                b =>
+                {
+                    b.WithOwner().HasForeignKey(a => a.IdentityId);
+                    b.HasKey(a => a.Id);
+                    b.ToTable("KratosIdentityVerifiableAddresses");
+                }
+            );
+
+            e.Property<uint>("xmin").IsRowVersion();
+        });
 
         builder.Entity<Employee>(e =>
         {
             e.HasKey(t => t.Id);
 
             e.IsOptimisticConcurrent(addRowVersion: false);
-            e.Property<uint>("xmin").HasColumnName("xmin").IsRowVersion().IsRequired();
+            e.Property<uint>("xmin").IsRowVersion();
         });
 
         builder.Entity<Project>(e =>
@@ -71,32 +92,7 @@ public class CoreDbContext : DbContext, IOutboxContext, IConsumedMessagesContext
             );
 
             e.IsOptimisticConcurrent(addRowVersion: false);
-            e.Property<uint>("xmin").HasColumnName("xmin").IsRowVersion().IsRequired();
-        });
-
-        builder.Entity<KratosIdentity>(e =>
-        {
-            e.OwnsMany(
-                ki => ki.RecoveryAddresses,
-                b =>
-                {
-                    b.WithOwner().HasForeignKey(a => a.IdentityId);
-                    b.ToTable("KratosIdentityRecoveryAddresses");
-                }
-            );
-
-            e.OwnsMany(
-                ki => ki.VerifiableAddresses,
-                b =>
-                {
-                    b.WithOwner().HasForeignKey(a => a.IdentityId);
-                    b.ToTable("KratosIdentityVerifiableAddresses");
-                }
-            );
-
-            e.Property<uint>("xmin").HasColumnName("xmin").IsRowVersion().IsRequired();
+            e.Property<uint>("xmin").IsRowVersion();
         });
     }
-
-    public Task CommitAsync(CancellationToken cancellationToken = default) => SaveChangesAsync(cancellationToken);
 }

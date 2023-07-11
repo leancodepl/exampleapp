@@ -13,9 +13,9 @@ namespace ExampleApp.Migrations.Migrations
         {
             migrationBuilder.Sql(
                 """
-                create domain dbo.assignment_id as text collate "ucs_basic" check(value ~ '^assignment_[0-9a-f]{32}$');
-                create domain dbo.employee_id as text collate "ucs_basic" check(value ~ '^employee_[0-9a-f]{32}$');
-                create domain dbo.project_id as text collate "ucs_basic" check(value ~ '^project_[0-9a-f]{32}$');
+                create domain dbo.employee_id as text collate "ucs_basic" check(value ~ '^employee_[0-7][0-9A-HJKMNP-TV-Z]{25}$');
+                create domain dbo.project_id as text collate "ucs_basic" check(value ~ '^project_[0-7][0-9A-HJKMNP-TV-Z]{25}$');
+                create domain dbo.assignment_id as text collate "ucs_basic" check(value ~ '^assignment_[0-7][0-9A-HJKMNP-TV-Z]{25}$');
                 """
             );
 
@@ -92,9 +92,9 @@ namespace ExampleApp.Migrations.Migrations
 
             migrationBuilder.Sql(
                 """
-                drop domain dbo.assignment_id;
                 drop domain dbo.employee_id;
                 drop domain dbo.project_id;
+                drop domain dbo.assignment_id;
                 """
             );
         }

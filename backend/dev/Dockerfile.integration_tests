@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/sdk:7.0
+FROM mcr.microsoft.com/dotnet/sdk:8.0-preview
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends unzip procps \
@@ -11,7 +11,7 @@ RUN mkdir /app && chown dotnet:dotnet /app
 USER dotnet
 
 ENV PATH="$PATH:/home/dotnet/.dotnet/tools"
-RUN dotnet tool install -g dotnet-ef --version '7.0.0-*'
+RUN dotnet tool install -g dotnet-ef --version '8.0.0-*'
 
 ARG APP_VERSION
 

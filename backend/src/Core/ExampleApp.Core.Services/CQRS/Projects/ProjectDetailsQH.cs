@@ -2,11 +2,12 @@ using ExampleApp.Core.Contracts.Projects;
 using ExampleApp.Core.Domain.Projects;
 using ExampleApp.Core.Services.DataAccess;
 using LeanCode.CQRS.Execution;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
 namespace ExampleApp.Core.Services.CQRS.Projects;
 
-public class ProjectDetailsQH : IQueryHandler<CoreContext, ProjectDetails, ProjectDetailsDTO?>
+public class ProjectDetailsQH : IQueryHandler<ProjectDetails, ProjectDetailsDTO?>
 {
     private readonly CoreDbContext dbContext;
 
@@ -15,7 +16,7 @@ public class ProjectDetailsQH : IQueryHandler<CoreContext, ProjectDetails, Proje
         this.dbContext = dbContext;
     }
 
-    public Task<ProjectDetailsDTO?> ExecuteAsync(CoreContext context, ProjectDetails query)
+    public Task<ProjectDetailsDTO?> ExecuteAsync(HttpContext context, ProjectDetails query)
     {
         if (!ProjectId.TryParse(query.Id, out var projectId))
         {
@@ -33,6 +34,6 @@ public class ProjectDetailsQH : IQueryHandler<CoreContext, ProjectDetails, Proje
                         Assignments = p.Assignments.Select(a => new AssignmentDTO { Name = a.Name }).ToList(),
                     }
             )
-            .FirstOrDefaultAsync(context.CancellationToken);
+            .FirstOrDefaultAsync(context.RequestAborted);
     }
 }

@@ -4,7 +4,7 @@ using LeanCode.DomainModels.Model;
 
 namespace ExampleApp.Core.Domain.Projects;
 
-[TypedId(TypedIdFormat.PrefixedGuid, CustomPrefix = "assignment")]
+[TypedId(TypedIdFormat.PrefixedUlid, CustomPrefix = "assignment")]
 public readonly partial record struct AssignmentId;
 
 public class Assignment : IIdentifiable<AssignmentId>

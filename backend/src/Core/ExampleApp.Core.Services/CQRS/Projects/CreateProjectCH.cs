@@ -4,10 +4,11 @@ using FluentValidation;
 using LeanCode.CQRS.Execution;
 using LeanCode.CQRS.Validation.Fluent;
 using LeanCode.DomainModels.DataAccess;
+using Microsoft.AspNetCore.Http;
 
 namespace ExampleApp.Core.Services.CQRS.Projects;
 
-public class CreateProjectCV : ContextualValidator<CreateProject>
+public class CreateProjectCV : AbstractValidator<CreateProject>
 {
     public CreateProjectCV()
     {
@@ -19,7 +20,7 @@ public class CreateProjectCV : ContextualValidator<CreateProject>
     }
 }
 
-public class CreateProjectCH : ICommandHandler<CoreContext, CreateProject>
+public class CreateProjectCH : ICommandHandler<CreateProject>
 {
     private readonly Serilog.ILogger logger = Serilog.Log.ForContext<CreateProjectCH>();
 
@@ -30,7 +31,7 @@ public class CreateProjectCH : ICommandHandler<CoreContext, CreateProject>
         this.projects = projects;
     }
 
-    public Task ExecuteAsync(CoreContext context, CreateProject command)
+    public Task ExecuteAsync(HttpContext context, CreateProject command)
     {
         var project = Project.Create(command.Name);
         projects.Add(project);

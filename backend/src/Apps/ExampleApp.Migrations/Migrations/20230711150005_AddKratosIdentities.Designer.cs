@@ -4,6 +4,7 @@ using System.Text.Json;
 using ExampleApp.Core.Services.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,9 +13,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ExampleApp.Migrations.Migrations
 {
     [DbContext(typeof(CoreDbContext))]
-    partial class CoreDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230711150005_AddKratosIdentities")]
+    partial class AddKratosIdentities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -23,58 +26,6 @@ namespace ExampleApp.Migrations.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
-
-            modelBuilder.Entity("ExampleApp.Core.Domain.Projects.Employee", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("dbo.employee_id");
-
-                    b.Property<DateTime>("DateModified")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("DateModified");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<uint>("xmin")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("xid")
-                        .HasColumnName("xmin");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Employees", "dbo");
-                });
-
-            modelBuilder.Entity("ExampleApp.Core.Domain.Projects.Project", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("dbo.project_id");
-
-                    b.Property<DateTime>("DateModified")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("DateModified");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<uint>("xmin")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("xid")
-                        .HasColumnName("xmin");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Projects", "dbo");
-                });
 
             modelBuilder.Entity("ExampleApp.Core.Services.DataAccess.Entities.KratosIdentity", b =>
                 {
@@ -280,39 +231,6 @@ namespace ExampleApp.Migrations.Migrations
                     b.HasIndex("Created");
 
                     b.ToTable("OutboxState", "dbo");
-                });
-
-            modelBuilder.Entity("ExampleApp.Core.Domain.Projects.Project", b =>
-                {
-                    b.OwnsMany("ExampleApp.Core.Domain.Projects.Assignment", "Assignments", b1 =>
-                        {
-                            b1.Property<string>("ParentProjectId")
-                                .HasColumnType("dbo.project_id");
-
-                            b1.Property<string>("Id")
-                                .HasColumnType("dbo.assignment_id");
-
-                            b1.Property<string>("AssignedEmployeeId")
-                                .HasColumnType("dbo.employee_id");
-
-                            b1.Property<string>("Name")
-                                .IsRequired()
-                                .HasColumnType("text");
-
-                            b1.Property<int>("Status")
-                                .HasColumnType("integer");
-
-                            b1.HasKey("ParentProjectId", "Id");
-
-                            b1.ToTable("Assignments", "dbo");
-
-                            b1.WithOwner("ParentProject")
-                                .HasForeignKey("ParentProjectId");
-
-                            b1.Navigation("ParentProject");
-                        });
-
-                    b.Navigation("Assignments");
                 });
 
             modelBuilder.Entity("ExampleApp.Core.Services.DataAccess.Entities.KratosIdentity", b =>

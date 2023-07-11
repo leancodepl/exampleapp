@@ -13,8 +13,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ExampleApp.Migrations.Migrations
 {
     [DbContext(typeof(CoreDbContext))]
-    [Migration("20230622124745_AddKratosIdentities")]
-    partial class AddKratosIdentities
+    [Migration("20230711150500_AddEmployeesAndProjects")]
+    partial class AddEmployeesAndProjects
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -22,7 +22,7 @@ namespace ExampleApp.Migrations.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasDefaultSchema("dbo")
-                .HasAnnotation("ProductVersion", "7.0.5")
+                .HasAnnotation("ProductVersion", "8.0.0-preview.5.23280.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -119,57 +119,170 @@ namespace ExampleApp.Migrations.Migrations
                     b.ToTable("KratosIdentities", "dbo");
                 });
 
-            modelBuilder.Entity("LeanCode.DomainModels.MassTransitRelay.Inbox.ConsumedMessage", b =>
+            modelBuilder.Entity("MassTransit.EntityFrameworkCoreIntegration.InboxState", b =>
                 {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTime?>("Consumed")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("ConsumerId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("Delivered")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("ExpirationTime")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<long?>("LastSequenceNumber")
+                        .HasColumnType("bigint");
+
+                    b.Property<Guid>("LockId")
+                        .HasColumnType("uuid");
+
                     b.Property<Guid>("MessageId")
                         .HasColumnType("uuid");
 
-                    b.Property<string>("ConsumerType")
-                        .HasMaxLength(500)
-                        .HasColumnType("character varying(500)");
+                    b.Property<int>("ReceiveCount")
+                        .HasColumnType("integer");
 
-                    b.Property<DateTime>("DateConsumed")
+                    b.Property<DateTime>("Received")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("MessageType")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("character varying(500)");
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("bytea");
 
-                    b.HasKey("MessageId", "ConsumerType");
+                    b.HasKey("Id");
 
-                    b.HasIndex("DateConsumed");
+                    b.HasAlternateKey("MessageId", "ConsumerId");
 
-                    b.ToTable("ConsumedMessages", "dbo");
+                    b.HasIndex("Delivered");
+
+                    b.ToTable("InboxState", "dbo");
                 });
 
-            modelBuilder.Entity("LeanCode.DomainModels.MassTransitRelay.Outbox.RaisedEvent", b =>
+            modelBuilder.Entity("MassTransit.EntityFrameworkCoreIntegration.OutboxMessage", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uuid");
+                    b.Property<long>("SequenceNumber")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
 
-                    b.Property<DateTime>("DateOcurred")
-                        .HasColumnType("timestamp with time zone");
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("SequenceNumber"));
 
-                    b.Property<string>("EventType")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("character varying(500)");
-
-                    b.Property<string>("Payload")
+                    b.Property<string>("Body")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<bool>("WasPublished")
-                        .HasColumnType("boolean");
+                    b.Property<string>("ContentType")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
 
-                    b.HasKey("Id")
-                        .HasAnnotation("SqlServer:Clustered", false);
+                    b.Property<Guid?>("ConversationId")
+                        .HasColumnType("uuid");
 
-                    b.HasIndex("DateOcurred", "WasPublished")
-                        .HasAnnotation("SqlServer:Clustered", true);
+                    b.Property<Guid?>("CorrelationId")
+                        .HasColumnType("uuid");
 
-                    b.ToTable("RaisedEvents", "dbo");
+                    b.Property<string>("DestinationAddress")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.Property<DateTime?>("EnqueueTime")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("ExpirationTime")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("FaultAddress")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.Property<string>("Headers")
+                        .HasColumnType("text");
+
+                    b.Property<Guid?>("InboxConsumerId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("InboxMessageId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("InitiatorId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("MessageId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("OutboxId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Properties")
+                        .HasColumnType("text");
+
+                    b.Property<Guid?>("RequestId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("ResponseAddress")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.Property<DateTime>("SentTime")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("SourceAddress")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.HasKey("SequenceNumber");
+
+                    b.HasIndex("EnqueueTime");
+
+                    b.HasIndex("ExpirationTime");
+
+                    b.HasIndex("OutboxId", "SequenceNumber")
+                        .IsUnique();
+
+                    b.HasIndex("InboxMessageId", "InboxConsumerId", "SequenceNumber")
+                        .IsUnique();
+
+                    b.ToTable("OutboxMessage", "dbo");
+                });
+
+            modelBuilder.Entity("MassTransit.EntityFrameworkCoreIntegration.OutboxState", b =>
+                {
+                    b.Property<Guid>("OutboxId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("Delivered")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<long?>("LastSequenceNumber")
+                        .HasColumnType("bigint");
+
+                    b.Property<Guid>("LockId")
+                        .HasColumnType("uuid");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("bytea");
+
+                    b.HasKey("OutboxId");
+
+                    b.HasIndex("Created");
+
+                    b.ToTable("OutboxState", "dbo");
                 });
 
             modelBuilder.Entity("ExampleApp.Core.Domain.Projects.Project", b =>
@@ -209,15 +322,15 @@ namespace ExampleApp.Migrations.Migrations
                 {
                     b.OwnsMany("ExampleApp.Core.Services.DataAccess.Entities.KratosIdentityAddress", "RecoveryAddresses", b1 =>
                         {
-                            b1.Property<Guid>("IdentityId")
-                                .HasColumnType("uuid");
-
                             b1.Property<Guid>("Id")
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("uuid");
 
                             b1.Property<DateTime>("CreatedAt")
                                 .HasColumnType("timestamp with time zone");
+
+                            b1.Property<Guid>("IdentityId")
+                                .HasColumnType("uuid");
 
                             b1.Property<DateTime>("UpdatedAt")
                                 .HasColumnType("timestamp with time zone");
@@ -230,7 +343,9 @@ namespace ExampleApp.Migrations.Migrations
                                 .IsRequired()
                                 .HasColumnType("text");
 
-                            b1.HasKey("IdentityId", "Id");
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("IdentityId");
 
                             b1.ToTable("KratosIdentityRecoveryAddresses", "dbo");
 
@@ -240,15 +355,15 @@ namespace ExampleApp.Migrations.Migrations
 
                     b.OwnsMany("ExampleApp.Core.Services.DataAccess.Entities.KratosIdentityVerifiableAddress", "VerifiableAddresses", b1 =>
                         {
-                            b1.Property<Guid>("IdentityId")
-                                .HasColumnType("uuid");
-
                             b1.Property<Guid>("Id")
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("uuid");
 
                             b1.Property<DateTime>("CreatedAt")
                                 .HasColumnType("timestamp with time zone");
+
+                            b1.Property<Guid>("IdentityId")
+                                .HasColumnType("uuid");
 
                             b1.Property<DateTime>("UpdatedAt")
                                 .HasColumnType("timestamp with time zone");
@@ -264,7 +379,9 @@ namespace ExampleApp.Migrations.Migrations
                                 .IsRequired()
                                 .HasColumnType("text");
 
-                            b1.HasKey("IdentityId", "Id");
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("IdentityId");
 
                             b1.ToTable("KratosIdentityVerifiableAddresses", "dbo");
 
@@ -275,31 +392,6 @@ namespace ExampleApp.Migrations.Migrations
                     b.Navigation("RecoveryAddresses");
 
                     b.Navigation("VerifiableAddresses");
-                });
-
-            modelBuilder.Entity("LeanCode.DomainModels.MassTransitRelay.Outbox.RaisedEvent", b =>
-                {
-                    b.OwnsOne("LeanCode.DomainModels.MassTransitRelay.Outbox.RaisedEventMetadata", "Metadata", b1 =>
-                        {
-                            b1.Property<Guid>("RaisedEventId")
-                                .HasColumnType("uuid");
-
-                            b1.Property<string>("ActivityContext")
-                                .HasColumnType("text");
-
-                            b1.Property<Guid?>("ConversationId")
-                                .HasColumnType("uuid");
-
-                            b1.HasKey("RaisedEventId");
-
-                            b1.ToTable("RaisedEvents", "dbo");
-
-                            b1.WithOwner()
-                                .HasForeignKey("RaisedEventId");
-                        });
-
-                    b.Navigation("Metadata")
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

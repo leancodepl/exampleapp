@@ -1,31 +1,26 @@
-using Autofac;
+using Azure.Core;
+using ExampleApp.Core.Domain.Projects;
 using ExampleApp.Core.Services.DataAccess;
-using LeanCode.Components;
+using ExampleApp.Core.Services.DataAccess.Repositories;
 using LeanCode.DomainModels.DataAccess;
+using LeanCode.Npgsql.ActiveDirectory;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Npgsql;
 
 namespace ExampleApp.Core.Services;
 
-public class CoreModule : AppModule
+public static class CoreModuleExtensions
 {
-    private readonly string connectionString;
-
-    public CoreModule(string connectionString)
-    {
-        this.connectionString = connectionString;
-    }
-
-    public override void ConfigureServices(IServiceCollection services)
+    public static void AddCoreServices(this IServiceCollection services, string connectionString)
     {
         services.AddSingleton(sp =>
         {
             var builder = new NpgsqlDataSourceBuilder(connectionString);
 
-            if (sp.GetService<Azure.Core.TokenCredential>() is { } credential)
+            if (builder.ConnectionStringBuilder.Password is null)
             {
-                builder.UseAzureActiveDirectoryAuthentication(credential);
+                builder.UseAzureActiveDirectoryAuthentication(sp.GetRequiredService<TokenCredential>());
             }
 
             return builder.Build();
@@ -39,14 +34,8 @@ public class CoreModule : AppModule
 #endif
                     .UseNpgsql(cfg => cfg.MigrationsAssembly("ExampleApp.Migrations").SetPostgresVersion(14, 0))
         );
-    }
 
-    protected override void Load(ContainerBuilder builder)
-    {
-        var self = typeof(CoreModule).Assembly;
-
-        builder.Register(c => c.Resolve<CoreDbContext>()).AsImplementedInterfaces();
-
-        builder.RegisterAssemblyTypes(self).AsClosedTypesOf(typeof(IRepository<,>)).AsImplementedInterfaces().AsSelf();
+        services.AddScoped<ProjectsRepository>();
+        services.AddScoped<IRepository<Project, ProjectId>, ProjectsRepository>();
     }
 }

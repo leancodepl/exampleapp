@@ -1,6 +1,6 @@
-using ExampleApp.Core.Services;
 using LeanCode.AzureIdentity;
 using LeanCode.EFMigrator;
+using LeanCode.Npgsql.ActiveDirectory;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,11 +30,10 @@ public abstract class BaseFactory<TContext, TFactory> : IDesignTimeDbContextFact
 
         var dataSourceBuilder = new NpgsqlDataSourceBuilder(connectionString);
 
-        try
+        if (dataSourceBuilder.ConnectionStringBuilder.Password is null)
         {
             dataSourceBuilder.UseAzureActiveDirectoryAuthentication(DefaultLeanCodeCredential.CreateFromEnvironment());
         }
-        catch { }
 
         var builder = new DbContextOptionsBuilder<TContext>()
             .UseLoggerFactory(

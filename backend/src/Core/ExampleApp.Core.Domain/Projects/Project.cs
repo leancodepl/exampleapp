@@ -5,7 +5,7 @@ using LeanCode.DomainModels.Model;
 
 namespace ExampleApp.Core.Domain.Projects;
 
-[TypedId(TypedIdFormat.PrefixedGuid, CustomPrefix = "project")]
+[TypedId(TypedIdFormat.PrefixedUlid, CustomPrefix = "project")]
 public readonly partial record struct ProjectId;
 
 public class Project : IAggregateRoot<ProjectId>

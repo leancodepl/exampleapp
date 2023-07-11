@@ -1,7 +1,5 @@
 using System.Globalization;
-using Autofac;
 using LeanCode.AzureIdentity;
-using LeanCode.Components;
 using LeanCode.OpenTelemetry;
 using ExampleApp.Api.Handlers;
 using ExampleApp.Core.Services.DataAccess;
@@ -21,22 +19,13 @@ using static ExampleApp.Core.Contracts.Auth;
 
 namespace ExampleApp.Api;
 
-internal class ApiModule : AppModule
+internal static class ApiModule
 {
     internal const string ApiCorsPolicy = "Api";
 
-    private readonly IConfiguration config;
-    private readonly IWebHostEnvironment hostEnv;
-
-    public ApiModule(IConfiguration config, IWebHostEnvironment hostEnv)
+    public static void AddApiServices(this IServiceCollection services, IConfiguration config, IWebHostEnvironment hostEnv)
     {
-        this.config = config;
-        this.hostEnv = hostEnv;
-    }
-
-    public override void ConfigureServices(IServiceCollection services)
-    {
-        services.AddCors(ConfigureCORS);
+        services.AddCors(cors => ConfigureCORS(cors, config));
         services.AddRouting();
         services.AddHealthChecks().AddDbContextCheck<CoreDbContext>();
 
@@ -115,17 +104,13 @@ internal class ApiModule : AppModule
                 cfg.UseCredential(DefaultLeanCodeCredential.Create(config));
             }
         });
+
+        services.AddSingleton<LeanCode.CQRS.Security.IRoleRegistration, AppRoles>();
+        services.AddScoped<KratosIdentitySyncHandler>();
+        services.AddMappedConfiguration(config, hostEnv);
     }
 
-    protected override void Load(ContainerBuilder builder)
-    {
-        Config.RegisterMappedConfiguration(builder, config, hostEnv);
-
-        builder.RegisterType<AppRoles>().AsImplementedInterfaces();
-        builder.RegisterType<KratosIdentitySyncHandler>().AsSelf();
-    }
-
-    private void ConfigureCORS(CorsOptions opts)
+    private static void ConfigureCORS(CorsOptions opts, IConfiguration config)
     {
         opts.AddPolicy(
             ApiCorsPolicy,
