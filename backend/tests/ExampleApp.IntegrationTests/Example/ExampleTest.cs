@@ -17,6 +17,13 @@ namespace ExampleApp.IntegrationTests.Example
 
             Assert.Equal("Project", project.Name);
             Assert.Matches("^project_[0-7][0-9A-HJKMNP-TV-Z]{25}$", project.Id);
+
+            var projectDetails = await App.Query.GetAsync(new ProjectDetails { Id = project.Id });
+
+            Assert.NotNull(projectDetails);
+            Assert.Equal(project.Id, projectDetails.Id);
+            Assert.Equal(project.Name, projectDetails.Name);
+            Assert.Empty(projectDetails.Assignments);
         }
     }
 }
