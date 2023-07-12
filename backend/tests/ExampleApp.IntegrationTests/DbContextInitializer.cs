@@ -31,7 +31,7 @@ public class DbContextInitializer<T> : IHostedService
             async (CancellationToken token) =>
             {
                 await context.Database.EnsureDeletedAsync(token);
-                await context.Database.MigrateAsync(token);
+                await context.Database.EnsureCreatedAsync(token);
 
                 if (context.Database.GetDbConnection() is NpgsqlConnection connection)
                 {
