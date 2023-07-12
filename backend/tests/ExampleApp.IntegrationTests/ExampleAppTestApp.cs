@@ -10,6 +10,7 @@ using LeanCode.Startup.MicrosoftDI;
 using MassTransit.Testing.Implementations;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Serilog.Events;
 using Xunit;
@@ -61,6 +62,8 @@ namespace ExampleApp.IntegrationTests
 
             builder.ConfigureServices(services =>
             {
+                services.RemoveAll<CoreDbContext>();
+                services.AddScoped<CoreDbContext, Overrides.CoreDbContext>();
                 services.AddHostedService<DbContextInitializer<CoreDbContext>>();
                 services.AddBusActivityMonitor();
             });
