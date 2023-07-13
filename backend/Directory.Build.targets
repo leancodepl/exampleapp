@@ -26,6 +26,8 @@
     <PackageReference Update="LeanCode.DomainModels.EF" Version="$(CoreLibVersion)" />
     <PackageReference Update="LeanCode.DomainModels.Generators" Version="$(CoreLibVersion)" />
     <PackageReference Update="LeanCode.EFMigrator" Version="$(CoreLibVersion)" />
+    <PackageReference Update="LeanCode.ForceUpdate" Version="$(CoreLibVersion)" />
+    <PackageReference Update="LeanCode.ForceUpdate.Contracts" Version="$(CoreLibVersion)" />
     <PackageReference Update="LeanCode.Kratos" Version="$(CoreLibVersion)" />
     <PackageReference Update="LeanCode.Localization" Version="$(CoreLibVersion)" />
     <PackageReference Update="LeanCode.Logging" Version="$(CoreLibVersion)" />
