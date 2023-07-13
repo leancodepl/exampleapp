@@ -11,6 +11,7 @@ using LeanCode.CQRS.AspNetCore;
 using LeanCode.CQRS.MassTransitRelay;
 using LeanCode.CQRS.MassTransitRelay.Middleware;
 using LeanCode.CQRS.Validation.Fluent;
+using LeanCode.ForceUpdate;
 using LeanCode.Localization;
 using LeanCode.OpenTelemetry;
 using LeanCode.Startup.MicrosoftDI;
@@ -43,7 +44,14 @@ public class Startup : LeanStartup
 
     public override void ConfigureServices(IServiceCollection services)
     {
-        services.AddCQRS(Api, AllHandlers);
+        services
+            .AddCQRS(Api, AllHandlers)
+            .AddForceUpdate(
+                new AndroidVersionsConfiguration(new Version(1, 0), new Version(1, 1)),
+                new IOSVersionsConfiguration(new Version(1, 0), new Version(1, 1))
+            );
+        ;
+
         services.AddFluentValidation(AllHandlers);
         services.AddStringLocalizer(LocalizationConfiguration.For<Strings.Strings>());
         services.AddCoreServices(Config.PostgreSQL.ConnectionString(Configuration));
