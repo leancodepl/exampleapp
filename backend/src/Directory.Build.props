@@ -13,7 +13,6 @@
     <DebugType>portable</DebugType>
     <LangVersion>preview</LangVersion>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <NoWarn>SYSLIB1040</NoWarn>
     <ImplicitUsings>enable</ImplicitUsings>
 
     <AssemblyVersion>9.9.9.9</AssemblyVersion>
