@@ -1,11 +1,11 @@
 module "kratos" {
-  source     = "git@github.com:leancodepl/terraform-kratos-module.git//kratos?ref=9ba384475bfced5ef3f25408a7affeea8837b7e6"
+  source     = "git@github.com:leancodepl/terraform-kratos-module.git//kratos?ref=5f5d2a06cd9d8d314b1f7b75ea1fa0c323e7b5fd"
   depends_on = [kubernetes_namespace_v1.kratos]
 
   namespace    = kubernetes_namespace_v1.kratos.metadata[0].name
   project      = "exampleapp"
   ingress_host = "auth.local.lncd.pl"
-  image        = "docker.io/oryd/kratos:v0.13.0"
+  image        = "docker.io/oryd/kratos:v1.0.0"
   replicas     = 1
 
   resources = {
