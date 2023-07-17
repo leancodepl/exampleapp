@@ -26,6 +26,6 @@ internal class CoreDbContextFactory : BaseFactory<CoreDbContext, CoreDbContextFa
 {
     protected override void UseAdditionalNpgsqlDbContextOptions(NpgsqlDbContextOptionsBuilder builder)
     {
-        builder.SetPostgresVersion(14, 0);
+        builder.SetPostgresVersion(15, 0);
     }
 }

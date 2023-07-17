@@ -32,7 +32,7 @@ public static class CoreModuleExtensions
 #if DEBUG
                 .EnableSensitiveDataLogging()
 #endif
-                    .UseNpgsql(cfg => cfg.MigrationsAssembly("ExampleApp.Migrations").SetPostgresVersion(14, 0))
+                    .UseNpgsql(cfg => cfg.MigrationsAssembly("ExampleApp.Migrations").SetPostgresVersion(15, 0))
         );
 
         services.AddScoped<ProjectsRepository>();

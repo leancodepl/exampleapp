@@ -34,7 +34,7 @@ resource "kubernetes_deployment_v1" "postgresql_deployment" {
             name  = "POSTGRES_PASSWORD"
             value = "Passw12#"
           }
-          image = "postgres:14"
+          image = "postgres:15"
           name  = "postgresql"
           volume_mount {
             mount_path = "/var/lib/postgresql/data"
@@ -131,6 +131,14 @@ resource "postgresql_grant" "app" {
   privileges  = ["CREATE"]
 }
 
+resource "postgresql_grant" "app_public" {
+  database    = postgresql_database.app.name
+  role        = "public"
+  object_type = "schema"
+  schema      = "public"
+  privileges  = ["USAGE", "CREATE"]
+}
+
 resource "postgresql_database" "kratos" {
   name       = "kratos"
   lc_collate = "en_US.utf8"
@@ -155,4 +163,12 @@ resource "postgresql_grant" "kratos" {
   role        = postgresql_role.kratos.name
   object_type = "database"
   privileges  = ["CREATE"]
+}
+
+resource "postgresql_grant" "kratos_public" {
+  database    = postgresql_database.kratos.name
+  role        = "public"
+  object_type = "schema"
+  schema      = "public"
+  privileges  = ["USAGE", "CREATE"]
 }
