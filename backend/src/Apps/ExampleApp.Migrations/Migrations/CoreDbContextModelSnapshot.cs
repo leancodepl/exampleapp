@@ -25,7 +25,7 @@ namespace ExampleApp.Migrations.Migrations
             NpgsqlModelBuilderExtensions.HasPostgresExtension(modelBuilder, "citext");
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("ExampleApp.Core.Domain.Projects.Employee", b =>
+            modelBuilder.Entity("ExampleApp.Core.Domain.Employees.Employee", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("dbo.employee_id");
