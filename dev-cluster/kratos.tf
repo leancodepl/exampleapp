@@ -35,9 +35,10 @@ module "kratos" {
   }
 
   config_yaml = templatefile("./kratos.yaml", {
-    api         = "http://exampleapp-api-svc.exampleapp-dev.svc.cluster.local"
-    domain      = "local.lncd.pl"
-    totp_issuer = "ExampleApp (dev)"
+    api              = "http://exampleapp-api-svc.exampleapp-dev.svc.cluster.local"
+    domain           = "local.lncd.pl"
+    totp_issuer      = "ExampleApp (dev)"
+    web_hook_api_key = "Passw12#"
   })
 
   dsn = "postgresql://${urlencode(postgresql_role.kratos.name)}:${urlencode(postgresql_role.kratos.password)}@${kubernetes_service_v1.postgresql_service.metadata[0].name}.${kubernetes_service_v1.postgresql_service.metadata[0].namespace}.svc.cluster.local/${postgresql_database.kratos.name}?sslmode=disable"

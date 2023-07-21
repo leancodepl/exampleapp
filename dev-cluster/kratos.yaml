@@ -58,7 +58,7 @@ selfservice:
                   config:
                     in: header
                     name: X-Api-Key
-                    value: "Passw12#"
+                    value: "${web_hook_api_key}"
                 body: file:///etc/kratos/webhook.identity.mapper.jsonnet
                 response:
                   ignore: false
@@ -75,7 +75,7 @@ selfservice:
                   config:
                     in: header
                     name: X-Api-Key
-                    value: "Passw12#"
+                    value: "${web_hook_api_key}"
                 body: file:///etc/kratos/webhook.identity.mapper.jsonnet
                 response:
                   ignore: false
@@ -95,7 +95,7 @@ selfservice:
                 config:
                   in: header
                   name: X-Api-Key
-                  value: "Passw12#"
+                  value: "${web_hook_api_key}"
               body: file:///etc/kratos/webhook.identity.mapper.jsonnet
               response:
                 ignore: false
@@ -115,7 +115,7 @@ selfservice:
                 config:
                   in: header
                   name: X-Api-Key
-                  value: "Passw12#"
+                  value: "${web_hook_api_key}"
               body: file:///etc/kratos/webhook.identity.mapper.jsonnet
               response:
                 ignore: false
@@ -133,7 +133,7 @@ selfservice:
                 config:
                   in: header
                   name: X-Api-Key
-                  value: "Passw12#"
+                  value: "${web_hook_api_key}"
               body: file:///etc/kratos/webhook.identity.mapper.jsonnet
               response:
                 ignore: false
