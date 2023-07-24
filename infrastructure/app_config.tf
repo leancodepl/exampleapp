@@ -29,6 +29,7 @@ module "app_config" {
         "Logging__EnableDetailedInternalLogs" = "true"
 
         "Azure__UseAzureWorkloadIdentity" = "true"
+        "KeyVault__VaultUrl"              = module.key_vault.vault_url
 
         "Kratos__PublicEndpoint" = module.kratos.internal_service_url.public
         "Kratos__AdminEndpoint"  = module.kratos.internal_service_url.admin
