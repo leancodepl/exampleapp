@@ -18,8 +18,9 @@ module "app_config" {
   }
 
   k8s_namespace = data.kubernetes_namespace_v1.main.metadata[0].name
-  k8s_config_maps = {
-    "exampleapp-api-config" = {
+  k8s_config_maps = {}
+  k8s_secrets = {
+    "exampleapp-api-secret" = {
       labels = merge(local.tags, { component = "api" })
       data = {
         "ASPNETCORE_ENVIRONMENT" = title(var.environment)
@@ -33,8 +34,6 @@ module "app_config" {
         "Kratos__AdminEndpoint"  = module.kratos.internal_service_url.admin
       }
     }
-  }
-  k8s_secrets = {
     "exampleapp-migrations-secret" = {
       labels = merge(local.tags, { component = "migrations" })
       data = {
