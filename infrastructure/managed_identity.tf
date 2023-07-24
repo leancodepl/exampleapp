@@ -3,6 +3,7 @@ module "managed_identity_api" {
 
   azure_resource_group  = data.azurerm_resource_group.main.name
   managed_identity_name = "${local.azure_resource_name}-api"
+  service_account_name  = "${local.project}-api"
 
   kubernetes = {
     azure_resource_group    = var.azure.aks.resource_group_name
@@ -20,6 +21,7 @@ module "managed_identity_migrations" {
 
   azure_resource_group  = data.azurerm_resource_group.main.name
   managed_identity_name = "${local.azure_resource_name}-migrations"
+  service_account_name  = "${local.project}-migrations"
 
   kubernetes = {
     azure_resource_group    = var.azure.aks.resource_group_name
