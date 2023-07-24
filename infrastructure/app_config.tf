@@ -9,15 +9,15 @@ module "app_config" {
     object_id = module.managed_identity_api.managed_identity.object_id
   }
 
-  key_vault_secrets = {
+  key_vault_secrets = merge(var.key_vault_secrets, {
     "Kratos--WebhookApiKey"         = random_password.kratos_web_hook_api_key.result
     "BlobStorage--ConnectionString" = module.storage.storage_connection_string
 
     "PostgreSQL--ConnectionString"           = module.postgresql.ad_roles[module.managed_identity_api.managed_identity.name].npg_connection_string
     "MassTransit--AzureServiceBus--Endpoint" = module.service_bus.service_bus_endpoint
-  }
+  })
 
-  k8s_namespace = data.kubernetes_namespace_v1.main.metadata[0].name
+  k8s_namespace   = data.kubernetes_namespace_v1.main.metadata[0].name
   k8s_config_maps = {}
   k8s_secrets = {
     "exampleapp-api-secret" = {

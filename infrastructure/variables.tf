@@ -22,6 +22,11 @@ variable "environment" {
   type = string
 }
 
+variable "key_vault_secrets" {
+  type      = map(string)
+  sensitive = true
+}
+
 variable "kratos_sendgrid_api_key" {
   type      = string
   sensitive = true
