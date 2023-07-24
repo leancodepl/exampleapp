@@ -1,5 +1,5 @@
 module "storage" {
-  source = "git@github.com:leancodepl/terraform-common-modules.git//azure_blob_storage?ref=6e78fdc31d4503aa1a1f7838f80e9c35e2d182b6"
+  source = "git@github.com:leancodepl/terraform-common-modules.git//azure_blob_storage?ref=d76e385f387dfc851623d8aac92a751874a998bf"
 
   resource_group_name  = data.azurerm_resource_group.main.name
   storage_account_name = replace(local.azure_resource_name, "-", "")
@@ -17,7 +17,7 @@ module "storage" {
 }
 
 module "storage_assets" {
-  source = "git@github.com:leancodepl/terraform-common-modules.git//azure_blob_storage_assets?ref=6e78fdc31d4503aa1a1f7838f80e9c35e2d182b6"
+  source = "git@github.com:leancodepl/terraform-common-modules.git//azure_blob_storage_assets?ref=d76e385f387dfc851623d8aac92a751874a998bf"
 
   storage_account_name = module.storage.storage_account_name
   container_name       = module.storage.storage_containers["public"].name
