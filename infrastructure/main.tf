@@ -40,7 +40,8 @@ data "kubernetes_namespace_v1" "main" {
 }
 
 locals {
-  project = "lncdexampleapp" # prefix to avoid resource FQDN collisions
+  project             = "exampleapp"
+  azure_resource_name = "lncd-${local.project}-${var.environment}" # prefix to avoid resource FQDN collisions
 
   tags = {
     project     = local.project

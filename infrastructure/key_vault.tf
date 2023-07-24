@@ -1,8 +1,8 @@
 module "key_vault" {
   source = "git@github.com:leancodepl/terraform-common-modules.git//key_vault?ref=6e78fdc31d4503aa1a1f7838f80e9c35e2d182b6"
 
-  name                = "${local.project}-${var.environment}"
   resource_group_name = data.azurerm_resource_group.main.name
+  name                = local.azure_resource_name
 
   network_acls = {
     allow_all  = var.azure.network_allow_all

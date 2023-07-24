@@ -2,7 +2,7 @@ module "managed_identity_api" {
   source = "git@github.com:leancodepl/terraform-common-modules.git//managed_identity?ref=6e78fdc31d4503aa1a1f7838f80e9c35e2d182b6"
 
   azure_resource_group  = data.azurerm_resource_group.main.name
-  managed_identity_name = "${local.project}-${var.environment}-api"
+  managed_identity_name = "${local.azure_resource_name}-api"
 
   kubernetes = {
     azure_resource_group    = var.azure.aks.resource_group_name
@@ -19,7 +19,7 @@ module "managed_identity_migrations" {
   source = "git@github.com:leancodepl/terraform-common-modules.git//managed_identity?ref=6e78fdc31d4503aa1a1f7838f80e9c35e2d182b6"
 
   azure_resource_group  = data.azurerm_resource_group.main.name
-  managed_identity_name = "${local.project}-${var.environment}-migrations"
+  managed_identity_name = "${local.azure_resource_name}-migrations"
 
   kubernetes = {
     azure_resource_group    = var.azure.aks.resource_group_name
