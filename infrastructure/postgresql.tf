@@ -33,7 +33,7 @@ module "postgresql" {
   }
 
   server = {
-    name                = "${local.project}-${var.environment}"
+    name                = local.azure_resource_name
     storage_mb          = "32768"
     sku_name            = "B_Standard_B1ms"
     version             = "15"
