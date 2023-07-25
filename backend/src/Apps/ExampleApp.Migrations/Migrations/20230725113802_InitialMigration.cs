@@ -12,11 +12,8 @@ namespace ExampleApp.Migrations.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.EnsureSchema(name: "dbo");
-
             migrationBuilder.CreateTable(
                 name: "InboxState",
-                schema: "dbo",
                 columns: table =>
                     new
                     {
@@ -49,7 +46,6 @@ namespace ExampleApp.Migrations.Migrations
 
             migrationBuilder.CreateTable(
                 name: "OutboxMessage",
-                schema: "dbo",
                 columns: table =>
                     new
                     {
@@ -107,7 +103,6 @@ namespace ExampleApp.Migrations.Migrations
 
             migrationBuilder.CreateTable(
                 name: "OutboxState",
-                schema: "dbo",
                 columns: table =>
                     new
                     {
@@ -124,30 +119,22 @@ namespace ExampleApp.Migrations.Migrations
                 }
             );
 
-            migrationBuilder.CreateIndex(
-                name: "IX_InboxState_Delivered",
-                schema: "dbo",
-                table: "InboxState",
-                column: "Delivered"
-            );
+            migrationBuilder.CreateIndex(name: "IX_InboxState_Delivered", table: "InboxState", column: "Delivered");
 
             migrationBuilder.CreateIndex(
                 name: "IX_OutboxMessage_EnqueueTime",
-                schema: "dbo",
                 table: "OutboxMessage",
                 column: "EnqueueTime"
             );
 
             migrationBuilder.CreateIndex(
                 name: "IX_OutboxMessage_ExpirationTime",
-                schema: "dbo",
                 table: "OutboxMessage",
                 column: "ExpirationTime"
             );
 
             migrationBuilder.CreateIndex(
                 name: "IX_OutboxMessage_InboxMessageId_InboxConsumerId_SequenceNumber",
-                schema: "dbo",
                 table: "OutboxMessage",
                 columns: new[] { "InboxMessageId", "InboxConsumerId", "SequenceNumber" },
                 unique: true
@@ -155,28 +142,22 @@ namespace ExampleApp.Migrations.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_OutboxMessage_OutboxId_SequenceNumber",
-                schema: "dbo",
                 table: "OutboxMessage",
                 columns: new[] { "OutboxId", "SequenceNumber" },
                 unique: true
             );
 
-            migrationBuilder.CreateIndex(
-                name: "IX_OutboxState_Created",
-                schema: "dbo",
-                table: "OutboxState",
-                column: "Created"
-            );
+            migrationBuilder.CreateIndex(name: "IX_OutboxState_Created", table: "OutboxState", column: "Created");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(name: "InboxState", schema: "dbo");
+            migrationBuilder.DropTable(name: "InboxState");
 
-            migrationBuilder.DropTable(name: "OutboxMessage", schema: "dbo");
+            migrationBuilder.DropTable(name: "OutboxMessage");
 
-            migrationBuilder.DropTable(name: "OutboxState", schema: "dbo");
+            migrationBuilder.DropTable(name: "OutboxState");
         }
     }
 }
