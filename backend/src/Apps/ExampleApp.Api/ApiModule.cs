@@ -108,6 +108,11 @@ internal static class ApiModule
         services.AddSingleton<LeanCode.CQRS.Security.IRoleRegistration, AppRoles>();
         services.AddScoped<KratosIdentitySyncHandler>();
         services.AddMappedConfiguration(config, hostEnv);
+
+        if (!hostEnv.IsDevelopment())
+        {
+            services.AddSingleton(DefaultLeanCodeCredential.Create(config));
+        }
     }
 
     private static void ConfigureCORS(CorsOptions opts, IConfiguration config)
