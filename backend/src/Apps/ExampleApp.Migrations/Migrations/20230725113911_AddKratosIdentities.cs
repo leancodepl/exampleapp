@@ -14,7 +14,6 @@ namespace ExampleApp.Migrations.Migrations
         {
             migrationBuilder.CreateTable(
                 name: "KratosIdentities",
-                schema: "dbo",
                 columns: table =>
                     new
                     {
@@ -36,7 +35,6 @@ namespace ExampleApp.Migrations.Migrations
 
             migrationBuilder.CreateTable(
                 name: "KratosIdentityRecoveryAddresses",
-                schema: "dbo",
                 columns: table =>
                     new
                     {
@@ -53,7 +51,6 @@ namespace ExampleApp.Migrations.Migrations
                     table.ForeignKey(
                         name: "FK_KratosIdentityRecoveryAddresses_KratosIdentities_IdentityId",
                         column: x => x.IdentityId,
-                        principalSchema: "dbo",
                         principalTable: "KratosIdentities",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade
@@ -63,7 +60,6 @@ namespace ExampleApp.Migrations.Migrations
 
             migrationBuilder.CreateTable(
                 name: "KratosIdentityVerifiableAddresses",
-                schema: "dbo",
                 columns: table =>
                     new
                     {
@@ -81,7 +77,6 @@ namespace ExampleApp.Migrations.Migrations
                     table.ForeignKey(
                         name: "FK_KratosIdentityVerifiableAddresses_KratosIdentities_Identity~",
                         column: x => x.IdentityId,
-                        principalSchema: "dbo",
                         principalTable: "KratosIdentities",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade
@@ -91,14 +86,12 @@ namespace ExampleApp.Migrations.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_KratosIdentityRecoveryAddresses_IdentityId",
-                schema: "dbo",
                 table: "KratosIdentityRecoveryAddresses",
                 column: "IdentityId"
             );
 
             migrationBuilder.CreateIndex(
                 name: "IX_KratosIdentityVerifiableAddresses_IdentityId",
-                schema: "dbo",
                 table: "KratosIdentityVerifiableAddresses",
                 column: "IdentityId"
             );
@@ -107,11 +100,11 @@ namespace ExampleApp.Migrations.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(name: "KratosIdentityRecoveryAddresses", schema: "dbo");
+            migrationBuilder.DropTable(name: "KratosIdentityRecoveryAddresses");
 
-            migrationBuilder.DropTable(name: "KratosIdentityVerifiableAddresses", schema: "dbo");
+            migrationBuilder.DropTable(name: "KratosIdentityVerifiableAddresses");
 
-            migrationBuilder.DropTable(name: "KratosIdentities", schema: "dbo");
+            migrationBuilder.DropTable(name: "KratosIdentities");
         }
     }
 }

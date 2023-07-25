@@ -21,25 +21,24 @@ public class CoreDbContext : DbContext
     {
         configurationBuilder
             .Properties<EmployeeId>()
-            .HaveColumnType("dbo.employee_id")
+            .HaveColumnType("employee_id")
             .HaveConversion<PrefixedTypedIdConverter<EmployeeId>, PrefixedTypedIdComparer<EmployeeId>>();
 
         configurationBuilder
             .Properties<ProjectId>()
-            .HaveColumnType("dbo.project_id")
+            .HaveColumnType("project_id")
             .HaveConversion<PrefixedTypedIdConverter<ProjectId>, PrefixedTypedIdComparer<ProjectId>>();
 
         configurationBuilder
             .Properties<AssignmentId>()
-            .HaveColumnType("dbo.assignment_id")
+            .HaveColumnType("assignment_id")
             .HaveConversion<PrefixedTypedIdConverter<AssignmentId>, PrefixedTypedIdComparer<AssignmentId>>();
     }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
-        builder.HasPostgresExtension("public", "citext");
-        builder.HasDefaultSchema("dbo");
+        builder.HasPostgresExtension("citext");
 
         builder.AddInboxStateEntity();
         builder.AddOutboxStateEntity();

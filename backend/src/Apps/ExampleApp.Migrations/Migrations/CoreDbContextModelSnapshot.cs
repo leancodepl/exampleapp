@@ -18,7 +18,6 @@ namespace ExampleApp.Migrations.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasDefaultSchema("dbo")
                 .HasAnnotation("ProductVersion", "8.0.0-preview.5.23280.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
@@ -28,7 +27,7 @@ namespace ExampleApp.Migrations.Migrations
             modelBuilder.Entity("ExampleApp.Core.Domain.Employees.Employee", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("dbo.employee_id");
+                        .HasColumnType("employee_id");
 
                     b.Property<DateTime>("DateModified")
                         .HasColumnType("timestamp with time zone")
@@ -50,13 +49,13 @@ namespace ExampleApp.Migrations.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Employees", "dbo");
+                    b.ToTable("Employees");
                 });
 
             modelBuilder.Entity("ExampleApp.Core.Domain.Projects.Project", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("dbo.project_id");
+                        .HasColumnType("project_id");
 
                     b.Property<DateTime>("DateModified")
                         .HasColumnType("timestamp with time zone")
@@ -74,7 +73,7 @@ namespace ExampleApp.Migrations.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Projects", "dbo");
+                    b.ToTable("Projects");
                 });
 
             modelBuilder.Entity("ExampleApp.Core.Services.DataAccess.Entities.KratosIdentity", b =>
@@ -114,7 +113,7 @@ namespace ExampleApp.Migrations.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("KratosIdentities", "dbo");
+                    b.ToTable("KratosIdentities");
                 });
 
             modelBuilder.Entity("MassTransit.EntityFrameworkCoreIntegration.InboxState", b =>
@@ -163,7 +162,7 @@ namespace ExampleApp.Migrations.Migrations
 
                     b.HasIndex("Delivered");
 
-                    b.ToTable("InboxState", "dbo");
+                    b.ToTable("InboxState");
                 });
 
             modelBuilder.Entity("MassTransit.EntityFrameworkCoreIntegration.OutboxMessage", b =>
@@ -250,7 +249,7 @@ namespace ExampleApp.Migrations.Migrations
                     b.HasIndex("InboxMessageId", "InboxConsumerId", "SequenceNumber")
                         .IsUnique();
 
-                    b.ToTable("OutboxMessage", "dbo");
+                    b.ToTable("OutboxMessage");
                 });
 
             modelBuilder.Entity("MassTransit.EntityFrameworkCoreIntegration.OutboxState", b =>
@@ -280,7 +279,7 @@ namespace ExampleApp.Migrations.Migrations
 
                     b.HasIndex("Created");
 
-                    b.ToTable("OutboxState", "dbo");
+                    b.ToTable("OutboxState");
                 });
 
             modelBuilder.Entity("ExampleApp.Core.Domain.Projects.Project", b =>
@@ -288,13 +287,13 @@ namespace ExampleApp.Migrations.Migrations
                     b.OwnsMany("ExampleApp.Core.Domain.Projects.Assignment", "Assignments", b1 =>
                         {
                             b1.Property<string>("ParentProjectId")
-                                .HasColumnType("dbo.project_id");
+                                .HasColumnType("project_id");
 
                             b1.Property<string>("Id")
-                                .HasColumnType("dbo.assignment_id");
+                                .HasColumnType("assignment_id");
 
                             b1.Property<string>("AssignedEmployeeId")
-                                .HasColumnType("dbo.employee_id");
+                                .HasColumnType("employee_id");
 
                             b1.Property<string>("Name")
                                 .IsRequired()
@@ -305,7 +304,7 @@ namespace ExampleApp.Migrations.Migrations
 
                             b1.HasKey("ParentProjectId", "Id");
 
-                            b1.ToTable("Assignments", "dbo");
+                            b1.ToTable("Assignments", (string)null);
 
                             b1.WithOwner("ParentProject")
                                 .HasForeignKey("ParentProjectId");
@@ -345,7 +344,7 @@ namespace ExampleApp.Migrations.Migrations
 
                             b1.HasIndex("IdentityId");
 
-                            b1.ToTable("KratosIdentityRecoveryAddresses", "dbo");
+                            b1.ToTable("KratosIdentityRecoveryAddresses", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("IdentityId");
@@ -381,7 +380,7 @@ namespace ExampleApp.Migrations.Migrations
 
                             b1.HasIndex("IdentityId");
 
-                            b1.ToTable("KratosIdentityVerifiableAddresses", "dbo");
+                            b1.ToTable("KratosIdentityVerifiableAddresses", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("IdentityId");

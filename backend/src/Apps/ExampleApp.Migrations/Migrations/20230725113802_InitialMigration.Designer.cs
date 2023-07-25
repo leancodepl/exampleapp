@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ExampleApp.Migrations.Migrations
 {
     [DbContext(typeof(CoreDbContext))]
-    [Migration("20230711145603_InitialMigration")]
+    [Migration("20230725113802_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -20,7 +20,6 @@ namespace ExampleApp.Migrations.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasDefaultSchema("dbo")
                 .HasAnnotation("ProductVersion", "8.0.0-preview.5.23280.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
@@ -72,7 +71,7 @@ namespace ExampleApp.Migrations.Migrations
 
                     b.HasIndex("Delivered");
 
-                    b.ToTable("InboxState", "dbo");
+                    b.ToTable("InboxState");
                 });
 
             modelBuilder.Entity("MassTransit.EntityFrameworkCoreIntegration.OutboxMessage", b =>
@@ -159,7 +158,7 @@ namespace ExampleApp.Migrations.Migrations
                     b.HasIndex("InboxMessageId", "InboxConsumerId", "SequenceNumber")
                         .IsUnique();
 
-                    b.ToTable("OutboxMessage", "dbo");
+                    b.ToTable("OutboxMessage");
                 });
 
             modelBuilder.Entity("MassTransit.EntityFrameworkCoreIntegration.OutboxState", b =>
@@ -189,7 +188,7 @@ namespace ExampleApp.Migrations.Migrations
 
                     b.HasIndex("Created");
 
-                    b.ToTable("OutboxState", "dbo");
+                    b.ToTable("OutboxState");
                 });
 #pragma warning restore 612, 618
         }
