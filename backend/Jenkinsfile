@@ -1,8 +1,6 @@
-properties([
-    copyArtifactPermission('/ExampleApp/Production/*')
-]);
-
-def isReleaseBuild = BRANCH_NAME == 'master';
+def isHotfix = BRANCH_NAME ==~ 'backend-hotfix/.*'
+def isMaster = BRANCH_NAME == 'master'
+def isReleaseBuild = isMaster || isHotfix
 def dbPassword = 'Passw12#'
 
 leancode.builder('exampleapp-backend')
@@ -12,23 +10,24 @@ leancode.builder('exampleapp-backend')
     .withDefaultContainer(
         name: 'postgres',
         image: 'postgres',
-        version: '14',
-        defCpuReq: '1',
-        defCpuLim: '2',
-        defMemReq: '1Gi',
-        defMemLim: '2Gi',
+        version: '15',
+        defCpuReq: '2',
+        defCpuLim: '4',
+        defMemReq: '12Gi',
+        defMemLim: '16Gi',
         args: [:])
     .withDefaultContainer(
         name: 'storage',
         image: 'mcr.microsoft.com/azure-storage/azurite',
-        version: '3.15.0',
-        defCpuReq: '100m',
-        defCpuLim: '500m',
-        defMemReq: '100Mi',
-        defMemLim: '500Mi',
+        version: '3.16.0',
+        defCpuReq: '500m',
+        defCpuLim: '1',
+        defMemReq: '500Mi',
+        defMemLim: '1Gi',
         args: [:])
     .withEnv(envVar(key: 'POSTGRES_PASSWORD', value: dbPassword))
     .withVolume(emptyDirVolume(mountPath: '/var/lib/postgresql/data', memory: true))
+    .runOnSpot()
     .run {
 
     def scmVars
@@ -41,12 +40,27 @@ leancode.builder('exampleapp-backend')
 
     stage('Version') {
         env.GIT_COMMIT = scmVars.GIT_COMMIT
-        env.APP_VERSION = isReleaseBuild ? "0.1.${nextBuildNumber()}" : '0.0.0'
-        echo "Building version: ${env.APP_VERSION}"
 
-        if (isReleaseBuild) {
-            currentBuild.displayName = "v${env.APP_VERSION}"
+        if (isHotfix) {
+            gitUtils.fetch("master")
+            def mergeBase = sh(script: 'git merge-base HEAD origin/master', returnStdout: true).trim()
+            def baseTag = sh(script: "git describe --tags --exact-match --match='backend-v*' ${mergeBase}", returnStdout: true).trim()
+            def baseVersion = baseTag.minus('backend-v')
+            if (!baseVersion) {
+                error 'Cannot decode base version'
+            }
+
+            def hotfixName = isHotfix ? (BRANCH_NAME =~ 'backend-hotfix/(.*)')[0][1] : ''
+            def hotfixVersion = nextBuildNumber(hotfixName.replace('/', '_').replace('-', '_'))
+            env.APP_VERSION = "${baseVersion}-${hotfixName}-${hotfixVersion}"
+        } else if (isMaster) {
+            env.APP_VERSION = "0.0.${nextBuildNumber()}"
+        } else {
+            env.APP_VERSION = "0.0.0"
         }
+
+        echo "Building version: ${env.APP_VERSION}"
+        currentBuild.displayName = "v${env.APP_VERSION}"
     }
 
     dir('backend') {
@@ -71,6 +85,9 @@ leancode.builder('exampleapp-backend')
             stage('Integration test') {
                 try {
                     dir('tests/ExampleApp.IntegrationTests') {
+                        env.Kratos__AdminEndpoint = 'http://localhost:4434'
+                        env.Kratos__PublicEndpoint = 'http://localhost:4433'
+                        env.BlobStorage__ConnectionString = 'DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://localhost:10000/devstoreaccount1;'
                         env.PostgreSQL__ConnectionStringBase = "Host=localhost;Username=postgres;Password=$dbPassword"
 
                         sh 'dotnet test -c Release -l "trx;LogFileName=$PWD/test-results/integration.trx" -p:MaxParallelThreads=2'
@@ -114,29 +131,27 @@ leancode.builder('exampleapp-backend')
 
     dir('backend/release') {
         stage('Deploy to test') {
-            when (isReleaseBuild) {
-                env.ENVIRONMENT = 'test'
-                env.NAMESPACE = 'exampleapp-test'
-                sh 'envsubst < migrations.yaml.tpl > migrations.yaml'
-                sh 'envsubst < api.yaml.tpl > api.yaml'
-
-                withCredentials([file(credentialsId: 'ExampleAppTestKubeconfig', variable: 'KUBECONFIG')]) {
+            when (isMaster) {
+                withCredentials([usernamePassword(credentialsId: 'github-app',
+                                                  usernameVariable: 'GITHUB_APP',
+                                                  passwordVariable: 'GITHUB_ACCESS_TOKEN')]) {
                     sh '''
-                        kubectl delete -f migrations.yaml --ignore-not-found
-
-                        echo "Migrating database"
-                        kubectl apply -f migrations.yaml
-                        kubectl wait --filename=migrations.yaml --for='condition=Complete' --timeout=180s || exit 1
-
-                        echo "Migrations completed successfully"
-
-                        kubectl apply -f api.yaml
+                        git config --global user.email "jenkins@leancode.pl"
+                        git config --global user.name "Jenkins"
+                        git clone "https://x-access-token:${GITHUB_ACCESS_TOKEN}@github.com/leancodepl/exampleapp-deployment.git"
+                        cd exampleapp-deployment/apps/exampleapp-backend/test
+                        kustomize edit set image exampleapp-api="*:${APP_VERSION}" exampleapp-migrations="*:${APP_VERSION}"
+                        git add -A
+                        git commit -m "Update ExampleApp backend version to $APP_VERSION"
+                        git push
                     '''
-                }
-
-                archiveArtifacts artifacts: '*.yaml', fingerprint: true
-                relatedBuild.writeAsArtifact "$APP_VERSION", 'APP_VERSION'
+               }
             }
+        }
+
+        stage('Write artifacts') {
+            relatedBuild.writeAsArtifact "$APP_VERSION", 'APP_VERSION'
+            relatedBuild.writeAsArtifact "$GIT_COMMIT", 'GIT_COMMIT'
         }
     }
 }
