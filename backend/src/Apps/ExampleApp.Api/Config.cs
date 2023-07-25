@@ -54,7 +54,7 @@ public static class Config
 
     public static class Telemetry
     {
-        public static string? OtlpEndpoint(IConfiguration cfg) => cfg.GetString("Telemetry:OtlpEndpoint");
+        public static string? OtlpEndpoint(IConfiguration cfg) => cfg.GetString("Telemetry:Otlp:Endpoint");
     }
 
     private static string GetString(this IConfiguration configuration, string key)
