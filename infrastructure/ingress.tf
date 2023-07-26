@@ -1,6 +1,5 @@
 locals {
   ingress = {
-    strip = ["/api"]
     hosts = ["api.${var.domain}", var.domain]
     rules = [
       {
@@ -16,23 +15,6 @@ locals {
         priority = 1
       },
     ]
-  }
-}
-
-resource "kubernetes_manifest" "path_stripping" {
-  manifest = {
-    "apiVersion" = "traefik.containo.us/v1alpha1"
-    "kind"       = "Middleware"
-    "metadata" = {
-      "name"      = "${local.project}-strip-prefix"
-      "namespace" = data.kubernetes_namespace_v1.main.metadata[0].name
-      "labels"    = local.tags
-    }
-    "spec" = {
-      "stripPrefix" = {
-        "prefixes" = local.ingress.strip
-      }
-    }
   }
 }
 
@@ -70,9 +52,6 @@ resource "kubernetes_manifest" "ingress" {
           "kind"  = "Rule"
           "match" = i.rule
           "middlewares" = [
-            {
-              "name" = kubernetes_manifest.path_stripping.manifest.metadata.name
-            },
             {
               "name" = kubernetes_manifest.response_compression.manifest.metadata.name
             },
