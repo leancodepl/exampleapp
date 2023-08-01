@@ -1,5 +1,5 @@
 module "app_config" {
-  source = "git@github.com:leancodepl/terraform-common-modules.git//app_config?ref=d76e385f387dfc851623d8aac92a751874a998bf"
+  source = "git@github.com:leancodepl/terraform-common-modules.git//app_config?ref=v0.1.0"
 
   key_vault_id                       = module.key_vault.vault_id
   key_vault_deploy_policy_depends_on = module.key_vault.deploy_policy

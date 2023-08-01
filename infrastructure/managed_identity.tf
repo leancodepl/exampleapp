@@ -1,5 +1,5 @@
 module "managed_identity_api" {
-  source = "git@github.com:leancodepl/terraform-common-modules.git//managed_identity?ref=d76e385f387dfc851623d8aac92a751874a998bf"
+  source = "git@github.com:leancodepl/terraform-common-modules.git//managed_identity?ref=v0.1.0"
 
   azure_resource_group  = data.azurerm_resource_group.main.name
   managed_identity_name = "${local.azure_resource_name}-api"
@@ -17,7 +17,7 @@ module "managed_identity_api" {
 }
 
 module "managed_identity_migrations" {
-  source = "git@github.com:leancodepl/terraform-common-modules.git//managed_identity?ref=d76e385f387dfc851623d8aac92a751874a998bf"
+  source = "git@github.com:leancodepl/terraform-common-modules.git//managed_identity?ref=v0.1.0"
 
   azure_resource_group  = data.azurerm_resource_group.main.name
   managed_identity_name = "${local.azure_resource_name}-migrations"
