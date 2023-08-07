@@ -46,3 +46,106 @@ module "kratos" {
 
   courier_smtp_connection_uri = "smtps://apikey:${var.sendgrid_api_key}@smtp.sendgrid.net:465"
 }
+
+locals {
+  labels_ui = {
+    project   = "exampleapp"
+    component = "kratos-ui"
+  }
+}
+
+resource "kubernetes_deployment_v1" "kratos_ui" {
+  metadata {
+    name      = "exampleapp-kratos-ui"
+    namespace = kubernetes_namespace_v1.kratos.metadata[0].name
+    labels    = local.labels_ui
+  }
+  spec {
+    replicas = 1
+    selector {
+      match_labels = local.labels_ui
+    }
+    template {
+      metadata {
+        labels = local.labels_ui
+      }
+      spec {
+        container {
+          name  = "kratos-ui"
+          image = "docker.io/oryd/kratos-selfservice-ui-node:v1.0.0"
+          env {
+            name  = "KRATOS_PUBLIC_URL"
+            value = module.kratos.internal_service_url.public
+          }
+          env {
+            name  = "KRATOS_BROWSER_URL"
+            value = module.kratos.external_ingress_url
+          }
+          port {
+            name           = "public"
+            container_port = "3000"
+          }
+          resources {
+            requests = {
+              cpu    = "100m"
+              memory = "128Mi"
+            }
+            limits = {
+              cpu    = "250m"
+              memory = "256Mi"
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+resource "kubernetes_service_v1" "kratos_ui_service" {
+  metadata {
+    name      = "exampleapp-kratos-ui-svc"
+    namespace = kubernetes_namespace_v1.kratos.metadata[0].name
+    labels    = local.labels_ui
+  }
+  spec {
+    type     = "ClusterIP"
+    selector = local.labels_ui
+    port {
+      name        = "public"
+      port        = 80
+      target_port = 3000
+    }
+  }
+}
+
+resource "kubernetes_ingress_v1" "kratos_ui_ingress" {
+  metadata {
+    name      = "exampleapp-kratos-ui-ingress"
+    namespace = kubernetes_namespace_v1.kratos.metadata[0].name
+    labels    = local.labels_ui
+  }
+  spec {
+    rule {
+      host = "local.lncd.pl"
+      http {
+        path {
+          backend {
+            service {
+              name = kubernetes_service_v1.kratos_ui_service.metadata[0].name
+              port {
+                number = 80
+              }
+            }
+          }
+          path_type = "ImplementationSpecific"
+        }
+      }
+    }
+  }
+
+  lifecycle {
+    ignore_changes = [
+      spec[0].ingress_class_name
+    ]
+  }
+}
