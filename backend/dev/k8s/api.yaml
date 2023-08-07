@@ -15,27 +15,35 @@ spec:
       labels:
         app: exampleapp-api
     spec:
+      volumes:
+        - name: wellknown-volume
+          configMap:
+            name: exampleapp-wellknown
       containers:
-      - name: api
-        image: exampleapp-api
-        ports:
-        - containerPort: 8080
-        - containerPort: 22
-        env:
-          - name: AGENT_HOST_IP
-            valueFrom:
-              fieldRef:
-                apiVersion: v1
-                fieldPath: status.hostIP
-          - name: Telemetry__OtlpEndpoint
-            value: http://$(AGENT_HOST_IP):55680
-        resources:
-          requests:
-            cpu: '1'
-            memory: '200Mi'
-          limits:
-            cpu: '4'
-            memory: '5Gi'
+        - name: api
+          image: exampleapp-api
+          ports:
+            - containerPort: 8080
+            - containerPort: 22
+          volumeMounts:
+            - name: wellknown-volume
+              mountPath: /.well-known
+              readOnly: true
+          env:
+            - name: AGENT_HOST_IP
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: status.hostIP
+            - name: Telemetry__OtlpEndpoint
+              value: http://$(AGENT_HOST_IP):55680
+          resources:
+            requests:
+              cpu: "1"
+              memory: "200Mi"
+            limits:
+              cpu: "4"
+              memory: "5Gi"
 ---
 apiVersion: v1
 kind: Service
@@ -47,9 +55,9 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-  - port: 80
-    targetPort: 8080
-    protocol: TCP
+    - port: 80
+      targetPort: 8080
+      protocol: TCP
   selector:
     app: exampleapp-api
 ---
@@ -61,7 +69,7 @@ metadata:
 spec:
   stripPrefix:
     prefixes:
-    - /api
+      - /api
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -70,13 +78,20 @@ metadata:
   namespace: exampleapp-dev
 spec:
   rules:
-  - host: exampleapp.local.lncd.pl
-    http:
-      paths:
-      - path: /api
-        backend:
-          service:
-            name: exampleapp-api-svc
-            port:
-              number: 80
-        pathType: ImplementationSpecific
+    - host: exampleapp.local.lncd.pl
+      http:
+        paths:
+          - path: /api
+            backend:
+              service:
+                name: exampleapp-api-svc
+                port:
+                  number: 80
+            pathType: ImplementationSpecific
+          - path: /.well-known
+            backend:
+              service:
+                name: exampleapp-api-svc
+                port:
+                  number: 80
+            pathType: ImplementationSpecific
