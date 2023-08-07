@@ -23,6 +23,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.FileProviders.Physical;
 using Microsoft.Extensions.Hosting;
 
 namespace ExampleApp.Api;
@@ -133,7 +134,7 @@ public class Startup : LeanStartup
             app.UseStaticFiles(
                 new StaticFileOptions
                 {
-                    FileProvider = new PhysicalFileProvider("/.well-known"),
+                    FileProvider = new SymlinkResolvingPhysicalFileProvider(new("/.well-known", ExclusionFilters.DotPrefixed)),
                     RequestPath = "/.well-known",
                     DefaultContentType = "application/json",
                     ServeUnknownFileTypes = true,
