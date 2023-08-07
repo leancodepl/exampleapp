@@ -17,8 +17,15 @@ module "app_config" {
     "MassTransit--AzureServiceBus--Endpoint" = module.service_bus.service_bus_endpoint
   })
 
-  k8s_namespace   = data.kubernetes_namespace_v1.main.metadata[0].name
-  k8s_config_maps = {}
+  k8s_namespace = data.kubernetes_namespace_v1.main.metadata[0].name
+
+  k8s_config_maps = {
+    "exampleapp-wellknown" = {
+      labels = local.tags
+      data   = var.well_known
+    }
+  }
+
   k8s_secrets = {
     "exampleapp-api-secret" = {
       labels = merge(local.tags, { component = "api" })
