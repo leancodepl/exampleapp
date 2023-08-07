@@ -43,6 +43,7 @@ module "kratos" {
   config_yaml = templatefile("${path.module}/kratos.yaml", {
     api              = "http://exampleapp-api.${data.kubernetes_namespace_v1.main.metadata[0].name}.svc.cluster.local"
     domain           = var.domain
+    oidc_config      = var.oidc_config
     totp_issuer      = "ExampleApp"
     web_hook_api_key = random_password.kratos_web_hook_api_key.result
   })
