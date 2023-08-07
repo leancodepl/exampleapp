@@ -33,6 +33,52 @@ selfservice:
       enabled: true
     code:
       enabled: true
+%{ if oidc_config != null ~}
+    oidc:
+      enabled: true
+      config:
+        providers:
+%{ if oidc_config.apple != null ~}
+          - id: apple
+            provider: apple
+            label: Apple
+            issuer_url: https://appleid.apple.com
+            client_id: "${oidc_config.apple.client_id}"
+            apple_team_id: "${oidc_config.apple.team_id}"
+            apple_private_key_id: "${oidc_config.apple.private_key_id}"
+            apple_private_key: "${replace(oidc_config.apple.private_key, "\n", "\\n")}"
+            scope:
+              - openid
+              - email
+              - name
+            mapper_url: file:///etc/kratos/oidc.apple.mapper.jsonnet
+%{ endif ~}
+%{ if oidc_config.google != null ~}
+          - id: google
+            provider: google
+            label: Google
+            issuer_url: https://accounts.google.com
+            client_id: "${oidc_config.google.client_id}"
+            client_secret: "${oidc_config.google.client_secret}"
+            scope:
+              - openid
+              - email
+              - profile
+            mapper_url: file:///etc/kratos/oidc.google.mapper.jsonnet
+%{ endif ~}
+%{ if oidc_config.facebook != null ~}
+          - id: facebook
+            provider: facebook
+            label: Facebook
+            issuer_url: https://www.facebook.com
+            client_id: "${oidc_config.facebook.client_id}"
+            client_secret: "${oidc_config.facebook.client_secret}"
+            scope:
+              - email
+              - public_profile
+            mapper_url: file:///etc/kratos/oidc.facebook.mapper.jsonnet
+%{ endif ~}
+%{ endif ~}
   flows:
     login:
       ui_url: https://${domain}/login
