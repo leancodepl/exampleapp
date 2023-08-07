@@ -28,3 +28,13 @@ resource "kubernetes_namespace_v1" "kratos" {
     name = "kratos"
   }
 }
+
+resource "kubernetes_config_map_v1" "well_known" {
+  metadata {
+    namespace = kubernetes_namespace_v1.main.metadata[0].name
+    name      = "exampleapp-wellknown"
+  }
+  data = {
+    for f in fileset("./.well-known", "*") : f => file("./.well-known/${f}")
+  }
+}
