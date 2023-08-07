@@ -22,6 +22,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 
 namespace ExampleApp.Api;
@@ -125,34 +126,47 @@ public class Startup : LeanStartup
 
     protected override void ConfigureApp(IApplicationBuilder app)
     {
-        app.UseRouting()
-            .UseForwardedHeaders()
-            .UseCors(ApiModule.ApiCorsPolicy)
-            .UseAuthentication()
-            .UseIdentityTraceAttributes(Auth.KnownClaims.UserId, Auth.KnownClaims.Role);
+        app.UseRouting().UseForwardedHeaders().UseCors(ApiModule.ApiCorsPolicy);
 
-        app.UseEndpoints(endpoints =>
+        if (Directory.Exists("/.well-known"))
         {
-            endpoints.MapGet("/", VersionHandler.HandleAsync);
-            endpoints.MapGet("/live/ready", ReadinessProbe.HandleAsync);
-            endpoints.MapHealthChecks("/live/health");
-
-            endpoints.MapPost(
-                "/kratos/sync-identity",
-                ctx => ctx.RequestServices.GetRequiredService<KratosIdentitySyncHandler>().HandleAsync(ctx)
-            );
-
-            endpoints.MapRemoteCqrs(
-                "/api",
-                cqrs =>
+            app.UseStaticFiles(
+                new StaticFileOptions
                 {
-                    cqrs.Commands = c =>
-                        c.CQRSTrace().Secure().Validate().CommitTransaction<CoreDbContext>().PublishEvents();
-                    cqrs.Queries = c => c.CQRSTrace().Secure();
-                    cqrs.Operations = c => c.CQRSTrace().Secure().CommitTransaction<CoreDbContext>().PublishEvents();
+                    FileProvider = new PhysicalFileProvider("/.well-known"),
+                    RequestPath = "/.well-known",
+                    DefaultContentType = "application/json",
+                    ServeUnknownFileTypes = true,
+                    RedirectToAppendTrailingSlash = false,
                 }
             );
-        });
+        }
+
+        app.UseAuthentication()
+            .UseIdentityTraceAttributes(Auth.KnownClaims.UserId, Auth.KnownClaims.Role)
+            .UseEndpoints(endpoints =>
+            {
+                endpoints.MapGet("/", VersionHandler.HandleAsync);
+                endpoints.MapGet("/live/ready", ReadinessProbe.HandleAsync);
+                endpoints.MapHealthChecks("/live/health");
+
+                endpoints.MapPost(
+                    "/kratos/sync-identity",
+                    ctx => ctx.RequestServices.GetRequiredService<KratosIdentitySyncHandler>().HandleAsync(ctx)
+                );
+
+                endpoints.MapRemoteCqrs(
+                    "/api",
+                    cqrs =>
+                    {
+                        cqrs.Commands = c =>
+                            c.CQRSTrace().Secure().Validate().CommitTransaction<CoreDbContext>().PublishEvents();
+                        cqrs.Queries = c => c.CQRSTrace().Secure();
+                        cqrs.Operations = c =>
+                            c.CQRSTrace().Secure().CommitTransaction<CoreDbContext>().PublishEvents();
+                    }
+                );
+            });
     }
 }
 
