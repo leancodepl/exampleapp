@@ -37,6 +37,7 @@ module "kratos" {
   config_yaml = templatefile("./kratos.yaml", {
     api              = "http://exampleapp-api-svc.exampleapp-dev.svc.cluster.local"
     domain           = "local.lncd.pl"
+    oidc_config      = var.oidc_config
     totp_issuer      = "ExampleApp (dev)"
     web_hook_api_key = "Passw12#"
   })
