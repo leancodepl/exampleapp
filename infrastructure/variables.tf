@@ -42,3 +42,7 @@ variable "kubernetes" {
 variable "office_ip" {
   type = string
 }
+
+variable "well_known" {
+  type    = map(string)
+}
