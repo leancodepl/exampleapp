@@ -14,6 +14,12 @@ locals {
         port     = 80
         priority = 1
       },
+      {
+        rule     = "Host(`${var.domain}`) && PathPrefix(`/.well-known/`)"
+        service  = "${local.project}-api"
+        port     = 80
+        priority = 1
+      },
     ]
   }
 }
