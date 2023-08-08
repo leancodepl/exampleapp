@@ -10,7 +10,7 @@ module "kratos" {
   namespace    = data.kubernetes_namespace_v1.main.metadata[0].name
   labels       = merge(local.tags, { component = "kratos" })
   project      = local.project
-  ingress_host = "auth.${var.domain}"
+  ingress_host = null
   image        = "docker.io/oryd/kratos:v1.0.0"
   replicas     = 1
 
