@@ -1,21 +1,33 @@
 locals {
   ingress = {
-    hosts = ["api.${var.domain}", var.domain]
+    hosts = ["api.${var.domain}", "auth.${var.domain}", var.domain]
     rules = [
       {
-        rule     = "Host(`api.${var.domain}`)"
+        rule     = "Host(`auth.${var.domain}`) && PathPrefix(`/.well-known/`) && !PathPrefix(`/.well-known/ory/`)"
         service  = "${local.project}-api"
         port     = 80
-        priority = 1
+        priority = 100
       },
       {
         rule     = "Host(`${var.domain}`) && PathPrefix(`/api/`)"
         service  = "${local.project}-api"
         port     = 80
-        priority = 1
+        priority = 50
       },
       {
         rule     = "Host(`${var.domain}`) && PathPrefix(`/.well-known/`)"
+        service  = "${local.project}-api"
+        port     = 80
+        priority = 50
+      },
+      {
+        rule     = "Host(`auth.${var.domain}`)"
+        service  = module.kratos.service_name
+        port     = 80
+        priority = 1
+      },
+      {
+        rule     = "Host(`api.${var.domain}`)"
         service  = "${local.project}-api"
         port     = 80
         priority = 1
