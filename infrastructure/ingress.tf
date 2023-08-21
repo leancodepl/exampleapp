@@ -32,6 +32,12 @@ locals {
         port     = 80
         priority = 1
       },
+      {
+        rule     = "Host(`${var.domain}`)"
+        service  = "${local.project}-kratos-ui-svc"
+        port     = 80
+        priority = 1
+      },
     ]
   }
 }
