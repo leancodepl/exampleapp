@@ -1,8 +1,8 @@
 using System.Globalization;
-using LeanCode.AzureIdentity;
-using LeanCode.OpenTelemetry;
 using ExampleApp.Api.Handlers;
 using ExampleApp.Core.Services.DataAccess;
+using LeanCode.AzureIdentity;
+using LeanCode.OpenTelemetry;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
@@ -11,10 +11,10 @@ using Microsoft.Extensions.Azure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Npgsql;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
-using Npgsql;
 using static ExampleApp.Core.Contracts.Auth;
 
 namespace ExampleApp.Api;
@@ -81,6 +81,7 @@ internal static class ApiModule
                 .WithTracing(builder =>
                 {
                     builder
+                        .AddProcessor<IdentityTraceAttributesFromBaggageProcessor>()
                         .AddAspNetCoreInstrumentation(
                             opts => opts.Filter = ctx => !ctx.Request.Path.StartsWithSegments("/live")
                         )

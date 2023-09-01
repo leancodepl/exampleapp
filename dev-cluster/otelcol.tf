@@ -16,7 +16,7 @@ resource "kubernetes_secret" "otel_config" {
     "otel-agent-config.yaml" = yamlencode({
       exporters = {
         jaeger = {
-          endpoint = "jaeger.shared.svc.cluster.local:14250"
+          endpoint = "${kubernetes_service_v1.jaeger_service.metadata[0].name}.${kubernetes_service_v1.jaeger_service.metadata[0].namespace}.svc.cluster.local:14250"
           tls = {
             insecure = true
           }
