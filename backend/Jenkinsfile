@@ -65,11 +65,19 @@ leancode.builder('exampleapp-backend')
 
     dir('backend') {
         container('dotnet') {
-            stage('Build') {
+            stage('Restore') {
                 sh '''
                     dotnet restore
-                    dotnet build -c Release --no-restore
+                    dotnet tool restore
                 '''
+            }
+
+            stage('Check Formatting') {
+                sh 'dotnet csharpier . --check'
+            }
+
+            stage('Build') {
+                sh 'dotnet build -c Release --no-restore'
             }
 
             stage('Test') {

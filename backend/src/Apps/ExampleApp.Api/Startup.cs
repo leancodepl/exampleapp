@@ -134,7 +134,9 @@ public class Startup : LeanStartup
             app.UseStaticFiles(
                 new StaticFileOptions
                 {
-                    FileProvider = new SymlinkResolvingPhysicalFileProvider(new("/.well-known", ExclusionFilters.DotPrefixed)),
+                    FileProvider = new SymlinkResolvingPhysicalFileProvider(
+                        new("/.well-known", ExclusionFilters.DotPrefixed)
+                    ),
                     RequestPath = "/.well-known",
                     DefaultContentType = "application/json",
                     ServeUnknownFileTypes = true,
