@@ -16,6 +16,7 @@ using LeanCode.Localization;
 using LeanCode.OpenTelemetry;
 using LeanCode.Startup.MicrosoftDI;
 using LeanCode.ViewRenderer.Razor;
+using LeanPipe;
 using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -52,7 +53,8 @@ public class Startup : LeanStartup
                 new AndroidVersionsConfiguration(new Version(1, 0), new Version(1, 1)),
                 new IOSVersionsConfiguration(new Version(1, 0), new Version(1, 1))
             );
-        ;
+
+        services.AddLeanPipe(Api, AllHandlers);
 
         services.AddFluentValidation(AllHandlers);
         services.AddStringLocalizer(LocalizationConfiguration.For<Strings.Strings>());
@@ -169,6 +171,8 @@ public class Startup : LeanStartup
                             c.CQRSTrace().Secure().CommitTransaction<CoreDbContext>().PublishEvents();
                     }
                 );
+
+                endpoints.MapLeanPipe("/leanpipe");
             });
     }
 }
