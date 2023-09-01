@@ -35,7 +35,7 @@ spec:
                 fieldRef:
                   apiVersion: v1
                   fieldPath: status.hostIP
-            - name: Telemetry__OtlpEndpoint
+            - name: Telemetry__Otlp__Endpoint
               value: http://$(AGENT_HOST_IP):55680
           resources:
             requests:

@@ -43,7 +43,7 @@ resource "kubernetes_deployment_v1" "jaeger_deployment" {
 
 resource "kubernetes_service_v1" "jaeger_service" {
   metadata {
-    name      = "jaeger-svc"
+    name      = "jaeger"
     namespace = local.k8s_shared_namespace
     labels = {
       app = "jaeger"
