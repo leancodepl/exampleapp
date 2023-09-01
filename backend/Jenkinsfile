@@ -65,11 +65,19 @@ leancode.builder('exampleapp-backend')
 
     dir('backend') {
         container('dotnet') {
-            stage('Build') {
+            stage('Restore') {
                 sh '''
                     dotnet restore
-                    dotnet build -c Release --no-restore
+                    dotnet tool restore
                 '''
+            }
+
+            stage('Check Formatting') {
+                sh 'dotnet --roll-forward latestMajor ~/.nuget/packages/csharpier/0.25.0/tools/net7.0/any/dotnet-csharpier.dll . --check'
+            }
+
+            stage('Build') {
+                sh 'dotnet build -c Release --no-restore'
             }
 
             stage('Test') {

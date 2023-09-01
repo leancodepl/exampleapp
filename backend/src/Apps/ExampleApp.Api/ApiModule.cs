@@ -23,7 +23,11 @@ internal static class ApiModule
 {
     internal const string ApiCorsPolicy = "Api";
 
-    public static void AddApiServices(this IServiceCollection services, IConfiguration config, IWebHostEnvironment hostEnv)
+    public static void AddApiServices(
+        this IServiceCollection services,
+        IConfiguration config,
+        IWebHostEnvironment hostEnv
+    )
     {
         services.AddCors(cors => ConfigureCORS(cors, config));
         services.AddRouting();
