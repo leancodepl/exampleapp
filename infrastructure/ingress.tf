@@ -15,6 +15,12 @@ locals {
         priority = 50
       },
       {
+        rule     = "Host(`${var.domain}`) && PathPrefix(`/leanpipe/`)"
+        service  = "${local.project}-api"
+        port     = 80
+        priority = 50
+      },
+      {
         rule     = "Host(`${var.domain}`) && PathPrefix(`/.well-known/`)"
         service  = "${local.project}-api"
         port     = 80
