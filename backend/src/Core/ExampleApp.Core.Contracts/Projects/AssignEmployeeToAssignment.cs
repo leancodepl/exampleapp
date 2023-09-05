@@ -13,9 +13,7 @@ public class AssignEmployeeToAssignment : ICommand
     {
         public const int AssignmentIdNotValid = 1;
         public const int ProjectWithAssignmentDoesNotExist = 2;
-        public const int AssignmentsCannotBeNull = 3;
-        public const int AssignmentsCannotBeEmpty = 4;
-        public const int EmployeeIdNotValid = 5;
-        public const int EmployeeDoesNotExist = 6;
+        public const int EmployeeIdNotValid = 3;
+        public const int EmployeeDoesNotExist = 4;
     }
 }

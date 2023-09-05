@@ -6,7 +6,6 @@ using ExampleApp.Core.Services.DataAccess.Repositories;
 using FluentValidation;
 using LeanCode.CQRS.Execution;
 using LeanCode.CQRS.Validation.Fluent;
-using LeanCode.DomainModels.DataAccess;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
@@ -25,8 +24,8 @@ public class AssignEmployeeToAssignmentCV : AbstractValidator<AssignEmployeeToAs
 
         RuleFor(cmd => cmd.EmployeeId)
             .Cascade(CascadeMode.Stop)
-            .Must(ProjectId.IsValid)
-            .WithCode(AddAssignmentsToProject.ErrorCodes.ProjectIdNotValid)
+            .Must(EmployeeId.IsValid)
+            .WithCode(AssignEmployeeToAssignment.ErrorCodes.EmployeeDoesNotExist)
             .WithMessage("EmployeeId has invalid format.")
             .CustomAsync(CheckEmployeeExistsAsync);
     }

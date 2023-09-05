@@ -12,7 +12,5 @@ public class UnassignEmployeeFromAssignment : ICommand
     {
         public const int AssignmentIdNotValid = 1;
         public const int ProjectWithAssignmentDoesNotExist = 2;
-        public const int AssignmentsCannotBeNull = 3;
-        public const int AssignmentsCannotBeEmpty = 4;
     }
 }
