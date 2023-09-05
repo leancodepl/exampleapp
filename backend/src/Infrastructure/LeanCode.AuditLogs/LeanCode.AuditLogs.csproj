@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AssemblyName>LeanCode.AuditLogs</AssemblyName>
+    <Nullable>enable</Nullable>
+    <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+  </PropertyGroup>
+
+  <ItemGroup>
+      <FrameworkReference Include="Microsoft.AspNetCore.App" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore" />
+      <PackageReference Include="Serilog" />
+
+      <PackageReference Include="LeanCode.DomainModels" />
+      <PackageReference Include="LeanCode.OpenTelemetry" />
+      <PackageReference Include="LeanCode.TimeProvider" />
+  </ItemGroup>
+
+</Project>

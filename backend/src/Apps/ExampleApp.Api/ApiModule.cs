@@ -3,6 +3,7 @@ using ExampleApp.Api.Handlers;
 using ExampleApp.Core.Services.DataAccess;
 using LeanCode.AzureIdentity;
 using LeanCode.OpenTelemetry;
+using LeanCode.AuditLogs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
@@ -112,6 +113,7 @@ internal static class ApiModule
 
         services.AddSingleton<LeanCode.CQRS.Security.IRoleRegistration, AppRoles>();
         services.AddScoped<KratosIdentitySyncHandler>();
+        services.AddTransient<IAuditLogStorage, StubAuditLogStorage>();
         services.AddMappedConfiguration(config, hostEnv);
 
         if (!hostEnv.IsDevelopment())

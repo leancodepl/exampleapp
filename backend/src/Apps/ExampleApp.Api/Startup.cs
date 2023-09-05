@@ -5,6 +5,7 @@ using ExampleApp.Core.Domain.Events;
 using ExampleApp.Core.Services;
 using ExampleApp.Core.Services.DataAccess;
 using ExampleApp.Core.Services.DataAccess.Serialization;
+using LeanCode.AuditLogs;
 using LeanCode.AzureIdentity;
 using LeanCode.Components;
 using LeanCode.CQRS.AspNetCore;
@@ -167,7 +168,12 @@ public class Startup : LeanStartup
                     cqrs =>
                     {
                         cqrs.Commands = c =>
-                            c.CQRSTrace().Secure().Validate().CommitTransaction<CoreDbContext>().PublishEvents();
+                            c.CQRSTrace()
+                                .Secure()
+                                .Validate()
+                                .CommitTransaction<CoreDbContext>()
+                                .UseMiddleware<AuditLogsMiddleware<CoreDbContext>>()
+                                .PublishEvents();
                         cqrs.Queries = c => c.CQRSTrace().Secure();
                         cqrs.Operations = c =>
                             c.CQRSTrace().Secure().CommitTransaction<CoreDbContext>().PublishEvents();
