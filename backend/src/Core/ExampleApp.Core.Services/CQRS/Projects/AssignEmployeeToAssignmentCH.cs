@@ -25,7 +25,7 @@ public class AssignEmployeeToAssignmentCV : AbstractValidator<AssignEmployeeToAs
         RuleFor(cmd => cmd.EmployeeId)
             .Cascade(CascadeMode.Stop)
             .Must(EmployeeId.IsValid)
-            .WithCode(AssignEmployeeToAssignment.ErrorCodes.EmployeeDoesNotExist)
+            .WithCode(AssignEmployeeToAssignment.ErrorCodes.EmployeeIdNotValid)
             .WithMessage("EmployeeId has invalid format.")
             .CustomAsync(CheckEmployeeExistsAsync);
     }
