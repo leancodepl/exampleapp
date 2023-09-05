@@ -32,7 +32,7 @@ public class CreateEmployeeCV : AbstractValidator<CreateEmployee>
         CancellationToken ct
     )
     {
-        if (await ctx.GetService<CoreDbContext>().Employees.AnyAsync(e => e.Email == email, ct))
+        if (await ctx.GetService<CoreDbContext>().Employees.AnyAsync(e => e.Email.ToLower() == email.ToLower(), ct))
         {
             ctx.AddValidationError(
                 "An employee with such email already exists.",
