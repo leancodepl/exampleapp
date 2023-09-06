@@ -13,6 +13,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore" />
     <PackageReference Include="Serilog" />
 
+    <PackageReference Include="LeanCode.CQRS.AspNetCore" />
     <PackageReference Include="LeanCode.CQRS.MassTransitRelay" />
     <PackageReference Include="LeanCode.DomainModels" />
     <PackageReference Include="LeanCode.OpenTelemetry" />

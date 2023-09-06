@@ -172,7 +172,7 @@ public class Startup : LeanStartup
                                 .Secure()
                                 .Validate()
                                 .CommitTransaction<CoreDbContext>()
-                                .UseMiddleware<AuditLogsMiddleware<CoreDbContext>>()
+                                .Audit<CoreDbContext>()
                                 .PublishEvents();
                         cqrs.Queries = c => c.CQRSTrace().Secure();
                         cqrs.Operations = c =>
