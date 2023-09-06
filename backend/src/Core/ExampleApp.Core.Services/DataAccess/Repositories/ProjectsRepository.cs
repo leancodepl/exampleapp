@@ -41,4 +41,14 @@ public class ProjectsRepository : EFRepository<Project, ProjectId, CoreDbContext
     {
         return DbSet.AsTracking().FirstOrDefaultAsync(p => p.Id == id, cancellationToken)!;
     }
+
+    public Task<Project?> FindByAssignmentAsync(
+        AssignmentId assignmentId,
+        CancellationToken cancellationToken = default
+    )
+    {
+        return DbSet
+            .AsTracking()
+            .FirstOrDefaultAsync(p => p.Assignments.Any(a => a.Id == assignmentId), cancellationToken)!;
+    }
 }

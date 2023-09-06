@@ -1,6 +1,8 @@
 <Project>
   <PropertyGroup>
     <CoreLibVersion>8.0.1991-preview</CoreLibVersion>
+    <!--We can't bump whole corelib until MT with EF Core 8.0.0-preview.6+ is fixed-->
+    <CoreLibLeanPipeDepsVersion>8.0.2022-preview</CoreLibLeanPipeDepsVersion>
     <ExtensionsVersion>8.0.0-preview.5.23280.8</ExtensionsVersion>
     <EFCoreVersion>8.0.0-preview.5.23280.1</EFCoreVersion>
     <AspNetCoreVersion>8.0.0-preview.5.23302.2</AspNetCoreVersion>
@@ -9,17 +11,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Update="LeanCode.Contracts" Version="1.1.1" />
+    <PackageReference Update="LeanCode.Contracts" Version="2.0.0-preview.2" />
 
     <PackageReference Update="LeanCode.AzureIdentity" Version="$(CoreLibVersion)" />
     <PackageReference Update="LeanCode.ClientCredentialsHandler" Version="$(CoreLibVersion)" />
-    <PackageReference Update="LeanCode.Components" Version="$(CoreLibVersion)" />
+    <PackageReference Update="LeanCode.Components" Version="$(CoreLibLeanPipeDepsVersion)" />
     <PackageReference Update="LeanCode.CQRS" Version="$(CoreLibVersion)" />
     <PackageReference Update="LeanCode.CQRS.AspNetCore" Version="$(CoreLibVersion)" />
     <PackageReference Update="LeanCode.CQRS.Execution" Version="$(CoreLibVersion)" />
     <PackageReference Update="LeanCode.CQRS.MassTransitRelay" Version="$(CoreLibVersion)" />
     <PackageReference Update="LeanCode.CQRS.RemoteHttp.Client" Version="$(CoreLibVersion)" />
-    <PackageReference Update="LeanCode.CQRS.Security" Version="$(CoreLibVersion)" />
+    <PackageReference Update="LeanCode.CQRS.Security" Version="$(CoreLibLeanPipeDepsVersion)" />
     <PackageReference Update="LeanCode.CQRS.Validation.Fluent" Version="$(CoreLibVersion)" />
     <PackageReference Update="LeanCode.Dapper" Version="$(CoreLibVersion)" />
     <PackageReference Update="LeanCode.DomainModels" Version="$(CoreLibVersion)" />
@@ -92,6 +94,7 @@
   <ItemGroup>
     <PackageReference Update="Dapper" Version="2.0.123" />
     <PackageReference Update="Polly" Version="7.2.3" />
+    <PackageReference Update="LeanPipe" Version="0.1.4" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,4 +1,5 @@
 using Azure.Core;
+using ExampleApp.Core.Domain.Employees;
 using ExampleApp.Core.Domain.Projects;
 using ExampleApp.Core.Services.DataAccess;
 using ExampleApp.Core.Services.DataAccess.Repositories;
@@ -37,5 +38,8 @@ public static class CoreModuleExtensions
 
         services.AddScoped<ProjectsRepository>();
         services.AddScoped<IRepository<Project, ProjectId>, ProjectsRepository>();
+
+        services.AddScoped<EmployeesRepository>();
+        services.AddScoped<IRepository<Employee, EmployeeId>, EmployeesRepository>();
     }
 }

@@ -39,12 +39,13 @@ public class Project : IAggregateRoot<ProjectId>
     public void AssignEmployeeToAssignment(AssignmentId assignmentId, EmployeeId employeeId)
     {
         assignments.Single(t => t.Id == assignmentId).AssignEmployee(employeeId);
-        DomainEvents.Raise(new EmployeeAssignedToAssignment(assignmentId, employeeId));
+        DomainEvents.Raise(new EmployeeAssignedToAssignment(this, assignmentId, employeeId));
     }
 
     public void UnassignEmployeeFromAssignment(AssignmentId assignmentId)
     {
         assignments.Single(t => t.Id == assignmentId).UnassignEmployee();
+        DomainEvents.Raise(new EmployeeUnassignedFromAssignment(this, assignmentId));
     }
 
     public void ChangeAssignmentStatus(AssignmentId assignmentId, Assignment.AssignmentStatus status)

@@ -88,6 +88,13 @@ spec:
                 port:
                   number: 80
             pathType: ImplementationSpecific
+          - path: /leanpipe
+            backend:
+              service:
+                name: exampleapp-api-svc
+                port:
+                  number: 80
+            pathType: ImplementationSpecific
           - path: /.well-known
             backend:
               service:

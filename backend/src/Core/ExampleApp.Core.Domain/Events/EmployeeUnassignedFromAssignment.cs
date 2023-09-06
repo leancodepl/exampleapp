@@ -6,38 +6,34 @@ using LeanCode.TimeProvider;
 
 namespace ExampleApp.Core.Domain.Events;
 
-public class EmployeeAssignedToAssignment : IDomainEvent
+public class EmployeeUnassignedFromAssignment : IDomainEvent
 {
     public Guid Id { get; private init; }
     public DateTime DateOccurred { get; private init; }
 
     public ProjectId ProjectId { get; private init; }
     public AssignmentId AssignmentId { get; private init; }
-    public EmployeeId EmployeeId { get; private init; }
 
-    public EmployeeAssignedToAssignment(Project project, AssignmentId assignmentId, EmployeeId employeeId)
+    public EmployeeUnassignedFromAssignment(Project project, AssignmentId assignmentId)
     {
         Id = Guid.NewGuid();
         DateOccurred = Time.NowWithOffset.UtcDateTime;
 
         ProjectId = project.Id;
         AssignmentId = assignmentId;
-        EmployeeId = employeeId;
     }
 
     [JsonConstructor]
-    public EmployeeAssignedToAssignment(
+    public EmployeeUnassignedFromAssignment(
         Guid id,
         DateTime dateOccurred,
         ProjectId projectId,
-        AssignmentId assignmentId,
-        EmployeeId employeeId
+        AssignmentId assignmentId
     )
     {
         Id = id;
         DateOccurred = dateOccurred;
         ProjectId = projectId;
         AssignmentId = assignmentId;
-        EmployeeId = employeeId;
     }
 }
