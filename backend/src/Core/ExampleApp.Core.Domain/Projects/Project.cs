@@ -1,5 +1,6 @@
 using ExampleApp.Core.Domain.Employees;
 using ExampleApp.Core.Domain.Events;
+using ExampleApp.Core.Domain.Projects.Events;
 using LeanCode.DomainModels.Ids;
 using LeanCode.DomainModels.Model;
 
@@ -23,7 +24,18 @@ public class Project : IAggregateRoot<ProjectId>
 
     public static Project Create(string name)
     {
-        return new Project { Id = ProjectId.New(), Name = name, };
+        var p = new Project { Id = ProjectId.New(), Name = name, };
+
+        DomainEvents.Raise(new ProjectCreated(p));
+
+        return p;
+    }
+
+    public void ChangeName(string newName)
+    {
+        Name = newName;
+
+        DomainEvents.Raise(new ProjectNameChanged(this));
     }
 
     public void AddAssignments(IEnumerable<string> assignmentNames)

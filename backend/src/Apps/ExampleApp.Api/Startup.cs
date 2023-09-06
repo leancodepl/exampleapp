@@ -199,5 +199,6 @@ public class DefaultConsumerDefinition<TConsumer> : ConsumerDefinition<TConsumer
         );
         endpointConfigurator.UseEntityFrameworkOutbox<CoreDbContext>(context);
         endpointConfigurator.UseDomainEventsPublishing(context);
+        endpointConfigurator.UseAuditLogs<CoreDbContext>(context);
     }
 }

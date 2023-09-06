@@ -17,7 +17,7 @@ public class StubAuditLogStorage : IAuditLogStorage
     )
     {
         logger.Information(
-            "Changes found {UserId} {requestCommand} {Type} {@PrimaryKey} {@EntryChanged} {DateOccurred}",
+            "Changes found {UserId} {ActionName} {Type} {@PrimaryKey} {@EntryChanged} {DateOccurred}",
             actorId,
             actionName,
             objectType,
