@@ -3,7 +3,6 @@
   <PropertyGroup>
     <AssemblyName>LeanCode.AuditLogs</AssemblyName>
     <Nullable>enable</Nullable>
-    <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
   </PropertyGroup>
 
   <ItemGroup>
