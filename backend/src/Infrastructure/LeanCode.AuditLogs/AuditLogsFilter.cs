@@ -37,15 +37,7 @@ public class AuditLogsFilter<TDbContext, TConsumer, TMessage> : IFilter<Consumer
 
         var storeLogs = entitiesChanged.Select(
             entityChanged =>
-                auditLogStorage.StoreEventAsync(
-                    entityChanged.Type,
-                    entityChanged.Ids,
-                    actionName,
-                    now,
-                    actorId,
-                    entityChanged.Changes,
-                    context.CancellationToken
-                )
+                auditLogStorage.StoreEventAsync(entityChanged, actionName, now, actorId, context.CancellationToken)
         );
 
         await Task.WhenAll(storeLogs);

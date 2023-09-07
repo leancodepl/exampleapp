@@ -7,12 +7,10 @@ public class StubAuditLogStorage : IAuditLogStorage
     private readonly ILogger logger = Log.ForContext<StubAuditLogStorage>();
 
     public Task StoreEventAsync(
-        string objectType,
-        IEnumerable<string> objectId,
+        EntityData entityChanged,
         string? actionName,
         DateTimeOffset dateOccurred,
         string? actorId,
-        string auditPayload,
         CancellationToken cancellationToken
     )
     {
@@ -20,9 +18,9 @@ public class StubAuditLogStorage : IAuditLogStorage
             "StubAuditLog: Changes found {UserId} {ActionName} {Type} {@PrimaryKey} {@EntryChanged} {DateOccurred}",
             actorId,
             actionName,
-            objectType,
-            objectId,
-            auditPayload,
+            entityChanged.Type,
+            entityChanged.Ids,
+            entityChanged.Changes,
             dateOccurred
         );
 

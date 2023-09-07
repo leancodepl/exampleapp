@@ -5,14 +5,14 @@ namespace LeanCode.AuditLogs;
 public static class ChangedEntitiesExtractor<TDbContext>
     where TDbContext : DbContext
 {
-    public static IEnumerable<AuditData> Extract(TDbContext dbContext)
+    public static IEnumerable<EntityData> Extract(TDbContext dbContext)
     {
         return dbContext.ChangeTracker
             .Entries()
             .Where(e => e.State != EntityState.Unchanged && e.State != EntityState.Detached)
             .Select(
                 e =>
-                    new AuditData
+                    new EntityData
                     {
                         Ids = e.Metadata
                             .FindPrimaryKey()!
@@ -22,12 +22,5 @@ public static class ChangedEntitiesExtractor<TDbContext>
                         Changes = e.DebugView.LongView
                     }
             );
-    }
-
-    public class AuditData
-    {
-        public IEnumerable<string> Ids { get; set; } = null!;
-        public string Type { get; set; } = null!;
-        public string Changes { get; set; } = null!;
     }
 }

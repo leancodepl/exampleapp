@@ -27,15 +27,7 @@ public class AuditLogsMiddleware<TDbContext>
 
         var storeLogs = entitiesChanged.Select(
             entityChanged =>
-                auditLogStorage.StoreEventAsync(
-                    entityChanged.Type,
-                    entityChanged.Ids,
-                    actionName,
-                    now,
-                    actorId,
-                    entityChanged.Changes,
-                    httpContext.RequestAborted
-                )
+                auditLogStorage.StoreEventAsync(entityChanged, actionName, now, actorId, httpContext.RequestAborted)
         );
 
         await Task.WhenAll(storeLogs);
