@@ -16,8 +16,7 @@ public static class ChangedEntitiesExtractor<TDbContext>
                     {
                         Ids = e.Metadata
                             .FindPrimaryKey()!
-                            .Properties.Select(p => p.PropertyInfo!.GetMethod!.Invoke(e.Entity, null)!.ToString())
-                            .Cast<string>(),
+                            .Properties.Select(p => p.PropertyInfo!.GetMethod!.Invoke(e.Entity, null)!.ToString()!),
                         Type = e.Metadata.ClrType.ToString(),
                         Changes = e.DebugView.LongView
                     }
