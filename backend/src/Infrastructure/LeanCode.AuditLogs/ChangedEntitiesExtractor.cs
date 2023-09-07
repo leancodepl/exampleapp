@@ -14,14 +14,10 @@ public static class ChangedEntitiesExtractor<TDbContext>
                 e =>
                     new AuditData
                     {
-                        Ids =
-                            e.Metadata
-                                .FindPrimaryKey()
-                                ?.Properties.Select(
-                                    p =>
-                                        p.PropertyInfo?.GetMethod?.Invoke(e.Entity, null)?.ToString()
-                                        ?? throw new NullReferenceException()
-                                ) ?? throw new NullReferenceException(),
+                        Ids = e.Metadata
+                            .FindPrimaryKey()!
+                            .Properties.Select(p => p.PropertyInfo!.GetMethod!.Invoke(e.Entity, null)!.ToString())
+                            .Cast<string>(),
                         Type = e.Metadata.ClrType.ToString(),
                         Changes = e.DebugView.LongView
                     }
