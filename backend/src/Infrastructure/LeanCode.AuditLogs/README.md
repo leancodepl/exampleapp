@@ -10,6 +10,11 @@ Package uses EntityFramework ChangeTracker in order to detect and log changes. E
 - actor executing changes
 - object changes
 
+## Dependencies
+
+`LeanCode.AuditLogs` depend on `IdentityTraceAttributesMiddleware` from  `LeanCode.OpenTelemetry` - if this middleware
+is not configured, then the `ActorId` will be always set to `null`.
+
 ## Configuration
 
 The package do not require extra work from the user other than initial configuration. In order to collect audit logs
