@@ -5,7 +5,7 @@ public interface IAuditLogStorage
     public Task StoreEventAsync(
         string objectType,
         IEnumerable<string> objectId,
-        string? actionName,
+        string actionName,
         DateTimeOffset dateOccurred,
         string? actorId,
         string auditPayload,

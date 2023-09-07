@@ -32,7 +32,7 @@ public class AuditLogsFilter<TDbContext, TConsumer, TMessage> : IFilter<Consumer
 
         var entitiesChanged = ChangedEntitiesExtractor<TDbContext>.Extract(dbContext);
         var actorId = Activity.Current?.GetBaggageItem(IdentityTraceBaggageHelpers.UserIdKey);
-        var actionName = context.Consumer.ToString();
+        var actionName = context.Consumer.ToString()!;
         var now = Time.Now;
 
         var storeLogs = entitiesChanged.Select(
