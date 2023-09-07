@@ -21,8 +21,13 @@ public class DeleteProjectOnProjectNameChanged : IConsumer<ProjectNameChanged>
 
         var project = await projects.FindAndEnsureExistsAsync(domainEvent.ProjectId, context.CancellationToken);
 
-        projects.Delete(project);
+        if (project.Name == "audit-test")
+        {
+            projects.Delete(project);
 
-        logger.Information("Project {ProjectId} deleted", project.Id);
+            logger.Information("Project {ProjectId} deleted", project.Id);
+        }
+
+        logger.Information("Project {ProjectId} is not audit-test, ignoring", project.Id);
     }
 }

@@ -21,10 +21,15 @@ public class ChangeProjectNameOnProjectCreated : IConsumer<ProjectCreated>
 
         var project = await projects.FindAndEnsureExistsAsync(domainEvent.ProjectId, context.CancellationToken);
 
-        project.ChangeName("Changed name from " + project.Name);
+        if (project.Name == "audit-test")
+        {
+            project.ChangeName("Changed name from " + project.Name);
 
-        projects.Update(project);
+            projects.Update(project);
 
-        logger.Information("Project {ProjectId} name changed", project.Id);
+            logger.Information("Project {ProjectId} name changed", project.Id);
+        }
+
+        logger.Information("Project {ProjectId} is not audit-test, ignoring", project.Id);
     }
 }
