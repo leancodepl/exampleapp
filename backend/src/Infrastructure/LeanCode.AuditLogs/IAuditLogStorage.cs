@@ -3,7 +3,7 @@ namespace LeanCode.AuditLogs;
 public interface IAuditLogStorage
 {
     public Task StoreEventAsync(
-        EntityData changeTrackerAuditData,
+        IReadOnlyList<EntityData> changeTrackerAuditData,
         string actionName,
         DateTime dateOccurred,
         string? actorId,

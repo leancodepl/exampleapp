@@ -11,9 +11,8 @@ namespace ExampleApp.Core.Domain.Projects
             SomeString = someString;
         }
 
-        public void Update(int someInt, string someString)
+        public void Update(string someString)
         {
-            SomeInt = someInt;
             SomeString = someString;
         }
     }

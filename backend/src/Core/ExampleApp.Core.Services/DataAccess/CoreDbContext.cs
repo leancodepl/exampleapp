@@ -102,7 +102,7 @@ public class CoreDbContext : DbContext
                 }
             );
 
-            e.HasMany(e => e.IncludedEntities).WithOne();
+            e.HasMany(e => e.IncludedEntities).WithOne().HasForeignKey(e => e.ProjectId);
 
             e.IsOptimisticConcurrent(addRowVersion: false);
             e.Property<uint>("xmin").IsRowVersion();
@@ -110,7 +110,7 @@ public class CoreDbContext : DbContext
 
         builder.Entity<IncludedEntity>(e =>
         {
-            e.HasKey(e => e.SomeInt);
+            e.HasKey(e => new { e.ProjectId, e.SomeInt });
             e.Property(e => e.SomeString).HasMaxLength(100);
         });
     }

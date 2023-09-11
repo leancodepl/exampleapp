@@ -16,27 +16,23 @@ namespace ExampleApp.Migrations.Migrations
                 columns: table =>
                     new
                     {
-                        SomeInt = table
-                            .Column<int>(type: "integer", nullable: false)
-                            .Annotation(
-                                "Npgsql:ValueGenerationStrategy",
-                                NpgsqlValueGenerationStrategy.IdentityByDefaultColumn
-                            ),
+                        ProjectId = table.Column<string>(type: "project_id", nullable: false),
+                        SomeInt = table.Column<int>(type: "integer", nullable: false),
                         SomeString = table.Column<string>(
                             type: "character varying(100)",
                             maxLength: 100,
                             nullable: false
-                        ),
-                        ProjectId = table.Column<string>(type: "project_id", nullable: true)
+                        )
                     },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_IncludedEntity", x => x.SomeInt);
+                    table.PrimaryKey("PK_IncludedEntity", x => new { x.ProjectId, x.SomeInt });
                     table.ForeignKey(
                         name: "FK_IncludedEntity_Projects_ProjectId",
                         column: x => x.ProjectId,
                         principalTable: "Projects",
-                        principalColumn: "Id"
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade
                     );
                 }
             );
@@ -71,12 +67,6 @@ namespace ExampleApp.Migrations.Migrations
                         onDelete: ReferentialAction.Cascade
                     );
                 }
-            );
-
-            migrationBuilder.CreateIndex(
-                name: "IX_IncludedEntity_ProjectId",
-                table: "IncludedEntity",
-                column: "ProjectId"
             );
         }
 

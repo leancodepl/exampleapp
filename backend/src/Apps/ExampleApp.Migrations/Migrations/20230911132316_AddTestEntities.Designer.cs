@@ -13,7 +13,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ExampleApp.Migrations.Migrations
 {
     [DbContext(typeof(CoreDbContext))]
-    [Migration("20230911094358_AddTestEntities")]
+    [Migration("20230911132316_AddTestEntities")]
     partial class AddTestEntities
     {
         /// <inheritdoc />
@@ -57,23 +57,18 @@ namespace ExampleApp.Migrations.Migrations
 
             modelBuilder.Entity("ExampleApp.Core.Domain.Projects.IncludedEntity", b =>
                 {
-                    b.Property<int>("SomeInt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("SomeInt"));
-
                     b.Property<string>("ProjectId")
                         .HasColumnType("project_id");
+
+                    b.Property<int>("SomeInt")
+                        .HasColumnType("integer");
 
                     b.Property<string>("SomeString")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
-                    b.HasKey("SomeInt");
-
-                    b.HasIndex("ProjectId");
+                    b.HasKey("ProjectId", "SomeInt");
 
                     b.ToTable("IncludedEntity");
                 });
@@ -312,7 +307,9 @@ namespace ExampleApp.Migrations.Migrations
                 {
                     b.HasOne("ExampleApp.Core.Domain.Projects.Project", null)
                         .WithMany("IncludedEntities")
-                        .HasForeignKey("ProjectId");
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("ExampleApp.Core.Domain.Projects.Project", b =>

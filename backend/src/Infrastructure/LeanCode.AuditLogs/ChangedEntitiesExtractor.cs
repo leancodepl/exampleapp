@@ -13,11 +13,13 @@ public static class ChangedEntitiesExtractor
                 e =>
                     new EntityData
                     {
-                        Ids = new List<object>(),
-                        // Ids = e.Metadata
-                        //     .FindPrimaryKey()!
-                        //     .Properties.Select(p => p.PropertyInfo!.GetMethod!.Invoke(e.Entity, null)!)
-                        //     .ToList(),
+                        // TODO: FIXME, I fail with owned entities
+                        Ids = e.Metadata
+                            .FindPrimaryKey()!
+                            .Properties.Select(
+                                p => p.PropertyInfo?.GetMethod?.Invoke(e.Entity, null) ?? "Cannot extract key property"
+                            )
+                            .ToList(),
                         Type = e.Metadata.ClrType.ToString(),
                         Changes = e.DebugView.LongView
                     }

@@ -35,12 +35,7 @@ public class AuditLogsFilter<TDbContext, TConsumer, TMessage> : IFilter<Consumer
         var actionName = context.Consumer.ToString()!;
         var now = Time.Now;
 
-        var storeLogs = entitiesChanged.Select(
-            entityChanged =>
-                auditLogStorage.StoreEventAsync(entityChanged, actionName, now, actorId, context.CancellationToken)
-        );
-
-        await Task.WhenAll(storeLogs);
+        await auditLogStorage.StoreEventAsync(entitiesChanged, actionName, now, actorId, context.CancellationToken);
     }
 }
 

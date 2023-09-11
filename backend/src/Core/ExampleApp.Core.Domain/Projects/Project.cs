@@ -41,7 +41,7 @@ public class Project : IAggregateRoot<ProjectId>
         foreach (var i in Enumerable.Range(20, 5))
         {
             ownedEntities.Add(new OwnedEntity(i, i.ToString()));
-            includedEntities.Add(new IncludedEntity(i, i.ToString()));
+            includedEntities.Add(new IncludedEntity(Id, i, i.ToString()));
         }
     }
 
@@ -49,11 +49,11 @@ public class Project : IAggregateRoot<ProjectId>
     {
         foreach (var e in ownedEntities)
         {
-            e.Update(e.SomeInt, (e.SomeInt + 100).ToString());
+            e.Update((e.SomeInt + 100).ToString());
         }
         foreach (var e in includedEntities)
         {
-            e.Update(e.SomeInt, (e.SomeInt + 100).ToString());
+            e.Update((e.SomeInt + 100).ToString());
         }
     }
 
