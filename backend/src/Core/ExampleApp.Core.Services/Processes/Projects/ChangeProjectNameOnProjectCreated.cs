@@ -29,7 +29,9 @@ public class ChangeProjectNameOnProjectCreated : IConsumer<ProjectCreated>
 
             logger.Information("Project {ProjectId} name changed", project.Id);
         }
-
-        logger.Information("Project {ProjectId} is not audit-test, ignoring", project.Id);
+        else
+        {
+            logger.Information("Project {ProjectId} is not audit-test, ignoring", project.Id);
+        }
     }
 }

@@ -27,7 +27,9 @@ public class DeleteProjectOnProjectNameChanged : IConsumer<ProjectNameChanged>
 
             logger.Information("Project {ProjectId} deleted", project.Id);
         }
-
-        logger.Information("Project {ProjectId} is not audit-test, ignoring", project.Id);
+        else
+        {
+            logger.Information("Project {ProjectId} is not audit-test, ignoring", project.Id);
+        }
     }
 }
