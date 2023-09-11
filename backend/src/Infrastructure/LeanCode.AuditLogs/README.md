@@ -88,15 +88,16 @@ to the consumer configuration.
 ```csharp
 protected override void ConfigureConsumer(
     IReceiveEndpointConfigurator endpointConfigurator,
-    IConsumerConfigurator<TConsumer> consumerConfigurator
+    IConsumerConfigurator<TConsumer> consumerConfigurator,
+    IRegistrationContext context
 )
 {
     endpointConfigurator.UseRetry(
         r => r.Immediate(1).Incremental(3, TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(5))
     );
-    endpointConfigurator.UseEntityFrameworkOutbox<CoreDbContext>(serviceProvider);
-    endpointConfigurator.UseDomainEventsPublishing(serviceProvider);
-    endpointConfigurator.UseAuditLogs<CoreDbContext>(serviceProvider);
+    endpointConfigurator.UseEntityFrameworkOutbox<CoreDbContext>(context);
+    endpointConfigurator.UseDomainEventsPublishing(context);
+    endpointConfigurator.UseAuditLogs<CoreDbContext>(context);
 }
 ```
 
