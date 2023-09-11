@@ -2,10 +2,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LeanCode.AuditLogs;
 
-public static class ChangedEntitiesExtractor<TDbContext>
-    where TDbContext : DbContext
+public static class ChangedEntitiesExtractor
 {
-    public static IEnumerable<EntityData> Extract(TDbContext dbContext)
+    public static IEnumerable<EntityData> Extract(DbContext dbContext)
     {
         return dbContext.ChangeTracker
             .Entries()
