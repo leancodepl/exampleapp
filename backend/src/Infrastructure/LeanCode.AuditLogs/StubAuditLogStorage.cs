@@ -19,7 +19,7 @@ public class StubAuditLogStorage : IAuditLogStorage
             actorId,
             actionName,
             entityChanged.Type,
-            entityChanged.Ids,
+            entityChanged.Ids.Select(id => id.ToString()).ToList(),
             entityChanged.Changes,
             dateOccurred
         );

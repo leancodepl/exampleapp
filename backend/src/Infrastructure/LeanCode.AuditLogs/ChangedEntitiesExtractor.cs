@@ -15,7 +15,8 @@ public static class ChangedEntitiesExtractor
                     {
                         Ids = e.Metadata
                             .FindPrimaryKey()!
-                            .Properties.Select(p => p.PropertyInfo!.GetMethod!.Invoke(e.Entity, null)!.ToString()!),
+                            .Properties.Select(p => p.PropertyInfo!.GetMethod!.Invoke(e.Entity, null)!)
+                            .ToList(),
                         Type = e.Metadata.ClrType.ToString(),
                         Changes = e.DebugView.LongView
                     }
