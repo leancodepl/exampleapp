@@ -4,6 +4,7 @@ using System.Text.Json;
 using ExampleApp.Core.Services.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,13 +13,15 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ExampleApp.Migrations.Migrations
 {
     [DbContext(typeof(CoreDbContext))]
-    partial class CoreDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230911094358_AddTestEntities")]
+    partial class AddTestEntities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.0-rc.1.23419.6")
+                .HasAnnotation("ProductVersion", "8.0.0-preview.5.23280.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.HasPostgresExtension(modelBuilder, "citext");
@@ -27,7 +30,7 @@ namespace ExampleApp.Migrations.Migrations
             modelBuilder.Entity("ExampleApp.Core.Domain.Employees.Employee", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("citext");
+                        .HasColumnType("employee_id");
 
                     b.Property<DateTime>("DateModified")
                         .HasColumnType("timestamp with time zone")
@@ -78,7 +81,7 @@ namespace ExampleApp.Migrations.Migrations
             modelBuilder.Entity("ExampleApp.Core.Domain.Projects.Project", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("citext");
+                        .HasColumnType("project_id");
 
                     b.Property<DateTime>("DateModified")
                         .HasColumnType("timestamp with time zone")
@@ -137,25 +140,6 @@ namespace ExampleApp.Migrations.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("KratosIdentities");
-                });
-
-            modelBuilder.Entity("LeanCode.Firebase.FCM.PushNotificationTokenEntity<System.Guid>", b =>
-                {
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Token")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.HasKey("UserId", "Token");
-
-                    b.HasIndex("Token")
-                        .IsUnique();
-
-                    b.ToTable("PushNotificationTokens");
                 });
 
             modelBuilder.Entity("MassTransit.EntityFrameworkCoreIntegration.InboxState", b =>
@@ -259,10 +243,6 @@ namespace ExampleApp.Migrations.Migrations
                     b.Property<Guid>("MessageId")
                         .HasColumnType("uuid");
 
-                    b.Property<string>("MessageType")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<Guid?>("OutboxId")
                         .HasColumnType("uuid");
 
@@ -340,13 +320,13 @@ namespace ExampleApp.Migrations.Migrations
                     b.OwnsMany("ExampleApp.Core.Domain.Projects.Assignment", "Assignments", b1 =>
                         {
                             b1.Property<string>("ParentProjectId")
-                                .HasColumnType("citext");
+                                .HasColumnType("project_id");
 
                             b1.Property<string>("Id")
-                                .HasColumnType("citext");
+                                .HasColumnType("assignment_id");
 
                             b1.Property<string>("AssignedEmployeeId")
-                                .HasColumnType("citext");
+                                .HasColumnType("employee_id");
 
                             b1.Property<string>("Name")
                                 .IsRequired()

@@ -13,10 +13,15 @@ public class Project : IAggregateRoot<ProjectId>
 {
     private readonly List<Assignment> assignments = new();
 
+    private readonly List<OwnedEntity> ownedEntities = new();
+    private readonly List<IncludedEntity> includedEntities = new();
+
     public ProjectId Id { get; private init; }
     public string Name { get; private set; } = default!;
 
     public IReadOnlyList<Assignment> Assignments => assignments;
+    public IReadOnlyList<OwnedEntity> OwnedEntities => ownedEntities;
+    public IReadOnlyList<IncludedEntity> IncludedEntities => includedEntities;
 
     DateTime IOptimisticConcurrency.DateModified { get; set; }
 
@@ -29,6 +34,27 @@ public class Project : IAggregateRoot<ProjectId>
         DomainEvents.Raise(new ProjectCreated(p));
 
         return p;
+    }
+
+    public void AddTestEntities()
+    {
+        foreach (var i in Enumerable.Range(20, 5))
+        {
+            ownedEntities.Add(new OwnedEntity(i, i.ToString()));
+            includedEntities.Add(new IncludedEntity(i, i.ToString()));
+        }
+    }
+
+    public void UpdateTestEntities()
+    {
+        foreach (var e in ownedEntities)
+        {
+            e.Update(e.SomeInt, (e.SomeInt + 100).ToString());
+        }
+        foreach (var e in includedEntities)
+        {
+            e.Update(e.SomeInt, (e.SomeInt + 100).ToString());
+        }
     }
 
     public void ChangeName(string newName)

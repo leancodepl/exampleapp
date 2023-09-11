@@ -24,6 +24,7 @@ public class ChangeProjectNameOnProjectCreated : IConsumer<ProjectCreated>
         if (project.Name == "audit-test")
         {
             project.ChangeName("Changed name from " + project.Name);
+            project.UpdateTestEntities();
 
             projects.Update(project);
 

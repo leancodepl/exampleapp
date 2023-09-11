@@ -34,6 +34,7 @@ public class CreateProjectCH : ICommandHandler<CreateProject>
     public Task ExecuteAsync(HttpContext context, CreateProject command)
     {
         var project = Project.Create(command.Name);
+        project.AddTestEntities();
         projects.Add(project);
 
         logger.Information("Project {ProjectId} added", project.Id);

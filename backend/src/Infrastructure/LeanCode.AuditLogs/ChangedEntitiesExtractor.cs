@@ -4,7 +4,7 @@ namespace LeanCode.AuditLogs;
 
 public static class ChangedEntitiesExtractor
 {
-    public static IEnumerable<EntityData> Extract(DbContext dbContext)
+    public static IReadOnlyList<EntityData> Extract(DbContext dbContext)
     {
         return dbContext.ChangeTracker
             .Entries()
@@ -13,13 +13,15 @@ public static class ChangedEntitiesExtractor
                 e =>
                     new EntityData
                     {
-                        Ids = e.Metadata
-                            .FindPrimaryKey()!
-                            .Properties.Select(p => p.PropertyInfo!.GetMethod!.Invoke(e.Entity, null)!)
-                            .ToList(),
+                        Ids = new List<object>(),
+                        // Ids = e.Metadata
+                        //     .FindPrimaryKey()!
+                        //     .Properties.Select(p => p.PropertyInfo!.GetMethod!.Invoke(e.Entity, null)!)
+                        //     .ToList(),
                         Type = e.Metadata.ClrType.ToString(),
                         Changes = e.DebugView.LongView
                     }
-            );
+            )
+            .ToList();
     }
 }

@@ -11,7 +11,10 @@ public class ProjectsRepository : EFRepository<Project, ProjectId, CoreDbContext
 
     public override Task<Project?> FindAsync(ProjectId id, CancellationToken cancellationToken = default)
     {
-        return DbSet.AsTracking().FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
+        return DbSet
+            .AsTracking()
+            .Include(e => e.IncludedEntities)
+            .FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
     }
 
     public Task<Project?> FindByAssignmentAsync(
@@ -21,6 +24,7 @@ public class ProjectsRepository : EFRepository<Project, ProjectId, CoreDbContext
     {
         return DbSet
             .AsTracking()
+            .Include(e => e.IncludedEntities)
             .FirstOrDefaultAsync(p => p.Assignments.Any(a => a.Id == assignmentId), cancellationToken)!;
     }
 }

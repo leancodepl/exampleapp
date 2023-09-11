@@ -94,8 +94,24 @@ public class CoreDbContext : DbContext
                 }
             );
 
+            e.OwnsMany(
+                t => t.OwnedEntities,
+                cfg =>
+                {
+                    cfg.Property(e => e.SomeString).HasMaxLength(100);
+                }
+            );
+
+            e.HasMany(e => e.IncludedEntities).WithOne();
+
             e.IsOptimisticConcurrent(addRowVersion: false);
             e.Property<uint>("xmin").IsRowVersion();
+        });
+
+        builder.Entity<IncludedEntity>(e =>
+        {
+            e.HasKey(e => e.SomeInt);
+            e.Property(e => e.SomeString).HasMaxLength(100);
         });
     }
 }
