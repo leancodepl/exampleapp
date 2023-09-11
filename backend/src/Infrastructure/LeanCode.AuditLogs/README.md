@@ -1,8 +1,8 @@
 # LeanCode.AuditLogs
 
-Package dedicated to auditing changes of domain objects modified during execution of command/operation/event handlers.
+Package dedicated to auditing changes of entities (including domain objects) modified during execution of command/operation/event handlers.
 
-Package uses EntityFramework ChangeTracker in order to detect and log changes. Each log consists of:
+Package uses EntityFramework's ChangeTracker in order to detect changes. Each log consists of:
 - object type
 - object identifier
 - handler name
@@ -12,13 +12,11 @@ Package uses EntityFramework ChangeTracker in order to detect and log changes. E
 
 ## Dependencies
 
-`LeanCode.AuditLogs` depend on `IdentityTraceAttributesMiddleware` from  `LeanCode.OpenTelemetry` - if this middleware
-is not configured, then the `ActorId` will be always set to `null`.
+`LeanCode.AuditLogs` depend on `IdentityTraceAttributesMiddleware` from  `LeanCode.OpenTelemetry` - if this middleware is not configured, then the `ActorId` will be always set to `null`.
 
 ## Configuration
 
-The package do not require extra work from the user other than initial configuration. In order to collect audit logs
-from all handlers there are three things to configure.
+The package does not require extra work from the user other than initial configuration. In order to collect audit logs from all handlers there are three things to configure.
 
 ### AuditLogStorage
 
