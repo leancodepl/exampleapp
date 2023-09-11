@@ -5,7 +5,7 @@ public interface IAuditLogStorage
     public Task StoreEventAsync(
         EntityData changeTrackerAuditData,
         string actionName,
-        DateTimeOffset dateOccurred,
+        DateTime dateOccurred,
         string? actorId,
         CancellationToken cancellationToken
     );
