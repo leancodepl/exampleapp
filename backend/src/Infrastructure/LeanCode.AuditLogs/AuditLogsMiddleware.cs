@@ -22,19 +22,22 @@ public class AuditLogsMiddleware<TDbContext>
         await next(httpContext);
 
         var entitiesChanged = ChangedEntitiesExtractor.Extract(dbContext);
-        var actorId = Activity.Current?.GetBaggageItem(IdentityTraceBaggageHelpers.UserIdKey);
-        var actionName = httpContext.Request.Path.ToString();
-        var now = Time.Now;
+        if (entitiesChanged.Any())
+        {
+            var actorId = Activity.Current?.GetBaggageItem(IdentityTraceBaggageHelpers.UserIdKey);
+            var actionName = httpContext.Request.Path.ToString();
+            var now = Time.Now;
 
-        await bus.Publish(
-            new AuditLogMessage
-            {
-                EntitiesChanged = entitiesChanged,
-                ActionName = actionName,
-                DateOccurred = now,
-                ActorId = actorId,
-            },
-            httpContext.RequestAborted
-        );
+            await bus.Publish(
+                new AuditLogMessage
+                {
+                    EntitiesChanged = entitiesChanged,
+                    ActionName = actionName,
+                    DateOccurred = now,
+                    ActorId = actorId,
+                },
+                httpContext.RequestAborted
+            );
+        }
     }
 }

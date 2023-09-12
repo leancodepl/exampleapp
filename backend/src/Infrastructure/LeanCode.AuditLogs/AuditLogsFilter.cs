@@ -31,20 +31,23 @@ public class AuditLogsFilter<TDbContext, TConsumer, TMessage> : IFilter<Consumer
         await next.Send(context);
 
         var entitiesChanged = ChangedEntitiesExtractor.Extract(dbContext);
-        var actorId = Activity.Current?.GetBaggageItem(IdentityTraceBaggageHelpers.UserIdKey);
-        var actionName = context.Consumer.ToString()!;
-        var now = Time.Now;
+        if (entitiesChanged.Any())
+        {
+            var actorId = Activity.Current?.GetBaggageItem(IdentityTraceBaggageHelpers.UserIdKey);
+            var actionName = context.Consumer.ToString()!;
+            var now = Time.Now;
 
-        await bus.Publish(
-            new AuditLogMessage
-            {
-                EntitiesChanged = entitiesChanged,
-                ActionName = actionName,
-                DateOccurred = now,
-                ActorId = actorId,
-            },
-            context.CancellationToken
-        );
+            await bus.Publish(
+                new AuditLogMessage
+                {
+                    EntitiesChanged = entitiesChanged,
+                    ActionName = actionName,
+                    DateOccurred = now,
+                    ActorId = actorId,
+                },
+                context.CancellationToken
+            );
+        }
     }
 }
 
