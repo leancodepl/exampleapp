@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
 
 namespace LeanCode.AuditLogs;
@@ -17,11 +18,15 @@ public static class ChangedEntitiesExtractor
                         Ids = e.Metadata
                             .FindPrimaryKey()!
                             .Properties.Select(
-                                p => p.PropertyInfo?.GetMethod?.Invoke(e.Entity, null) ?? "Cannot extract key property"
+                                p =>
+                                    JsonSerializer.Serialize(
+                                        p.PropertyInfo?.GetMethod?.Invoke(e.Entity, null)
+                                            ?? "Cannot extract key property"
+                                    )
                             )
                             .ToList(),
                         Type = e.Metadata.ClrType.ToString(),
-                        Changes = e.DebugView.LongView
+                        Changes = JsonSerializer.Serialize(e.Entity),
                     }
             )
             .ToList();
