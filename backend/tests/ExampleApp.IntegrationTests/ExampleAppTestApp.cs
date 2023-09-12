@@ -18,166 +18,162 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Serilog.Events;
 
-namespace ExampleApp.IntegrationTests
+namespace ExampleApp.IntegrationTests;
+
+public class ExampleAppTestApp : LeanCodeTestFactory<Startup>
 {
-    public class ExampleAppTestApp : LeanCodeTestFactory<Startup>
+    public readonly Guid SuperAdminId = Guid.Parse("4d3b45e6-a2c1-4d6a-9e23-94e0d9f8ca01");
+
+    protected override ConfigurationOverrides Configuration { get; } =
+        new(
+            connectionStringBase: "PostgreSQL__ConnectionStringBase",
+            connectionStringKey: "PostgreSQL:ConnectionString",
+            LogEventLevel.Debug,
+            true
+        );
+
+    static ExampleAppTestApp()
     {
-        public readonly Guid SuperAdminId = Guid.Parse("4d3b45e6-a2c1-4d6a-9e23-94e0d9f8ca01");
-
-        protected override ConfigurationOverrides Configuration { get; } =
-            new(
-                connectionStringBase: "PostgreSQL__ConnectionStringBase",
-                connectionStringKey: "PostgreSQL:ConnectionString",
-                LogEventLevel.Debug,
-                true
-            );
-
-        static ExampleAppTestApp()
+        if (!string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("WAIT_FOR_DEBUGGER")))
         {
-            if (!string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("WAIT_FOR_DEBUGGER")))
-            {
-                Console.WriteLine("Waiting for debugger to be attached...");
+            Console.WriteLine("Waiting for debugger to be attached...");
 
-                while (!Debugger.IsAttached)
-                {
-                    Thread.Sleep(100);
-                }
+            while (!Debugger.IsAttached)
+            {
+                Thread.Sleep(100);
             }
         }
+    }
 
-        protected override IEnumerable<Assembly> GetTestAssemblies()
+    protected override IEnumerable<Assembly> GetTestAssemblies()
+    {
+        yield return typeof(ExampleAppTestApp).Assembly;
+    }
+
+    protected override IHostBuilder CreateHostBuilder()
+    {
+        return LeanProgram
+            .BuildMinimalHost<Startup>()
+            .ConfigureDefaultLogging(projectName: "ExampleApp-tests", destructurers: new[] { typeof(Program).Assembly })
+            .UseEnvironment(Environments.Development);
+    }
+
+    protected override void ConfigureWebHost(IWebHostBuilder builder)
+    {
+        base.ConfigureWebHost(builder);
+
+        builder.ConfigureServices(services =>
         {
-            yield return typeof(ExampleAppTestApp).Assembly;
-        }
+            services.RemoveAll<CoreDbContext>();
+            services.AddScoped<CoreDbContext, Overrides.CoreDbContext>();
+            services.AddHostedService<DbContextInitializer<CoreDbContext>>();
+            services.AddBusActivityMonitor();
 
-        protected override IHostBuilder CreateHostBuilder()
-        {
-            return LeanProgram
-                .BuildMinimalHost<Startup>()
-                .ConfigureDefaultLogging(
-                    projectName: "ExampleApp-tests",
-                    destructurers: new[] { typeof(Program).Assembly }
-                )
-                .UseEnvironment(Environments.Development);
-        }
+            services.AddAuthentication(TestAuthenticationHandler.SchemeName).AddTestAuthenticationHandler();
+        });
+    }
+}
 
-        protected override void ConfigureWebHost(IWebHostBuilder builder)
-        {
-            base.ConfigureWebHost(builder);
+public class AuthenticatedExampleAppTestApp : ExampleAppTestApp
+{
+    private ClaimsPrincipal claimsPrincipal = new();
 
-            builder.ConfigureServices(services =>
+    public HttpQueriesExecutor Query { get; private set; } = default!;
+    public HttpCommandsExecutor Command { get; private set; } = default!;
+    public HttpOperationsExecutor Operation { get; private set; } = default!;
+    public LeanPipeTestClient LeanPipe { get; private set; } = default!;
+
+    public AuthenticatedExampleAppTestApp() { }
+
+    public override async Task InitializeAsync()
+    {
+        AuthenticateAsTestSuperUser();
+
+        void ConfigureClient(HttpClient hc) => hc.UseTestAuthorization(claimsPrincipal);
+
+        await base.InitializeAsync();
+
+        Query = CreateQueriesExecutor(ConfigureClient);
+        Command = CreateCommandsExecutor(ConfigureClient);
+        Operation = CreateOperationsExecutor(ConfigureClient);
+        LeanPipe = new(
+            new("http://localhost/leanpipe"),
+            new(typeof(ProjectEmployeesAssignmentsTopic)),
+            hco =>
             {
-                services.RemoveAll<CoreDbContext>();
-                services.AddScoped<CoreDbContext, Overrides.CoreDbContext>();
-                services.AddHostedService<DbContextInitializer<CoreDbContext>>();
-                services.AddBusActivityMonitor();
+                hco.HttpMessageHandlerFactory = _ => Server.CreateHandler();
+                hco.Headers.Add(
+                    "Authorization",
+                    new AuthenticationHeaderValue(
+                        TestAuthenticationHandler.SchemeName,
+                        TestAuthenticationHandler.SerializePrincipal(claimsPrincipal)
+                    ).ToString()
+                );
+            }
+        );
 
-                services.AddAuthentication(TestAuthenticationHandler.SchemeName).AddTestAuthenticationHandler();
-            });
-        }
+        await WaitForBusAsync();
     }
 
-    public class AuthenticatedExampleAppTestApp : ExampleAppTestApp
+    public void AuthenticateAsTestSuperUser()
     {
-        private ClaimsPrincipal claimsPrincipal = new();
-
-        public HttpQueriesExecutor Query { get; private set; } = default!;
-        public HttpCommandsExecutor Command { get; private set; } = default!;
-        public HttpOperationsExecutor Operation { get; private set; } = default!;
-        public LeanPipeTestClient LeanPipe { get; private set; } = default!;
-
-        public AuthenticatedExampleAppTestApp() { }
-
-        public override async Task InitializeAsync()
-        {
-            AuthenticateAsTestSuperUser();
-
-            void ConfigureClient(HttpClient hc) => hc.UseTestAuthorization(claimsPrincipal);
-
-            await base.InitializeAsync();
-
-            Query = CreateQueriesExecutor(ConfigureClient);
-            Command = CreateCommandsExecutor(ConfigureClient);
-            Operation = CreateOperationsExecutor(ConfigureClient);
-            LeanPipe = new(
-                new("http://localhost/leanpipe"),
-                new(typeof(ProjectEmployeesAssignmentsTopic)),
-                hco =>
+        claimsPrincipal = new(
+            new ClaimsIdentity(
+                new Claim[]
                 {
-                    hco.HttpMessageHandlerFactory = _ => Server.CreateHandler();
-                    hco.Headers.Add(
-                        "Authorization",
-                        new AuthenticationHeaderValue(
-                            TestAuthenticationHandler.SchemeName,
-                            TestAuthenticationHandler.SerializePrincipal(claimsPrincipal)
-                        ).ToString()
-                    );
-                }
-            );
-
-            await WaitForBusAsync();
-        }
-
-        public void AuthenticateAsTestSuperUser()
-        {
-            claimsPrincipal = new(
-                new ClaimsIdentity(
-                    new Claim[]
-                    {
-                        new(Auth.KnownClaims.UserId, SuperAdminId.ToString()),
-                        new(Auth.KnownClaims.Role, Auth.Roles.User),
-                        new(Auth.KnownClaims.Role, Auth.Roles.Admin),
-                    },
-                    TestAuthenticationHandler.SchemeName,
-                    Auth.KnownClaims.UserId,
-                    Auth.KnownClaims.Role
-                )
-            );
-        }
-
-        public override async ValueTask DisposeAsync()
-        {
-            Command = default!;
-            Query = default!;
-            Operation = default!;
-            await LeanPipe.DisposeAsync();
-            await base.DisposeAsync();
-        }
+                    new(Auth.KnownClaims.UserId, SuperAdminId.ToString()),
+                    new(Auth.KnownClaims.Role, Auth.Roles.User),
+                    new(Auth.KnownClaims.Role, Auth.Roles.Admin),
+                },
+                TestAuthenticationHandler.SchemeName,
+                Auth.KnownClaims.UserId,
+                Auth.KnownClaims.Role
+            )
+        );
     }
 
-    public class UnauthenticatedExampleAppTestApp : ExampleAppTestApp
+    public override async ValueTask DisposeAsync()
     {
-        public HttpQueriesExecutor Query { get; private set; } = default!;
-        public HttpCommandsExecutor Command { get; private set; } = default!;
-        public HttpOperationsExecutor Operation { get; private set; } = default!;
-        public LeanPipeTestClient LeanPipe { get; private set; } = default!;
+        Command = default!;
+        Query = default!;
+        Operation = default!;
+        await LeanPipe.DisposeAsync();
+        await base.DisposeAsync();
+    }
+}
 
-        public override async Task InitializeAsync()
-        {
-            await base.InitializeAsync();
+public class UnauthenticatedExampleAppTestApp : ExampleAppTestApp
+{
+    public HttpQueriesExecutor Query { get; private set; } = default!;
+    public HttpCommandsExecutor Command { get; private set; } = default!;
+    public HttpOperationsExecutor Operation { get; private set; } = default!;
+    public LeanPipeTestClient LeanPipe { get; private set; } = default!;
 
-            Query = CreateQueriesExecutor();
-            Command = CreateCommandsExecutor();
-            Operation = CreateOperationsExecutor();
-            LeanPipe = new(
-                new("http://localhost/leanpipe"),
-                new(typeof(ProjectEmployeesAssignmentsTopic)),
-                hco =>
-                {
-                    hco.HttpMessageHandlerFactory = _ => Server.CreateHandler();
-                }
-            );
+    public override async Task InitializeAsync()
+    {
+        await base.InitializeAsync();
 
-            await WaitForBusAsync();
-        }
+        Query = CreateQueriesExecutor();
+        Command = CreateCommandsExecutor();
+        Operation = CreateOperationsExecutor();
+        LeanPipe = new(
+            new("http://localhost/leanpipe"),
+            new(typeof(ProjectEmployeesAssignmentsTopic)),
+            hco =>
+            {
+                hco.HttpMessageHandlerFactory = _ => Server.CreateHandler();
+            }
+        );
 
-        public override async ValueTask DisposeAsync()
-        {
-            Command = default!;
-            Query = default!;
-            Operation = default!;
-            await LeanPipe.DisposeAsync();
-            await base.DisposeAsync();
-        }
+        await WaitForBusAsync();
+    }
+
+    public override async ValueTask DisposeAsync()
+    {
+        Command = default!;
+        Query = default!;
+        Operation = default!;
+        await LeanPipe.DisposeAsync();
+        await base.DisposeAsync();
     }
 }
