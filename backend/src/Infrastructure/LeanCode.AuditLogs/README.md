@@ -18,6 +18,26 @@ Package uses EntityFramework's ChangeTracker in order to detect changes. Each lo
 
 The package does not require extra work from the user other than initial configuration. In order to collect audit logs from all handlers there are three things to configure.
 
+## AuditLogsConsumer
+
+The audit logs are collected and processed asynchronously by dedicated consumer. Usually event handlers are registered within the project, so adding the `AuditLogsConsumer` to the list of consumers should suffice to configure everything correctly.
+
+```csharp
+
+    public override void ConfigureServices(IServiceCollection services)
+    {
+        // some other code
+
+            cfg.AddConsumersWithDefaultConfiguration(
+                AllHandlers.Assemblies.ToArray().Append(typeof(AuditLogsConsumer).Assembly),
+                typeof(DefaultConsumerDefinition<>)
+            );
+
+        // some other code
+```
+
+⚠️ Remember that if you configure the audit log in the same way as other consumers it's audit log will also be recorded. In order to avoid recursive logging of changes do not use the same `DbContext` for audit logs as you use for the business part of the system
+
 ### AuditLogStorage
 
 AuditLogs collectors require `IAuditLogStorage` to be registered in the DI container.
@@ -40,8 +60,7 @@ If you want to use some other store for your data feel free to implement `IAudit
 
 ### Endpoints
 
-In order to collect audit logs you need to add `Audit<TDbContext>()` middleware to execution pipeline. The `TDbContext`
-argument is a `DbContext` where we want to audit the changes.
+In order to collect audit logs you need to add `Audit<TDbContext>()` middleware to execution pipeline. The `TDbContext` argument is a `DbContext` where we want to audit the changes.
 
 Example configuration using AuditLogs looks as follows:
 
@@ -77,13 +96,11 @@ protected override void ConfigureApp(IApplicationBuilder app)
 }
 ```
 
-⚠️ Bear in mind, that the order here makes difference. If you don't want to collect changes in the MT inbox/outbox
-tables, then you should configure `Audit<TDbContext>()` middleware **after** the `PublishEvents()` middleware.
+⚠️ Bear in mind, that the order here makes difference. If you don't want to collect changes in the MT inbox/outbox tables, then you should configure `Audit<TDbContext>()` middleware **after** the `PublishEvents()` middleware.
 
 ### Consumers
 
-In order to add audit logs to event handling the only thing you need to do is to add `.UseAuditLogs<TDbContext>(sp)`
-to the consumer configuration.
+In order to add audit logs to event handling the only thing you need to do is to add `.UseAuditLogs<TDbContext>(sp)` to the consumer configuration.
 
 ```csharp
 protected override void ConfigureConsumer(
@@ -101,6 +118,4 @@ protected override void ConfigureConsumer(
 }
 ```
 
-⚠️ Bear in mind, that the order here makes difference. If you don't want to collect changes in the MT inbox/outbox
-tables, then you should configure `UseAuditLogs<TDbContext>(sp)` filter **after** the `UseDomainEventsPublishing(sp)`
-filter.
+⚠️ Bear in mind, that the order here makes difference. If you don't want to collect changes in the MT inbox/outbox tables, then you should configure `UseAuditLogs<TDbContext>(sp)` filter **after** the `UseDomainEventsPublishing(sp)` filter.

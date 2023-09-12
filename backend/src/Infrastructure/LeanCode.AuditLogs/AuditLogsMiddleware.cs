@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using LeanCode.OpenTelemetry;
 using LeanCode.TimeProvider;
+using MassTransit;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,7 +17,7 @@ public class AuditLogsMiddleware<TDbContext>
         this.next = next;
     }
 
-    public async Task InvokeAsync(HttpContext httpContext, TDbContext dbContext, IAuditLogStorage auditLogStorage)
+    public async Task InvokeAsync(HttpContext httpContext, TDbContext dbContext, IBus bus)
     {
         await next(httpContext);
 
@@ -25,6 +26,15 @@ public class AuditLogsMiddleware<TDbContext>
         var actionName = httpContext.Request.Path.ToString();
         var now = Time.Now;
 
-        await auditLogStorage.StoreEventAsync(entitiesChanged, actionName, now, actorId, httpContext.RequestAborted);
+        await bus.Publish(
+            new AuditLogMessage
+            {
+                EntitiesChanged = entitiesChanged,
+                ActionName = actionName,
+                DateOccurred = now,
+                ActorId = actorId,
+            },
+            httpContext.RequestAborted
+        );
     }
 }

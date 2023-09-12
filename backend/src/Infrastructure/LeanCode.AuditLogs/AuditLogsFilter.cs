@@ -13,12 +13,12 @@ public class AuditLogsFilter<TDbContext, TConsumer, TMessage> : IFilter<Consumer
     where TMessage : class
 {
     private readonly TDbContext dbContext;
-    private readonly IAuditLogStorage auditLogStorage;
+    private readonly IBus bus;
 
-    public AuditLogsFilter(TDbContext dbContext, IAuditLogStorage auditLogStorage)
+    public AuditLogsFilter(TDbContext dbContext, IBus bus)
     {
         this.dbContext = dbContext;
-        this.auditLogStorage = auditLogStorage;
+        this.bus = bus;
     }
 
     public void Probe(ProbeContext context) { }
@@ -35,7 +35,16 @@ public class AuditLogsFilter<TDbContext, TConsumer, TMessage> : IFilter<Consumer
         var actionName = context.Consumer.ToString()!;
         var now = Time.Now;
 
-        await auditLogStorage.StoreEventAsync(entitiesChanged, actionName, now, actorId, context.CancellationToken);
+        await bus.Publish(
+            new AuditLogMessage
+            {
+                EntitiesChanged = entitiesChanged,
+                ActionName = actionName,
+                DateOccurred = now,
+                ActorId = actorId,
+            },
+            context.CancellationToken
+        );
     }
 }
 

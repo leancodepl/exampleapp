@@ -73,7 +73,7 @@ public class Startup : LeanStartup
             });
 
             cfg.AddConsumersWithDefaultConfiguration(
-                AllHandlers.Assemblies.ToArray(),
+                AllHandlers.Assemblies.ToArray().Append(typeof(AuditLogsConsumer).Assembly),
                 typeof(DefaultConsumerDefinition<>)
             );
 
