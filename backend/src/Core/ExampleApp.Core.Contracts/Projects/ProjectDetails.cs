@@ -13,3 +13,8 @@ public class ProjectDetailsDTO : ProjectDTO
 {
     public List<AssignmentDTO> Assignments { get; set; }
 }
+
+public class AssignmentDTO : AssignmentWriteDTO
+{
+    public string Id { get; set; }
+}

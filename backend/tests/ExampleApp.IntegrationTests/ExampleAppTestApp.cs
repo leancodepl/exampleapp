@@ -1,24 +1,31 @@
 using System.Diagnostics;
+using System.Net.Http.Headers;
 using System.Reflection;
+using System.Security.Claims;
 using ExampleApp.Api;
+using ExampleApp.Core.Contracts;
+using ExampleApp.Core.Contracts.Projects;
 using ExampleApp.Core.Services.DataAccess;
 using LeanCode.CQRS.MassTransitRelay;
 using LeanCode.CQRS.RemoteHttp.Client;
 using LeanCode.IntegrationTestHelpers;
 using LeanCode.Logging;
 using LeanCode.Startup.MicrosoftDI;
-using MassTransit.Testing.Implementations;
+using LeanPipe.TestClient;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Serilog.Events;
-using Xunit;
 
 namespace ExampleApp.IntegrationTests
 {
     public class ExampleAppTestApp : LeanCodeTestFactory<Startup>
     {
+        protected ClaimsPrincipal claimsPrincipal = new();
+
+        public readonly Guid SuperAdminId = Guid.Parse("4d3b45e6-a2c1-4d6a-9e23-94e0d9f8ca01");
+
         protected override ConfigurationOverrides Configuration { get; } =
             new(
                 connectionStringBase: "PostgreSQL__ConnectionStringBase",
@@ -66,43 +73,66 @@ namespace ExampleApp.IntegrationTests
                 services.AddScoped<CoreDbContext, Overrides.CoreDbContext>();
                 services.AddHostedService<DbContextInitializer<CoreDbContext>>();
                 services.AddBusActivityMonitor();
+
+                services.AddAuthentication(TestAuthenticationHandler.SchemeName).AddTestAuthenticationHandler();
             });
         }
 
-        public async Task WaitForProcessingAsync()
+        public void AuthenticateAsTestSuperUser()
         {
-            using var scope = Services.CreateScope();
-            var monitor = scope.ServiceProvider.GetRequiredService<IBusActivityMonitor>();
-            // Allow some processing time, selected arbitrarily
-            var res = await monitor.AwaitBusInactivity(TimeSpan.FromSeconds(30));
-            Assert.True(res, "The service bus should finish processing in allowed time.");
+            claimsPrincipal = new(
+                new ClaimsIdentity(
+                    new Claim[]
+                    {
+                        new(Auth.KnownClaims.UserId, SuperAdminId.ToString()),
+                        new(Auth.KnownClaims.Role, Auth.Roles.User),
+                        new(Auth.KnownClaims.Role, Auth.Roles.Admin),
+                    },
+                    TestAuthenticationHandler.SchemeName,
+                    Auth.KnownClaims.UserId,
+                    Auth.KnownClaims.Role
+                )
+            );
         }
     }
 
     public class AuthenticatedExampleAppTestApp : ExampleAppTestApp
     {
-        private readonly string tokenPayload;
-
         public HttpQueriesExecutor Query { get; private set; } = default!;
         public HttpCommandsExecutor Command { get; private set; } = default!;
         public HttpOperationsExecutor Operation { get; private set; } = default!;
+        public LeanPipeTestClient LeanPipe { get; private set; } = default!;
 
-        public AuthenticatedExampleAppTestApp(string tokenPayload)
-        {
-            this.tokenPayload = tokenPayload;
-        }
+        public AuthenticatedExampleAppTestApp() { }
 
         public override async Task InitializeAsync()
         {
-            void ConfigureClient(HttpClient hc) => hc.DefaultRequestHeaders.Authorization = new("Test", tokenPayload);
+            AuthenticateAsTestSuperUser();
+
+            void ConfigureClient(HttpClient hc) => hc.UseTestAuthorization(claimsPrincipal);
 
             await base.InitializeAsync();
 
             Query = CreateQueriesExecutor(ConfigureClient);
             Command = CreateCommandsExecutor(ConfigureClient);
             Operation = CreateOperationsExecutor(ConfigureClient);
+            LeanPipe = new(
+                new("http://localhost/leanpipe"),
+                new(typeof(ProjectEmployeesAssignmentsTopic)),
+                hco =>
+                {
+                    hco.HttpMessageHandlerFactory = _ => Server.CreateHandler();
+                    hco.Headers.Add(
+                        "Authorization",
+                        new AuthenticationHeaderValue(
+                            TestAuthenticationHandler.SchemeName,
+                            TestAuthenticationHandler.SerializePrincipal(claimsPrincipal)
+                        ).ToString()
+                    );
+                }
+            );
 
-            await WaitForProcessingAsync();
+            await WaitForBusAsync();
         }
 
         public override async ValueTask DisposeAsync()
@@ -110,6 +140,7 @@ namespace ExampleApp.IntegrationTests
             Command = default!;
             Query = default!;
             Operation = default!;
+            await LeanPipe.DisposeAsync();
             await base.DisposeAsync();
         }
     }
@@ -119,6 +150,7 @@ namespace ExampleApp.IntegrationTests
         public HttpQueriesExecutor Query { get; private set; } = default!;
         public HttpCommandsExecutor Command { get; private set; } = default!;
         public HttpOperationsExecutor Operation { get; private set; } = default!;
+        public LeanPipeTestClient LeanPipe { get; private set; } = default!;
 
         public override async Task InitializeAsync()
         {
@@ -127,8 +159,16 @@ namespace ExampleApp.IntegrationTests
             Query = CreateQueriesExecutor();
             Command = CreateCommandsExecutor();
             Operation = CreateOperationsExecutor();
+            LeanPipe = new(
+                new("http://localhost/leanpipe"),
+                new(typeof(ProjectEmployeesAssignmentsTopic)),
+                hco =>
+                {
+                    hco.HttpMessageHandlerFactory = _ => Server.CreateHandler();
+                }
+            );
 
-            await WaitForProcessingAsync();
+            await WaitForBusAsync();
         }
 
         public override async ValueTask DisposeAsync()
@@ -136,6 +176,7 @@ namespace ExampleApp.IntegrationTests
             Command = default!;
             Query = default!;
             Operation = default!;
+            await LeanPipe.DisposeAsync();
             await base.DisposeAsync();
         }
     }

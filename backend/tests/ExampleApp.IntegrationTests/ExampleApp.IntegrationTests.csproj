@@ -14,6 +14,7 @@
 
     <PackageReference Include="LeanCode.CQRS.RemoteHttp.Client" />
     <PackageReference Include="LeanCode.IntegrationTestHelpers" />
+    <PackageReference Include="LeanPipe.TestClient" />
   </ItemGroup>
 
   <ItemGroup>
