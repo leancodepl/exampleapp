@@ -27,6 +27,7 @@ public static class ChangedEntitiesExtractor
                             .ToList(),
                         Type = e.Metadata.ClrType.ToString(),
                         Changes = JsonSerializer.Serialize(e.Entity),
+                        EntityState = e.State.ToString(),
                     }
             )
             .ToList();
