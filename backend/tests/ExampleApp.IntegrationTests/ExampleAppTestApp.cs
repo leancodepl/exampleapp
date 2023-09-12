@@ -22,8 +22,6 @@ namespace ExampleApp.IntegrationTests
 {
     public class ExampleAppTestApp : LeanCodeTestFactory<Startup>
     {
-        protected ClaimsPrincipal claimsPrincipal = new();
-
         public readonly Guid SuperAdminId = Guid.Parse("4d3b45e6-a2c1-4d6a-9e23-94e0d9f8ca01");
 
         protected override ConfigurationOverrides Configuration { get; } =
@@ -77,27 +75,12 @@ namespace ExampleApp.IntegrationTests
                 services.AddAuthentication(TestAuthenticationHandler.SchemeName).AddTestAuthenticationHandler();
             });
         }
-
-        public void AuthenticateAsTestSuperUser()
-        {
-            claimsPrincipal = new(
-                new ClaimsIdentity(
-                    new Claim[]
-                    {
-                        new(Auth.KnownClaims.UserId, SuperAdminId.ToString()),
-                        new(Auth.KnownClaims.Role, Auth.Roles.User),
-                        new(Auth.KnownClaims.Role, Auth.Roles.Admin),
-                    },
-                    TestAuthenticationHandler.SchemeName,
-                    Auth.KnownClaims.UserId,
-                    Auth.KnownClaims.Role
-                )
-            );
-        }
     }
 
     public class AuthenticatedExampleAppTestApp : ExampleAppTestApp
     {
+        private ClaimsPrincipal claimsPrincipal = new();
+
         public HttpQueriesExecutor Query { get; private set; } = default!;
         public HttpCommandsExecutor Command { get; private set; } = default!;
         public HttpOperationsExecutor Operation { get; private set; } = default!;
@@ -133,6 +116,23 @@ namespace ExampleApp.IntegrationTests
             );
 
             await WaitForBusAsync();
+        }
+
+        public void AuthenticateAsTestSuperUser()
+        {
+            claimsPrincipal = new(
+                new ClaimsIdentity(
+                    new Claim[]
+                    {
+                        new(Auth.KnownClaims.UserId, SuperAdminId.ToString()),
+                        new(Auth.KnownClaims.Role, Auth.Roles.User),
+                        new(Auth.KnownClaims.Role, Auth.Roles.Admin),
+                    },
+                    TestAuthenticationHandler.SchemeName,
+                    Auth.KnownClaims.UserId,
+                    Auth.KnownClaims.Role
+                )
+            );
         }
 
         public override async ValueTask DisposeAsync()
