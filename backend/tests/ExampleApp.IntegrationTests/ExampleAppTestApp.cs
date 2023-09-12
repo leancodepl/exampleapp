@@ -105,6 +105,7 @@ public class AuthenticatedExampleAppTestApp : ExampleAppTestApp
             hco =>
             {
                 hco.HttpMessageHandlerFactory = _ => Server.CreateHandler();
+                // TODO: Add a helper for that in the CoreLibrary and use it here and below
                 hco.Headers.Add(
                     "Authorization",
                     new AuthenticationHeaderValue(
