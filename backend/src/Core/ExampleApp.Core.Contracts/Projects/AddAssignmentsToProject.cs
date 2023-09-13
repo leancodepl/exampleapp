@@ -18,6 +18,7 @@ public class AddAssignmentsToProject : ICommand
     }
 }
 
+// TODO: Revise our approach to `Read` and `Write` DTOs
 public class AssignmentWriteDTO
 {
     public string Name { get; set; }
