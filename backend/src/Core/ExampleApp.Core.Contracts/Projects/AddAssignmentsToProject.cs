@@ -7,7 +7,7 @@ namespace ExampleApp.Core.Contracts.Projects;
 public class AddAssignmentsToProject : ICommand
 {
     public string ProjectId { get; set; }
-    public List<AssignmentDTO> Assignments { get; set; }
+    public List<AssignmentWriteDTO> Assignments { get; set; }
 
     public static class ErrorCodes
     {
@@ -18,7 +18,8 @@ public class AddAssignmentsToProject : ICommand
     }
 }
 
-public class AssignmentDTO
+// TODO: Revise our approach to `Read` and `Write` DTOs
+public class AssignmentWriteDTO
 {
     public string Name { get; set; }
 

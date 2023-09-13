@@ -50,15 +50,15 @@ public class AddAssignmentsToProjectCV : AbstractValidator<AddAssignmentsToProje
     }
 }
 
-public class AssignmentDTOValidator : AbstractValidator<AssignmentDTO>
+public class AssignmentDTOValidator : AbstractValidator<AssignmentWriteDTO>
 {
     public AssignmentDTOValidator()
     {
         RuleFor(dto => dto.Name)
             .NotEmpty()
-            .WithCode(AssignmentDTO.ErrorCodes.NameCannotBeEmpty)
+            .WithCode(AssignmentWriteDTO.ErrorCodes.NameCannotBeEmpty)
             .MaximumLength(500)
-            .WithCode(AssignmentDTO.ErrorCodes.NameTooLong);
+            .WithCode(AssignmentWriteDTO.ErrorCodes.NameTooLong);
     }
 }
 

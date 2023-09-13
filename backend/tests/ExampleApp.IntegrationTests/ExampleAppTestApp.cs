@@ -1,142 +1,181 @@
 using System.Diagnostics;
+using System.Net.Http.Headers;
 using System.Reflection;
+using System.Security.Claims;
 using ExampleApp.Api;
+using ExampleApp.Core.Contracts;
+using ExampleApp.Core.Contracts.Projects;
 using ExampleApp.Core.Services.DataAccess;
+using LeanCode.Components;
 using LeanCode.CQRS.MassTransitRelay;
 using LeanCode.CQRS.RemoteHttp.Client;
 using LeanCode.IntegrationTestHelpers;
 using LeanCode.Logging;
 using LeanCode.Startup.MicrosoftDI;
-using MassTransit.Testing.Implementations;
+using LeanPipe.TestClient;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Serilog.Events;
-using Xunit;
 
-namespace ExampleApp.IntegrationTests
+namespace ExampleApp.IntegrationTests;
+
+public class ExampleAppTestApp : LeanCodeTestFactory<Startup>
 {
-    public class ExampleAppTestApp : LeanCodeTestFactory<Startup>
+    public readonly Guid SuperAdminId = Guid.Parse("4d3b45e6-a2c1-4d6a-9e23-94e0d9f8ca01");
+
+    protected override ConfigurationOverrides Configuration { get; } =
+        new(
+            connectionStringBase: "PostgreSQL__ConnectionStringBase",
+            connectionStringKey: "PostgreSQL:ConnectionString",
+            LogEventLevel.Debug,
+            true
+        );
+
+    static ExampleAppTestApp()
     {
-        protected override ConfigurationOverrides Configuration { get; } =
-            new(
-                connectionStringBase: "PostgreSQL__ConnectionStringBase",
-                connectionStringKey: "PostgreSQL:ConnectionString",
-                LogEventLevel.Debug,
-                true
-            );
-
-        static ExampleAppTestApp()
+        if (!string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("WAIT_FOR_DEBUGGER")))
         {
-            if (!string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("WAIT_FOR_DEBUGGER")))
-            {
-                Console.WriteLine("Waiting for debugger to be attached...");
+            Console.WriteLine("Waiting for debugger to be attached...");
 
-                while (!Debugger.IsAttached)
-                {
-                    Thread.Sleep(100);
-                }
+            while (!Debugger.IsAttached)
+            {
+                Thread.Sleep(100);
             }
         }
+    }
 
-        protected override IEnumerable<Assembly> GetTestAssemblies()
+    protected override IEnumerable<Assembly> GetTestAssemblies()
+    {
+        yield return typeof(ExampleAppTestApp).Assembly;
+    }
+
+    protected override IHostBuilder CreateHostBuilder()
+    {
+        return LeanProgram
+            .BuildMinimalHost<Startup>()
+            .ConfigureDefaultLogging(projectName: "ExampleApp-tests", destructurers: new[] { typeof(Program).Assembly })
+            .UseEnvironment(Environments.Development);
+    }
+
+    protected override void ConfigureWebHost(IWebHostBuilder builder)
+    {
+        base.ConfigureWebHost(builder);
+
+        builder.ConfigureServices(services =>
         {
-            yield return typeof(ExampleAppTestApp).Assembly;
-        }
+            services.RemoveAll<CoreDbContext>();
+            services.AddScoped<CoreDbContext, Overrides.CoreDbContext>();
+            services.AddHostedService<DbContextInitializer<CoreDbContext>>();
+            services.AddBusActivityMonitor();
 
-        protected override IHostBuilder CreateHostBuilder()
-        {
-            return LeanProgram
-                .BuildMinimalHost<Startup>()
-                .ConfigureDefaultLogging(
-                    projectName: "ExampleApp-tests",
-                    destructurers: new[] { typeof(Program).Assembly }
-                )
-                .UseEnvironment(Environments.Development);
-        }
+            services.AddAuthentication(TestAuthenticationHandler.SchemeName).AddTestAuthenticationHandler();
+        });
+    }
+}
 
-        protected override void ConfigureWebHost(IWebHostBuilder builder)
-        {
-            base.ConfigureWebHost(builder);
+public class AuthenticatedExampleAppTestApp : ExampleAppTestApp
+{
+    private ClaimsPrincipal claimsPrincipal = new();
 
-            builder.ConfigureServices(services =>
+    public HttpQueriesExecutor Query { get; private set; } = default!;
+    public HttpCommandsExecutor Command { get; private set; } = default!;
+    public HttpOperationsExecutor Operation { get; private set; } = default!;
+    public LeanPipeTestClient LeanPipe { get; private set; } = default!;
+
+    public AuthenticatedExampleAppTestApp() { }
+
+    public override async Task InitializeAsync()
+    {
+        AuthenticateAsTestSuperUser();
+
+        void ConfigureClient(HttpClient hc) => hc.UseTestAuthorization(claimsPrincipal);
+
+        await base.InitializeAsync();
+
+        Query = CreateQueriesExecutor(ConfigureClient);
+        Command = CreateCommandsExecutor(ConfigureClient);
+        Operation = CreateOperationsExecutor(ConfigureClient);
+        LeanPipe = new(
+            new("http://localhost/leanpipe"),
+            Startup.Api,
+            hco =>
             {
-                services.RemoveAll<CoreDbContext>();
-                services.AddScoped<CoreDbContext, Overrides.CoreDbContext>();
-                services.AddHostedService<DbContextInitializer<CoreDbContext>>();
-                services.AddBusActivityMonitor();
-            });
-        }
+                hco.HttpMessageHandlerFactory = _ => Server.CreateHandler();
+                // TODO: Add a helper for that in the CoreLibrary and use it here and below
+                hco.Headers.Add(
+                    "Authorization",
+                    new AuthenticationHeaderValue(
+                        TestAuthenticationHandler.SchemeName,
+                        TestAuthenticationHandler.SerializePrincipal(claimsPrincipal)
+                    ).ToString()
+                );
+            }
+        );
 
-        public async Task WaitForProcessingAsync()
-        {
-            using var scope = Services.CreateScope();
-            var monitor = scope.ServiceProvider.GetRequiredService<IBusActivityMonitor>();
-            // Allow some processing time, selected arbitrarily
-            var res = await monitor.AwaitBusInactivity(TimeSpan.FromSeconds(30));
-            Assert.True(res, "The service bus should finish processing in allowed time.");
-        }
+        await WaitForBusAsync();
     }
 
-    public class AuthenticatedExampleAppTestApp : ExampleAppTestApp
+    public void AuthenticateAsTestSuperUser()
     {
-        private readonly string tokenPayload;
-
-        public HttpQueriesExecutor Query { get; private set; } = default!;
-        public HttpCommandsExecutor Command { get; private set; } = default!;
-        public HttpOperationsExecutor Operation { get; private set; } = default!;
-
-        public AuthenticatedExampleAppTestApp(string tokenPayload)
-        {
-            this.tokenPayload = tokenPayload;
-        }
-
-        public override async Task InitializeAsync()
-        {
-            void ConfigureClient(HttpClient hc) => hc.DefaultRequestHeaders.Authorization = new("Test", tokenPayload);
-
-            await base.InitializeAsync();
-
-            Query = CreateQueriesExecutor(ConfigureClient);
-            Command = CreateCommandsExecutor(ConfigureClient);
-            Operation = CreateOperationsExecutor(ConfigureClient);
-
-            await WaitForProcessingAsync();
-        }
-
-        public override async ValueTask DisposeAsync()
-        {
-            Command = default!;
-            Query = default!;
-            Operation = default!;
-            await base.DisposeAsync();
-        }
+        claimsPrincipal = new(
+            new ClaimsIdentity(
+                new Claim[]
+                {
+                    new(Auth.KnownClaims.UserId, SuperAdminId.ToString()),
+                    new(Auth.KnownClaims.Role, Auth.Roles.User),
+                    new(Auth.KnownClaims.Role, Auth.Roles.Admin),
+                },
+                TestAuthenticationHandler.SchemeName,
+                Auth.KnownClaims.UserId,
+                Auth.KnownClaims.Role
+            )
+        );
     }
 
-    public class UnauthenticatedExampleAppTestApp : ExampleAppTestApp
+    public override async ValueTask DisposeAsync()
     {
-        public HttpQueriesExecutor Query { get; private set; } = default!;
-        public HttpCommandsExecutor Command { get; private set; } = default!;
-        public HttpOperationsExecutor Operation { get; private set; } = default!;
+        Command = default!;
+        Query = default!;
+        Operation = default!;
+        await LeanPipe.DisposeAsync();
+        await base.DisposeAsync();
+    }
+}
 
-        public override async Task InitializeAsync()
-        {
-            await base.InitializeAsync();
+public class UnauthenticatedExampleAppTestApp : ExampleAppTestApp
+{
+    public HttpQueriesExecutor Query { get; private set; } = default!;
+    public HttpCommandsExecutor Command { get; private set; } = default!;
+    public HttpOperationsExecutor Operation { get; private set; } = default!;
+    public LeanPipeTestClient LeanPipe { get; private set; } = default!;
 
-            Query = CreateQueriesExecutor();
-            Command = CreateCommandsExecutor();
-            Operation = CreateOperationsExecutor();
+    public override async Task InitializeAsync()
+    {
+        await base.InitializeAsync();
 
-            await WaitForProcessingAsync();
-        }
+        Query = CreateQueriesExecutor();
+        Command = CreateCommandsExecutor();
+        Operation = CreateOperationsExecutor();
+        LeanPipe = new(
+            new("http://localhost/leanpipe"),
+            Startup.Api,
+            hco =>
+            {
+                hco.HttpMessageHandlerFactory = _ => Server.CreateHandler();
+            }
+        );
 
-        public override async ValueTask DisposeAsync()
-        {
-            Command = default!;
-            Query = default!;
-            Operation = default!;
-            await base.DisposeAsync();
-        }
+        await WaitForBusAsync();
+    }
+
+    public override async ValueTask DisposeAsync()
+    {
+        Command = default!;
+        Query = default!;
+        Operation = default!;
+        await LeanPipe.DisposeAsync();
+        await base.DisposeAsync();
     }
 }
