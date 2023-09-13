@@ -33,9 +33,9 @@ public class Startup : LeanStartup
 {
     private static readonly RazorViewRendererOptions ViewOptions = new("Templates");
 
-    private static readonly TypesCatalog AllHandlers = new(typeof(CoreDbContext));
-    private static readonly TypesCatalog Api = new(typeof(CreateProject));
-    private static readonly TypesCatalog Domain = new(typeof(EmployeeAssignedToAssignment));
+    public static readonly TypesCatalog AllHandlers = new(typeof(CoreDbContext));
+    public static readonly TypesCatalog Api = new(typeof(CreateProject));
+    public static readonly TypesCatalog Domain = new(typeof(EmployeeAssignedToAssignment));
 
     private readonly IWebHostEnvironment hostEnv;
 

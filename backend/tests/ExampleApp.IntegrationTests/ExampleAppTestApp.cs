@@ -23,8 +23,6 @@ namespace ExampleApp.IntegrationTests;
 
 public class ExampleAppTestApp : LeanCodeTestFactory<Startup>
 {
-    protected static readonly TypesCatalog Api = new(typeof(CreateProject));
-
     public readonly Guid SuperAdminId = Guid.Parse("4d3b45e6-a2c1-4d6a-9e23-94e0d9f8ca01");
 
     protected override ConfigurationOverrides Configuration { get; } =
@@ -101,7 +99,7 @@ public class AuthenticatedExampleAppTestApp : ExampleAppTestApp
         Operation = CreateOperationsExecutor(ConfigureClient);
         LeanPipe = new(
             new("http://localhost/leanpipe"),
-            Api,
+            Startup.Api,
             hco =>
             {
                 hco.HttpMessageHandlerFactory = _ => Server.CreateHandler();
@@ -162,7 +160,7 @@ public class UnauthenticatedExampleAppTestApp : ExampleAppTestApp
         Operation = CreateOperationsExecutor();
         LeanPipe = new(
             new("http://localhost/leanpipe"),
-            Api,
+            Startup.Api,
             hco =>
             {
                 hco.HttpMessageHandlerFactory = _ => Server.CreateHandler();
