@@ -28,12 +28,15 @@ public static class CoreModuleExtensions
         });
 
         services.AddDbContext<CoreDbContext>(
-            opts =>
+            (sp, opts) =>
                 opts
 #if DEBUG
                 .EnableSensitiveDataLogging()
 #endif
-                    .UseNpgsql(cfg => cfg.MigrationsAssembly("ExampleApp.Migrations").SetPostgresVersion(15, 0))
+                    .UseNpgsql(
+                        sp.GetRequiredService<NpgsqlDataSource>(),
+                        cfg => cfg.MigrationsAssembly("ExampleApp.Migrations").SetPostgresVersion(15, 0)
+                    )
         );
 
         services.AddScoped<ProjectsRepository>();
