@@ -40,7 +40,7 @@ public class PublishEmployeeAssignedToProjectAssignmentNotification : IConsumer<
         {
             var unassignmentTopic = new EmployeeAssignmentsTopic { EmployeeId = previousEmployeeId };
 
-            var unassignmentNotification = new EmployeeUnassignedFromProjectAssignmentDTO()
+            var unassignmentNotification = new EmployeeUnassignedFromProjectAssignmentDTO
             {
                 ProjectId = msg.ProjectId,
                 AssignmentId = msg.AssignmentId,
