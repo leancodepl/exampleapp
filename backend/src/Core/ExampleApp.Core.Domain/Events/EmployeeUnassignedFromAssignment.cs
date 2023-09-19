@@ -13,14 +13,16 @@ public class EmployeeUnassignedFromAssignment : IDomainEvent
 
     public ProjectId ProjectId { get; private init; }
     public AssignmentId AssignmentId { get; private init; }
+    public EmployeeId? PreviousEmployeeId { get; private init; }
 
-    public EmployeeUnassignedFromAssignment(Project project, AssignmentId assignmentId)
+    public EmployeeUnassignedFromAssignment(Assignment assignment, EmployeeId? previousEmployeeId)
     {
         Id = Guid.NewGuid();
         DateOccurred = Time.NowWithOffset.UtcDateTime;
 
-        ProjectId = project.Id;
-        AssignmentId = assignmentId;
+        ProjectId = assignment.ParentProjectId;
+        AssignmentId = assignment.Id;
+        PreviousEmployeeId = previousEmployeeId;
     }
 
     [JsonConstructor]
@@ -28,12 +30,14 @@ public class EmployeeUnassignedFromAssignment : IDomainEvent
         Guid id,
         DateTime dateOccurred,
         ProjectId projectId,
-        AssignmentId assignmentId
+        AssignmentId assignmentId,
+        EmployeeId? previousEmployeeId
     )
     {
         Id = id;
         DateOccurred = dateOccurred;
         ProjectId = projectId;
         AssignmentId = assignmentId;
+        PreviousEmployeeId = previousEmployeeId;
     }
 }

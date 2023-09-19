@@ -14,15 +14,17 @@ public class EmployeeAssignedToAssignment : IDomainEvent
     public ProjectId ProjectId { get; private init; }
     public AssignmentId AssignmentId { get; private init; }
     public EmployeeId EmployeeId { get; private init; }
+    public EmployeeId? PreviousEmployeeId { get; private init; }
 
-    public EmployeeAssignedToAssignment(Project project, AssignmentId assignmentId, EmployeeId employeeId)
+    public EmployeeAssignedToAssignment(Assignment assignment, EmployeeId? previousEmployeeId)
     {
         Id = Guid.NewGuid();
         DateOccurred = Time.NowWithOffset.UtcDateTime;
 
-        ProjectId = project.Id;
-        AssignmentId = assignmentId;
-        EmployeeId = employeeId;
+        ProjectId = assignment.ParentProjectId;
+        AssignmentId = assignment.Id;
+        EmployeeId = assignment.AssignedEmployeeId!.Value;
+        PreviousEmployeeId = previousEmployeeId;
     }
 
     [JsonConstructor]
@@ -31,7 +33,8 @@ public class EmployeeAssignedToAssignment : IDomainEvent
         DateTime dateOccurred,
         ProjectId projectId,
         AssignmentId assignmentId,
-        EmployeeId employeeId
+        EmployeeId employeeId,
+        EmployeeId? previousEmployeeId
     )
     {
         Id = id;
@@ -39,5 +42,6 @@ public class EmployeeAssignedToAssignment : IDomainEvent
         ProjectId = projectId;
         AssignmentId = assignmentId;
         EmployeeId = employeeId;
+        PreviousEmployeeId = previousEmployeeId;
     }
 }
