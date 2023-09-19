@@ -38,14 +38,20 @@ public class Project : IAggregateRoot<ProjectId>
 
     public void AssignEmployeeToAssignment(AssignmentId assignmentId, EmployeeId employeeId)
     {
-        assignments.Single(t => t.Id == assignmentId).AssignEmployee(employeeId);
-        DomainEvents.Raise(new EmployeeAssignedToAssignment(this, assignmentId, employeeId));
+        var assignment = assignments.Single(t => t.Id == assignmentId);
+        var previousEmployeeId = assignment.AssignedEmployeeId;
+
+        assignment.AssignEmployee(employeeId);
+        DomainEvents.Raise(new EmployeeAssignedToAssignment(assignment, previousEmployeeId));
     }
 
     public void UnassignEmployeeFromAssignment(AssignmentId assignmentId)
     {
-        assignments.Single(t => t.Id == assignmentId).UnassignEmployee();
-        DomainEvents.Raise(new EmployeeUnassignedFromAssignment(this, assignmentId));
+        var assignment = assignments.Single(t => t.Id == assignmentId);
+        var previousEmployeeId = assignment.AssignedEmployeeId;
+
+        assignment.UnassignEmployee();
+        DomainEvents.Raise(new EmployeeUnassignedFromAssignment(assignment, previousEmployeeId));
     }
 
     public void ChangeAssignmentStatus(AssignmentId assignmentId, Assignment.AssignmentStatus status)
