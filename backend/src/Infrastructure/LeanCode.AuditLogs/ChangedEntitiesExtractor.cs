@@ -1,4 +1,5 @@
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
 
 namespace LeanCode.AuditLogs;
@@ -26,7 +27,14 @@ public static class ChangedEntitiesExtractor
                             )
                             .ToList(),
                         Type = e.Metadata.ClrType.ToString(),
-                        Changes = JsonSerializer.Serialize(e.Entity),
+                        Changes = JsonSerializer.Serialize(
+                            e.Entity,
+                            new JsonSerializerOptions()
+                            {
+                                ReferenceHandler = ReferenceHandler.IgnoreCycles,
+                                WriteIndented = false,
+                            }
+                        ),
                         EntityState = e.State.ToString(),
                     }
             )

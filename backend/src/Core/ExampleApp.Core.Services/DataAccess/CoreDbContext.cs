@@ -102,7 +102,7 @@ public class CoreDbContext : DbContext
                 }
             );
 
-            e.HasMany(e => e.IncludedEntities).WithOne().HasForeignKey(e => e.ProjectId);
+            e.HasMany(e => e.IncludedEntities).WithOne(e => e.Project).HasForeignKey(e => e.ProjectId);
 
             e.IsOptimisticConcurrent(addRowVersion: false);
             e.Property<uint>("xmin").IsRowVersion();

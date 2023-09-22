@@ -41,7 +41,7 @@ public class Project : IAggregateRoot<ProjectId>
         foreach (var i in Enumerable.Range(20, 5))
         {
             ownedEntities.Add(new OwnedEntity(i, i.ToString()));
-            includedEntities.Add(new IncludedEntity(Id, i, i.ToString()));
+            includedEntities.Add(new IncludedEntity(this, i, i.ToString()));
         }
     }
 
