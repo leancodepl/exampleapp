@@ -23,7 +23,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.FileProviders.Physical;
 using Microsoft.Extensions.Hosting;
 
@@ -65,7 +64,8 @@ public class Startup : LeanStartup
         {
             cfg.AddEntityFrameworkOutbox<CoreDbContext>(outboxCfg =>
             {
-                outboxCfg.UsePostgres();
+                outboxCfg.LockStatementProvider =
+                    new LeanCode.CQRS.MassTransitRelay.LockProviders.CustomPostgresLockStatementProvider();
                 outboxCfg.UseBusOutbox();
             });
 
@@ -117,7 +117,7 @@ public class Startup : LeanStartup
                 IBusRegistrationContext ctx,
                 TConfigurator cfg
             )
-                where TConfigurator : IBusFactoryConfigurator, IReceiveConfigurator<TReceiveConfigurator>
+                where TConfigurator : IBusFactoryConfigurator<TReceiveConfigurator>
                 where TReceiveConfigurator : IReceiveEndpointConfigurator
             {
                 cfg.ConfigureEndpoints(ctx);
@@ -180,22 +180,16 @@ public class Startup : LeanStartup
 public class DefaultConsumerDefinition<TConsumer> : ConsumerDefinition<TConsumer>
     where TConsumer : class, IConsumer
 {
-    private readonly IServiceProvider serviceProvider;
-
-    public DefaultConsumerDefinition(IServiceProvider serviceProvider)
-    {
-        this.serviceProvider = serviceProvider;
-    }
-
     protected override void ConfigureConsumer(
         IReceiveEndpointConfigurator endpointConfigurator,
-        IConsumerConfigurator<TConsumer> consumerConfigurator
+        IConsumerConfigurator<TConsumer> consumerConfigurator,
+        IRegistrationContext context
     )
     {
-        endpointConfigurator.UseRetry(
+        endpointConfigurator.UseMessageRetry(
             r => r.Immediate(1).Incremental(3, TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(5))
         );
-        endpointConfigurator.UseEntityFrameworkOutbox<CoreDbContext>(serviceProvider);
-        endpointConfigurator.UseDomainEventsPublishing(serviceProvider);
+        endpointConfigurator.UseEntityFrameworkOutbox<CoreDbContext>(context);
+        endpointConfigurator.UseDomainEventsPublishing(context);
     }
 }

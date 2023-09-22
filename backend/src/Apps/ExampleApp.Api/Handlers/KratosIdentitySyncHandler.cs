@@ -52,7 +52,7 @@ public partial class KratosIdentitySyncHandler : KratosWebHookHandlerBase
             return;
         }
 
-        await bus.Publish(new KratosIdentityUpdated(Guid.NewGuid(), Time.Now, identity), ctx.RequestAborted);
+        await bus.Publish(new KratosIdentityUpdated(Guid.NewGuid(), Time.UtcNow, identity), ctx.RequestAborted);
         ctx.Response.StatusCode = 200;
 
         logger.Information("Successfully processed sync webhook for identity {IdentityId}", identity.Id);

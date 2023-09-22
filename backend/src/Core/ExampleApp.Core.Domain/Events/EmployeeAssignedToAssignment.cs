@@ -19,7 +19,7 @@ public class EmployeeAssignedToAssignment : IDomainEvent
     public EmployeeAssignedToAssignment(Assignment assignment, EmployeeId? previousEmployeeId)
     {
         Id = Guid.NewGuid();
-        DateOccurred = Time.NowWithOffset.UtcDateTime;
+        DateOccurred = Time.UtcNow;
 
         ProjectId = assignment.ParentProjectId;
         AssignmentId = assignment.Id;

@@ -1,12 +1,10 @@
 <Project>
   <PropertyGroup>
-    <CoreLibVersion>8.0.1991-preview</CoreLibVersion>
-    <!--We can't bump whole corelib until MT with EF Core 8.0.0-preview.6+ is fixed-->
-    <CoreLibLeanPipeDepsVersion>8.0.2022-preview</CoreLibLeanPipeDepsVersion>
-    <ExtensionsVersion>8.0.0-preview.5.23280.8</ExtensionsVersion>
-    <EFCoreVersion>8.0.0-preview.5.23280.1</EFCoreVersion>
-    <AspNetCoreVersion>8.0.0-preview.5.23302.2</AspNetCoreVersion>
-    <MassTransitVersion>8.0.15</MassTransitVersion>
+    <CoreLibVersion>8.0.2106-preview</CoreLibVersion>
+    <ExtensionsVersion>8.0.0-rc.1.23419.4</ExtensionsVersion>
+    <EFCoreVersion>8.0.0-rc.1.23419.6</EFCoreVersion>
+    <AspNetCoreVersion>8.0.0-rc.1.23421.29</AspNetCoreVersion>
+    <MassTransitVersion>8.1.0</MassTransitVersion>
     <NpgsqlVersion>8.0.0-preview.4</NpgsqlVersion>
     <LeanPipeVersion>0.1.5</LeanPipeVersion>
   </PropertyGroup>
@@ -16,13 +14,13 @@
 
     <PackageReference Update="LeanCode.AzureIdentity" Version="$(CoreLibVersion)" />
     <PackageReference Update="LeanCode.ClientCredentialsHandler" Version="$(CoreLibVersion)" />
-    <PackageReference Update="LeanCode.Components" Version="$(CoreLibLeanPipeDepsVersion)" />
+    <PackageReference Update="LeanCode.Components" Version="$(CoreLibVersion)" />
     <PackageReference Update="LeanCode.CQRS" Version="$(CoreLibVersion)" />
     <PackageReference Update="LeanCode.CQRS.AspNetCore" Version="$(CoreLibVersion)" />
     <PackageReference Update="LeanCode.CQRS.Execution" Version="$(CoreLibVersion)" />
     <PackageReference Update="LeanCode.CQRS.MassTransitRelay" Version="$(CoreLibVersion)" />
     <PackageReference Update="LeanCode.CQRS.RemoteHttp.Client" Version="$(CoreLibVersion)" />
-    <PackageReference Update="LeanCode.CQRS.Security" Version="$(CoreLibLeanPipeDepsVersion)" />
+    <PackageReference Update="LeanCode.CQRS.Security" Version="$(CoreLibVersion)" />
     <PackageReference Update="LeanCode.CQRS.Validation.Fluent" Version="$(CoreLibVersion)" />
     <PackageReference Update="LeanCode.Dapper" Version="$(CoreLibVersion)" />
     <PackageReference Update="LeanCode.DomainModels" Version="$(CoreLibVersion)" />
@@ -70,9 +68,10 @@
     <PackageReference Update="Microsoft.Extensions.Http" Version="$(ExtensionsVersion)" />
     <PackageReference Update="Microsoft.Extensions.Http.Polly" Version="$(ExtensionsVersion)" />
 
-    <PackageReference Update="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="$(AspNetCoreVersion)" />
     <PackageReference Update="Microsoft.AspNetCore.Authentication.JwtBearer" Version="$(AspNetCoreVersion)" />
+    <PackageReference Update="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="$(AspNetCoreVersion)" />
     <PackageReference Update="Microsoft.AspNetCore.Mvc.Testing" Version="$(AspNetCoreVersion)" />
+    <PackageReference Update="Microsoft.AspNetCore.SignalR.Client" Version="8.0.0-rc.2.*" />
 
     <PackageReference Update="MassTransit" Version="$(MassTransitVersion)" />
     <PackageReference Update="MassTransit.Azure.ServiceBus.Core" Version="$(MassTransitVersion)" />
@@ -80,32 +79,32 @@
     <PackageReference Update="MassTransit.RabbitMQ" Version="$(MassTransitVersion)" />
 
     <PackageReference Update="Npgsql" Version="$(NpgsqlVersion)" />
-    <PackageReference Update="Npgsql.EntityFrameworkCore.PostgreSQL" Version="$(NpgsqlVersion)" />
+    <PackageReference Update="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.0-rc.1" />
     <PackageReference Update="Npgsql.OpenTelemetry" Version="$(NpgsqlVersion)" />
 
-    <PackageReference Update="OpenTelemetry" Version="1.5.0" />
-    <PackageReference Update="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.5.0" />
-    <PackageReference Update="OpenTelemetry.Extensions.Hosting" Version="1.5.0" />
-    <PackageReference Update="OpenTelemetry.Instrumentation.AspNetCore" Version="1.5.0-beta.1" />
-    <PackageReference Update="OpenTelemetry.Instrumentation.Http" Version="1.5.0-beta.1 " />
+    <PackageReference Update="OpenTelemetry" Version="1.5.1" />
+    <PackageReference Update="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.5.1" />
+    <PackageReference Update="OpenTelemetry.Extensions.Hosting" Version="1.5.1" />
+    <PackageReference Update="OpenTelemetry.Instrumentation.AspNetCore" Version="1.5.1-beta.1" />
+    <PackageReference Update="OpenTelemetry.Instrumentation.Http" Version="1.5.1-beta.1 " />
 
-    <PackageReference Update="System.IdentityModel.Tokens.Jwt" Version="6.31.0" />
+    <PackageReference Update="System.IdentityModel.Tokens.Jwt" Version="7.0.0-preview3" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Update="Dapper" Version="2.0.123" />
-    <PackageReference Update="Polly" Version="7.2.3" />
+    <PackageReference Update="Dapper" Version="2.0.151" />
     <PackageReference Update="LeanPipe" Version="$(LeanPipeVersion)" />
+    <PackageReference Update="Polly" Version="7.2.3" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Update="Microsoft.NET.Test.Sdk" Version="17.2.0" />
-    <PackageReference Update="NSubstitute" Version="4.3.0" />
-    <PackageReference Update="xunit.analyzers" Version="1.0.0" />
-    <PackageReference Update="xunit.runner.visualstudio" Version="2.4.5" />
-    <PackageReference Update="xunit" Version="2.4.2" />
     <PackageReference Update="FluentAssertions" Version="6.12.0" />
     <PackageReference Update="LeanPipe.TestClient" Version="$(LeanPipeVersion)" />
+    <PackageReference Update="Microsoft.NET.Test.Sdk" Version="17.2.0" />
+    <PackageReference Update="NSubstitute" Version="4.3.0" />
+    <PackageReference Update="xunit" Version="2.5.0" />
+    <PackageReference Update="xunit.analyzers" Version="1.2.0" />
+    <PackageReference Update="xunit.runner.visualstudio" Version="2.4.5" />
   </ItemGroup>
 
   <ItemGroup>
