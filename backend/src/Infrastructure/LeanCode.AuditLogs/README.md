@@ -47,14 +47,43 @@ public override void ConfigureServices(IServiceCollection services)
 {
     // some other code
 
-    services.AddTransient<IAuditLogStorage, StubAuditLogStorage>();
+    services.AddTransient<IAuditLogStorage, YourAuditLogStorage>();
 
     // some other code
 }
 ```
 
 Currently there are couple of ready made implementations of `IAuditLogStorage`:
-- StubAuditLogStorage - sample implementation that logs audit information using `Serilog` logger.
+
+#### StubAuditLogStorage
+
+Sample implementation that logs audit information using `Serilog` logger.
+
+#### AzureBlobAuditLogStorage
+
+Storage implementation using Azure Blob Storage service. It stores log for each entity as a separate append blob.
+
+This storage assumes that there is azure storage client configured in DI. It also requires the container name passed via `AzureBlobAuditLogStorageConfiguration` to know where to store audit log files. The storage assumes that container specified as `AuditLogsContainer` is already created (private access is highly recommended).
+
+Example configuration looks like this:
+
+```csharp
+public override void ConfigureServices(IServiceCollection services)
+{
+    // some other code
+
+    services.AddAzureClients(cfg =>
+    {
+        cfg.AddBlobServiceClient(Config.BlobStorage.ConnectionString(config));
+    });
+    services.AddSingleton(new AzureBlobAuditLogStorageConfiguration("audit-logs"));
+    services.AddTransient<IAuditLogStorage, AzureBlobAuditLogStorage>();
+
+    // some other code
+}
+```
+
+#### Other options
 
 If you want to use some other store for your data feel free to implement `IAuditLogStorage` on your own.
 

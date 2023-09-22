@@ -1,4 +1,5 @@
 using LeanCode.Firebase;
+using LeanCode.AuditLogs;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -81,5 +82,6 @@ public static class Config
     {
         services.AddSingleton(new LeanCode.Kratos.KratosWebHookHandlerConfig(Kratos.WebhookApiKey(config)));
         services.AddSingleton(FirebaseConfiguration.Prepare(Google.ApiKey(config), Guid.NewGuid().ToString()));
+        services.AddSingleton(new AzureBlobAuditLogStorageConfiguration("audit-logs"));
     }
 }

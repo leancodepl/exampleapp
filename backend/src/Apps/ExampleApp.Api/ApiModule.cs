@@ -113,7 +113,7 @@ internal static class ApiModule
 
         services.AddSingleton<LeanCode.CQRS.Security.IRoleRegistration, AppRoles>();
         services.AddScoped<KratosIdentitySyncHandler>();
-        services.AddTransient<IAuditLogStorage, StubAuditLogStorage>();
+        services.AddTransient<IAuditLogStorage, AzureBlobAuditLogStorage>();
         services.AddMappedConfiguration(config, hostEnv);
 
         if (!hostEnv.IsDevelopment())

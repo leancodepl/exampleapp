@@ -10,6 +10,9 @@ module "storage" {
     "public" = {
       access_type = "blob"
     }
+    "audit-logs" = {
+      access_type = "private"
+    }
   }
 
   blob_cors_rules = []
