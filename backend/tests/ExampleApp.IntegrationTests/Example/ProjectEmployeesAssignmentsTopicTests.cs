@@ -2,7 +2,7 @@ using ExampleApp.Core.Contracts.Employees;
 using ExampleApp.Core.Contracts.Projects;
 using ExampleApp.IntegrationTests.Helpers;
 using FluentAssertions;
-using LeanPipe.TestClient;
+using LeanCode.Pipe.TestClient;
 using Xunit;
 
 namespace ExampleApp.IntegrationTests.Example;

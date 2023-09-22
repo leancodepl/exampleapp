@@ -1,7 +1,7 @@
 using ExampleApp.Core.Contracts.Projects;
 using ExampleApp.Core.Domain.Events;
 using LeanCode.Contracts;
-using LeanPipe;
+using LeanCode.Pipe;
 using MassTransit;
 
 namespace ExampleApp.Core.Services.Processes.Projects;
@@ -34,6 +34,6 @@ public class PublishEmployeeUnassignedToProjectAssignmentNotification : IConsume
             AssignmentId = msg.AssignmentId,
         };
 
-        await topicPublisher.PublishToTopicAsync(topic, notification, context.CancellationToken);
+        await topicPublisher.PublishAsync(topic, notification, context.CancellationToken);
     }
 }

@@ -1,7 +1,7 @@
 using ExampleApp.Core.Contracts.Projects;
 using ExampleApp.Core.Domain.Events;
 using LeanCode.Contracts;
-using LeanPipe;
+using LeanCode.Pipe;
 using MassTransit;
 
 namespace ExampleApp.Core.Services.Processes.Projects;
@@ -34,7 +34,7 @@ public class PublishEmployeeAssignedToProjectAssignmentNotification : IConsumer<
             AssignmentId = msg.AssignmentId,
         };
 
-        await topicPublisher.PublishToTopicAsync(assignmentTopic, assignmentNotification, context.CancellationToken);
+        await topicPublisher.PublishAsync(assignmentTopic, assignmentNotification, context.CancellationToken);
 
         if (msg.PreviousEmployeeId is { } previousEmployeeId)
         {
@@ -46,11 +46,7 @@ public class PublishEmployeeAssignedToProjectAssignmentNotification : IConsumer<
                 AssignmentId = msg.AssignmentId,
             };
 
-            await topicPublisher.PublishToTopicAsync(
-                unassignmentTopic,
-                unassignmentNotification,
-                context.CancellationToken
-            );
+            await topicPublisher.PublishAsync(unassignmentTopic, unassignmentNotification, context.CancellationToken);
         }
     }
 }

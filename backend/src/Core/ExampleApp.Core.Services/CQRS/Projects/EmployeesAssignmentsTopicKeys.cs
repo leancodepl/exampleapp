@@ -1,9 +1,14 @@
 using ExampleApp.Core.Contracts.Projects;
-using LeanPipe;
+using LeanCode.Pipe;
 
 namespace ExampleApp.Core.Services.CQRS.Projects;
 
-public class EmployeeAssignmentsTopicKeys : BasicTopicKeys<EmployeeAssignmentsTopic>
+public class EmployeeAssignmentsTopicKeys
+    : BasicTopicKeys<
+        EmployeeAssignmentsTopic,
+        EmployeeAssignedToProjectAssignmentDTO,
+        EmployeeUnassignedFromProjectAssignmentDTO
+    >
 {
     public override IEnumerable<string> Get(EmployeeAssignmentsTopic topic) => new[] { topic.EmployeeId };
 }

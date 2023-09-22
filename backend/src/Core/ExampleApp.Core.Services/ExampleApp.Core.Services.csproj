@@ -24,6 +24,7 @@
     <PackageReference Include="LeanCode.DomainModels.EF" />
     <PackageReference Include="LeanCode.Kratos" />
     <PackageReference Include="LeanCode.Npgsql.ActiveDirectory" />
+    <PackageReference Include="LeanCode.Pipe" />
 
     <PackageReference Include="MassTransit" />
     <PackageReference Include="MassTransit.EntityFrameworkCore" />
@@ -31,8 +32,5 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore" />
 
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
-
-    <PackageReference Include="LeanPipe" />
-
   </ItemGroup>
 </Project>

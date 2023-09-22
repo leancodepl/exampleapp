@@ -6,7 +6,7 @@
     <AspNetCoreVersion>8.0.0-rc.1.23421.29</AspNetCoreVersion>
     <MassTransitVersion>8.1.0</MassTransitVersion>
     <NpgsqlVersion>8.0.0-preview.4</NpgsqlVersion>
-    <LeanPipeVersion>0.1.5</LeanPipeVersion>
+    <LeanPipeVersion>0.1.6</LeanPipeVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -71,7 +71,6 @@
     <PackageReference Update="Microsoft.AspNetCore.Authentication.JwtBearer" Version="$(AspNetCoreVersion)" />
     <PackageReference Update="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="$(AspNetCoreVersion)" />
     <PackageReference Update="Microsoft.AspNetCore.Mvc.Testing" Version="$(AspNetCoreVersion)" />
-    <PackageReference Update="Microsoft.AspNetCore.SignalR.Client" Version="8.0.0-rc.2.*" />
 
     <PackageReference Update="MassTransit" Version="$(MassTransitVersion)" />
     <PackageReference Update="MassTransit.Azure.ServiceBus.Core" Version="$(MassTransitVersion)" />
@@ -93,13 +92,13 @@
 
   <ItemGroup>
     <PackageReference Update="Dapper" Version="2.0.151" />
-    <PackageReference Update="LeanPipe" Version="$(LeanPipeVersion)" />
+    <PackageReference Update="LeanCode.Pipe" Version="$(LeanPipeVersion)" />
     <PackageReference Update="Polly" Version="7.2.3" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Update="FluentAssertions" Version="6.12.0" />
-    <PackageReference Update="LeanPipe.TestClient" Version="$(LeanPipeVersion)" />
+    <PackageReference Update="LeanCode.Pipe.TestClient" Version="$(LeanPipeVersion)" />
     <PackageReference Update="Microsoft.NET.Test.Sdk" Version="17.2.0" />
     <PackageReference Update="NSubstitute" Version="4.3.0" />
     <PackageReference Update="xunit" Version="2.5.0" />
