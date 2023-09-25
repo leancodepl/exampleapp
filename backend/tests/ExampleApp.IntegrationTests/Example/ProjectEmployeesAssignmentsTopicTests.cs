@@ -2,7 +2,7 @@ using ExampleApp.Core.Contracts.Employees;
 using ExampleApp.Core.Contracts.Projects;
 using ExampleApp.IntegrationTests.Helpers;
 using FluentAssertions;
-using LeanPipe.TestClient;
+using LeanCode.Pipe.TestClient;
 using Xunit;
 
 namespace ExampleApp.IntegrationTests.Example;
@@ -25,14 +25,17 @@ public class ProjectEmployeesAssignmentsTopicTests : TestsBase<AuthenticatedExam
 
         async Task CheckNotificationOnAssigningEmployeeToAssignment()
         {
+            var nextNotification = App.LeanPipe.WaitForNextNotificationOn(topic);
             await AssignEmployeeToAssignmentAsync(assignment, employee);
+            var notification = await nextNotification;
 
             App.LeanPipe
                 .NotificationsOn(topic)
                 .Should()
                 .ContainSingle()
                 .Which.Should()
-                .BeEquivalentTo(
+                .BeSameAs(notification)
+                .And.BeEquivalentTo(
                     new EmployeeAssignedToAssignmentDTO { AssignmentId = assignment.Id, EmployeeId = employee.Id },
                     opts => opts.RespectingRuntimeTypes()
                 );
@@ -40,15 +43,18 @@ public class ProjectEmployeesAssignmentsTopicTests : TestsBase<AuthenticatedExam
 
         async Task CheckNotificationOnUnassigningEmployeeFromAssignment()
         {
+            var nextNotification = App.LeanPipe.WaitForNextNotificationOn(topic);
             await UnassignEmployeeFromAssignmentAsync(assignment);
+            var notification = await nextNotification;
 
             App.LeanPipe
                 .NotificationsOn(topic)
                 .Should()
                 .HaveCount(2)
-                .And.Subject.Last()
+                .And.Subject.First()
                 .Should()
-                .BeEquivalentTo(
+                .BeSameAs(notification)
+                .And.BeEquivalentTo(
                     new EmployeeUnassignedFromAssignmentDTO { AssignmentId = assignment.Id },
                     opts => opts.RespectingRuntimeTypes()
                 );
@@ -71,8 +77,6 @@ public class ProjectEmployeesAssignmentsTopicTests : TestsBase<AuthenticatedExam
     private async Task UnassignEmployeeFromAssignmentAsync(AssignmentDTO assignment)
     {
         await App.Command.RunSuccessAsync(new UnassignEmployeeFromAssignment { AssignmentId = assignment.Id });
-
-        await App.WaitForBusAsync();
     }
 
     private async Task AssignEmployeeToAssignmentAsync(AssignmentDTO assignment, EmployeeDTO employee)
@@ -80,8 +84,6 @@ public class ProjectEmployeesAssignmentsTopicTests : TestsBase<AuthenticatedExam
         await App.Command.RunSuccessAsync(
             new AssignEmployeeToAssignment { AssignmentId = assignment.Id, EmployeeId = employee.Id }
         );
-
-        await App.WaitForBusAsync();
     }
 
     private async Task<EmployeeDTO> CreateEmployeeAsync()

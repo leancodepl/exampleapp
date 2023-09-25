@@ -1,7 +1,7 @@
 using ExampleApp.Core.Contracts.Projects;
 using ExampleApp.Core.Domain.Events;
 using LeanCode.Contracts;
-using LeanPipe;
+using LeanCode.Pipe;
 using MassTransit;
 
 namespace ExampleApp.Core.Services.Processes.Projects;
@@ -28,6 +28,6 @@ public class PublishEmployeeAssignedToAssignmentNotification : IConsumer<Employe
             EmployeeId = msg.EmployeeId,
         };
 
-        return topicPublisher.PublishToTopicAsync(topic, notification, context.CancellationToken);
+        return topicPublisher.PublishAsync(topic, notification, context.CancellationToken);
     }
 }

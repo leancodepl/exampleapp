@@ -3,6 +3,7 @@ using ExampleApp.Core.Contracts;
 using ExampleApp.Core.Contracts.Identities;
 using ExampleApp.Core.Services.DataAccess;
 using LeanCode.CQRS.Execution;
+using LeanCode.QueryableExtensions;
 using Microsoft.AspNetCore.Http;
 
 namespace ExampleApp.Core.Services.CQRS.Projects;

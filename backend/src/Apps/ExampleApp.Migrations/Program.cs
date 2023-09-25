@@ -1,6 +1,10 @@
-using LeanCode.EFMigrator;
+using System.Data.Common;
 using ExampleApp.Core.Services.DataAccess;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Infrastructure;
+using LeanCode.AzureIdentity;
+using LeanCode.EFMigrator;
+using LeanCode.Npgsql.ActiveDirectory;
+using Microsoft.EntityFrameworkCore;
+using Npgsql;
 
 namespace ExampleApp.Migrations;
 
@@ -10,22 +14,41 @@ public class Program
     {
         MigrationsConfig.ConnectionStringKey = "PostgreSQL:ConnectionString";
 
-        new Migrator().Run(args);
+        new CoreMigrator().Run(args);
     }
 }
 
-internal class Migrator : LeanCode.EFMigrator.Migrator
+internal class CoreMigrator : Migrator
 {
-    protected override void MigrateAll()
-    {
-        Migrate<CoreDbContext, CoreDbContextFactory>();
-    }
-}
+    private static readonly NpgsqlDataSource DataSource = CreateDataSource();
 
-internal class CoreDbContextFactory : BaseFactory<CoreDbContext, CoreDbContextFactory>
-{
-    protected override void UseAdditionalNpgsqlDbContextOptions(NpgsqlDbContextOptionsBuilder builder)
+    private static NpgsqlDataSource CreateDataSource()
     {
-        builder.SetPostgresVersion(15, 0);
+        var connectionString =
+            MigrationsConfig.GetConnectionString()
+            ?? throw new InvalidOperationException("Failed to find connection string.");
+
+        var dataSourceBuilder = new NpgsqlDataSourceBuilder(connectionString);
+
+        if (dataSourceBuilder.ConnectionStringBuilder.Password is null)
+        {
+            dataSourceBuilder.UseAzureActiveDirectoryAuthentication(DefaultLeanCodeCredential.CreateFromEnvironment());
+        }
+
+        return dataSourceBuilder.Build();
+    }
+
+    protected override DbConnection GetDbConnection() => DataSource.CreateConnection();
+
+    protected override void MigrateAll() => Migrate<CoreDbContext, CoreDbContextFactory>();
+
+    private class CoreDbContextFactory : BaseFactory<CoreDbContext, CoreDbContextFactory>
+    {
+        public override DbContextOptionsBuilder<CoreDbContext> UseDbProvider(
+            DbContextOptionsBuilder<CoreDbContext> builder
+        )
+        {
+            return builder.UseNpgsql(DataSource, cfg => cfg.MigrationsAssembly(AssemblyName).SetPostgresVersion(15, 0));
+        }
     }
 }
