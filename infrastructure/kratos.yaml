@@ -7,6 +7,10 @@ serve:
       allowed_origins:
         - https://${domain}
         - https://*.${domain}
+        %{ for origin in dev_allowed_origins ~}
+        - https://${origin}
+        - https://*.${origin}
+        %{ endfor ~}
 cookies:
   domain: "${domain}"
   same_site: Lax
@@ -18,6 +22,10 @@ selfservice:
   allowed_return_urls:
     - https://${domain}/
     - pl.leancode.template.tst://app
+    %{ for origin in dev_allowed_origins ~}
+    - https://${origin}
+    - https://*.${origin}
+    %{ endfor ~}
   methods:
     link:
       config:
