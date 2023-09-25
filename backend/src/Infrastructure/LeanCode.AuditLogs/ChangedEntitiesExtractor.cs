@@ -22,10 +22,9 @@ public static class ChangedEntitiesExtractor
             .Where(e => e.State != EntityState.Unchanged && e.State != EntityState.Detached)
             .Select(
                 e =>
-                    new EntityData
-                    {
+                    new EntityData(
                         // TODO: FIXME, I fail with owned entities
-                        Ids = e.Metadata
+                        e.Metadata
                             .FindPrimaryKey()!
                             .Properties.Select(
                                 p =>
@@ -36,10 +35,10 @@ public static class ChangedEntitiesExtractor
                                     )
                             )
                             .ToList(),
-                        Type = e.Metadata.ClrType.ToString(),
-                        Changes = JsonSerializer.Serialize(e.Entity, Options),
-                        EntityState = e.State.ToString(),
-                    }
+                        e.Metadata.ClrType.ToString(),
+                        JsonSerializer.Serialize(e.Entity, Options),
+                        e.State.ToString()
+                    )
             )
             .ToList();
     }

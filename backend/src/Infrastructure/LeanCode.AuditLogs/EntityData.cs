@@ -1,9 +1,3 @@
 namespace LeanCode.AuditLogs;
 
-public class EntityData
-{
-    public IReadOnlyList<string> Ids { get; set; } = null!;
-    public string Type { get; set; } = null!;
-    public string Changes { get; set; } = null!;
-    public string EntityState { get; set; } = null!;
-}
+public record EntityData(IReadOnlyList<string> Ids, string Type, string Changes, string EntityState);

@@ -24,10 +24,9 @@ public class AuditLogsConsumer : IConsumer<AuditLogMessage>
     }
 }
 
-public class AuditLogMessage
-{
-    public IReadOnlyList<EntityData> EntitiesChanged { get; set; } = null!;
-    public string ActionName { get; set; } = null!;
-    public DateTime DateOccurred { get; set; }
-    public string? ActorId { get; set; }
-}
+public record AuditLogMessage(
+    IReadOnlyList<EntityData> EntitiesChanged,
+    string ActionName,
+    DateTime DateOccurred,
+    string? ActorId
+);
