@@ -27,6 +27,6 @@ public class AuditLogsConsumer : IConsumer<AuditLogMessage>
 public record AuditLogMessage(
     IReadOnlyList<EntityData> EntitiesChanged,
     string ActionName,
-    DateTime DateOccurred,
+    DateTimeOffset DateOccurred,
     string? ActorId
 );

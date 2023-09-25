@@ -35,7 +35,7 @@ public class AuditLogsFilter<TDbContext, TConsumer, TMessage> : IFilter<Consumer
         {
             var actorId = Activity.Current?.GetBaggageItem(IdentityTraceBaggageHelpers.UserIdKey);
             var actionName = context.Consumer.ToString()!;
-            var now = Time.Now;
+            var now = Time.NowWithOffset;
 
             await bus.Publish(
                 new AuditLogMessage(entitiesChanged, actionName, now, actorId),

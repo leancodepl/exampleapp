@@ -31,7 +31,7 @@ public class AzureBlobAuditLogStorage : IAuditLogStorage
     public Task StoreEventAsync(
         IReadOnlyList<EntityData> entitiesChanged,
         string? actionName,
-        DateTime dateOccurred,
+        DateTimeOffset dateOccurred,
         string? actorId,
         CancellationToken cancellationToken
     )
@@ -78,5 +78,5 @@ public class EntryDataDTO
     public EntityData EntityChanged { get; set; } = null!;
     public string? ActionName { get; set; }
     public string? ActorId { get; set; }
-    public DateTime DateOccurred { get; set; }
+    public DateTimeOffset DateOccurred { get; set; }
 }

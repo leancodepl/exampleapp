@@ -9,7 +9,7 @@ public class StubAuditLogStorage : IAuditLogStorage
     public Task StoreEventAsync(
         IReadOnlyList<EntityData> entitiesChanged,
         string? actionName,
-        DateTime dateOccurred,
+        DateTimeOffset dateOccurred,
         string? actorId,
         CancellationToken cancellationToken
     )

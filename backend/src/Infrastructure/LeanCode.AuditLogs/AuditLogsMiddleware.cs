@@ -26,7 +26,7 @@ public class AuditLogsMiddleware<TDbContext>
         {
             var actorId = Activity.Current?.GetBaggageItem(IdentityTraceBaggageHelpers.UserIdKey);
             var actionName = httpContext.Request.Path.ToString();
-            var now = Time.Now;
+            var now = Time.NowWithOffset;
 
             await bus.Publish(
                 new AuditLogMessage(entitiesChanged, actionName, now, actorId),
