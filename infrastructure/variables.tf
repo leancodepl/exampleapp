@@ -63,5 +63,9 @@ variable "office_ip" {
 }
 
 variable "well_known" {
-  type    = map(string)
+  type = map(string)
+}
+
+variable "kratos_dev_allowed_origins" {
+  type = list(string)
 }
