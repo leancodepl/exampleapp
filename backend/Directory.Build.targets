@@ -109,7 +109,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Update="Serilog" Version="2.12.0" />
+    <PackageReference Update="Serilog" Version="3.0.1" />
     <PackageReference Update="Serilog.Extensions.Logging" Version="7.0.0" />
     <PackageReference Update="Serilog.Sinks.Console" Version="3.1.1" />
     <PackageReference Update="Serilog.Sinks.Seq" Version="5.2.2" />
