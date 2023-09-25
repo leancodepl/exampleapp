@@ -1,16 +1,16 @@
-using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Specialized;
-using Serilog;
+using LeanCode.TimeProvider;
+using Polly;
+using Polly.Retry;
 
 namespace LeanCode.AuditLogs;
 
 public class AzureBlobAuditLogStorage : IAuditLogStorage
 {
-    private static ReadOnlySpan<byte> NewLineBytes => "\n"u8;
     private static readonly JsonSerializerOptions Options =
         new()
         {
@@ -18,6 +18,10 @@ public class AzureBlobAuditLogStorage : IAuditLogStorage
             ReferenceHandler = ReferenceHandler.IgnoreCycles,
             WriteIndented = false,
         };
+
+    public static readonly AsyncRetryPolicy RetryOnFailure = Policy
+        .Handle<Exception>()
+        .WaitAndRetryAsync(20, a => TimeSpan.FromSeconds(Math.Min(Math.Pow(2, a), 120)));
 
     private readonly BlobServiceClient client;
     private readonly AzureBlobAuditLogStorageConfiguration config;
@@ -58,11 +62,23 @@ public class AzureBlobAuditLogStorage : IAuditLogStorage
         var container = client.GetBlobContainerClient(config.AuditLogsContainer);
         var blob = container.GetAppendBlobClient(GetBlobName(entryData.EntityChanged));
         await blob.CreateIfNotExistsAsync(cancellationToken: cancellationToken);
-        using var stream = new MemoryStream();
-        JsonSerializer.Serialize(stream, entryData, Options);
-        stream.Write(NewLineBytes.ToArray(), 0, NewLineBytes.Length);
-        stream.Position = 0;
-        await blob.AppendBlockAsync(stream, cancellationToken: cancellationToken);
+        var lease = blob.GetBlobLeaseClient();
+
+        var x = await RetryOnFailure.ExecuteAsync(
+            () => lease.AcquireAsync(Timeout.InfiniteTimeSpan, cancellationToken: cancellationToken)
+        );
+
+        try
+        {
+            await using var stream = await blob.OpenWriteAsync(overwrite: false, cancellationToken: cancellationToken);
+            await JsonSerializer.SerializeAsync(stream, entryData, Options, cancellationToken);
+            stream.Write("\n"u8);
+            await stream.FlushAsync(cancellationToken);
+        }
+        finally
+        {
+            await lease.ReleaseAsync(cancellationToken: cancellationToken);
+        }
     }
 
     private static string GetBlobName(EntityData entity)
