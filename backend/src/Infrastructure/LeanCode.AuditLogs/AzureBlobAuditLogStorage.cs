@@ -10,7 +10,7 @@ namespace LeanCode.AuditLogs;
 
 public class AzureBlobAuditLogStorage : IAuditLogStorage
 {
-    private static readonly byte[] NewLineBytes = Encoding.UTF8.GetBytes("\n");
+    private static ReadOnlySpan<byte> NewLineBytes => "\n"u8;
     private static readonly JsonSerializerOptions Options =
         new()
         {
@@ -60,7 +60,7 @@ public class AzureBlobAuditLogStorage : IAuditLogStorage
         await blob.CreateIfNotExistsAsync(cancellationToken: cancellationToken);
         using var stream = new MemoryStream();
         JsonSerializer.Serialize(stream, entryData, Options);
-        stream.Write(NewLineBytes, 0, NewLineBytes.Length);
+        stream.Write(NewLineBytes.ToArray(), 0, NewLineBytes.Length);
         stream.Position = 0;
         await blob.AppendBlockAsync(stream, cancellationToken: cancellationToken);
     }
