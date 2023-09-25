@@ -67,7 +67,7 @@ public class AzureBlobAuditLogStorage : IAuditLogStorage
 
     private static string GetBlobName(EntityData entity)
     {
-        return $"{entity.Type}/{string.Join("", entity.Ids)}.log";
+        return $"{entity.Type}/{string.Join("", entity.Ids)}";
     }
 }
 
