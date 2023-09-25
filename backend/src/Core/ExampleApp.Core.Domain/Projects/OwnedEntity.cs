@@ -1,19 +1,18 @@
-namespace ExampleApp.Core.Domain.Projects
+namespace ExampleApp.Core.Domain.Projects;
+
+public class OwnedEntity
 {
-    public class OwnedEntity
+    public int SomeInt { get; private set; }
+    public string SomeString { get; private set; } = null!;
+
+    public OwnedEntity(int someInt, string someString)
     {
-        public int SomeInt { get; private set; }
-        public string SomeString { get; private set; } = null!;
+        SomeInt = someInt;
+        SomeString = someString;
+    }
 
-        public OwnedEntity(int someInt, string someString)
-        {
-            SomeInt = someInt;
-            SomeString = someString;
-        }
-
-        public void Update(string someString)
-        {
-            SomeString = someString;
-        }
+    public void Update(string someString)
+    {
+        SomeString = someString;
     }
 }
