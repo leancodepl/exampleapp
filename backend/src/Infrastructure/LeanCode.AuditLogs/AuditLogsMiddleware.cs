@@ -22,7 +22,7 @@ public class AuditLogsMiddleware<TDbContext>
         await next(httpContext);
 
         var entitiesChanged = ChangedEntitiesExtractor.Extract(dbContext);
-        if (entitiesChanged.Any())
+        if (entitiesChanged.Count != 0)
         {
             var actorId = Activity.Current?.GetBaggageItem(IdentityTraceBaggageHelpers.UserIdKey);
             var actionName = httpContext.Request.Path.ToString();
