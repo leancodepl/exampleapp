@@ -17,7 +17,7 @@ public class AzureBlobAuditLogStorage : IAuditLogStorage
             ReferenceHandler = ReferenceHandler.IgnoreCycles,
             WriteIndented = false,
         };
-    private readonly ILogger logger = Log.ForContext<AzureBlobAuditLogStorage>();
+
     private readonly BlobServiceClient client;
     private readonly AzureBlobAuditLogStorageConfiguration config;
 
