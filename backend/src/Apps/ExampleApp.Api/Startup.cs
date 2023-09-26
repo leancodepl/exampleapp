@@ -11,6 +11,7 @@ using LeanCode.CQRS.AspNetCore;
 using LeanCode.CQRS.MassTransitRelay;
 using LeanCode.CQRS.MassTransitRelay.Middleware;
 using LeanCode.CQRS.Validation.Fluent;
+using LeanCode.Firebase.FCM;
 using LeanCode.ForceUpdate;
 using LeanCode.Localization;
 using LeanCode.OpenTelemetry;
@@ -57,6 +58,7 @@ public class Startup : LeanStartup
 
         services.AddFluentValidation(AllHandlers);
         services.AddStringLocalizer(LocalizationConfiguration.For<Strings.Strings>());
+        services.AddFCM<Guid>(fcm => fcm.AddTokenStore<CoreDbContext>());
         services.AddCoreServices(Config.PostgreSQL.ConnectionString(Configuration));
         services.AddApiServices(Configuration, hostEnv);
 

@@ -1,6 +1,6 @@
 <Project>
   <PropertyGroup>
-    <CoreLibVersion>8.0.2106-preview</CoreLibVersion>
+    <CoreLibVersion>8.0.2139-preview</CoreLibVersion>
     <ExtensionsVersion>8.0.0-rc.1.23419.4</ExtensionsVersion>
     <EFCoreVersion>8.0.0-rc.1.23419.6</EFCoreVersion>
     <AspNetCoreVersion>8.0.0-rc.1.23421.29</AspNetCoreVersion>
@@ -27,6 +27,8 @@
     <PackageReference Update="LeanCode.DomainModels.EF" Version="$(CoreLibVersion)" />
     <PackageReference Update="LeanCode.DomainModels.Generators" Version="$(CoreLibVersion)" />
     <PackageReference Update="LeanCode.EFMigrator" Version="$(CoreLibVersion)" />
+    <PackageReference Update="LeanCode.Firebase" Version="$(CoreLibVersion)" />
+    <PackageReference Update="LeanCode.Firebase.FCM" Version="$(CoreLibVersion)" />
     <PackageReference Update="LeanCode.ForceUpdate" Version="$(CoreLibVersion)" />
     <PackageReference Update="LeanCode.ForceUpdate.Contracts" Version="$(CoreLibVersion)" />
     <PackageReference Update="LeanCode.Kratos" Version="$(CoreLibVersion)" />

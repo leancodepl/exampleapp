@@ -1,3 +1,4 @@
+using LeanCode.Firebase;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -32,6 +33,11 @@ public static class Config
         {
             public static string Endpoint(IConfiguration cfg) => cfg.GetString("MassTransit:AzureServiceBus:Endpoint");
         }
+    }
+
+    public static class Google
+    {
+        public static string? ApiKey(IConfiguration cfg) => cfg.GetString("Google:ApiKey");
     }
 
     public static class Services
@@ -74,5 +80,6 @@ public static class Config
     )
     {
         services.AddSingleton(new LeanCode.Kratos.KratosWebHookHandlerConfig(Kratos.WebhookApiKey(config)));
+        services.AddSingleton(FirebaseConfiguration.Prepare(Google.ApiKey(config), Guid.NewGuid().ToString()));
     }
 }
