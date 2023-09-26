@@ -19,6 +19,8 @@ public class AuditLogsConsumer : IConsumer<AuditLogMessage>
             msg.ActionName,
             msg.DateOccurred,
             msg.ActorId,
+            msg.TraceId,
+            msg.SpanId,
             context.CancellationToken
         );
     }
@@ -28,5 +30,7 @@ public record AuditLogMessage(
     IReadOnlyList<EntityData> EntitiesChanged,
     string ActionName,
     DateTimeOffset DateOccurred,
-    string? ActorId
+    string? ActorId,
+    string? TraceId,
+    string? SpanId
 );

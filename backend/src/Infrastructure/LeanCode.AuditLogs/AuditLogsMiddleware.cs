@@ -29,7 +29,14 @@ public class AuditLogsMiddleware<TDbContext>
             var now = Time.NowWithOffset;
 
             await bus.Publish(
-                new AuditLogMessage(entitiesChanged, actionName, now, actorId),
+                new AuditLogMessage(
+                    entitiesChanged,
+                    actionName,
+                    now,
+                    actorId,
+                    Activity.Current?.TraceId.ToString(),
+                    Activity.Current?.SpanId.ToString()
+                ),
                 httpContext.RequestAborted
             );
         }

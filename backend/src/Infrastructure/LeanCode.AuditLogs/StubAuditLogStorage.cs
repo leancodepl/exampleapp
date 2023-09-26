@@ -11,6 +11,8 @@ public class StubAuditLogStorage : IAuditLogStorage
         string? actionName,
         DateTimeOffset dateOccurred,
         string? actorId,
+        string? traceId,
+        string? spanId,
         CancellationToken cancellationToken
     )
     {

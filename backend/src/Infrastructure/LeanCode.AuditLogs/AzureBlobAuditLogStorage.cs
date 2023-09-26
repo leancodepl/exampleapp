@@ -33,6 +33,8 @@ public class AzureBlobAuditLogStorage : IAuditLogStorage
         string? actionName,
         DateTimeOffset dateOccurred,
         string? actorId,
+        string? traceId,
+        string? spanId,
         CancellationToken cancellationToken
     )
     {
@@ -45,6 +47,8 @@ public class AzureBlobAuditLogStorage : IAuditLogStorage
                         ActionName = actionName,
                         ActorId = actorId,
                         DateOccurred = dateOccurred,
+                        TraceId = traceId,
+                        SpanId = spanId,
                     },
                     cancellationToken
                 )
@@ -79,4 +83,6 @@ public class EntryDataDTO
     public string? ActionName { get; set; }
     public string? ActorId { get; set; }
     public DateTimeOffset DateOccurred { get; set; }
+    public string? TraceId { get; set; }
+    public string? SpanId { get; set; }
 }

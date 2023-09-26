@@ -38,7 +38,14 @@ public class AuditLogsFilter<TDbContext, TConsumer, TMessage> : IFilter<Consumer
             var now = Time.NowWithOffset;
 
             await bus.Publish(
-                new AuditLogMessage(entitiesChanged, actionName, now, actorId),
+                new AuditLogMessage(
+                    entitiesChanged,
+                    actionName,
+                    now,
+                    actorId,
+                    Activity.Current?.TraceId.ToString(),
+                    Activity.Current?.SpanId.ToString()
+                ),
                 context.CancellationToken
             );
         }
