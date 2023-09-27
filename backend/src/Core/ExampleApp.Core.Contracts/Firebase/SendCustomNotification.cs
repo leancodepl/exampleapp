@@ -7,9 +7,11 @@ namespace ExampleApp.Core.Contracts.Firebase;
 public class SendCustomNotification : ICommand
 {
     public string Content { get; set; }
+    public Uri? ImageUrl { get; set; }
 
     public static class ErrorCodes
     {
         public const int ContentCannotBeEmpty = 1;
+        public const int ImageUrlInvalid = 2;
     }
 }
