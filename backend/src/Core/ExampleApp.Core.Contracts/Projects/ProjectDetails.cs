@@ -12,6 +12,7 @@ public class ProjectDetails : IQuery<ProjectDetailsDTO?>
 public class ProjectDetailsDTO : ProjectDTO
 {
     public List<AssignmentDTO> Assignments { get; set; }
+    public int Counter { get; set; }
 }
 
 public class AssignmentDTO : AssignmentWriteDTO

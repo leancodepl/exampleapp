@@ -18,6 +18,7 @@ public class Project : IAggregateRoot<ProjectId>
 
     public ProjectId Id { get; private init; }
     public string Name { get; private set; } = default!;
+    public int Counter { get; private set; }
 
     public IReadOnlyList<Assignment> Assignments => assignments;
     public IReadOnlyList<OwnedEntity> OwnedEntities => ownedEntities;
@@ -29,9 +30,15 @@ public class Project : IAggregateRoot<ProjectId>
 
     public static Project Create(string name)
     {
-        var p = new Project { Id = ProjectId.New(), Name = name, };
+        var p = new Project
+        {
+            Id = ProjectId.New(),
+            Name = name,
+            Counter = 0,
+        };
 
         DomainEvents.Raise(new ProjectCreated(p));
+        DomainEvents.Raise(new ProjectCounterIncreased(p));
 
         return p;
     }
@@ -62,6 +69,13 @@ public class Project : IAggregateRoot<ProjectId>
         Name = newName;
 
         DomainEvents.Raise(new ProjectNameChanged(this));
+    }
+
+    public void IncreaseCounter()
+    {
+        Counter++;
+
+        DomainEvents.Raise(new ProjectCounterIncreased(this));
     }
 
     public void AddAssignments(IEnumerable<string> assignmentNames)

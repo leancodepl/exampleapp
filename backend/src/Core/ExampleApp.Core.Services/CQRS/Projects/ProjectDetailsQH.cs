@@ -34,6 +34,7 @@ public class ProjectDetailsQH : IQueryHandler<ProjectDetails, ProjectDetailsDTO?
                         Assignments = p.Assignments
                             .Select(a => new AssignmentDTO { Id = a.Id, Name = a.Name })
                             .ToList(),
+                        Counter = p.Counter,
                     }
             )
             .FirstOrDefaultAsync(context.RequestAborted);
