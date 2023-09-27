@@ -2,8 +2,11 @@ using ExampleApp.Core.Domain.Employees;
 using ExampleApp.Core.Domain.Projects;
 using ExampleApp.Core.Services.DataAccess.Entities;
 using LeanCode.DomainModels.EF;
+using LeanCode.DomainModels.Ids;
 using Microsoft.EntityFrameworkCore;
 using MassTransit;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Text.Json;
 
 namespace ExampleApp.Core.Services.DataAccess;
 
@@ -19,20 +22,18 @@ public class CoreDbContext : DbContext
 
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
     {
-        configurationBuilder
-            .Properties<EmployeeId>()
-            .HaveColumnType("employee_id")
-            .HaveConversion<PrefixedTypedIdConverter<EmployeeId>, PrefixedTypedIdComparer<EmployeeId>>();
+        ConfigureId<EmployeeId>(configurationBuilder);
+        ConfigureId<ProjectId>(configurationBuilder);
+        ConfigureId<AssignmentId>(configurationBuilder);
 
-        configurationBuilder
-            .Properties<ProjectId>()
-            .HaveColumnType("project_id")
-            .HaveConversion<PrefixedTypedIdConverter<ProjectId>, PrefixedTypedIdComparer<ProjectId>>();
-
-        configurationBuilder
-            .Properties<AssignmentId>()
-            .HaveColumnType("assignment_id")
-            .HaveConversion<PrefixedTypedIdConverter<AssignmentId>, PrefixedTypedIdComparer<AssignmentId>>();
+        static PropertiesConfigurationBuilder<TId> ConfigureId<TId>(ModelConfigurationBuilder configurationBuilder)
+            where TId : struct, IPrefixedTypedId<TId>
+        {
+            return configurationBuilder
+                .Properties<TId>()
+                .HaveColumnType(JsonNamingPolicy.SnakeCaseLower.ConvertName(typeof(TId).Name))
+                .HaveConversion<PrefixedTypedIdConverter<TId>, PrefixedTypedIdComparer<TId>>();
+        }
     }
 
     protected override void OnModelCreating(ModelBuilder builder)

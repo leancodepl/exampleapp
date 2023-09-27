@@ -23,6 +23,8 @@ public class ExampleAppTestApp : LeanCodeTestFactory<Startup>
 {
     public readonly Guid SuperAdminId = Guid.Parse("4d3b45e6-a2c1-4d6a-9e23-94e0d9f8ca01");
 
+    public bool SkipDbContextOverrideAndInitialization { get; init; } = false;
+
     protected override ConfigurationOverrides Configuration { get; } =
         new(
             connectionStringBase: "PostgreSQL__ConnectionStringBase",
@@ -63,9 +65,13 @@ public class ExampleAppTestApp : LeanCodeTestFactory<Startup>
 
         builder.ConfigureServices(services =>
         {
-            services.RemoveAll<CoreDbContext>();
-            services.AddScoped<CoreDbContext, Overrides.CoreDbContext>();
-            services.AddHostedService<DbContextInitializer<CoreDbContext>>();
+            if (!SkipDbContextOverrideAndInitialization)
+            {
+                services.RemoveAll<CoreDbContext>();
+                services.AddScoped<CoreDbContext, Overrides.CoreDbContext>();
+                services.AddHostedService<DbContextInitializer<CoreDbContext>>();
+            }
+
             services.AddBusActivityMonitor();
 
             services.AddAuthentication(TestAuthenticationHandler.SchemeName).AddTestAuthenticationHandler();
