@@ -14,6 +14,6 @@ public class CreateEmployee : ICommand
         public const int NameCannotBeEmpty = 1;
         public const int NameTooLong = 2;
         public const int EmailInvalid = 3;
-        public const int EmailIsNotUnique = 2;
+        public const int EmailIsNotUnique = 4;
     }
 }
