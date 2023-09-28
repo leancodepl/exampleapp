@@ -6,11 +6,51 @@ using Azure.Data.Tables;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 using Azure.Storage.Blobs.Specialized;
+using MassTransit;
 using Serilog;
 
 namespace LeanCode.AuditLogs;
 
 public class AzureBlobAuditLogStorage : IAuditLogStorage
+{
+    private readonly IBus bus;
+
+    public AzureBlobAuditLogStorage(IBus bus)
+    {
+        this.bus = bus;
+    }
+
+    public Task StoreEventAsync(
+        IReadOnlyList<EntityData> entitiesChanged,
+        string? actionName,
+        DateTimeOffset dateOccurred,
+        string? actorId,
+        string? traceId,
+        string? spanId,
+        CancellationToken cancellationToken
+    )
+    {
+        var logsToAppend = entitiesChanged.Select(
+            entityChanged =>
+                bus.Publish(
+                    new EntryDataDTO
+                    {
+                        EntityChanged = entityChanged,
+                        ActionName = actionName,
+                        ActorId = actorId,
+                        DateOccurred = dateOccurred,
+                        TraceId = traceId,
+                        SpanId = spanId,
+                    },
+                    cancellationToken
+                )
+        );
+
+        return Task.WhenAll(logsToAppend);
+    }
+}
+
+public class AzureBlobAuditLogStorageUploader : IConsumer<EntryDataDTO>
 {
     private readonly ILogger logger = Log.ForContext<AzureBlobAuditLogStorage>();
 
@@ -27,7 +67,7 @@ public class AzureBlobAuditLogStorage : IAuditLogStorage
     private readonly TableServiceClient tableClient;
     private readonly AzureBlobAuditLogStorageConfiguration config;
 
-    public AzureBlobAuditLogStorage(
+    public AzureBlobAuditLogStorageUploader(
         BlobServiceClient blobClient,
         TableServiceClient tableClient,
         AzureBlobAuditLogStorageConfiguration config
@@ -38,47 +78,18 @@ public class AzureBlobAuditLogStorage : IAuditLogStorage
         this.config = config;
     }
 
-    public Task StoreEventAsync(
-        IReadOnlyList<EntityData> entitiesChanged,
-        string? actionName,
-        DateTimeOffset dateOccurred,
-        string? actorId,
-        string? traceId,
-        string? spanId,
-        CancellationToken cancellationToken
-    )
-    {
-        var logsToAppend = entitiesChanged.Select(
-            entityChanged =>
-                HandleSingleLogAsync(
-                    new()
-                    {
-                        EntityChanged = entityChanged,
-                        ActionName = actionName,
-                        ActorId = actorId,
-                        DateOccurred = dateOccurred,
-                        TraceId = traceId,
-                        SpanId = spanId,
-                    },
-                    cancellationToken
-                )
-        );
-
-        return Task.WhenAll(logsToAppend);
-    }
-
-    private async Task HandleSingleLogAsync(EntryDataDTO entryData, CancellationToken cancellationToken)
+    public async Task Consume(ConsumeContext<EntryDataDTO> context)
     {
         try
         {
-            await AppendLogToBlobAsync(entryData, cancellationToken);
+            await AppendLogToBlobAsync(context.Message, context.CancellationToken);
         }
         catch (RequestFailedException e)
         {
             if (e.ErrorCode == BlobErrorCode.BlockCountExceedsLimit)
             {
-                await BumpSuffixInTableAsync(entryData, cancellationToken);
-                await AppendLogToBlobAsync(entryData, cancellationToken);
+                await BumpSuffixInTableAsync(context.Message, context.CancellationToken);
+                await AppendLogToBlobAsync(context.Message, context.CancellationToken);
             }
             else
             {
