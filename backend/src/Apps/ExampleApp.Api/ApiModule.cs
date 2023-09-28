@@ -1,9 +1,9 @@
 using System.Globalization;
 using ExampleApp.Api.Handlers;
 using ExampleApp.Core.Services.DataAccess;
+using LeanCode.AuditLogs;
 using LeanCode.AzureIdentity;
 using LeanCode.OpenTelemetry;
-using LeanCode.AuditLogs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
@@ -104,6 +104,8 @@ internal static class ApiModule
         services.AddAzureClients(cfg =>
         {
             cfg.AddBlobServiceClient(Config.BlobStorage.ConnectionString(config));
+
+            cfg.AddTableServiceClient(Config.BlobStorage.ConnectionString(config));
 
             if (!hostEnv.IsDevelopment())
             {
