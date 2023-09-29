@@ -63,7 +63,7 @@ Sample implementation that logs audit information using `Serilog` logger.
 
 Storage implementation using Azure Blob Storage service. It stores log for each entity as a separate append blob.
 
-This storage assumes that there is azure storage client configured in DI. It also requires the container name passed via `AzureBlobAuditLogStorageConfiguration` to know where to store audit log files. The storage assumes that container specified as `AuditLogsContainer` is already created (private access is highly recommended).
+This storage assumes that there is azure storage client configured in DI. It also requires the container name passed via `AzureBlobAuditLogStorageConfiguration` to know where to store audit log files. The storage assumes that container specified as `AuditLogsContainer` is already created (private access is highly recommended) and `AuditLogsTable` is already created.
 
 Example configuration looks like this:
 
@@ -75,8 +75,9 @@ public override void ConfigureServices(IServiceCollection services)
     services.AddAzureClients(cfg =>
     {
         cfg.AddBlobServiceClient(Config.BlobStorage.ConnectionString(config));
+        cfg.AddTableServiceClient(Config.BlobStorage.ConnectionString(config));
     });
-    services.AddSingleton(new AzureBlobAuditLogStorageConfiguration("audit-logs"));
+    services.AddSingleton(new AzureBlobAuditLogStorageConfiguration("audit-logs", "auditlogs"));
     services.AddTransient<IAuditLogStorage, AzureBlobAuditLogStorage>();
 
     // some other code
