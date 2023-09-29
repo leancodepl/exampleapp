@@ -1,9 +1,11 @@
+using System.Text.Json;
+
 namespace LeanCode.AuditLogs;
 
 public record EntityData(
     IReadOnlyList<string> Ids,
     string Type,
-    string Changes,
-    string ShadowProperties,
+    JsonDocument Changes,
+    JsonDocument ShadowProperties,
     string EntityState
 );

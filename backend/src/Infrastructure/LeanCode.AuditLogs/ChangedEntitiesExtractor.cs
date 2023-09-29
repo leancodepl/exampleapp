@@ -35,8 +35,8 @@ public static class ChangedEntitiesExtractor
                             )
                             .ToList(),
                         e.Metadata.ClrType.ToString(),
-                        JsonSerializer.Serialize(e.Entity, Options),
-                        JsonSerializer.Serialize(
+                        JsonSerializer.SerializeToDocument(e.Entity, Options),
+                        JsonSerializer.SerializeToDocument(
                             e.Properties
                                 .Where(p => p.Metadata.IsShadowProperty())
                                 .Select(
