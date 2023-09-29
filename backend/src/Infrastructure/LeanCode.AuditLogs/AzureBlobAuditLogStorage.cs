@@ -70,7 +70,7 @@ public class AzureBlobAuditLogStorage : IAuditLogStorage
         await blob.CreateIfNotExistsAsync(cancellationToken: cancellationToken);
         using var stream = new MemoryStream();
         JsonSerializer.Serialize(stream, auditLogMessage, Options);
-        stream.Write(NewLineBytes.ToArray(), 0, NewLineBytes.Length);
+        stream.Write(NewLineBytes);
         stream.Position = 0;
         await blob.AppendBlockAsync(stream, cancellationToken: cancellationToken);
 
