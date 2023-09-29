@@ -28,16 +28,21 @@ public class AuditLogsMiddleware<TDbContext>
             var actionName = httpContext.Request.Path.ToString();
             var now = Time.NowWithOffset;
 
-            await bus.Publish(
-                new AuditLogMessage(
-                    entitiesChanged,
-                    actionName,
-                    now,
-                    actorId,
-                    Activity.Current?.TraceId.ToString(),
-                    Activity.Current?.SpanId.ToString()
-                ),
-                httpContext.RequestAborted
+            await Task.WhenAll(
+                entitiesChanged.Select(
+                    e =>
+                        bus.Publish(
+                            new AuditLogMessage(
+                                e,
+                                actionName,
+                                now,
+                                actorId,
+                                Activity.Current?.TraceId.ToString(),
+                                Activity.Current?.SpanId.ToString()
+                            ),
+                            httpContext.RequestAborted
+                        )
+                )
             );
         }
     }

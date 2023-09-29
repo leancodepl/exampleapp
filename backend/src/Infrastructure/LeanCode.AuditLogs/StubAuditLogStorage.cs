@@ -7,7 +7,7 @@ public class StubAuditLogStorage : IAuditLogStorage
     private readonly ILogger logger = Log.ForContext<StubAuditLogStorage>();
 
     public Task StoreEventAsync(
-        IReadOnlyList<EntityData> entitiesChanged,
+        EntityData entityChanged,
         string? actionName,
         DateTimeOffset dateOccurred,
         string? actorId,
@@ -16,19 +16,16 @@ public class StubAuditLogStorage : IAuditLogStorage
         CancellationToken cancellationToken
     )
     {
-        foreach (var entityChanged in entitiesChanged)
-        {
-            logger.Information(
-                "StubAuditLog: Changes found {UserId} {ActionName} {Type} {State} {@PrimaryKey} {@EntryChanged} {DateOccurred}",
-                actorId,
-                actionName,
-                entityChanged.Type,
-                entityChanged.EntityState,
-                entityChanged.Ids.Select(id => id.ToString()).ToList(),
-                entityChanged.Changes,
-                dateOccurred
-            );
-        }
+        logger.Information(
+            "StubAuditLog: Changes found {UserId} {ActionName} {Type} {State} {@PrimaryKey} {@EntryChanged} {DateOccurred}",
+            actorId,
+            actionName,
+            entityChanged.Type,
+            entityChanged.EntityState,
+            entityChanged.Ids.Select(id => id.ToString()).ToList(),
+            entityChanged.Changes,
+            dateOccurred
+        );
 
         return Task.CompletedTask;
     }

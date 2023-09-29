@@ -15,7 +15,7 @@ public class AuditLogsConsumer : IConsumer<AuditLogMessage>
     {
         var msg = context.Message;
         return auditLogStorage.StoreEventAsync(
-            msg.EntitiesChanged,
+            msg.EntityChanged,
             msg.ActionName,
             msg.DateOccurred,
             msg.ActorId,
@@ -27,7 +27,7 @@ public class AuditLogsConsumer : IConsumer<AuditLogMessage>
 }
 
 public record AuditLogMessage(
-    IReadOnlyList<EntityData> EntitiesChanged,
+    EntityData EntityChanged,
     string ActionName,
     DateTimeOffset DateOccurred,
     string? ActorId,

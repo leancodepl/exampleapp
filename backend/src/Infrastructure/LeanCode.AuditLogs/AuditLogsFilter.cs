@@ -37,16 +37,21 @@ public class AuditLogsFilter<TDbContext, TConsumer, TMessage> : IFilter<Consumer
             var actionName = context.Consumer.ToString()!;
             var now = Time.NowWithOffset;
 
-            await bus.Publish(
-                new AuditLogMessage(
-                    entitiesChanged,
-                    actionName,
-                    now,
-                    actorId,
-                    Activity.Current?.TraceId.ToString(),
-                    Activity.Current?.SpanId.ToString()
-                ),
-                context.CancellationToken
+            await Task.WhenAll(
+                entitiesChanged.Select(
+                    e =>
+                        bus.Publish(
+                            new AuditLogMessage(
+                                e,
+                                actionName,
+                                now,
+                                actorId,
+                                Activity.Current?.TraceId.ToString(),
+                                Activity.Current?.SpanId.ToString()
+                            ),
+                            context.CancellationToken
+                        )
+                )
             );
         }
     }
