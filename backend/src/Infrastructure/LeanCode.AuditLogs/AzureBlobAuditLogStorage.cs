@@ -38,36 +38,18 @@ public class AzureBlobAuditLogStorage : IAuditLogStorage
         this.config = config;
     }
 
-    public async Task StoreEventAsync(
-        EntityData entityChanged,
-        string? actionName,
-        DateTimeOffset dateOccurred,
-        string? actorId,
-        string? traceId,
-        string? spanId,
-        CancellationToken cancellationToken
-    )
+    public async Task StoreEventAsync(AuditLogMessage auditLogMessage, CancellationToken cancellationToken)
     {
-        var entityData = new EntryDataDTO
-        {
-            ActionName = actionName,
-            ActorId = actorId,
-            DateOccurred = dateOccurred,
-            EntityChanged = entityChanged,
-            SpanId = spanId,
-            TraceId = traceId,
-        };
-
         try
         {
-            await AppendLogToBlobAsync(entityData, cancellationToken);
+            await AppendLogToBlobAsync(auditLogMessage, cancellationToken);
         }
         catch (RequestFailedException e)
         {
             if (e.ErrorCode == BlobErrorCode.BlockCountExceedsLimit)
             {
-                await BumpSuffixInTableAsync(entityData, cancellationToken);
-                await AppendLogToBlobAsync(entityData, cancellationToken);
+                await BumpSuffixInTableAsync(auditLogMessage, cancellationToken);
+                await AppendLogToBlobAsync(auditLogMessage, cancellationToken);
             }
             else
             {
@@ -76,18 +58,18 @@ public class AzureBlobAuditLogStorage : IAuditLogStorage
         }
     }
 
-    private async Task AppendLogToBlobAsync(EntryDataDTO entryData, CancellationToken cancellationToken)
+    private async Task AppendLogToBlobAsync(AuditLogMessage auditLogMessage, CancellationToken cancellationToken)
     {
         var container = blobClient.GetBlobContainerClient(config.AuditLogsContainer);
         var table = tableClient.GetTableClient(config.AuditLogsTable);
-        var suffix = await GetSuffixAsync(entryData, table, cancellationToken);
+        var suffix = await GetSuffixAsync(auditLogMessage, table, cancellationToken);
 
-        var blobName = GetBlobName(entryData.EntityChanged, suffix);
+        var blobName = GetBlobName(auditLogMessage.EntityChanged, suffix);
 
         var blob = container.GetAppendBlobClient(blobName);
         await blob.CreateIfNotExistsAsync(cancellationToken: cancellationToken);
         using var stream = new MemoryStream();
-        JsonSerializer.Serialize(stream, entryData, Options);
+        JsonSerializer.Serialize(stream, auditLogMessage, Options);
         stream.Write(NewLineBytes.ToArray(), 0, NewLineBytes.Length);
         stream.Position = 0;
         await blob.AppendBlockAsync(stream, cancellationToken: cancellationToken);
@@ -96,19 +78,22 @@ public class AzureBlobAuditLogStorage : IAuditLogStorage
     }
 
     private static async Task<int> GetSuffixAsync(
-        EntryDataDTO entryData,
+        AuditLogMessage auditLogMessage,
         TableClient table,
         CancellationToken cancellationToken
     )
     {
         var res = await table.GetEntityIfExistsAsync<TableEntity>(
-            entryData.EntityChanged.Type,
-            string.Join("", entryData.EntityChanged.Ids),
+            auditLogMessage.EntityChanged.Type,
+            string.Join("", auditLogMessage.EntityChanged.Ids),
             cancellationToken: cancellationToken
         );
         if (!res.HasValue)
         {
-            var entity = new TableEntity(entryData.EntityChanged.Type, string.Join("", entryData.EntityChanged.Ids))
+            var entity = new TableEntity(
+                auditLogMessage.EntityChanged.Type,
+                string.Join("", auditLogMessage.EntityChanged.Ids)
+            )
             {
                 ["Suffix"] = 0,
             };
@@ -122,12 +107,12 @@ public class AzureBlobAuditLogStorage : IAuditLogStorage
         }
     }
 
-    private async Task BumpSuffixInTableAsync(EntryDataDTO entryData, CancellationToken cancellationToken)
+    private async Task BumpSuffixInTableAsync(AuditLogMessage auditLogMessage, CancellationToken cancellationToken)
     {
         var table = tableClient.GetTableClient(config.AuditLogsTable);
         var res = await table.GetEntityAsync<TableEntity>(
-            entryData.EntityChanged.Type,
-            string.Join("", entryData.EntityChanged.Ids),
+            auditLogMessage.EntityChanged.Type,
+            string.Join("", auditLogMessage.EntityChanged.Ids),
             cancellationToken: cancellationToken
         );
         var entity = res.Value;
@@ -142,13 +127,3 @@ public class AzureBlobAuditLogStorage : IAuditLogStorage
 }
 
 public record AzureBlobAuditLogStorageConfiguration(string AuditLogsContainer, string AuditLogsTable);
-
-public class EntryDataDTO
-{
-    public EntityData EntityChanged { get; set; } = null!;
-    public string? ActionName { get; set; }
-    public string? ActorId { get; set; }
-    public DateTimeOffset DateOccurred { get; set; }
-    public string? TraceId { get; set; }
-    public string? SpanId { get; set; }
-}

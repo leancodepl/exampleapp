@@ -13,24 +13,6 @@ public class AuditLogsConsumer : IConsumer<AuditLogMessage>
 
     public Task Consume(ConsumeContext<AuditLogMessage> context)
     {
-        var msg = context.Message;
-        return auditLogStorage.StoreEventAsync(
-            msg.EntityChanged,
-            msg.ActionName,
-            msg.DateOccurred,
-            msg.ActorId,
-            msg.TraceId,
-            msg.SpanId,
-            context.CancellationToken
-        );
+        return auditLogStorage.StoreEventAsync(context.Message, context.CancellationToken);
     }
 }
-
-public record AuditLogMessage(
-    EntityData EntityChanged,
-    string ActionName,
-    DateTimeOffset DateOccurred,
-    string? ActorId,
-    string? TraceId,
-    string? SpanId
-);

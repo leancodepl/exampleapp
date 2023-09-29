@@ -2,13 +2,14 @@ namespace LeanCode.AuditLogs;
 
 public interface IAuditLogStorage
 {
-    public Task StoreEventAsync(
-        EntityData changeTrackerAuditData,
-        string actionName,
-        DateTimeOffset dateOccurred,
-        string? actorId,
-        string? traceId,
-        string? spanId,
-        CancellationToken cancellationToken
-    );
+    public Task StoreEventAsync(AuditLogMessage auditLogMessage, CancellationToken cancellationToken);
 }
+
+public record AuditLogMessage(
+    EntityData EntityChanged,
+    string ActionName,
+    DateTimeOffset DateOccurred,
+    string? ActorId,
+    string? TraceId,
+    string? SpanId
+);
