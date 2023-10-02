@@ -13,7 +13,6 @@ using LeanCode.Pipe.TestClient;
 using LeanCode.Startup.MicrosoftDI;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Serilog.Events;
 
@@ -23,7 +22,7 @@ public class ExampleAppTestApp : LeanCodeTestFactory<Startup>
 {
     public readonly Guid SuperAdminId = Guid.Parse("4d3b45e6-a2c1-4d6a-9e23-94e0d9f8ca01");
 
-    public bool SkipDbContextOverrideAndInitialization { get; init; } = false;
+    public bool SkipDbContextInitialization { get; init; } = false;
 
     protected override ConfigurationOverrides Configuration { get; } =
         new(
@@ -65,10 +64,8 @@ public class ExampleAppTestApp : LeanCodeTestFactory<Startup>
 
         builder.ConfigureServices(services =>
         {
-            if (!SkipDbContextOverrideAndInitialization)
+            if (!SkipDbContextInitialization)
             {
-                services.RemoveAll<CoreDbContext>();
-                services.AddScoped<CoreDbContext, Overrides.CoreDbContext>();
                 services.AddHostedService<DbContextInitializer<CoreDbContext>>();
             }
 

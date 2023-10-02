@@ -13,20 +13,12 @@ namespace ExampleApp.Migrations.Migrations
         {
             migrationBuilder.AlterDatabase().Annotation("Npgsql:PostgresExtension:citext", ",,");
 
-            migrationBuilder.Sql(
-                """
-                create domain employee_id as citext check(value ~ '^employee_[0-7][0-9A-HJKMNP-TV-Z]{25}$');
-                create domain project_id as citext check(value ~ '^project_[0-7][0-9A-HJKMNP-TV-Z]{25}$');
-                create domain assignment_id as citext check(value ~ '^assignment_[0-7][0-9A-HJKMNP-TV-Z]{25}$');
-                """
-            );
-
             migrationBuilder.CreateTable(
                 name: "Employees",
                 columns: table =>
                     new
                     {
-                        Id = table.Column<string>(type: "employee_id", nullable: false),
+                        Id = table.Column<string>(type: "citext", nullable: false),
                         Name = table.Column<string>(type: "text", nullable: false),
                         Email = table.Column<string>(type: "text", nullable: false),
                         DateModified = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
@@ -43,7 +35,7 @@ namespace ExampleApp.Migrations.Migrations
                 columns: table =>
                     new
                     {
-                        Id = table.Column<string>(type: "project_id", nullable: false),
+                        Id = table.Column<string>(type: "citext", nullable: false),
                         Name = table.Column<string>(type: "text", nullable: false),
                         DateModified = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                         xmin = table.Column<uint>(type: "xid", rowVersion: true, nullable: false)
@@ -59,11 +51,11 @@ namespace ExampleApp.Migrations.Migrations
                 columns: table =>
                     new
                     {
-                        Id = table.Column<string>(type: "assignment_id", nullable: false),
-                        ParentProjectId = table.Column<string>(type: "project_id", nullable: false),
+                        Id = table.Column<string>(type: "citext", nullable: false),
+                        ParentProjectId = table.Column<string>(type: "citext", nullable: false),
                         Name = table.Column<string>(type: "text", nullable: false),
                         Status = table.Column<int>(type: "integer", nullable: false),
-                        AssignedEmployeeId = table.Column<string>(type: "employee_id", nullable: true)
+                        AssignedEmployeeId = table.Column<string>(type: "citext", nullable: true)
                     },
                 constraints: table =>
                 {
@@ -87,14 +79,6 @@ namespace ExampleApp.Migrations.Migrations
             migrationBuilder.DropTable(name: "Employees");
 
             migrationBuilder.DropTable(name: "Projects");
-
-            migrationBuilder.Sql(
-                """
-                drop domain employee_id;
-                drop domain project_id;
-                drop domain assignment_id;
-                """
-            );
 
             migrationBuilder.AlterDatabase().OldAnnotation("Npgsql:PostgresExtension:citext", ",,");
         }

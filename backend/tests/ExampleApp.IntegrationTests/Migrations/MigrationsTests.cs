@@ -14,7 +14,7 @@ public class MigrationTests
     [Fact]
     public async Task Migrations_can_be_successfully_applied()
     {
-        await using var app = new ExampleAppTestApp { SkipDbContextOverrideAndInitialization = true };
+        await using var app = new ExampleAppTestApp { SkipDbContextInitialization = true };
 
         await app.InitializeAsync();
         using var scope = app.Services.CreateScope();
@@ -33,7 +33,7 @@ public class MigrationTests
     [Fact]
     public async Task All_migrations_have_been_generated()
     {
-        var app = new ExampleAppTestApp { SkipDbContextOverrideAndInitialization = true };
+        var app = new ExampleAppTestApp { SkipDbContextInitialization = true };
 
         await app.InitializeAsync();
 

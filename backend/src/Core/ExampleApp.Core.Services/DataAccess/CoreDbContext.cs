@@ -7,7 +7,6 @@ using LeanCode.Firebase.FCM;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System.Text.Json;
 
 namespace ExampleApp.Core.Services.DataAccess;
 
@@ -34,7 +33,7 @@ public class CoreDbContext : DbContext
         {
             return configurationBuilder
                 .Properties<TId>()
-                .HaveColumnType(JsonNamingPolicy.SnakeCaseLower.ConvertName(typeof(TId).Name))
+                .HaveColumnType("citext")
                 .HaveConversion<PrefixedTypedIdConverter<TId>, PrefixedTypedIdComparer<TId>>();
         }
     }

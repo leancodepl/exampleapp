@@ -30,7 +30,7 @@ namespace ExampleApp.Migrations.Migrations
             modelBuilder.Entity("ExampleApp.Core.Domain.Employees.Employee", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("employee_id");
+                        .HasColumnType("citext");
 
                     b.Property<DateTime>("DateModified")
                         .HasColumnType("timestamp with time zone")
@@ -58,7 +58,7 @@ namespace ExampleApp.Migrations.Migrations
             modelBuilder.Entity("ExampleApp.Core.Domain.Projects.Project", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("project_id");
+                        .HasColumnType("citext");
 
                     b.Property<DateTime>("DateModified")
                         .HasColumnType("timestamp with time zone")
@@ -294,13 +294,13 @@ namespace ExampleApp.Migrations.Migrations
                     b.OwnsMany("ExampleApp.Core.Domain.Projects.Assignment", "Assignments", b1 =>
                         {
                             b1.Property<string>("ParentProjectId")
-                                .HasColumnType("project_id");
+                                .HasColumnType("citext");
 
                             b1.Property<string>("Id")
-                                .HasColumnType("assignment_id");
+                                .HasColumnType("citext");
 
                             b1.Property<string>("AssignedEmployeeId")
-                                .HasColumnType("employee_id");
+                                .HasColumnType("citext");
 
                             b1.Property<string>("Name")
                                 .IsRequired()
