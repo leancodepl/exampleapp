@@ -22,6 +22,8 @@
     <PackageReference Include="LeanCode.CQRS.AspNetCore" />
     <PackageReference Include="LeanCode.CQRS.MassTransitRelay" />
     <PackageReference Include="LeanCode.CQRS.Validation.Fluent" />
+    <PackageReference Include="LeanCode.Firebase" />
+    <PackageReference Include="LeanCode.Firebase.FCM" />
     <PackageReference Include="LeanCode.ForceUpdate" />
     <PackageReference Include="LeanCode.Kratos" />
     <PackageReference Include="LeanCode.Localization" />

@@ -22,6 +22,7 @@
     <PackageReference Include="LeanCode.CQRS.Validation.Fluent" />
     <PackageReference Include="LeanCode.Dapper" />
     <PackageReference Include="LeanCode.DomainModels.EF" />
+    <PackageReference Include="LeanCode.Firebase.FCM" />
     <PackageReference Include="LeanCode.Kratos" />
     <PackageReference Include="LeanCode.Npgsql.ActiveDirectory" />
     <PackageReference Include="LeanCode.Pipe" />

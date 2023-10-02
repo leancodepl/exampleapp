@@ -3,8 +3,9 @@ using ExampleApp.Core.Domain.Projects;
 using ExampleApp.Core.Services.DataAccess.Entities;
 using LeanCode.DomainModels.EF;
 using LeanCode.DomainModels.Ids;
-using Microsoft.EntityFrameworkCore;
+using LeanCode.Firebase.FCM;
 using MassTransit;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System.Text.Json;
 
@@ -12,6 +13,8 @@ namespace ExampleApp.Core.Services.DataAccess;
 
 public class CoreDbContext : DbContext
 {
+    public DbSet<PushNotificationTokenEntity<Guid>> PushNotificationTokens => Set<PushNotificationTokenEntity<Guid>>();
+
     public DbSet<KratosIdentity> KratosIdentities => Set<KratosIdentity>();
 
     public DbSet<Employee> Employees => Set<Employee>();
@@ -41,9 +44,9 @@ public class CoreDbContext : DbContext
         base.OnModelCreating(builder);
         builder.HasPostgresExtension("citext");
 
-        builder.AddInboxStateEntity();
-        builder.AddOutboxStateEntity();
-        builder.AddOutboxMessageEntity();
+        builder.AddTransactionalOutboxEntities();
+
+        builder.ConfigurePushNotificationTokenEntity<Guid>(false);
 
         builder.Entity<KratosIdentity>(e =>
         {
