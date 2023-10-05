@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="../../../src/Infrastructure/LeanCode.AuditLogs/LeanCode.AuditLogs.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="LeanCode.DomainModels.EF" />
+
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" />
+  </ItemGroup>
+
+</Project>
