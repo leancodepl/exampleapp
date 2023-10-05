@@ -1,4 +1,3 @@
-using System.Data.Common;
 using LeanCode.DomainModels.Model;
 using LeanCode.DomainModels.EF;
 using Microsoft.EntityFrameworkCore;
@@ -7,24 +6,11 @@ namespace LeanCode.AuditLogs.Tests;
 
 public class TestDbContext : DbContext
 {
-    private readonly DbConnection connection;
-
     public DbSet<TestEntity> TestEntities => Set<TestEntity>();
 
-    public TestDbContext(DbContextOptions<TestDbContext> options)
-        : base(options)
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        connection = Database.GetDbConnection();
-    }
-
-    public static async Task<TestDbContext> CreateInMemory()
-    {
-        var context = new TestDbContext(
-            new DbContextOptionsBuilder<TestDbContext>().UseSqlite("Filename=:memory:").Options
-        );
-        await context.connection.OpenAsync();
-        await context.Database.EnsureCreatedAsync();
-        return context;
+        optionsBuilder.UseInMemoryDatabase(Guid.NewGuid().ToString("N"));
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -37,7 +23,6 @@ public class TestDbContext : DbContext
                 t => t.OwnedEntities,
                 cfg =>
                 {
-                    cfg.HasKey(e => e.SomeInt);
                     cfg.Property(e => e.SomeString).HasMaxLength(100);
                 }
             );
@@ -52,12 +37,6 @@ public class TestDbContext : DbContext
             e.HasKey(e => new { e.TestEntityId, e.SomeInt });
             e.Property(e => e.SomeString).HasMaxLength(100);
         });
-    }
-
-    public override async ValueTask DisposeAsync()
-    {
-        await connection.DisposeAsync();
-        await base.DisposeAsync();
     }
 }
 

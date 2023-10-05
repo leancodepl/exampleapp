@@ -6,7 +6,7 @@ using Xunit;
 
 namespace LeanCode.AuditLogs.Tests;
 
-public class ChangedEntitiesExtractorTests : IAsyncLifetime
+public class ChangedEntitiesExtractorTests
 {
     private static readonly JsonSerializerOptions Options =
         new()
@@ -15,8 +15,14 @@ public class ChangedEntitiesExtractorTests : IAsyncLifetime
             ReferenceHandler = ReferenceHandler.IgnoreCycles,
             WriteIndented = false,
         };
+
     private const string SomeId = "some_id";
-    private TestDbContext dbContext = default!;
+    private readonly TestDbContext dbContext;
+
+    public ChangedEntitiesExtractorTests()
+    {
+        dbContext = new TestDbContext();
+    }
 
     [Fact]
     public void Check_if_added_entity_is_extracted()
@@ -165,7 +171,6 @@ public class ChangedEntitiesExtractorTests : IAsyncLifetime
                 opt => opt.ComparingByMembers<JsonElement>()
             );
 
-        // FIXME: Explodes in the line below
         dbContext.SaveChanges();
 
         testEntity = dbContext.TestEntities.Find(SomeId);
@@ -232,15 +237,5 @@ public class ChangedEntitiesExtractorTests : IAsyncLifetime
                 },
                 opt => opt.ComparingByMembers<JsonElement>()
             );
-    }
-
-    public async Task InitializeAsync()
-    {
-        dbContext = await TestDbContext.CreateInMemory();
-    }
-
-    public async Task DisposeAsync()
-    {
-        await dbContext.DisposeAsync();
     }
 }
