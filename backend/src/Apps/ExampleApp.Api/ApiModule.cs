@@ -110,6 +110,8 @@ internal static class ApiModule
             }
         });
 
+        services.AddConfigCat(true);
+
         services.AddSingleton<LeanCode.CQRS.Security.IRoleRegistration, AppRoles>();
         services.AddScoped<KratosIdentitySyncHandler>();
         services.AddMappedConfiguration(config, hostEnv);
