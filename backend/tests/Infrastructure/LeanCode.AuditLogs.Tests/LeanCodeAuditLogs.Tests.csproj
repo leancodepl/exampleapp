@@ -1,4 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <!-- Necessary for LeanCode.TimeProvider.TestHelpers to restore -->
+    <NoWarn>NU1603</NoWarn>
+  </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="../../../src/Infrastructure/LeanCode.AuditLogs/LeanCode.AuditLogs.csproj" />
@@ -6,7 +10,10 @@
 
   <ItemGroup>
     <PackageReference Include="LeanCode.DomainModels.EF" />
+    <PackageReference Include="LeanCode.TimeProvider.TestHelpers" />
 
+    <PackageReference Include="MassTransit" />
+    <PackageReference Include="Microsoft.AspNetCore.TestHost" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" />
   </ItemGroup>
 

@@ -33,7 +33,7 @@ public class AuditLogsFilter<TDbContext, TConsumer, TMessage> : IFilter<Consumer
         var entitiesChanged = ChangedEntitiesExtractor.Extract(dbContext);
         if (entitiesChanged.Count != 0)
         {
-            var actorId = Activity.Current?.GetBaggageItem(IdentityTraceBaggageHelpers.UserIdKey);
+            var actorId = Activity.Current?.GetBaggageItem(IdentityTraceBaggageHelpers.CurrentUserIdKey);
             var actionName = context.Consumer.ToString()!;
             var now = Time.NowWithOffset;
 

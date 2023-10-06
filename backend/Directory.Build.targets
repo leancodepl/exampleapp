@@ -42,6 +42,7 @@
     <PackageReference Update="LeanCode.Serialization" Version="$(CoreLibVersion)" />
     <PackageReference Update="LeanCode.Startup.MicrosoftDI" Version="$(CoreLibVersion)" />
     <PackageReference Update="LeanCode.TimeProvider" Version="$(CoreLibVersion)" />
+    <PackageReference Update="LeanCode.TimeProvider.TestHelpers" Version="$(CoreLibVersion)" />
     <PackageReference Update="LeanCode.UrlHelper" Version="$(CoreLibVersion)" />
     <PackageReference Update="LeanCode.ViewRenderer.Razor" Version="$(CoreLibVersion)" />
   </ItemGroup>
@@ -75,6 +76,7 @@
     <PackageReference Update="Microsoft.AspNetCore.Authentication.JwtBearer" Version="$(AspNetCoreVersion)" />
     <PackageReference Update="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="$(AspNetCoreVersion)" />
     <PackageReference Update="Microsoft.AspNetCore.Mvc.Testing" Version="$(AspNetCoreVersion)" />
+    <PackageReference Update="Microsoft.AspNetCore.TestHost" Version="$(AspNetCoreVersion)" />
 
     <PackageReference Update="MassTransit" Version="$(MassTransitVersion)" />
     <PackageReference Update="MassTransit.Azure.ServiceBus.Core" Version="$(MassTransitVersion)" />
