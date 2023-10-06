@@ -10,6 +10,8 @@ using LeanCode.TimeProvider.TestHelpers;
 using MassTransit;
 using MassTransit.Testing;
 using Microsoft.Extensions.DependencyInjection;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 using Xunit;
 
 namespace LeanCode.AuditLogs.Tests;
@@ -35,6 +37,16 @@ public sealed class AuditLogsFilterTests
     {
         TestTimeProvider.ActivateFake(new DateTimeOffset(2023, 10, 6, 11, 0, 3, 0, TimeSpan.Zero));
         var collection = new ServiceCollection();
+        collection
+            .AddOpenTelemetry()
+            .ConfigureResource(r => r.AddService("AuditLogsFilterTests", serviceInstanceId: Environment.MachineName))
+            .WithTracing(builder =>
+            {
+                builder
+                    .AddProcessor<IdentityTraceAttributesFromBaggageProcessor>()
+                    .AddSource("MassTransit")
+                    .AddLeanCodeTelemetry();
+            });
         collection.AddDbContext<TestDbContext>();
         collection.AddTransient<IAuditLogStorage, StubAuditLogStorage>();
         collection.AddMassTransitTestHarness(ConfigureMassTransit);
@@ -85,12 +97,16 @@ public sealed class AuditLogsFilterTests
                     },
                     ActionName = typeof(Consumer).FullName,
                     ActorId = null as string,
-                    TraceId = null as string,
-                    SpanId = null as string,
                     DateOccurred = Time.NowWithOffset,
                 },
                 opt => opt.ComparingByMembers<JsonElement>()
-            );
+            )
+            .And.Subject.As<AuditLogMessage>()
+            .TraceId.Should()
+            .NotBeEmpty()
+            .And.Subject.As<AuditLogMessage>()
+            .SpanId.Should()
+            .NotBeEmpty();
     }
 
     [Fact]
@@ -136,7 +152,7 @@ public sealed class AuditLogsFilterTests
         {
             if (context.Message.ActorId is not null)
             {
-                Activity.Current?.AddBaggage(IdentityTraceBaggageHelpers.CurrentUserIdKey, ActorId);
+                Activity.Current.AddBaggage(IdentityTraceBaggageHelpers.CurrentUserIdKey, ActorId);
             }
             dbContext.Add(TestEntity);
             return Task.CompletedTask;
