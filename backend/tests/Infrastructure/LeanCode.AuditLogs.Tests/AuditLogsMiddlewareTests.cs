@@ -3,6 +3,8 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using FluentAssertions;
 using LeanCode.CQRS.MassTransitRelay;
+using LeanCode.OpenTelemetry;
+using LeanCode.TimeProvider;
 using MassTransit;
 using MassTransit.Testing;
 using Microsoft.AspNetCore.Builder;
@@ -10,6 +12,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 using Xunit;
 using static LeanCode.AuditLogs.Tests.AuditLogsFilterTests;
 
@@ -35,8 +39,6 @@ public sealed class AuditLogsMiddlewareTests : IAsyncLifetime, IDisposable
 
     public AuditLogsMiddlewareTests()
     {
-        // TODO: Set time correctly
-        // TestTimeProvider.ActivateFake(new DateTimeOffset(2023, 10, 6, 12, 13, 12, 0, TimeSpan.Zero));
         host = new HostBuilder()
             .ConfigureWebHost(webHost =>
             {
@@ -44,6 +46,17 @@ public sealed class AuditLogsMiddlewareTests : IAsyncLifetime, IDisposable
                     .UseTestServer()
                     .ConfigureServices(cfg =>
                     {
+                        cfg.AddOpenTelemetry()
+                            .ConfigureResource(
+                                r => r.AddService("AuditLogsFilterTests", serviceInstanceId: Environment.MachineName)
+                            )
+                            .WithTracing(builder =>
+                            {
+                                builder
+                                    .AddProcessor<IdentityTraceAttributesFromBaggageProcessor>()
+                                    .AddSource("MassTransit")
+                                    .AddLeanCodeTelemetry();
+                            });
                         cfg.AddDbContext<TestDbContext>();
                         cfg.AddTransient<IAuditLogStorage, StubAuditLogStorage>();
                         cfg.AddMassTransitTestHarness(ConfigureMassTransit);
@@ -51,8 +64,9 @@ public sealed class AuditLogsMiddlewareTests : IAsyncLifetime, IDisposable
                     })
                     .Configure(app =>
                     {
-                        app.Audit<TestDbContext>();
-                        app.UseRouting()
+                        app.Audit<TestDbContext>()
+                            .UseIdentityTraceAttributes()
+                            .UseRouting()
                             .UseEndpoints(
                                 e =>
                                     e.MapPost(
@@ -120,14 +134,45 @@ public sealed class AuditLogsMiddlewareTests : IAsyncLifetime, IDisposable
                         Changes = JsonSerializer.SerializeToDocument(TestEntity, Options),
                     },
                     ActionName = TestPath,
-                    ActorId = null as string,
-                    TraceId = null as string,
-                    SpanId = null as string,
-                    // TODO: Set time correctly
-                    // DateOccurred = Time.NowWithOffset,
                 },
                 opt => opt.ComparingByMembers<JsonElement>()
-            );
+            )
+            .And.Subject.Should()
+            .Match((s) => s.As<AuditLogMessage>().SpanId != null && s.As<AuditLogMessage>().TraceId != null);
+    }
+
+    [Fact]
+    public async Task Ensure_that_audit_log_is_collected_with_actor_id()
+    {
+        await harness.Start();
+        await server.SendAsync(ctx =>
+        {
+            ctx.Request.Method = "POST";
+            ctx.Request.Path = TestPath;
+        });
+
+        harness.Published
+            .Select<AuditLogMessage>()
+            .Should()
+            .ContainSingle()
+            .Which.Context.Message.Should()
+            .BeEquivalentTo(
+                new
+                {
+                    EntityChanged = new
+                    {
+                        Ids = new string[] { SomeId },
+                        Type = typeof(TestEntity).FullName,
+                        EntityState = "Added",
+                        Changes = JsonSerializer.SerializeToDocument(TestEntity, Options),
+                    },
+                    ActionName = TestPath,
+                    ActorId,
+                },
+                opt => opt.ComparingByMembers<JsonElement>()
+            )
+            .And.Subject.Should()
+            .Match((s) => s.As<AuditLogMessage>().SpanId != null && s.As<AuditLogMessage>().TraceId != null);
     }
 
     public Task InitializeAsync() => host.StartAsync();

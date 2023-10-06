@@ -101,12 +101,8 @@ public sealed class AuditLogsFilterTests
                 },
                 opt => opt.ComparingByMembers<JsonElement>()
             )
-            .And.Subject.As<AuditLogMessage>()
-            .TraceId.Should()
-            .NotBeEmpty()
-            .And.Subject.As<AuditLogMessage>()
-            .SpanId.Should()
-            .NotBeEmpty();
+            .And.Subject.Should()
+            .Match((s) => s.As<AuditLogMessage>().SpanId != null && s.As<AuditLogMessage>().TraceId != null);
     }
 
     [Fact]
@@ -131,7 +127,9 @@ public sealed class AuditLogsFilterTests
                     DateOccurred = Time.NowWithOffset,
                 },
                 opt => opt.ComparingByMembers<JsonElement>()
-            );
+            )
+            .And.Subject.Should()
+            .Match((s) => s.As<AuditLogMessage>().SpanId != null && s.As<AuditLogMessage>().TraceId != null);
     }
 
     public sealed class TestMsg
