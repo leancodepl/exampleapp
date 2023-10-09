@@ -9,6 +9,12 @@
     <LogFileName Condition="'$(LogFileName)' == ''">log.trx</LogFileName>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <!-- Necessary for LeanCode.TimeProvider.TestHelpers to restore -->
+    <NoWarn>NU1603</NoWarn>
+  </PropertyGroup>
+
+
   <ItemGroup>
     <Compile Remove="**/*.cs" />
     <TestProjects Include="**/*.csproj"
