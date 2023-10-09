@@ -13,8 +13,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ExampleApp.Migrations.Migrations
 {
     [DbContext(typeof(CoreDbContext))]
-    [Migration("20231009152950_RemoveDomainTypesFromDb")]
-    partial class RemoveDomainTypesFromDb
+    [Migration("20231009154238_AddTestEntities")]
+    partial class AddTestEntities
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

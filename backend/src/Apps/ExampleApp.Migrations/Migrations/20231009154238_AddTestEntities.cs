@@ -11,12 +11,20 @@ namespace ExampleApp.Migrations.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.AddColumn<int>(
+                name: "Counter",
+                table: "Projects",
+                type: "integer",
+                nullable: false,
+                defaultValue: 0
+            );
+
             migrationBuilder.CreateTable(
                 name: "IncludedEntity",
                 columns: table =>
                     new
                     {
-                        ProjectId = table.Column<string>(type: "project_id", nullable: false),
+                        ProjectId = table.Column<string>(type: "citext", nullable: false),
                         SomeInt = table.Column<int>(type: "integer", nullable: false),
                         SomeString = table.Column<string>(
                             type: "character varying(100)",
@@ -42,7 +50,7 @@ namespace ExampleApp.Migrations.Migrations
                 columns: table =>
                     new
                     {
-                        ProjectId = table.Column<string>(type: "project_id", nullable: false),
+                        ProjectId = table.Column<string>(type: "citext", nullable: false),
                         Id = table
                             .Column<int>(type: "integer", nullable: false)
                             .Annotation(
@@ -76,6 +84,8 @@ namespace ExampleApp.Migrations.Migrations
             migrationBuilder.DropTable(name: "IncludedEntity");
 
             migrationBuilder.DropTable(name: "OwnedEntity");
+
+            migrationBuilder.DropColumn(name: "Counter", table: "Projects");
         }
     }
 }
