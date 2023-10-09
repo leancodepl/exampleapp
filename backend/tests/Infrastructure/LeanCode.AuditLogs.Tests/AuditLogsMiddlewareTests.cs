@@ -1,10 +1,10 @@
+using System.Diagnostics;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using FluentAssertions;
 using LeanCode.CQRS.MassTransitRelay;
 using LeanCode.OpenTelemetry;
-using LeanCode.TimeProvider;
 using MassTransit;
 using MassTransit.Testing;
 using Microsoft.AspNetCore.Builder;
@@ -24,6 +24,7 @@ public sealed class AuditLogsMiddlewareTests : IAsyncLifetime, IDisposable
     private const string SomeId = "some_id";
     private const string ActorId = "actor_id";
     private const string TestPath = "/test";
+    private const string AuthorizedTestPath = "/authorized-test";
     private static readonly JsonSerializerOptions Options =
         new()
         {
@@ -53,6 +54,9 @@ public sealed class AuditLogsMiddlewareTests : IAsyncLifetime, IDisposable
                             .WithTracing(builder =>
                             {
                                 builder
+                                    .AddAspNetCoreInstrumentation(
+                                        opts => opts.Filter = ctx => !ctx.Request.Path.StartsWithSegments("/live")
+                                    )
                                     .AddProcessor<IdentityTraceAttributesFromBaggageProcessor>()
                                     .AddSource("MassTransit")
                                     .AddLeanCodeTelemetry();
@@ -67,18 +71,31 @@ public sealed class AuditLogsMiddlewareTests : IAsyncLifetime, IDisposable
                         app.Audit<TestDbContext>()
                             .UseIdentityTraceAttributes()
                             .UseRouting()
-                            .UseEndpoints(
-                                e =>
-                                    e.MapPost(
-                                        TestPath,
-                                        (ctx) =>
-                                        {
-                                            var dbContext = ctx.RequestServices.GetService<TestDbContext>();
-                                            dbContext.Add(TestEntity);
-                                            return Task.CompletedTask;
-                                        }
-                                    )
-                            );
+                            .UseEndpoints(e =>
+                            {
+                                e.MapPost(
+                                    TestPath,
+                                    (ctx) =>
+                                    {
+                                        var dbContext = ctx.RequestServices.GetService<TestDbContext>();
+                                        dbContext.Add(TestEntity);
+                                        return Task.CompletedTask;
+                                    }
+                                );
+                                e.MapPost(
+                                    AuthorizedTestPath,
+                                    (ctx) =>
+                                    {
+                                        Activity.Current.AddBaggage(
+                                            IdentityTraceBaggageHelpers.CurrentUserIdKey,
+                                            ActorId
+                                        );
+                                        var dbContext = ctx.RequestServices.GetService<TestDbContext>();
+                                        dbContext.Add(TestEntity);
+                                        return Task.CompletedTask;
+                                    }
+                                );
+                            });
                         app.Run(ctx =>
                         {
                             return Task.CompletedTask;
@@ -148,7 +165,7 @@ public sealed class AuditLogsMiddlewareTests : IAsyncLifetime, IDisposable
         await server.SendAsync(ctx =>
         {
             ctx.Request.Method = "POST";
-            ctx.Request.Path = TestPath;
+            ctx.Request.Path = AuthorizedTestPath;
         });
 
         harness.Published
@@ -166,7 +183,7 @@ public sealed class AuditLogsMiddlewareTests : IAsyncLifetime, IDisposable
                         EntityState = "Added",
                         Changes = JsonSerializer.SerializeToDocument(TestEntity, Options),
                     },
-                    ActionName = TestPath,
+                    ActionName = AuthorizedTestPath,
                     ActorId,
                 },
                 opt => opt.ComparingByMembers<JsonElement>()
