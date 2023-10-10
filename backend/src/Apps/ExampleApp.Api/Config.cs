@@ -33,6 +33,12 @@ public static class Config
         {
             public static string Endpoint(IConfiguration cfg) => cfg.GetString("MassTransit:AzureServiceBus:Endpoint");
         }
+
+        public static class RabbitMq
+        {
+            public static Uri? Url(IConfiguration cfg) =>
+                cfg.GetString("MassTransit:RabbitMq:Url") is string url ? new(url) : null;
+        }
     }
 
     public static class Google

@@ -1,7 +1,9 @@
 using LeanCode.Contracts;
+using LeanCode.Contracts.Security;
 
 namespace ExampleApp.Core.Contracts.Projects;
 
+[AllowUnauthorized]
 public class EmployeeAssignmentsTopic
     : ITopic,
         IProduceNotification<EmployeeAssignedToProjectAssignmentDTO>,

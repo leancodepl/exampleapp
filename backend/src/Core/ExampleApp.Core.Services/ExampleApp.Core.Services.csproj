@@ -22,7 +22,8 @@
     <PackageReference Include="LeanCode.Firebase.FCM" />
     <PackageReference Include="LeanCode.Kratos" />
     <PackageReference Include="LeanCode.Npgsql.ActiveDirectory" />
-    <PackageReference Include="LeanCode.Pipe" />
+<!--    <PackageReference Include="LeanCode.Pipe" />-->
+    <ProjectReference Include="../../../../../leanpipe/publisher/src/LeanCode.Pipe/LeanCode.Pipe.csproj" />
 
     <PackageReference Include="MassTransit" />
     <PackageReference Include="MassTransit.EntityFrameworkCore" />

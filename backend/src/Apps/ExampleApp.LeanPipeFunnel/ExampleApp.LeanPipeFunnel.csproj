@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <AssemblyName>ExampleApp.LeanPipeFunnel</AssemblyName>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../../../../leanpipe/publisher/src/LeanCode.Pipe/LeanCode.Pipe.csproj" />
+
+    <PackageReference Include="MassTransit.Azure.ServiceBus.Core" />
+    <PackageReference Include="MassTransit.RabbitMQ" />
+
+    <PackageReference Include="LeanCode.AzureIdentity" />
+    <PackageReference Include="LeanCode.Kratos" />
+
+    <PackageReference Include="Microsoft.Extensions.Azure" />
+  </ItemGroup>
+
+</Project>

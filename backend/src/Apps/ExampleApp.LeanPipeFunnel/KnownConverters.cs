@@ -2,7 +2,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using LeanCode.Pipe.Funnel;
 
-namespace ExampleApp.Core.Services.DataAccess.Serialization;
+namespace ExampleApp.LeanPipeFunnel;
 
 public static class KnownConverters
 {
