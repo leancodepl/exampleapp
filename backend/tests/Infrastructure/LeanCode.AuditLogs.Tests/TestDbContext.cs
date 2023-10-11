@@ -44,8 +44,8 @@ public class TestEntity : IAggregateRoot<string>
 {
     private readonly List<OwnedEntity> ownedEntities = [];
     private readonly List<IncludedEntity> includedEntities = [];
-    public string Id { get; set; }
-    public string SomeString { get; set; }
+    public string Id { get; set; } = null!;
+    public string SomeString { get; set; } = null!;
 
     public IReadOnlyList<OwnedEntity> OwnedEntities => ownedEntities;
     public IReadOnlyList<IncludedEntity> IncludedEntities => includedEntities;

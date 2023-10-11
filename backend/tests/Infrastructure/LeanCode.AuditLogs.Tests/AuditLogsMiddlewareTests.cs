@@ -77,7 +77,7 @@ public sealed class AuditLogsMiddlewareTests : IAsyncLifetime, IDisposable
                                     TestPath,
                                     (ctx) =>
                                     {
-                                        var dbContext = ctx.RequestServices.GetService<TestDbContext>();
+                                        var dbContext = ctx.RequestServices.GetService<TestDbContext>()!;
                                         dbContext.Add(TestEntity);
                                         return Task.CompletedTask;
                                     }
@@ -86,11 +86,11 @@ public sealed class AuditLogsMiddlewareTests : IAsyncLifetime, IDisposable
                                     AuthorizedTestPath,
                                     (ctx) =>
                                     {
-                                        Activity.Current.AddBaggage(
+                                        Activity.Current!.AddBaggage(
                                             IdentityTraceBaggageHelpers.CurrentUserIdKey,
                                             ActorId
                                         );
-                                        var dbContext = ctx.RequestServices.GetService<TestDbContext>();
+                                        var dbContext = ctx.RequestServices.GetService<TestDbContext>()!;
                                         dbContext.Add(TestEntity);
                                         return Task.CompletedTask;
                                     }

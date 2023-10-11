@@ -134,7 +134,7 @@ public sealed class AuditLogsFilterTests
 
     public sealed class TestMsg
     {
-        public string ActorId { get; set; }
+        public string ActorId { get; set; } = null!;
     }
 
     public class Consumer : IConsumer<TestMsg>
@@ -150,7 +150,7 @@ public sealed class AuditLogsFilterTests
         {
             if (context.Message.ActorId is not null)
             {
-                Activity.Current.AddBaggage(IdentityTraceBaggageHelpers.CurrentUserIdKey, ActorId);
+                Activity.Current!.AddBaggage(IdentityTraceBaggageHelpers.CurrentUserIdKey, ActorId);
             }
             dbContext.Add(TestEntity);
             return Task.CompletedTask;
