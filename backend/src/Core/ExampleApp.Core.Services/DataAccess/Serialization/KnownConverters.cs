@@ -1,12 +1,11 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using LeanCode.Pipe.Funnel;
 
 namespace ExampleApp.Core.Services.DataAccess.Serialization;
 
 public static class KnownConverters
 {
-    public static IEnumerable<JsonConverter> All { get; } = new[] { ClaimsPrincipalJsonConverter.Instance };
+    public static IEnumerable<JsonConverter> All { get; } = Array.Empty<JsonConverter>();
 
     public static JsonSerializerOptions AddAll(JsonSerializerOptions settings)
     {

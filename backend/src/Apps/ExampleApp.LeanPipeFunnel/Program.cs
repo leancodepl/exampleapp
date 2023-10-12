@@ -57,8 +57,7 @@ services.AddOptions<MassTransitHostOptions>().Configure(opts => opts.WaitUntilSt
 
 services.AddMassTransit(cfg =>
 {
-    cfg.AddSignalRHub<LeanPipeSubscriber>();
-    cfg.SetEndpointNameFormatter(DefaultEndpointNameFormatter.Instance);
+    cfg.ConfigureLeanPipeFunnelConsumers();
 
     if (hostEnv.IsDevelopment())
     {
@@ -97,7 +96,6 @@ services.AddMassTransit(cfg =>
         where TEndpoint : IReceiveEndpointConfigurator
     {
         cfg.ConfigureEndpoints(ctx);
-        cfg.ConfigureJsonSerializerOptions(KnownConverters.AddAll);
     }
 });
 
