@@ -1,5 +1,6 @@
 using System.Globalization;
 using ExampleApp.LeanPipeFunnel;
+using ExampleApp.LeanPipeFunnel.Handlers;
 using LeanCode.AzureIdentity;
 using LeanCode.Logging;
 using LeanCode.Pipe;
@@ -110,9 +111,15 @@ services.AddAzureClients(cfg =>
     }
 });
 
+services.AddHealthChecks();
+
 var app = appBuilder.Build();
 
 app.UseRouting().UseAuthentication();
+
+app.MapGet("/", VersionHandler.HandleAsync);
+app.MapGet("/live/ready", ReadinessProbe.HandleAsync);
+app.MapHealthChecks("/live/health");
 
 app.MapLeanPipe(
     "/leanpipe",
