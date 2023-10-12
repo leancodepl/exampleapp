@@ -3,11 +3,15 @@ using ExampleApp.LeanPipeFunnel;
 using ExampleApp.LeanPipeFunnel.Handlers;
 using LeanCode.AzureIdentity;
 using LeanCode.Logging;
+using LeanCode.OpenTelemetry;
 using LeanCode.Pipe;
 using LeanCode.Pipe.Funnel.Instance;
 using MassTransit;
 using Microsoft.AspNetCore.Http.Connections;
 using Microsoft.Extensions.Azure;
+using OpenTelemetry.Metrics;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 
 var appBuilder = WebApplication.CreateBuilder(args);
 var hostBuilder = appBuilder.Host;
@@ -112,6 +116,35 @@ services.AddAzureClients(cfg =>
 });
 
 services.AddHealthChecks();
+
+var otlp = Config.Telemetry.OtlpEndpoint(config);
+
+if (!string.IsNullOrWhiteSpace(otlp))
+{
+    services
+        .AddOpenTelemetry()
+        .ConfigureResource(r => r.AddService("ExampleApp.LeanPipeFunnel", serviceInstanceId: Environment.MachineName))
+        .WithTracing(builder =>
+        {
+            builder
+                .AddProcessor<IdentityTraceAttributesFromBaggageProcessor>()
+                .AddAspNetCoreInstrumentation(
+                    opts => opts.Filter = ctx => !ctx.Request.Path.StartsWithSegments("/live")
+                )
+                .AddHttpClientInstrumentation()
+                .AddSource(MassTransit.Logging.DiagnosticHeaders.DefaultListenerName)
+                .AddLeanCodeTelemetry()
+                .AddOtlpExporter(cfg => cfg.Endpoint = new(otlp));
+        })
+        .WithMetrics(builder =>
+        {
+            builder
+                .AddAspNetCoreInstrumentation()
+                .AddHttpClientInstrumentation()
+                .AddMeter(MassTransit.Monitoring.InstrumentationOptions.MeterName)
+                .AddOtlpExporter(cfg => cfg.Endpoint = new(otlp));
+        });
+}
 
 var app = appBuilder.Build();
 

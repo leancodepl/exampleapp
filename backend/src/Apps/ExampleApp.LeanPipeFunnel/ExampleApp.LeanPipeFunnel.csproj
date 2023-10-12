@@ -14,8 +14,14 @@
 
     <PackageReference Include="LeanCode.AzureIdentity" />
     <PackageReference Include="LeanCode.Kratos" />
+    <PackageReference Include="LeanCode.OpenTelemetry" />
 
     <PackageReference Include="Microsoft.Extensions.Azure" />
+
+    <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" />
+    <PackageReference Include="OpenTelemetry.Extensions.Hosting" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.Http" />
   </ItemGroup>
 
 </Project>
