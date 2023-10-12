@@ -50,7 +50,6 @@ services
 services.AddKratosClients(builder =>
 {
     builder.AddFrontendApiClient(Config.Kratos.PublicEndpoint(config));
-    builder.AddIdentityApiClient(Config.Kratos.AdminEndpoint(config));
 });
 
 services.AddOptions<MassTransitHostOptions>().Configure(opts => opts.WaitUntilStarted = true);
@@ -106,13 +105,6 @@ services.AddAzureClients(cfg =>
         cfg.UseCredential(DefaultLeanCodeCredential.Create(config));
     }
 });
-
-services.AddMappedConfiguration(config);
-
-if (!hostEnv.IsDevelopment())
-{
-    services.AddSingleton(DefaultLeanCodeCredential.Create(config));
-}
 
 var app = appBuilder.Build();
 
