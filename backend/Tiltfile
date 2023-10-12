@@ -56,11 +56,11 @@ docker_build_with_restart(
   'exampleapp-api',
   context='dev',
   dockerfile='dev/Dockerfile.api',
-  entrypoint='/app/config/run.sh',
+  entrypoint='/home/app/config/run.sh',
   only=['out/api', 'config', 'sshd_config'],
   live_update=[
-    sync('dev/out/api', '/app/bin'),
-    sync('dev/config', '/app/config'),
+    sync('dev/out/api', '/home/app/bin'),
+    sync('dev/config', '/home/app/config'),
   ],
 )
 

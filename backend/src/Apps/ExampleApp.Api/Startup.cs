@@ -16,6 +16,7 @@ using LeanCode.Firebase.FCM;
 using LeanCode.ForceUpdate;
 using LeanCode.Localization;
 using LeanCode.OpenTelemetry;
+using LeanCode.Pipe;
 using LeanCode.Pipe.Funnel.FunnelledService;
 using LeanCode.Startup.MicrosoftDI;
 using LeanCode.ViewRenderer.Razor;
@@ -54,7 +55,16 @@ public class Startup : LeanStartup
                 new IOSVersionsConfiguration(new Version(1, 0), new Version(1, 1))
             );
 
-        services.AddFunnelledLeanPipe(Api, AllHandlers);
+        var leanPipeFunnelEnabled = Config.LeanPipe.EnableLeanPipeFunnel(Configuration);
+
+        if (leanPipeFunnelEnabled)
+        {
+            services.AddFunnelledLeanPipe(Api, AllHandlers);
+        }
+        else
+        {
+            services.AddLeanPipe(Api, AllHandlers);
+        }
 
         services.AddFluentValidation(AllHandlers);
         services.AddStringLocalizer(LocalizationConfiguration.For<Strings.Strings>());
@@ -72,7 +82,11 @@ public class Startup : LeanStartup
             });
 
             cfg.AddAuditLogsConsumer();
-            cfg.AddFunnelledLeanPipeConsumers(Api.Assemblies);
+
+            if (leanPipeFunnelEnabled)
+            {
+                cfg.AddFunnelledLeanPipeConsumers(Api.Assemblies);
+            }
 
             cfg.AddConsumersWithDefaultConfiguration(
                 AllHandlers.Assemblies.ToArray(),
@@ -194,6 +208,11 @@ public class Startup : LeanStartup
                                 .Audit<CoreDbContext>();
                     }
                 );
+
+                if (!Config.LeanPipe.EnableLeanPipeFunnel(Configuration))
+                {
+                    endpoints.MapLeanPipe("/leanpipe");
+                }
             });
     }
 }

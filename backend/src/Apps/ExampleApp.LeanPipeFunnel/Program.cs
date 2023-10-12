@@ -5,7 +5,6 @@ using LeanCode.Logging;
 using LeanCode.Pipe;
 using LeanCode.Pipe.Funnel.Instance;
 using MassTransit;
-using MassTransit.SignalR;
 using Microsoft.AspNetCore.Http.Connections;
 using Microsoft.Extensions.Azure;
 
@@ -19,6 +18,11 @@ hostBuilder
 var hostEnv = appBuilder.Environment;
 var services = appBuilder.Services;
 var config = appBuilder.Configuration;
+
+if (!Config.LeanPipe.EnableLeanPipeFunnel(config))
+{
+    throw new InvalidOperationException("LeanPipe Funnel must be enabled in the configuration to be used.");
+}
 
 services.AddLeanPipeFunnel();
 

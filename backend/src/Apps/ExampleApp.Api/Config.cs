@@ -41,6 +41,12 @@ public static class Config
         }
     }
 
+    public static class LeanPipe
+    {
+        public static bool EnableLeanPipeFunnel(IConfiguration cfg) =>
+            cfg.GetValue<bool>("LeanPipe:EnableLeanPipeFunnel");
+    }
+
     public static class Google
     {
         public static string? ApiKey(IConfiguration cfg) => cfg.GetString("Google:ApiKey");
@@ -83,7 +89,7 @@ public static class Config
 
     private static bool GetBool(this IConfiguration configuration, string key)
     {
-        return configuration.GetValue<bool>(key)!;
+        return configuration.GetValue<bool>(key);
     }
 
     public static void AddMappedConfiguration(

@@ -26,8 +26,18 @@ public static class Config
         public static string OtlpEndpoint(IConfiguration cfg) => cfg.GetString("Telemetry:Otlp:Endpoint");
     }
 
+    public static class LeanPipe
+    {
+        public static bool EnableLeanPipeFunnel(IConfiguration cfg) => cfg.GetBool("LeanPipe:EnableLeanPipeFunnel");
+    }
+
     private static string GetString(this IConfiguration configuration, string key)
     {
         return configuration.GetValue<string>(key)!;
+    }
+
+    private static bool GetBool(this IConfiguration configuration, string key)
+    {
+        return configuration.GetValue<bool>(key);
     }
 }
