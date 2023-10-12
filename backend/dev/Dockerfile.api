@@ -3,21 +3,11 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0
 USER root
 
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends unzip procps openssh-server \
+    && apt-get install -y --no-install-recommends unzip procps \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 RUN curl -sSL https://aka.ms/getvsdbgsh | bash /dev/stdin -v latest -l /vsdbg
 
-RUN echo "root:1234" | chpasswd
-RUN echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
-EXPOSE 22
-
-ARG RIDER_DEBUGGER_VERSION="2023.2.2"
-RUN wget https://download.jetbrains.com/resharper/dotUltimate.$RIDER_DEBUGGER_VERSION/JetBrains.Rider.RemoteDebuggerUploads.linux-x64.$RIDER_DEBUGGER_VERSION.zip && \
-  mkdir -p /root/.local/share/JetBrains/RiderRemoteDebugger/$RIDER_DEBUGGER_VERSION && \
-  unzip -u JetBrains.Rider.RemoteDebuggerUploads.linux-x64.$RIDER_DEBUGGER_VERSION.zip -d /root/.local/share/JetBrains/RiderRemoteDebugger/$RIDER_DEBUGGER_VERSION && \
-  rm JetBrains.Rider.RemoteDebuggerUploads.linux-x64.$RIDER_DEBUGGER_VERSION.zip
-
-#USER $APP_UID
+USER $APP_UID
 
 ARG APP_VERSION
 
@@ -25,9 +15,9 @@ ENV APP_VERSION=${APP_VERSION}
 ENV ASPNETCORE_ENVIRONMENT=Development
 ENV ASPNETCORE_FORWARDEDHEADERS_ENABLED=true
 
-COPY --chown=dotnet config /app/config
-COPY --chown=dotnet out/api /app/bin
+COPY --chown=$APP_UID config /home/app/config
+COPY --chown=$APP_UID out/api /home/app/bin
 
-WORKDIR /app/bin
+WORKDIR /home/app/code/src/Apps/ExampleApp.Api
 SHELL ["/bin/bash", "-c"]
-ENTRYPOINT /app/config/run.sh
+ENTRYPOINT /home/app/config/run.sh

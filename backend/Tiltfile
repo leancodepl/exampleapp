@@ -118,7 +118,7 @@ k8s_yaml('dev/k8s/leanpipe_funnel.yaml')
 k8s_yaml('dev/k8s/tests.yaml')
 k8s_yaml('dev/k8s/integration_tests.yaml')
 
-k8s_resource('exampleapp-api', new_name='api', resource_deps=['build-api'], labels=['app'], port_forwards="2222:22")
+k8s_resource('exampleapp-api', new_name='api', resource_deps=['build-api'], labels=['app'])
 k8s_resource('exampleapp-migrations', new_name='migrations', resource_deps=['build-migrations'], trigger_mode=TRIGGER_MODE_MANUAL, labels=['app'])
 k8s_resource('exampleapp-leanpipe-funnel', new_name='leanpipe_funnel', resource_deps=['build-leanpipe-funnel'], labels=['app'])
 k8s_resource('exampleapp-tests', new_name='tests', resource_deps=['build-tests'], labels=['tests'])
