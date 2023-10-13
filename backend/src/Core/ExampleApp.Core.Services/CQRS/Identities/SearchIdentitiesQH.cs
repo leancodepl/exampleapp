@@ -6,7 +6,7 @@ using LeanCode.CQRS.Execution;
 using LeanCode.QueryableExtensions;
 using Microsoft.AspNetCore.Http;
 
-namespace ExampleApp.Core.Services.CQRS.Projects;
+namespace ExampleApp.Core.Services.CQRS.Identities;
 
 public class SearchIdentitiesQH : IQueryHandler<SearchIdentities, PaginatedResult<KratosIdentityDTO>>
 {
