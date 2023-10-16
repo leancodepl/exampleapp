@@ -11,6 +11,7 @@
     <LangVersion>preview</LangVersion>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <ImplicitUsings>enable</ImplicitUsings>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
 
     <IncludeSymbols>false</IncludeSymbols>
     <IsPackable>false</IsPackable>
