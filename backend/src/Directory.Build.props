@@ -22,7 +22,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="SerilogAnalyzer" />
+    <PackageReference Include="SerilogAnalyzer">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.CodeAnalysis.BannedApiAnalyzers">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
