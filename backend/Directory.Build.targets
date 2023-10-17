@@ -1,12 +1,12 @@
 <Project>
   <PropertyGroup>
-    <CoreLibVersion>8.0.2139-preview</CoreLibVersion>
-    <ExtensionsVersion>8.0.0-rc.1.23419.4</ExtensionsVersion>
-    <EFCoreVersion>8.0.0-rc.1.23419.6</EFCoreVersion>
-    <AspNetCoreVersion>8.0.0-rc.1.23421.29</AspNetCoreVersion>
-    <MassTransitVersion>8.1.0</MassTransitVersion>
-    <NpgsqlVersion>8.0.0-preview.4</NpgsqlVersion>
-    <LeanPipeVersion>0.1.6</LeanPipeVersion>
+    <CoreLibVersion>8.0.2204-preview</CoreLibVersion>
+    <ExtensionsVersion>8.0.0-rc.2.23479.6</ExtensionsVersion>
+    <EFCoreVersion>8.0.0-rc.2.23480.1</EFCoreVersion>
+    <AspNetCoreVersion>8.0.0-rc.2.23480.2</AspNetCoreVersion>
+    <MassTransitVersion>8.1.1</MassTransitVersion>
+    <NpgsqlVersion>8.0.0-rc.2</NpgsqlVersion>
+    <LeanPipeVersion>0.2.0</LeanPipeVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -50,13 +50,13 @@
     <PackageReference Update="Azure.Extensions.AspNetCore.DataProtection.Blobs" Version="1.3.2" />
     <PackageReference Update="Azure.Extensions.AspNetCore.DataProtection.Keys" Version="1.2.2" />
 
-    <PackageReference Update="Azure.Storage.Blobs" Version="12.16.0" />
+    <PackageReference Update="Azure.Storage.Blobs" Version="12.18.0" />
 
     <PackageReference Update="Microsoft.EntityFrameworkCore" Version="$(EFCoreVersion)" />
     <PackageReference Update="Microsoft.EntityFrameworkCore.Design" Version="$(EFCoreVersion)" />
     <PackageReference Update="Microsoft.EntityFrameworkCore.InMemory" Version="$(EFCoreVersion)" />
 
-    <PackageReference Update="Microsoft.Extensions.Azure" Version="1.6.3" />
+    <PackageReference Update="Microsoft.Extensions.Azure" Version="1.7.0" />
 
     <PackageReference Update="Microsoft.Extensions.Configuration" Version="$(ExtensionsVersion)" />
     <PackageReference Update="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="$(ExtensionsVersion)" />
@@ -80,16 +80,16 @@
     <PackageReference Update="MassTransit.RabbitMQ" Version="$(MassTransitVersion)" />
 
     <PackageReference Update="Npgsql" Version="$(NpgsqlVersion)" />
-    <PackageReference Update="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.0-rc.1" />
+    <PackageReference Update="Npgsql.EntityFrameworkCore.PostgreSQL" Version="$(NpgsqlVersion)" />
     <PackageReference Update="Npgsql.OpenTelemetry" Version="$(NpgsqlVersion)" />
 
     <PackageReference Update="OpenTelemetry" Version="1.5.1" />
-    <PackageReference Update="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.5.1" />
-    <PackageReference Update="OpenTelemetry.Extensions.Hosting" Version="1.5.1" />
+    <PackageReference Update="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.6.0" />
+    <PackageReference Update="OpenTelemetry.Extensions.Hosting" Version="1.6.0" />
     <PackageReference Update="OpenTelemetry.Instrumentation.AspNetCore" Version="1.5.1-beta.1" />
     <PackageReference Update="OpenTelemetry.Instrumentation.Http" Version="1.5.1-beta.1 " />
 
-    <PackageReference Update="System.IdentityModel.Tokens.Jwt" Version="7.0.0-preview3" />
+    <PackageReference Update="System.IdentityModel.Tokens.Jwt" Version="7.0.3" />
   </ItemGroup>
 
   <ItemGroup>
@@ -101,11 +101,11 @@
   <ItemGroup>
     <PackageReference Update="FluentAssertions" Version="6.12.0" />
     <PackageReference Update="LeanCode.Pipe.TestClient" Version="$(LeanPipeVersion)" />
-    <PackageReference Update="Microsoft.NET.Test.Sdk" Version="17.2.0" />
-    <PackageReference Update="NSubstitute" Version="4.3.0" />
-    <PackageReference Update="xunit" Version="2.5.0" />
-    <PackageReference Update="xunit.analyzers" Version="1.2.0" />
-    <PackageReference Update="xunit.runner.visualstudio" Version="2.4.5" />
+    <PackageReference Update="Microsoft.NET.Test.Sdk" Version="17.7.2" />
+    <PackageReference Update="NSubstitute" Version="5.1.0" />
+    <PackageReference Update="xunit" Version="2.5.3" />
+    <PackageReference Update="xunit.analyzers" Version="1.4.0" />
+    <PackageReference Update="xunit.runner.visualstudio" Version="2.5.3" />
   </ItemGroup>
 
   <ItemGroup>

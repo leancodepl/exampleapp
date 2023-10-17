@@ -51,7 +51,7 @@ public class ProjectEmployeesAssignmentsTopicTests : TestsBase<AuthenticatedExam
                 .NotificationsOn(topic)
                 .Should()
                 .HaveCount(2)
-                .And.Subject.First()
+                .And.Subject.Last()
                 .Should()
                 .BeSameAs(notification)
                 .And.BeEquivalentTo(
