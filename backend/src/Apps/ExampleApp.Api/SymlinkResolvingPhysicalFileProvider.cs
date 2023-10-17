@@ -1,36 +1,22 @@
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.FileProviders.Physical;
-using Microsoft.Extensions.Primitives;
 
 namespace ExampleApp.Api;
 
-public sealed class SymlinkResolvingPhysicalFileProvider : IFileProvider
+public sealed class SymlinkResolvingPhysicalFileProvider : PhysicalFileProvider, IFileProvider
 {
-    private readonly PhysicalFileProvider innerProvider;
+    public SymlinkResolvingPhysicalFileProvider(string root)
+        : base(root) { }
 
-    public SymlinkResolvingPhysicalFileProvider(PhysicalFileProvider innerProvider)
+    public SymlinkResolvingPhysicalFileProvider(string root, ExclusionFilters filters)
+        : base(root, filters) { }
+
+    public new IFileInfo GetFileInfo(string subpath)
     {
-        this.innerProvider = innerProvider;
+        var result = base.GetFileInfo(subpath);
+
+        return result.Exists && result.PhysicalPath is string path && File.ResolveLinkTarget(path, true) is FileInfo fi
+            ? new PhysicalFileInfo(fi)
+            : result;
     }
-
-    public IFileInfo GetFileInfo(string subpath)
-    {
-        var result = innerProvider.GetFileInfo(subpath);
-
-        if (result.Exists && result.PhysicalPath is not null)
-        {
-            var fsi = File.ResolveLinkTarget(result.PhysicalPath, true);
-
-            if (fsi is FileInfo fi)
-            {
-                return new PhysicalFileInfo(fi);
-            }
-        }
-
-        return result;
-    }
-
-    public IDirectoryContents GetDirectoryContents(string subpath) => innerProvider.GetDirectoryContents(subpath);
-
-    public IChangeToken Watch(string filter) => innerProvider.Watch(filter);
 }
