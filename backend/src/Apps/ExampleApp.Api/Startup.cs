@@ -139,7 +139,8 @@ public class Startup : LeanStartup
                 new StaticFileOptions
                 {
                     FileProvider = new SymlinkResolvingPhysicalFileProvider(
-                        new("/.well-known", ExclusionFilters.DotPrefixed)
+                        "/.well-known",
+                        ExclusionFilters.DotPrefixed
                     ),
                     RequestPath = "/.well-known",
                     DefaultContentType = "application/json",

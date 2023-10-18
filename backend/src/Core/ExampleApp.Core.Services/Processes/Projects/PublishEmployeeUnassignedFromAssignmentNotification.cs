@@ -8,10 +8,10 @@ namespace ExampleApp.Core.Services.Processes.Projects;
 
 public class PublishEmployeeUnassignedFromAssignmentNotification : IConsumer<EmployeeUnassignedFromAssignment>
 {
-    private readonly LeanPipePublisher<ProjectEmployeesAssignmentsTopic> topicPublisher;
+    private readonly ILeanPipePublisher<ProjectEmployeesAssignmentsTopic> topicPublisher;
 
     public PublishEmployeeUnassignedFromAssignmentNotification(
-        LeanPipePublisher<ProjectEmployeesAssignmentsTopic> topicPublisher
+        ILeanPipePublisher<ProjectEmployeesAssignmentsTopic> topicPublisher
     )
     {
         this.topicPublisher = topicPublisher;
