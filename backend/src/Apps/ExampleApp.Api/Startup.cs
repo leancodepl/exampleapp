@@ -85,7 +85,7 @@ public class Startup : LeanStartup
 
             if (leanPipeFunnelEnabled)
             {
-                cfg.AddFunnelledLeanPipeConsumers(Api.Assemblies);
+                cfg.AddFunnelledLeanPipeConsumers("ExampleApp.Api", Api.Assemblies);
             }
 
             cfg.AddConsumersWithDefaultConfiguration(

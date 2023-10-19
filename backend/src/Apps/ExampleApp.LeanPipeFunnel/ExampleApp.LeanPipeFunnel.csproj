@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../../../../leanpipe/publisher/src/LeanCode.Pipe/LeanCode.Pipe.csproj" />
+    <PackageReference Include="LeanCode.Pipe" />
 
     <PackageReference Include="MassTransit.Azure.ServiceBus.Core" />
     <PackageReference Include="MassTransit.RabbitMQ" />

@@ -1,7 +1,6 @@
 using LeanCode.AzureIdentity;
 using LeanCode.Logging;
 using LeanCode.Startup.MicrosoftDI;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
 namespace ExampleApp.Api;
@@ -15,6 +14,6 @@ public class Program
         return LeanProgram
             .BuildMinimalHost<Startup>()
             .AddAppConfigurationFromAzureKeyVaultOnNonDevelopmentEnvironment()
-            .ConfigureDefaultLogging("ExampleApp", new[] { typeof(Program).Assembly });
+            .ConfigureDefaultLogging("ExampleApp.Api", new[] { typeof(Program).Assembly });
     }
 }
