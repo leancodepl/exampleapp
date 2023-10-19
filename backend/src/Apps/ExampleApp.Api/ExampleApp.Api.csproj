@@ -19,6 +19,7 @@
     <PackageReference Include="Azure.Storage.Blobs" />
 
     <PackageReference Include="LeanCode.ClientCredentialsHandler" />
+    <PackageReference Include="LeanCode.ConfigCat" />
     <PackageReference Include="LeanCode.CQRS.AspNetCore" />
     <PackageReference Include="LeanCode.CQRS.MassTransitRelay" />
     <PackageReference Include="LeanCode.CQRS.Validation.Fluent" />
@@ -37,6 +38,7 @@
 
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
     <PackageReference Include="Microsoft.Extensions.Azure" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" />
     <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" />
     <PackageReference Include="Microsoft.Extensions.Hosting" />
 

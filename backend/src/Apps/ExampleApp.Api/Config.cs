@@ -81,5 +81,7 @@ public static class Config
     {
         services.AddSingleton(new LeanCode.Kratos.KratosWebHookHandlerConfig(Kratos.WebhookApiKey(config)));
         services.AddSingleton(FirebaseConfiguration.Prepare(Google.ApiKey(config), Guid.NewGuid().ToString()));
+
+        services.Configure<LeanCode.ConfigCat.ConfigCatOptions>(config.GetSection("ConfigCat"));
     }
 }

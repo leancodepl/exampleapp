@@ -13,6 +13,8 @@ export BlobStorage__ConnectionString='DefaultEndpointsProtocol=http;AccountName=
 
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
+export ConfigCat__FlagOverridesJsonObject="$(< "${DIR}/ConfigCatFlagOverrides.json")"
+
 if [[ -f "$DIR/secrets.sh" ]]
 then
     source "$DIR/secrets.sh"
