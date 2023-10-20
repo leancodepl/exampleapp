@@ -28,7 +28,15 @@ selfservice:
     totp:
       enabled: true
       config:
-        issuer: "${totp_issuer}"
+        issuer: "${authority_name}"
+    webauthn:
+      enabled: true
+      config:
+        passwordless: true
+        rp:
+          display_name: "${authority_name}"
+          id: "${domain}"
+          origin: https://${domain}
     profile:
       enabled: true
     code:
