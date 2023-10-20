@@ -16,6 +16,7 @@ selfservice:
   default_browser_return_url: https://${domain}/
   allowed_return_urls:
     - https://${domain}/
+    - pl.leancode.template.tst://app
   methods:
     link:
       config:
