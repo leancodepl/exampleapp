@@ -3,6 +3,8 @@ kind: Simple
 metadata:
   name: exampleapp
 image: docker.io/rancher/k3s:v1.27.3-k3s1
+# image: leancode.azurecr.io/rancher/k3s:v1.27.3-k3s1-fuseoverlayfs
+# Check apps/Dockerfile.k3s to see how to build this image
 servers: 1
 agents: 0
 kubeAPI:
@@ -38,6 +40,12 @@ options:
       - arg: --disable=traefik
         nodeFilters:
           - server:*
+      - arg: --kubelet-arg=eviction-hard=imagefs.available<5Gi,nodefs.available<2Gi,memory.available<1Gi
+        nodeFilters:
+          - all
+      # - arg: --snapshotter=fuse-overlayfs
+      #   nodeFilters:
+      #     - all
   kubeconfig:
     updateDefaultKubeconfig: true
     switchCurrentContext: false
