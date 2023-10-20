@@ -10,5 +10,8 @@ local claims = {
     metadata_admin: {
       apple_claims: std.extVar('claims'),
     },
+    verified_addresses: std.prune([
+      if 'email' in claims && claims.email_verified then { via: 'email', value: claims.email },
+    ]),
   },
 }

@@ -22,6 +22,13 @@ public class CoreDbContext : DbContext
     public CoreDbContext(DbContextOptions<CoreDbContext> options)
         : base(options) { }
 
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        base.OnConfiguring(optionsBuilder);
+
+        // optionsBuilder.AddTimestampTzExpressionInterceptor();
+    }
+
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
     {
         ConfigureId<EmployeeId>(configurationBuilder);

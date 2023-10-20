@@ -38,7 +38,7 @@ module "kratos" {
     api              = "http://exampleapp-api-svc.exampleapp-dev.svc.cluster.local"
     domain           = "local.lncd.pl"
     oidc_config      = var.oidc_config
-    totp_issuer      = "ExampleApp (dev)"
+    authority_name   = "ExampleApp (dev)"
     web_hook_api_key = "Passw12#"
   })
 
