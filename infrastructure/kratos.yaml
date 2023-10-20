@@ -125,7 +125,7 @@ selfservice:
                     value: "${web_hook_api_key}"
                 body: file:///etc/kratos/webhook.identity.mapper.jsonnet
                 response:
-                  ignore: false
+                  ignore: true
                   parse: false
         oidc:
           hooks:
@@ -142,7 +142,7 @@ selfservice:
                     value: "${web_hook_api_key}"
                 body: file:///etc/kratos/webhook.identity.mapper.jsonnet
                 response:
-                  ignore: false
+                  ignore: true
                   parse: false
     verification:
       ui_url: https://${domain}/verification
@@ -162,7 +162,7 @@ selfservice:
                   value: "${web_hook_api_key}"
               body: file:///etc/kratos/webhook.identity.mapper.jsonnet
               response:
-                ignore: false
+                ignore: true
                 parse: false
     recovery:
       ui_url: https://${domain}/recovery
@@ -182,7 +182,7 @@ selfservice:
                   value: "${web_hook_api_key}"
               body: file:///etc/kratos/webhook.identity.mapper.jsonnet
               response:
-                ignore: false
+                ignore: true
                 parse: false
     settings:
       ui_url: https://${domain}/settings
@@ -200,7 +200,7 @@ selfservice:
                   value: "${web_hook_api_key}"
               body: file:///etc/kratos/webhook.identity.mapper.jsonnet
               response:
-                ignore: false
+                ignore: true
                 parse: false
     error:
       ui_url: https://${domain}/error
