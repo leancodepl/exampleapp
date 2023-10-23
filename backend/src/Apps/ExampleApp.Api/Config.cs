@@ -43,8 +43,7 @@ public static class Config
 
     public static class LeanPipe
     {
-        public static bool EnableLeanPipeFunnel(IConfiguration cfg) =>
-            cfg.GetValue<bool>("LeanPipe:EnableLeanPipeFunnel");
+        public static bool EnableLeanPipeFunnel(IConfiguration cfg) => cfg.GetValue<bool>("LeanPipe:EnableFunnel");
     }
 
     public static class Google

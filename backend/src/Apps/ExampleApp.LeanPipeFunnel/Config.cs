@@ -28,7 +28,7 @@ public static class Config
 
     public static class LeanPipe
     {
-        public static bool EnableLeanPipeFunnel(IConfiguration cfg) => cfg.GetBool("LeanPipe:EnableLeanPipeFunnel");
+        public static bool EnableLeanPipeFunnel(IConfiguration cfg) => cfg.GetBool("LeanPipe:EnableFunnel");
     }
 
     private static string GetString(this IConfiguration configuration, string key)
