@@ -11,7 +11,7 @@ module "kratos" {
   labels       = merge(local.tags, { component = "kratos" })
   project      = local.project
   ingress_host = null
-  image        = "docker.io/oryd/kratos:v1.0.0"
+  image        = "leancode.azurecr.io/kratos:v1.0.0-153-gafed81d6e"
   replicas     = 1
 
   resources = {
