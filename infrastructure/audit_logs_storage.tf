@@ -18,8 +18,13 @@ resource "azurerm_storage_account" "audit_logs_storage" {
   min_tls_version = "TLS1_2"
 }
 
+resource "azurerm_storage_container" "audit_logs" {
+  name                 = "audit-logs"
+  storage_account_name = azurerm_storage_account.audit_logs_storage.name
+}
+
 resource "azurerm_storage_table" "audit_logs" {
-  name                 = local.audit_logs_table_name
+  name                 = "auditlogs"
   storage_account_name = azurerm_storage_account.audit_logs_storage.name
 }
 
@@ -30,21 +35,15 @@ resource "azurerm_storage_management_policy" "decrease_access_tier" {
     name    = "archive_and_delete_old_log_entries"
     enabled = true
     filters {
-      prefix_match = ["${local.audit_logs_container_name}/"]
+      prefix_match = ["${azurerm_storage_container.audit_logs.name}/"]
       blob_types   = ["appendBlob"]
     }
     actions {
       base_blob {
         tier_to_cool_after_days_since_modification_greater_than    = 28
-        auto_tier_to_hot_from_cool_enabled                         = true
         tier_to_archive_after_days_since_modification_greater_than = 84
         delete_after_days_since_modification_greater_than          = 365
       }
     }
   }
-}
-
-locals {
-  audit_logs_container_name = "audit_logs"
-  audit_logs_table_name     = "auditlogs"
 }
