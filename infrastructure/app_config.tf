@@ -40,6 +40,9 @@ module "app_config" {
 
         "Kratos__PublicEndpoint" = module.kratos.internal_service_url.public
         "Kratos__AdminEndpoint"  = module.kratos.internal_service_url.admin
+
+        "AuditLogs__ContainerName" = local.audit_logs_container_name
+        "AuditLogs__TableName"     = local.audit_logs_table_name
       }
     }
     "exampleapp-migrations-secret" = {
