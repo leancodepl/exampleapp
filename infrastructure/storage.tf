@@ -10,6 +10,9 @@ module "storage" {
     "public" = {
       access_type = "blob"
     }
+    "audit-logs" = {
+      access_type = "private"
+    }
   }
 
   blob_cors_rules = []
@@ -23,4 +26,9 @@ module "storage_assets" {
   container_name       = module.storage.storage_containers["public"].name
 
   base_dir = "./storage-assets"
+}
+
+resource "azurerm_storage_table" "audit_logs" {
+  name                 = "auditlogs"
+  storage_account_name = module.storage.storage_account_name
 }

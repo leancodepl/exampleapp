@@ -41,7 +41,7 @@ module "app_config" {
         "Kratos__PublicEndpoint" = module.kratos.internal_service_url.public
         "Kratos__AdminEndpoint"  = module.kratos.internal_service_url.admin
 
-        "AuditLogs__ContainerName" = azurerm_storage_container.audit_logs.name
+        "AuditLogs__ContainerName" = module.storage.storage_containers["audit-logs"].name
         "AuditLogs__TableName"     = azurerm_storage_table.audit_logs.name
       }
     }
