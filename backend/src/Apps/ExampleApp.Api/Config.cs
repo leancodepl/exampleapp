@@ -63,6 +63,13 @@ public static class Config
         public static string? OtlpEndpoint(IConfiguration cfg) => cfg.GetString("Telemetry:Otlp:Endpoint");
     }
 
+    public static class AuditLogs
+    {
+        public static string ContainerName(IConfiguration cfg) => cfg.GetString("AuditLogs:ContainerName");
+
+        public static string TableName(IConfiguration cfg) => cfg.GetString("AuditLogs:TableName");
+    }
+
     private static string GetString(this IConfiguration configuration, string key)
     {
         return configuration.GetValue<string>(key)!;

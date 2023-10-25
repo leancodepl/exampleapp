@@ -18,6 +18,7 @@
 
     <PackageReference Include="Azure.Storage.Blobs" />
 
+    <PackageReference Include="LeanCode.AuditLogs" />
     <PackageReference Include="LeanCode.ClientCredentialsHandler" />
     <PackageReference Include="LeanCode.ConfigCat" />
     <PackageReference Include="LeanCode.CQRS.AspNetCore" />

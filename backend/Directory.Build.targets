@@ -1,6 +1,6 @@
 <Project>
   <PropertyGroup>
-    <CoreLibVersion>8.0.2204-preview</CoreLibVersion>
+    <CoreLibVersion>8.0.2232-preview</CoreLibVersion>
     <ExtensionsVersion>8.0.0-rc.2.23479.6</ExtensionsVersion>
     <EFCoreVersion>8.0.0-rc.2.23480.1</EFCoreVersion>
     <AspNetCoreVersion>8.0.0-rc.2.23480.2</AspNetCoreVersion>
@@ -12,6 +12,7 @@
   <ItemGroup>
     <PackageReference Update="LeanCode.Contracts" Version="2.0.0-preview.3" />
 
+    <PackageReference Update="LeanCode.AuditLogs" Version="$(CoreLibVersion)" />
     <PackageReference Update="LeanCode.AzureIdentity" Version="$(CoreLibVersion)" />
     <PackageReference Update="LeanCode.ClientCredentialsHandler" Version="$(CoreLibVersion)" />
     <PackageReference Update="LeanCode.Components" Version="$(CoreLibVersion)" />

@@ -1,6 +1,7 @@
 using System.Globalization;
 using ExampleApp.Api.Handlers;
 using ExampleApp.Core.Services.DataAccess;
+using LeanCode.AuditLogs;
 using LeanCode.AzureIdentity;
 using LeanCode.OpenTelemetry;
 using Microsoft.AspNetCore.Builder;
@@ -103,12 +104,20 @@ internal static class ApiModule
         services.AddAzureClients(cfg =>
         {
             cfg.AddBlobServiceClient(Config.BlobStorage.ConnectionString(config));
+            cfg.AddTableServiceClient(Config.BlobStorage.ConnectionString(config));
 
             if (!hostEnv.IsDevelopment())
             {
                 cfg.UseCredential(DefaultLeanCodeCredential.Create(config));
             }
         });
+
+        services.AddAzureStorageAuditLogs(
+            new AzureBlobAuditLogStorageConfiguration(
+                Config.AuditLogs.ContainerName(config),
+                Config.AuditLogs.TableName(config)
+            )
+        );
 
         services.AddConfigCat(true);
 

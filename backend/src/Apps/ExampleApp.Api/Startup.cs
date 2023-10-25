@@ -5,6 +5,7 @@ using ExampleApp.Core.Domain.Events;
 using ExampleApp.Core.Services;
 using ExampleApp.Core.Services.DataAccess;
 using ExampleApp.Core.Services.DataAccess.Serialization;
+using LeanCode.AuditLogs;
 using LeanCode.AzureIdentity;
 using LeanCode.Components;
 using LeanCode.CQRS.AspNetCore;
@@ -70,6 +71,8 @@ public class Startup : LeanStartup
                     new LeanCode.CQRS.MassTransitRelay.LockProviders.CustomPostgresLockStatementProvider();
                 outboxCfg.UseBusOutbox();
             });
+
+            cfg.AddAuditLogsConsumer();
 
             cfg.AddConsumersWithDefaultConfiguration(
                 AllHandlers.Assemblies.ToArray(),
@@ -168,10 +171,19 @@ public class Startup : LeanStartup
                     cqrs =>
                     {
                         cqrs.Commands = c =>
-                            c.CQRSTrace().Secure().Validate().CommitTransaction<CoreDbContext>().PublishEvents();
+                            c.CQRSTrace()
+                                .Secure()
+                                .Validate()
+                                .CommitTransaction<CoreDbContext>()
+                                .PublishEvents()
+                                .Audit<CoreDbContext>();
                         cqrs.Queries = c => c.CQRSTrace().Secure();
                         cqrs.Operations = c =>
-                            c.CQRSTrace().Secure().CommitTransaction<CoreDbContext>().PublishEvents();
+                            c.CQRSTrace()
+                                .Secure()
+                                .CommitTransaction<CoreDbContext>()
+                                .PublishEvents()
+                                .Audit<CoreDbContext>();
                     }
                 );
 
@@ -194,5 +206,6 @@ public class DefaultConsumerDefinition<TConsumer> : ConsumerDefinition<TConsumer
         );
         endpointConfigurator.UseEntityFrameworkOutbox<CoreDbContext>(context);
         endpointConfigurator.UseDomainEventsPublishing(context);
+        endpointConfigurator.UseAuditLogs<CoreDbContext>(context);
     }
 }
