@@ -101,8 +101,8 @@ lower=${project_name,,}
 # Checkout the repository
 git clone "${source_repository}" "${lower}"
 cd "${lower}"
-# Delete existing history and bootstrap.sh
-rm -rf ./.git ./bootstrap.sh
+# Delete existing history, bootstrap.sh and its pipeline's Jenkinsfile
+rm -rf ./.git ./bootstrap.sh ./Jenkinsfile.bootstrap
 
 # Initialize new repository
 git init

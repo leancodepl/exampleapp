@@ -1,0 +1,26 @@
+leancode.builder('exampleapp-bootstrap')
+    .withMonorepoTest(['backend', 'dev-cluster', 'bootstrap.sh', 'Jenkinsfile.bootstrap'])
+    .withDotnet([version: '8.0', image: 'mcr.microsoft.com/dotnet/sdk'])
+    .runOnSpot()
+    .run {
+
+    def scmVars
+
+    stage('Checkout') {
+        scmVars = safeCheckout scm
+    }
+
+    leancode.configureRepositories()
+
+    stage('Bootstrap new project from template') {
+        container('dotnet') {
+            sh '''
+                repo=$(pwd -P)
+                cd "$(mktemp -d)"
+                env GIT_AUTHOR_NAME=Jenkins GIT_AUTHOR_EMAIL=jenkins@leancode.pl \
+                    GIT_COMMITTER_NAME=Jenkins GIT_COMMITTER_EMAIL=jenkins@leancode.pl \
+                    "${repo}/bootstrap.sh" --no-dev-cluster --source-repository="${repo}" NewProject
+            '''
+        }
+    }
+}
