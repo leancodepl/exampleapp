@@ -1,7 +1,5 @@
 using ExampleApp.Api.Handlers;
 using ExampleApp.Core.Contracts;
-using ExampleApp.Core.Contracts.Projects;
-using ExampleApp.Core.Domain.Events;
 using ExampleApp.Core.Services;
 using ExampleApp.Core.Services.DataAccess;
 using ExampleApp.Core.Services.DataAccess.Serialization;
@@ -37,8 +35,7 @@ namespace ExampleApp.Api;
 public class Startup : LeanStartup
 {
     public static readonly TypesCatalog AllHandlers = new(typeof(CoreDbContext));
-    public static readonly TypesCatalog Api = new(typeof(CreateProject));
-    public static readonly TypesCatalog Domain = new(typeof(EmployeeAssignedToAssignment));
+    public static readonly TypesCatalog Api = new(typeof(PaginatedQuery<>));
 
     private readonly IWebHostEnvironment hostEnv;
 
