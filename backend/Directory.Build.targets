@@ -6,7 +6,7 @@
     <AspNetCoreVersion>8.0.0-rc.2.23480.2</AspNetCoreVersion>
     <MassTransitVersion>8.1.1</MassTransitVersion>
     <NpgsqlVersion>8.0.0-rc.2</NpgsqlVersion>
-    <LeanPipeVersion>0.2.0</LeanPipeVersion>
+    <LeanPipeVersion>0.2.3</LeanPipeVersion>
   </PropertyGroup>
 
   <ItemGroup>

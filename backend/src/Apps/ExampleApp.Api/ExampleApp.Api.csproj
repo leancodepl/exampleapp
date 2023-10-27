@@ -36,6 +36,7 @@
     <PackageReference Include="LeanCode.ViewRenderer.Razor" />
 
     <PackageReference Include="MassTransit.Azure.ServiceBus.Core" />
+    <PackageReference Include="MassTransit.RabbitMQ" />
 
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
     <PackageReference Include="Microsoft.Extensions.Azure" />

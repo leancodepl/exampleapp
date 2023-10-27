@@ -17,12 +17,12 @@ using LeanCode.ForceUpdate;
 using LeanCode.Localization;
 using LeanCode.OpenTelemetry;
 using LeanCode.Pipe;
+using LeanCode.Pipe.Funnel.FunnelledService;
 using LeanCode.Startup.MicrosoftDI;
 using LeanCode.ViewRenderer.Razor;
 using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders.Physical;
@@ -55,7 +55,16 @@ public class Startup : LeanStartup
                 new IOSVersionsConfiguration(new Version(1, 0), new Version(1, 1))
             );
 
-        services.AddLeanPipe(Api, AllHandlers);
+        var leanPipeFunnelEnabled = Config.LeanPipe.EnableLeanPipeFunnel(Configuration);
+
+        if (leanPipeFunnelEnabled)
+        {
+            services.AddFunnelledLeanPipe(Api, AllHandlers);
+        }
+        else
+        {
+            services.AddLeanPipe(Api, AllHandlers);
+        }
 
         services.AddFluentValidation(AllHandlers);
         services.AddStringLocalizer(LocalizationConfiguration.For<Strings.Strings>());
@@ -74,6 +83,11 @@ public class Startup : LeanStartup
 
             cfg.AddAuditLogsConsumer();
 
+            if (leanPipeFunnelEnabled)
+            {
+                cfg.AddFunnelledLeanPipeConsumers("ExampleApp.Api", Api.Assemblies);
+            }
+
             cfg.AddConsumersWithDefaultConfiguration(
                 AllHandlers.Assemblies.ToArray(),
                 typeof(DefaultConsumerDefinition<>)
@@ -82,16 +96,28 @@ public class Startup : LeanStartup
             if (hostEnv.IsDevelopment())
             {
                 cfg.AddDelayedMessageScheduler();
-                cfg.UsingInMemory(
-                    (ctx, cfg) =>
-                    {
-                        cfg.UseDelayedMessageScheduler();
-                        ConfigureBusCommon<IInMemoryBusFactoryConfigurator, IInMemoryReceiveEndpointConfigurator>(
-                            ctx,
-                            cfg
-                        );
-                    }
-                );
+
+                if (Config.MassTransit.RabbitMq.Url(Configuration) is Uri url)
+                {
+                    cfg.UsingRabbitMq(
+                        (ctx, cfg) =>
+                        {
+                            cfg.Host(url);
+                            cfg.UseDelayedMessageScheduler();
+                            ConfigureBusCommon(ctx, cfg);
+                        }
+                    );
+                }
+                else
+                {
+                    cfg.UsingInMemory(
+                        (ctx, cfg) =>
+                        {
+                            cfg.UseDelayedMessageScheduler();
+                            ConfigureBusCommon(ctx, cfg);
+                        }
+                    );
+                }
             }
             else
             {
@@ -110,20 +136,16 @@ public class Startup : LeanStartup
                         );
 
                         cfg.UseServiceBusMessageScheduler();
-                        ConfigureBusCommon<IServiceBusBusFactoryConfigurator, IServiceBusReceiveEndpointConfigurator>(
-                            ctx,
-                            cfg
-                        );
+                        ConfigureBusCommon(ctx, cfg);
                     }
                 );
             }
 
-            static void ConfigureBusCommon<TConfigurator, TReceiveConfigurator>(
+            static void ConfigureBusCommon<TEndpoint>(
                 IBusRegistrationContext ctx,
-                TConfigurator cfg
+                IBusFactoryConfigurator<TEndpoint> cfg
             )
-                where TConfigurator : IBusFactoryConfigurator<TReceiveConfigurator>
-                where TReceiveConfigurator : IReceiveEndpointConfigurator
+                where TEndpoint : IReceiveEndpointConfigurator
             {
                 cfg.ConfigureEndpoints(ctx);
                 cfg.ConfigureJsonSerializerOptions(KnownConverters.AddAll);
@@ -187,7 +209,10 @@ public class Startup : LeanStartup
                     }
                 );
 
-                endpoints.MapLeanPipe("/leanpipe");
+                if (!Config.LeanPipe.EnableLeanPipeFunnel(Configuration))
+                {
+                    endpoints.MapLeanPipe("/leanpipe");
+                }
             });
     }
 }

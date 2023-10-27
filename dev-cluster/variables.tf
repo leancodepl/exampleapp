@@ -1,3 +1,7 @@
+variable "rabbit" {
+  default = true
+}
+
 variable "sendgrid_api_key" {
   type = string
 }

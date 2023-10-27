@@ -23,6 +23,16 @@ local_resource(
 )
 
 local_resource(
+  'build-leanpipe-funnel',
+  'dotnet publish -o dev/out/leanpipe_funnel src/Apps/ExampleApp.LeanPipeFunnel',
+  dir='.',
+  deps=['src/Apps', 'ExampleApp.sln', 'Directory.Build.targets'],
+  ignore=['**/obj', '**/bin'],
+  env={ 'APP_VERSION': '0.0.1-dev' },
+  labels=['app']
+)
+
+local_resource(
   'build-tests',
   'dotnet publish -o dev/out/tests tests/ExampleApp.Tests.csproj',
   dir='.',
@@ -67,6 +77,18 @@ docker_build_with_restart(
 )
 
 docker_build_with_restart(
+  'exampleapp-leanpipe-funnel',
+  context='dev',
+  dockerfile='dev/Dockerfile.leanpipe_funnel',
+  entrypoint='/home/app/config/run_funnel.sh',
+  only=['out/leanpipe_funnel', 'config', 'sshd_config'],
+  live_update=[
+    sync('dev/out/leanpipe_funnel', '/home/app/bin'),
+    sync('dev/config', '/home/app/config'),
+  ],
+)
+
+docker_build_with_restart(
   'exampleapp-tests',
   context='dev',
   dockerfile='dev/Dockerfile.tests',
@@ -92,11 +114,13 @@ docker_build_with_restart(
 
 k8s_yaml('dev/k8s/api.yaml')
 k8s_yaml('dev/k8s/migrations.yaml')
+k8s_yaml('dev/k8s/leanpipe_funnel.yaml')
 k8s_yaml('dev/k8s/tests.yaml')
 k8s_yaml('dev/k8s/integration_tests.yaml')
 
 k8s_resource('exampleapp-api', new_name='api', resource_deps=['build-api'], labels=['app'])
 k8s_resource('exampleapp-migrations', new_name='migrations', resource_deps=['build-migrations'], trigger_mode=TRIGGER_MODE_MANUAL, labels=['app'])
+k8s_resource('exampleapp-leanpipe-funnel', new_name='leanpipe_funnel', resource_deps=['build-leanpipe-funnel'], labels=['app'])
 k8s_resource('exampleapp-tests', new_name='tests', resource_deps=['build-tests'], labels=['tests'])
 k8s_resource('exampleapp-integration-tests', new_name='integration_tests', resource_deps=['build-integration-tests'], labels=['tests'])
 

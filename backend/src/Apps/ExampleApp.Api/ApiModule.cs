@@ -88,7 +88,7 @@ internal static class ApiModule
                         )
                         .AddHttpClientInstrumentation()
                         .AddNpgsql()
-                        .AddSource("MassTransit")
+                        .AddSource(MassTransit.Logging.DiagnosticHeaders.DefaultListenerName)
                         .AddLeanCodeTelemetry()
                         .AddOtlpExporter(cfg => cfg.Endpoint = new(otlp));
                 })
@@ -97,6 +97,7 @@ internal static class ApiModule
                     builder
                         .AddAspNetCoreInstrumentation()
                         .AddHttpClientInstrumentation()
+                        .AddMeter(MassTransit.Monitoring.InstrumentationOptions.MeterName)
                         .AddOtlpExporter(cfg => cfg.Endpoint = new(otlp));
                 });
         }
