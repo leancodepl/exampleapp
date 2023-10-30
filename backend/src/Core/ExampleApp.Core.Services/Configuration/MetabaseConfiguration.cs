@@ -1,0 +1,7 @@
+namespace ExampleApp.Core.Services.Configuration;
+
+public sealed record class MetabaseConfiguration(
+    string MetabaseUrl,
+    string MetabaseSecretKey,
+    int AssignmentEmployerEmbedQuestion
+);

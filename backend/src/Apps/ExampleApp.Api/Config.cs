@@ -1,3 +1,4 @@
+using ExampleApp.Core.Services.Configuration;
 using LeanCode.Firebase;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -15,6 +16,16 @@ public static class Config
         public static string AdminEndpoint(IConfiguration cfg) => cfg.GetString("Kratos:AdminEndpoint");
 
         public static string WebhookApiKey(IConfiguration cfg) => cfg.GetString("Kratos:WebhookApiKey");
+    }
+
+    public static class Metabase
+    {
+        public static string Url(IConfiguration cfg) => cfg.GetString("Metabase:Url");
+
+        public static string SecretKey(IConfiguration cfg) => cfg.GetString("Metabase:SecretKey");
+
+        public static int AssignmentEmployerEmbedQuestion(IConfiguration cfg) =>
+            cfg.GetValue<int>("Metabase:AssignmentEmployerEmbedQuestion");
     }
 
     public static class PostgreSQL
@@ -99,6 +110,13 @@ public static class Config
     {
         services.AddSingleton(new LeanCode.Kratos.KratosWebHookHandlerConfig(Kratos.WebhookApiKey(config)));
         services.AddSingleton(FirebaseConfiguration.Prepare(Google.ApiKey(config), Guid.NewGuid().ToString()));
+        services.AddSingleton(
+            new MetabaseConfiguration(
+                Metabase.Url(config),
+                Metabase.SecretKey(config),
+                Metabase.AssignmentEmployerEmbedQuestion(config)
+            )
+        );
 
         services.Configure<LeanCode.ConfigCat.ConfigCatOptions>(config.GetSection("ConfigCat"));
     }

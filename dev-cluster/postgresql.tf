@@ -172,3 +172,37 @@ resource "postgresql_grant" "kratos_public" {
   schema      = "public"
   privileges  = ["USAGE", "CREATE"]
 }
+
+resource "postgresql_database" "metabase" {
+  name       = "metabase"
+  lc_collate = "en_US.utf8"
+
+  depends_on = [
+    time_sleep.postgres_setup_delay
+  ]
+}
+
+resource "postgresql_role" "metabase" {
+  name     = "metabase"
+  login    = true
+  password = "Passw12#"
+
+  depends_on = [
+    time_sleep.postgres_setup_delay
+  ]
+}
+
+resource "postgresql_grant" "metabase" {
+  database    = postgresql_database.metabase.name
+  role        = postgresql_role.metabase.name
+  object_type = "database"
+  privileges  = ["CREATE"]
+}
+
+resource "postgresql_grant" "metabase_public" {
+  database    = postgresql_database.metabase.name
+  role        = "public"
+  object_type = "schema"
+  schema      = "public"
+  privileges  = ["USAGE", "CREATE"]
+}
