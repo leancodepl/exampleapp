@@ -21,6 +21,16 @@ locals {
         }
       }
     }
+    "metabase" = {
+      charset   = "UTF8"
+      collation = "en_US.utf8"
+
+      roles = {
+        "metabase" = {
+          privileges = ["CREATE"]
+        }
+      }
+    }
   }
 }
 

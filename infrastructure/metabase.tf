@@ -1,7 +1,12 @@
-resource "kubernetes_deployment_v1" "metabase" {
+resource "random_password" "metabase_embedding_key" {
+  length  = 64
+  special = false
+}
+
+resource "kubernetes_deployment_v1" "exampleapp_metabase" {
   metadata {
     name      = "exampleapp-metabase"
-    namespace = kubernetes_namespace_v1.metabase.metadata[0].name
+    namespace = data.kubernetes_namespace_v1.main.metadata[0].name
     labels    = local.labels_metabase
   }
   spec {
@@ -32,15 +37,15 @@ resource "kubernetes_deployment_v1" "metabase" {
           }
           env {
             name  = "MB_DB_USER"
-            value = postgresql_role.metabase.name
+            value = module.postgresql.roles["metabase"].name
           }
           env {
             name  = "MB_DB_PASS"
-            value = postgresql_role.metabase.password
+            value = module.postgresql.roles["metabase"].password
           }
           env {
             name  = "MB_DB_HOST"
-            value = "${kubernetes_service_v1.postgresql_service.metadata[0].name}.${kubernetes_service_v1.postgresql_service.metadata[0].namespace}.svc.cluster.local"
+            value = module.postgresql.server_fqdn
           }
           env {
             name  = "MB_EMBEDDING_SECRET_KEY"
@@ -70,7 +75,7 @@ resource "kubernetes_deployment_v1" "metabase" {
 resource "kubernetes_service_v1" "metabase_service" {
   metadata {
     name      = "exampleapp-metabase-svc"
-    namespace = kubernetes_namespace_v1.metabase.metadata[0].name
+    namespace = data.kubernetes_namespace_v1.main.metadata[0].name
     labels    = local.labels_metabase
   }
   spec {
@@ -83,16 +88,15 @@ resource "kubernetes_service_v1" "metabase_service" {
     }
   }
 }
-
 resource "kubernetes_ingress_v1" "metabase_ingress" {
   metadata {
     name      = "exampleapp-metabase-ingress"
-    namespace = kubernetes_namespace_v1.metabase.metadata[0].name
+    namespace = data.kubernetes_namespace_v1.main.metadata[0].name
     labels    = local.labels_metabase
   }
   spec {
     rule {
-      host = "metabase.local.lncd.pl"
+      host = "metabase.${var.domain}"
       http {
         path {
           backend {
@@ -116,19 +120,6 @@ resource "kubernetes_ingress_v1" "metabase_ingress" {
   }
 }
 
-resource "random_password" "metabase_embedding_key" {
-  length  = 64
-  special = false
-}
-
 locals {
-  labels_metabase = {
-    project   = "exampleapp"
-    component = "metabase"
-  }
-}
-
-output "metabase_secret_key" {
-  value     = random_password.metabase_embedding_key.result
-  sensitive = true
+  labels_metabase = merge(local.tags, { component = "metabase" })
 }
