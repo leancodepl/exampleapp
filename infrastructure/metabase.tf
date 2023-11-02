@@ -58,12 +58,12 @@ resource "kubernetes_deployment_v1" "exampleapp_metabase" {
 
           resources {
             requests = {
-              cpu    = "250m"
-              memory = "1Gi"
+              cpu    = "100m"
+              memory = "250Mi"
             }
             limits = {
-              cpu    = "500m"
-              memory = "2Gi"
+              cpu    = "200m"
+              memory = "1Gi"
             }
           }
         }
