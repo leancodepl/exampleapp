@@ -15,8 +15,7 @@ export MassTransit__RabbitMq__Url='rabbitmq://user:user@rabbit-rabbitmq.shared.s
 
 export Metabase__Url="https://metabase.local.lncd.pl"
 export Metabase__AssignmentEmployerEmbedQuestion=1
-# Set in secrets
-# export Metabase__SecretKey=
+export Metabase__SecretKey='embedding_secret_key_that_needs_to_have_256_bits'
 
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 

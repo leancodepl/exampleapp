@@ -44,7 +44,7 @@ resource "kubernetes_deployment_v1" "metabase" {
           }
           env {
             name  = "MB_EMBEDDING_SECRET_KEY"
-            value = random_password.metabase_embedding_key.result
+            value = "embedding_secret_key_that_needs_to_have_256_bits"
           }
           env {
             name  = "MB_ENABLE_EMBEDDING"
@@ -116,19 +116,9 @@ resource "kubernetes_ingress_v1" "metabase_ingress" {
   }
 }
 
-resource "random_password" "metabase_embedding_key" {
-  length  = 64
-  special = false
-}
-
 locals {
   labels_metabase = {
     project   = "exampleapp"
     component = "metabase"
   }
-}
-
-output "metabase_secret_key" {
-  value     = random_password.metabase_embedding_key.result
-  sensitive = true
 }
