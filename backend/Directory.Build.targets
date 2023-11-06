@@ -92,7 +92,8 @@
     <PackageReference Update="OpenTelemetry.Instrumentation.AspNetCore" Version="1.5.1-beta.1" />
     <PackageReference Update="OpenTelemetry.Instrumentation.Http" Version="1.5.1-beta.1 " />
 
-    <PackageReference Update="System.IdentityModel.Tokens.Jwt" Version="7.0.3" />
+    <PackageReference Update="Microsoft.IdentityModel.JsonWebTokens" Version="7.0.3" />
+    <PackageReference Update="Microsoft.IdentityModel.Tokens" Version="7.0.3" />
   </ItemGroup>
 
   <ItemGroup>

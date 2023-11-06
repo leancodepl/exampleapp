@@ -13,6 +13,10 @@ export BlobStorage__ConnectionString='DefaultEndpointsProtocol=http;AccountName=
 
 export MassTransit__RabbitMq__Url='rabbitmq://user:user@rabbit-rabbitmq.shared.svc.cluster.local/'
 
+export Metabase__Url="https://metabase.local.lncd.pl"
+export Metabase__AssignmentEmployerEmbedQuestion=1
+export Metabase__SecretKey='embedding_secret_key_that_needs_to_have_256_bits'
+
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 export ConfigCat__FlagOverridesJsonObject="$(< "${DIR}/ConfigCatFlagOverrides.json")"

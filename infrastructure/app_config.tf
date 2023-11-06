@@ -43,6 +43,11 @@ module "app_config" {
 
         "AuditLogs__ContainerName" = module.storage.storage_containers["audit-logs"].name
         "AuditLogs__TableName"     = azurerm_storage_table.audit_logs.name
+
+        "Metabase__Url"       = "https://${kubernetes_ingress_v1.metabase_ingress.spec[0].rule[0].host}"
+        "Metabase__SecretKey" = random_password.metabase_embedding_key.result
+
+        "Metabase__AssignmentEmployerEmbedQuestion" = 1
       }
     }
     "exampleapp-migrations-secret" = {
