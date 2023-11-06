@@ -18,16 +18,6 @@ public static class Config
         public static string WebhookApiKey(IConfiguration cfg) => cfg.GetString("Kratos:WebhookApiKey");
     }
 
-    public static class Metabase
-    {
-        public static string Url(IConfiguration cfg) => cfg.GetString("Metabase:Url");
-
-        public static string SecretKey(IConfiguration cfg) => cfg.GetString("Metabase:SecretKey");
-
-        public static int AssignmentEmployerEmbedQuestion(IConfiguration cfg) =>
-            cfg.GetValue<int>("Metabase:AssignmentEmployerEmbedQuestion");
-    }
-
     public static class PostgreSQL
     {
         public static string ConnectionString(IConfiguration cfg) => cfg.GetString("PostgreSQL:ConnectionString");
@@ -110,13 +100,8 @@ public static class Config
     {
         services.AddSingleton(new LeanCode.Kratos.KratosWebHookHandlerConfig(Kratos.WebhookApiKey(config)));
         services.AddSingleton(FirebaseConfiguration.Prepare(Google.ApiKey(config), Guid.NewGuid().ToString()));
-        services.AddSingleton(
-            new MetabaseConfiguration(
-                Metabase.Url(config),
-                Metabase.SecretKey(config),
-                Metabase.AssignmentEmployerEmbedQuestion(config)
-            )
-        );
+
+        services.Configure<MetabaseConfiguration>(config.GetSection("Metabase"));
 
         services.Configure<LeanCode.ConfigCat.ConfigCatOptions>(config.GetSection("ConfigCat"));
     }
