@@ -190,6 +190,7 @@ selfservice:
                 parse: false
     settings:
       ui_url: https://${domain}/settings
+      privileged_session_max_age: 15m
       after:
         hooks:
           - hook: web_hook
