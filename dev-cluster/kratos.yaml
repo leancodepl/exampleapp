@@ -9,9 +9,6 @@ serve:
 cookies:
   domain: "${domain}"
   same_site: Lax
-session:
-  cookie:
-    same_site: Strict
 selfservice:
   default_browser_return_url: https://${domain}/
   allowed_return_urls:
@@ -177,6 +174,7 @@ selfservice:
                 parse: false
     settings:
       ui_url: https://${domain}/settings
+      privileged_session_max_age: 15m
       after:
         hooks:
           - hook: web_hook
