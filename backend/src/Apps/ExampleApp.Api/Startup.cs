@@ -5,6 +5,7 @@ using ExampleApp.Core.Domain.Events;
 using ExampleApp.Core.Services;
 using ExampleApp.Core.Services.DataAccess;
 using ExampleApp.Core.Services.DataAccess.Serialization;
+using LeanCode.AppRating;
 using LeanCode.AuditLogs;
 using LeanCode.AzureIdentity;
 using LeanCode.Components;
@@ -23,6 +24,7 @@ using LeanCode.ViewRenderer.Razor;
 using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders.Physical;
@@ -50,6 +52,7 @@ public class Startup : LeanStartup
     {
         services
             .AddCQRS(Api, AllHandlers)
+            .AddAppRating<Guid, CoreDbContext, UserIdExtractor>()
             .AddForceUpdate(
                 new AndroidVersionsConfiguration(new Version(1, 0), new Version(1, 1)),
                 new IOSVersionsConfiguration(new Version(1, 0), new Version(1, 1))
@@ -233,4 +236,9 @@ public class DefaultConsumerDefinition<TConsumer> : ConsumerDefinition<TConsumer
         endpointConfigurator.UseDomainEventsPublishing(context);
         endpointConfigurator.UseAuditLogs<CoreDbContext>(context);
     }
+}
+
+public sealed class UserIdExtractor : IUserIdExtractor<Guid>
+{
+    public Guid Extract(HttpContext httpContext) => httpContext.GetUserId();
 }

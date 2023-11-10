@@ -1,6 +1,7 @@
 using ExampleApp.Core.Domain.Employees;
 using ExampleApp.Core.Domain.Projects;
 using ExampleApp.Core.Services.DataAccess.Entities;
+using LeanCode.AppRating.DataAccess;
 using LeanCode.DomainModels.EF;
 using LeanCode.DomainModels.Ids;
 using LeanCode.Firebase.FCM;
@@ -10,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ExampleApp.Core.Services.DataAccess;
 
-public class CoreDbContext : DbContext
+public class CoreDbContext : DbContext, IAppRatingStore<Guid>
 {
     public DbSet<PushNotificationTokenEntity<Guid>> PushNotificationTokens => Set<PushNotificationTokenEntity<Guid>>();
 
@@ -18,6 +19,8 @@ public class CoreDbContext : DbContext
 
     public DbSet<Employee> Employees => Set<Employee>();
     public DbSet<Project> Projects => Set<Project>();
+
+    public DbSet<AppRatingEntity<Guid>> AppRatings => Set<AppRatingEntity<Guid>>();
 
     public CoreDbContext(DbContextOptions<CoreDbContext> options)
         : base(options) { }
@@ -53,6 +56,8 @@ public class CoreDbContext : DbContext
         builder.AddTransactionalOutboxEntities();
 
         builder.ConfigurePushNotificationTokenEntity<Guid>(false);
+
+        builder.ConfigureAppRatingEntity<Guid>(SqlDbType.PostgreSql);
 
         builder.Entity<KratosIdentity>(e =>
         {
