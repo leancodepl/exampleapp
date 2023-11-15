@@ -58,8 +58,7 @@ selfservice:
             provider: apple
             label: Apple
             issuer_url: https://appleid.apple.com
-            allowed_audiences:
-              - "${oidc_config.apple.client_id}"
+            additional_id_token_audiences:
               - "${trimsuffix(oidc_config.apple.client_id, ".signin")}"
 %{ if strcontains(oidc_config.apple.client_id, ".tst") ~}
               - "${replace(oidc_config.apple.client_id, ".tst", ".dev")}"
