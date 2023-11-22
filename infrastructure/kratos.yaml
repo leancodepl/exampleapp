@@ -43,7 +43,9 @@ selfservice:
         rp:
           display_name: "${authority_name}"
           id: "${domain}"
-          origin: https://${domain}
+          origins:
+            - "https://${domain}"
+            - "android:apk-key-hash:VL9QJEhnisVE0kQPegKzOxCLV43ja9EKDcJ6v-fr3WI"
     profile:
       enabled: true
     code:
