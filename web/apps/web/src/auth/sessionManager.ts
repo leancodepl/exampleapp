@@ -1,7 +1,7 @@
 import { BaseSessionManager } from "@leancodepl/kratos";
 import { map } from "rxjs";
 import { environment } from "../environments/environment";
-import { signInRoute } from "../routes";
+import { loginRoute } from "../publicRoutes";
 
 class SessionManager extends BaseSessionManager {
     email$ = this.identity$.pipe(
@@ -15,4 +15,4 @@ class SessionManager extends BaseSessionManager {
     );
 }
 
-export const sessionManager = new SessionManager(environment.authUrl, signInRoute);
+export const sessionManager = new SessionManager(environment.authUrl, loginRoute);

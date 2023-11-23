@@ -68,7 +68,7 @@
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
+      "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": ["apps/web/**/*.{ts,tsx,js,jsx}"]
@@ -78,14 +78,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "apps/web/jest.config.ts",
-        "passWithNoTests": true
-      },
-      "configurations": {
-        "ci": {
-          "ci": true,
-          "codeCoverage": true
-        }
+        "jestConfig": "apps/web/jest.config.ts"
       }
     },
     "i18n": {
@@ -98,6 +91,13 @@
         "extract": {
           "command": "npx formatjs extract 'src/**/*.{ts,tsx}' --ignore='**/.d.ts' --out-file src/i18n/terms.json --id-interpolation-pattern '[sha512:contenthash:base64:6]'"
         }
+      }
+    },
+    "contracts": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx @leancodepl/contractsgenerator-typescript --no-install",
+        "cwd": "apps/web"
       }
     }
   },

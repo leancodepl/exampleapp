@@ -1,28 +1,26 @@
 import { useCallback } from "react";
-import { ErrorId, ResponseError } from "@leancodepl/kratos";
+import { ErrorId, UseHandleFlowError, returnToParameterName } from "@leancodepl/kratos";
 import { App } from "antd";
 import { FormattedMessage } from "react-intl";
+import { useNavigate } from "react-router";
+import { loginRoute } from "../publicRoutes";
 
-export type FlowErrorResponse = {
-    error?: {
-        id?: ErrorId;
-    };
-    redirect_browser_to: string;
-    use_flow_id?: string;
-};
-
-export function useHandleFlowError({
+export const useHandleFlowError: UseHandleFlowError = ({
     resetFlow,
     onSessionAlreadyAvailable,
 }: {
     resetFlow: (newFlowId?: string) => void;
     onSessionAlreadyAvailable?: () => void;
-}) {
+}) => {
+    const nav = useNavigate();
     const { message } = App.useApp();
 
     return useCallback(
-        async (err: ResponseError<FlowErrorResponse>) => {
-            switch (err.response?.data.error?.id) {
+        async err => {
+            switch (err.response?.data?.error?.id) {
+                case ErrorId.ErrNoActiveSession:
+                    nav(`${loginRoute}?${returnToParameterName}=${window.location.href}`);
+                    return;
                 case ErrorId.ErrIDHigherAALRequired:
                     // 2FA is enabled and enforced, but user did not perform 2fa yet!
                     window.location.href = err.response.data.redirect_browser_to;
@@ -73,6 +71,6 @@ export function useHandleFlowError({
 
             return Promise.reject(err);
         },
-        [message, onSessionAlreadyAvailable, resetFlow],
+        [message, nav, onSessionAlreadyAvailable, resetFlow],
     );
-}
+};

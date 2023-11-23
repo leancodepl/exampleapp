@@ -160,7 +160,7 @@ resource "kubernetes_ingress_v1" "kratos_ui_ingress" {
   }
   spec {
     rule {
-      host = "local.lncd.pl"
+      host = "kratos-ui.local.lncd.pl"
       http {
         path {
           backend {

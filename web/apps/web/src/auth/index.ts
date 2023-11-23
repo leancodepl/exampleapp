@@ -1,22 +1,6 @@
-import { mkAuth } from "@leancodepl/kratos";
-import { displayGlobalMessages } from "./ui/messages/displayGlobalMessages";
-import { CustomGetMessageProvider } from "./ui/messages/UiMessage";
-import { NodeInputCheckbox } from "./ui/node/input/nodeInputCheckbox";
-import { NodeInputDefault } from "./ui/node/input/nodeInputDefault";
-import { NodeInputPassword } from "./ui/node/input/nodeInputPassword";
-import { NodeInputSubmit } from "./ui/node/input/nodeInputSubmit";
-import { NodeText } from "./ui/node/text";
-import { useHandleFlowError } from "./useHandleFlowError";
+import { createKratosClient } from "@leancodepl/kratos";
+import { environment } from "../environments/environment";
 
-export const { Flow, useSignInFlow, useSignUpFlow, useVerificationFlow, useSettingsFlow } = mkAuth({
-    useHandleFlowError,
-    displayGlobalMessages,
-    customGetMessageProvider: CustomGetMessageProvider,
-    nodeComponents: {
-        NodeText,
-        NodeInputCheckbox,
-        NodeInputSubmit,
-        NodeInputPassword,
-        NodeInputDefault,
-    },
+export const kratosClient = createKratosClient({
+    basePath: environment.authUrl,
 });

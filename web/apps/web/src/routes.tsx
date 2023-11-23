@@ -1,15 +1,26 @@
+import { MutableDeep } from "@leancodepl/utils";
+import { FormattedMessage } from "react-intl";
 import { mkPath } from "./_utils/mkPath";
-import { MutableDeep } from "./_utils/mutableDeep";
-
-export const signInRoute = "/";
-export const signUpRoute = "/signup";
+import { Redirect } from "./components/common/Redirect";
+import { ProjectsPage } from "./pages/projects";
+import { SettingsPage } from "./pages/settings";
 
 const internalRoutes = [
     {
+        name: "index",
+        path: "",
+        element: <Redirect path="/projects" />,
+    },
+    { name: "settings", path: "settings/", element: <SettingsPage /> },
+    {
         name: "projects",
         path: "projects/",
-        element: <>Projects</>,
         children: [
+            {
+                name: "index",
+                path: "",
+                element: <ProjectsPage />,
+            },
             {
                 name: "project",
                 path: ":projectId",
@@ -21,6 +32,11 @@ const internalRoutes = [
                 element: <>Create</>,
             },
         ],
+    },
+    {
+        name: "not-found",
+        path: "*",
+        element: <FormattedMessage defaultMessage="Page not found" />,
     },
 ] as const;
 

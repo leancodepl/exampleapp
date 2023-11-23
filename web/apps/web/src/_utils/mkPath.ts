@@ -3,8 +3,8 @@ import { generatePath } from "react-router"
 
 type ParamsFunction<TParams extends string> = { [TParam in TParams]: string } extends infer Params
     ? {} extends Params
-        ? []
-        : [Params]
+    ? []
+    : [Params]
     : never
 
 type GetParamsFromPath<TPath extends string> = TPath extends `${string}:${infer TParam}/${infer TRest}`
@@ -19,18 +19,18 @@ type GetChildren<TRoute> = TRoute extends { children: infer TChildren extends re
 
 type Routes<TRoutes, TPrefix extends string[] = [], TParams extends string = never> = TRoutes extends readonly any[]
     ? {
-          [Route in keyof TRoutes]: TRoutes[Route] extends { name: string }
-              ?
-                    | (TRoutes[Route] extends { children: readonly any[] }
-                          ? Routes<
-                                GetChildren<TRoutes[Route]>,
-                                [...TPrefix, GetName<TRoutes[Route]>],
-                                TParams | GetParams<TRoutes[Route]>
-                            >
-                          : never)
-                    | [...TPrefix, GetName<TRoutes[Route]>, ...ParamsFunction<TParams | GetParams<TRoutes[Route]>>]
-              : never
-      }[number]
+        [Route in keyof TRoutes]: TRoutes[Route] extends { name: string }
+        ?
+        | (TRoutes[Route] extends { children: readonly any[] }
+            ? Routes<
+                GetChildren<TRoutes[Route]>,
+                [...TPrefix, GetName<TRoutes[Route]>],
+                TParams | GetParams<TRoutes[Route]>
+            >
+            : never)
+        | [...TPrefix, GetName<TRoutes[Route]>, ...ParamsFunction<TParams | GetParams<TRoutes[Route]>>]
+        : never
+    }[number]
     : never
 
 type RouteElement = { name: string; path: string; children?: readonly RouteElement[] }

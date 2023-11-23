@@ -1,12 +1,14 @@
 import { Layout } from "antd";
 import { Outlet } from "react-router-dom";
-import { CenteredContent } from "./styles";
+import { CardWrapper, CenteredContent } from "./styles";
 
 export function UnauthenticatedLayout() {
     return (
         <Layout>
             <CenteredContent>
-                <Outlet />
+                <CardWrapper>
+                    <Outlet />
+                </CardWrapper>
             </CenteredContent>
         </Layout>
     );

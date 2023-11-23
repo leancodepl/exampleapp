@@ -4,6 +4,7 @@ const { composePlugins, withNx } = require("@nx/webpack");
 module.exports = composePlugins(withNx(), withReact(), config => {
     config.devServer = {
         ...config.devServer,
+        host: "0.0.0.0",
         client: {
             ...config.devServer?.client,
             webSocketURL: {
