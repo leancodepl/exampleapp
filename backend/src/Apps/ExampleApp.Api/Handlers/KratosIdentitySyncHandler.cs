@@ -1,11 +1,11 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using MassTransit;
-using Microsoft.AspNetCore.Http;
+using ExampleApp.Core.Services.Processes.Kratos;
 using LeanCode.Kratos;
 using LeanCode.Kratos.Model;
 using LeanCode.TimeProvider;
-using ExampleApp.Core.Services.Processes.Kratos;
+using MassTransit;
+using Microsoft.AspNetCore.Http;
 
 namespace ExampleApp.Api.Handlers;
 
