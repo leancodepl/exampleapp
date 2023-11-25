@@ -53,14 +53,15 @@ leancode.builder('exampleapp-backend')
             def hotfixName = isHotfix ? (BRANCH_NAME =~ 'backend-hotfix/(.*)')[0][1] : ''
             def hotfixVersion = nextBuildNumber(hotfixName.replace('/', '_').replace('-', '_'))
             env.APP_VERSION = "${baseVersion}-${hotfixName}-${hotfixVersion}"
+            currentBuild.displayName = "v${env.APP_VERSION}"
         } else if (isMaster) {
             env.APP_VERSION = "0.0.${nextBuildNumber()}"
+            currentBuild.displayName = "v${env.APP_VERSION}"
         } else {
             env.APP_VERSION = "0.0.0"
         }
 
         echo "Building version: ${env.APP_VERSION}"
-        currentBuild.displayName = "v${env.APP_VERSION}"
     }
 
     dir('backend') {
@@ -73,7 +74,7 @@ leancode.builder('exampleapp-backend')
             }
 
             stage('Check Formatting') {
-                sh 'dotnet --roll-forward latestMajor ~/.nuget/packages/csharpier/0.25.0/tools/net7.0/any/dotnet-csharpier.dll . --check'
+                sh 'dotnet tool run dotnet-csharpier . --check'
             }
 
             stage('Build') {
@@ -83,7 +84,7 @@ leancode.builder('exampleapp-backend')
             stage('Test') {
                 try {
                     dir('tests') {
-                        sh 'dotnet msbuild /t:RunTests /p:Configuration=Release /p:LogFileName=$PWD/test-results/tests.trx'
+                        sh 'dotnet msbuild -t:RunTests -p:Configuration=Release -p:LogFileName="${PWD}/test-results/tests.trx"'
                     }
                 } finally {
                     step([$class: 'MSTestPublisher', testResultsFile:'*/test-results/*.trx', failOnError: true, keepLongStdio: true])
@@ -101,10 +102,10 @@ leancode.builder('exampleapp-backend')
                             "showButtonLeadingOnHomePage": true
                         }'''
 
-                        sh 'dotnet test -c Release -l "trx;LogFileName=$PWD/test-results/integration.trx" -p:MaxParallelThreads=2'
+                        sh 'dotnet test -c Release -l "trx;LogFileName=${PWD}/test-results/integration.trx" -p:MaxParallelThreads=2'
                     }
                 } finally {
-                    step([$class: 'MSTestPublisher', testResultsFile:'tests/ExampleApp.IntegrationTests/test-results/*.trx', failOnError: true, keepLongStdio: true])
+                    step([$class: 'MSTestPublisher', testResultsFile: 'tests/ExampleApp.IntegrationTests/test-results/*.trx', failOnError: true, keepLongStdio: true])
                 }
             }
 
@@ -127,13 +128,13 @@ leancode.builder('exampleapp-backend')
                             --local context=. \
                             --local dockerfile=./release \
                             --opt filename=Dockerfile.api \
-                            --output type=image,name=${leancode.ACR()}/exampleapp-api:$APP_VERSION,push=true
+                            --output type=image,name="${leancode.ACR()}/exampleapp-api:$APP_VERSION",push=true
                         buildctl build \
                             --frontend dockerfile.v0 \
                             --local context=. \
                             --local dockerfile=./release \
                             --opt filename=Dockerfile.migrations \
-                            --output type=image,name=${leancode.ACR()}/exampleapp-migrations:$APP_VERSION,push=true
+                            --output type=image,name="${leancode.ACR()}/exampleapp-migrations:$APP_VERSION",push=true
                     """
                 }
             }
