@@ -224,3 +224,5 @@ identity:
   schemas:
     - id: user
       url: file:///etc/kratos/identity.user.schema.json
+feature_flags:
+  use_continue_with_transitions: true
