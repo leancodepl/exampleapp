@@ -69,3 +69,7 @@ variable "well_known" {
 variable "kratos_dev_allowed_origins" {
   type = list(string)
 }
+
+variable "backend_dev_allowed_origins" {
+  type = list(string)
+}

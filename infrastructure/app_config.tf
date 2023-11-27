@@ -29,7 +29,7 @@ module "app_config" {
   k8s_secrets = {
     "exampleapp-api-secret" = {
       labels = merge(local.tags, { component = "api" })
-      data = {
+      data = merge(local.backend_dev_allowed_origins, {
         "ASPNETCORE_ENVIRONMENT" = title(var.environment)
 
         "Logging__MinimumLevel"               = "Information"
@@ -48,7 +48,7 @@ module "app_config" {
         "Metabase__SecretKey" = random_password.metabase_embedding_key.result
 
         "Metabase__AssignmentEmployerEmbedQuestion" = 1
-      }
+      })
     }
     "exampleapp-migrations-secret" = {
       labels = merge(local.tags, { component = "migrations" })
@@ -58,5 +58,11 @@ module "app_config" {
         "PostgreSQL__ConnectionString" = module.postgresql.ad_roles[module.managed_identity_migrations.managed_identity.name].npg_connection_string
       }
     }
+  }
+}
+
+locals {
+  backend_dev_allowed_origins = {
+    for idx, element in tolist(var.backend_dev_allowed_origins) : "CORS__External__${idx}" => element
   }
 }
