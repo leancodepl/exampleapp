@@ -48,6 +48,8 @@ module "app_config" {
         "Metabase__SecretKey" = random_password.metabase_embedding_key.result
 
         "Metabase__AssignmentEmployerEmbedQuestion" = 1
+
+        "CORS__External__0" = "https://local.lncd.pl"
       }
     }
     "exampleapp-migrations-secret" = {
