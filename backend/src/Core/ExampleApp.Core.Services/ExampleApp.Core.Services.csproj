@@ -16,6 +16,7 @@
     <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" />
     <PackageReference Include="Microsoft.IdentityModel.Tokens" />
 
+    <PackageReference Include="LeanCode.AppRating" />
     <PackageReference Include="LeanCode.Components" />
     <PackageReference Include="LeanCode.CQRS.Execution" />
     <PackageReference Include="LeanCode.CQRS.MassTransitRelay" />

@@ -1,12 +1,13 @@
 <Project>
   <PropertyGroup>
-    <CoreLibVersion>8.0.2232-preview</CoreLibVersion>
-    <ExtensionsVersion>8.0.0-rc.2.23479.6</ExtensionsVersion>
-    <EFCoreVersion>8.0.0-rc.2.23480.1</EFCoreVersion>
-    <AspNetCoreVersion>8.0.0-rc.2.23480.2</AspNetCoreVersion>
+    <CoreLibVersion>8.0.2305-preview</CoreLibVersion>
+    <ExtensionsVersion>8.0.0</ExtensionsVersion>
+    <EFCoreVersion>8.0.0</EFCoreVersion>
+    <AspNetCoreVersion>8.0.0</AspNetCoreVersion>
     <MassTransitVersion>8.1.1</MassTransitVersion>
     <NpgsqlVersion>8.0.0-rc.2</NpgsqlVersion>
     <LeanPipeVersion>0.2.3</LeanPipeVersion>
+    <AppRatingVersion>1.0.38</AppRatingVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -46,6 +47,9 @@
     <PackageReference Update="LeanCode.TimeProvider" Version="$(CoreLibVersion)" />
     <PackageReference Update="LeanCode.UrlHelper" Version="$(CoreLibVersion)" />
     <PackageReference Update="LeanCode.ViewRenderer.Razor" Version="$(CoreLibVersion)" />
+
+    <PackageReference Update="LeanCode.AppRating" Version="$(AppRatingVersion)" />
+    <PackageReference Update="LeanCode.AppRating.Contracts" Version="$(AppRatingVersion)" />
   </ItemGroup>
 
   <ItemGroup>

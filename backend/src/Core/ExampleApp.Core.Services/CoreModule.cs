@@ -3,6 +3,7 @@ using ExampleApp.Core.Domain.Employees;
 using ExampleApp.Core.Domain.Projects;
 using ExampleApp.Core.Services.DataAccess;
 using ExampleApp.Core.Services.DataAccess.Repositories;
+using ExampleApp.Core.Services.DataAccess.Serialization;
 using LeanCode.DomainModels.DataAccess;
 using LeanCode.Npgsql.ActiveDirectory;
 using Microsoft.EntityFrameworkCore;
@@ -23,6 +24,8 @@ public static class CoreModuleExtensions
             {
                 builder.UseAzureActiveDirectoryAuthentication(sp.GetRequiredService<TokenCredential>());
             }
+
+            builder.EnableDynamicJsonMappings(KnownConverters.AddAll(new()));
 
             return builder.Build();
         });
