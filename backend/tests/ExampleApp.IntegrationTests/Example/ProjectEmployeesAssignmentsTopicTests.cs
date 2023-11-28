@@ -33,9 +33,11 @@ public class ProjectEmployeesAssignmentsTopicTests : TestsBase<AuthenticatedExam
                 .NotificationsOn(topic)
                 .Should()
                 .ContainSingle()
-                .Which.Should()
+                .Which
+                .Should()
                 .BeSameAs(notification)
-                .And.BeEquivalentTo(
+                .And
+                .BeEquivalentTo(
                     new EmployeeAssignedToAssignmentDTO { AssignmentId = assignment.Id, EmployeeId = employee.Id },
                     opts => opts.RespectingRuntimeTypes()
                 );
@@ -51,10 +53,13 @@ public class ProjectEmployeesAssignmentsTopicTests : TestsBase<AuthenticatedExam
                 .NotificationsOn(topic)
                 .Should()
                 .HaveCount(2)
-                .And.Subject.Last()
+                .And
+                .Subject
+                .Last()
                 .Should()
                 .BeSameAs(notification)
-                .And.BeEquivalentTo(
+                .And
+                .BeEquivalentTo(
                     new EmployeeUnassignedFromAssignmentDTO { AssignmentId = assignment.Id },
                     opts => opts.RespectingRuntimeTypes()
                 );

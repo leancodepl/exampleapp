@@ -19,7 +19,8 @@ public class SearchIdentitiesQH : IQueryHandler<SearchIdentities, PaginatedResul
 
     public Task<PaginatedResult<KratosIdentityDTO>> ExecuteAsync(HttpContext context, SearchIdentities query)
     {
-        return dbContext.KratosIdentities
+        return dbContext
+            .KratosIdentities
             .ConditionalWhere(ki => ki.SchemaId == query.SchemaId, query.SchemaId is not null)
             .ConditionalWhere(
                 ki => Regex.IsMatch(ki.Traits.GetProperty("email").GetString()!, query.EmailPattern!),

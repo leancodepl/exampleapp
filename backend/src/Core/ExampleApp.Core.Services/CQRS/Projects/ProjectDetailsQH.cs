@@ -23,7 +23,8 @@ public class ProjectDetailsQH : IQueryHandler<ProjectDetails, ProjectDetailsDTO?
             return null!;
         }
 
-        return dbContext.Projects
+        return dbContext
+            .Projects
             .Where(p => p.Id == projectId)
             .Select(
                 p =>

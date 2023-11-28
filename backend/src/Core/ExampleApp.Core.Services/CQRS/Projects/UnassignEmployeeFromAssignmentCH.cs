@@ -33,7 +33,8 @@ public class UnassignEmployeeFromAssignmentCV : AbstractValidator<UnassignEmploy
         if (
             AssignmentId.TryParse(aid, out var assignmentId)
             && !await ctx.GetService<CoreDbContext>()
-                .Projects.SelectMany(p => p.Assignments)
+                .Projects
+                .SelectMany(p => p.Assignments)
                 .AnyAsync(a => a.Id == assignmentId, ct)
         )
         {

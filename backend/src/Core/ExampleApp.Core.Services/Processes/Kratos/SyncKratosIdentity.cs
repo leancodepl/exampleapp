@@ -26,10 +26,9 @@ public class SyncKratosIdentity : IConsumer<KratosIdentityUpdated>, IConsumer<Kr
         var kratosIdentity = context.Message.Identity;
         var identityId = kratosIdentity.Id;
 
-        var dbIdentity = await dbContext.KratosIdentities.FindAsync(
-            keyValues: new[] { (object)identityId },
-            context.CancellationToken
-        );
+        var dbIdentity = await dbContext
+            .KratosIdentities
+            .FindAsync(keyValues: new[] { (object)identityId }, context.CancellationToken);
 
         if (dbIdentity is null)
         {
@@ -51,7 +50,8 @@ public class SyncKratosIdentity : IConsumer<KratosIdentityUpdated>, IConsumer<Kr
     {
         var identityId = context.Message.IdentityId;
 
-        var deleted = await dbContext.KratosIdentities
+        var deleted = await dbContext
+            .KratosIdentities
             .Where(ki => ki.Id == identityId)
             .ExecuteDeleteAsync(context.CancellationToken);
 

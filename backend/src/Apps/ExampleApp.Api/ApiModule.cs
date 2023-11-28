@@ -46,12 +46,14 @@ internal static class ApiModule
                     c.Add(new(o.RoleClaimType, Roles.User)); // every identity is a valid User
 
                     if (
-                        s.Identity.VerifiableAddresses.Any(
-                            kvia =>
-                                kvia.Via == "email"
-                                && kvia.Value.EndsWith("@leancode.pl", false, CultureInfo.InvariantCulture)
-                                && kvia.Verified
-                        )
+                        s.Identity
+                            .VerifiableAddresses
+                            .Any(
+                                kvia =>
+                                    kvia.Via == "email"
+                                    && kvia.Value.EndsWith("@leancode.pl", false, CultureInfo.InvariantCulture)
+                                    && kvia.Verified
+                            )
                     )
                     {
                         c.Add(new(o.RoleClaimType, Roles.Admin));
