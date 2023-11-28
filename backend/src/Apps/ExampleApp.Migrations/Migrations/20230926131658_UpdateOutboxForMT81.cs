@@ -2,27 +2,26 @@
 
 #nullable disable
 
-namespace ExampleApp.Migrations.Migrations
+namespace ExampleApp.Migrations.Migrations;
+
+/// <inheritdoc />
+public partial class UpdateOutboxForMT81 : Migration
 {
     /// <inheritdoc />
-    public partial class UpdateOutboxForMT81 : Migration
+    protected override void Up(MigrationBuilder migrationBuilder)
     {
-        /// <inheritdoc />
-        protected override void Up(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.AddColumn<string>(
-                name: "MessageType",
-                table: "OutboxMessage",
-                type: "text",
-                nullable: false,
-                defaultValue: ""
-            );
-        }
+        migrationBuilder.AddColumn<string>(
+            name: "MessageType",
+            table: "OutboxMessage",
+            type: "text",
+            nullable: false,
+            defaultValue: ""
+        );
+    }
 
-        /// <inheritdoc />
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.DropColumn(name: "MessageType", table: "OutboxMessage");
-        }
+    /// <inheritdoc />
+    protected override void Down(MigrationBuilder migrationBuilder)
+    {
+        migrationBuilder.DropColumn(name: "MessageType", table: "OutboxMessage");
     }
 }
