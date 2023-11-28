@@ -1,0 +1,22 @@
+<Project>
+
+  <PropertyGroup>
+    <PackageId>$(AssemblyName)</PackageId>
+    <RootNamespace>$(AssemblyName)</RootNamespace>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>preview</LangVersion>
+    <OutputType>Library</OutputType>
+    <DebugType>portable</DebugType>
+    <IsPackable>false</IsPackable>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)ExampleApp.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="$(MSBuildThisFileDirectory)BannedSymbols.txt" />
+  </ItemGroup>
+
+</Project>

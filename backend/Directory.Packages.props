@@ -1,0 +1,134 @@
+<Project>
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+
+    <CoreLibVersion>8.0.2305-preview</CoreLibVersion>
+    <ExtensionsVersion>8.0.0</ExtensionsVersion>
+    <EFCoreVersion>8.0.0</EFCoreVersion>
+    <AspNetCoreVersion>8.0.0</AspNetCoreVersion>
+    <MassTransitVersion>8.1.1</MassTransitVersion>
+    <NpgsqlVersion>8.0.0-rc.2</NpgsqlVersion>
+    <LeanPipeVersion>0.2.3</LeanPipeVersion>
+    <AppRatingVersion>1.0.38</AppRatingVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageVersion Include="LeanCode.Contracts" Version="2.0.0-preview.3" />
+
+    <PackageVersion Include="LeanCode.AuditLogs" Version="$(CoreLibVersion)" />
+    <PackageVersion Include="LeanCode.AzureIdentity" Version="$(CoreLibVersion)" />
+    <PackageVersion Include="LeanCode.ClientCredentialsHandler" Version="$(CoreLibVersion)" />
+    <PackageVersion Include="LeanCode.Components" Version="$(CoreLibVersion)" />
+    <PackageVersion Include="LeanCode.ConfigCat" Version="$(CoreLibVersion)" />
+    <PackageVersion Include="LeanCode.CQRS" Version="$(CoreLibVersion)" />
+    <PackageVersion Include="LeanCode.CQRS.AspNetCore" Version="$(CoreLibVersion)" />
+    <PackageVersion Include="LeanCode.CQRS.Execution" Version="$(CoreLibVersion)" />
+    <PackageVersion Include="LeanCode.CQRS.MassTransitRelay" Version="$(CoreLibVersion)" />
+    <PackageVersion Include="LeanCode.CQRS.RemoteHttp.Client" Version="$(CoreLibVersion)" />
+    <PackageVersion Include="LeanCode.CQRS.Security" Version="$(CoreLibVersion)" />
+    <PackageVersion Include="LeanCode.CQRS.Validation.Fluent" Version="$(CoreLibVersion)" />
+    <PackageVersion Include="LeanCode.Dapper" Version="$(CoreLibVersion)" />
+    <PackageVersion Include="LeanCode.DomainModels" Version="$(CoreLibVersion)" />
+    <PackageVersion Include="LeanCode.DomainModels.EF" Version="$(CoreLibVersion)" />
+    <PackageVersion Include="LeanCode.DomainModels.Generators" Version="$(CoreLibVersion)" />
+    <PackageVersion Include="LeanCode.EFMigrator" Version="$(CoreLibVersion)" />
+    <PackageVersion Include="LeanCode.Firebase" Version="$(CoreLibVersion)" />
+    <PackageVersion Include="LeanCode.Firebase.FCM" Version="$(CoreLibVersion)" />
+    <PackageVersion Include="LeanCode.ForceUpdate" Version="$(CoreLibVersion)" />
+    <PackageVersion Include="LeanCode.ForceUpdate.Contracts" Version="$(CoreLibVersion)" />
+    <PackageVersion Include="LeanCode.Kratos" Version="$(CoreLibVersion)" />
+    <PackageVersion Include="LeanCode.Localization" Version="$(CoreLibVersion)" />
+    <PackageVersion Include="LeanCode.Logging" Version="$(CoreLibVersion)" />
+    <PackageVersion Include="LeanCode.IntegrationTestHelpers" Version="$(CoreLibVersion)" />
+    <PackageVersion Include="LeanCode.Npgsql.ActiveDirectory" Version="$(CoreLibVersion)" />
+    <PackageVersion Include="LeanCode.OpenTelemetry" Version="$(CoreLibVersion)" />
+    <PackageVersion Include="LeanCode.Pipelines" Version="$(CoreLibVersion)" />
+    <PackageVersion Include="LeanCode.Pipelines.Autofac" Version="$(CoreLibVersion)" />
+    <PackageVersion Include="LeanCode.Serialization" Version="$(CoreLibVersion)" />
+    <PackageVersion Include="LeanCode.Startup.MicrosoftDI" Version="$(CoreLibVersion)" />
+    <PackageVersion Include="LeanCode.TimeProvider" Version="$(CoreLibVersion)" />
+    <PackageVersion Include="LeanCode.UrlHelper" Version="$(CoreLibVersion)" />
+    <PackageVersion Include="LeanCode.ViewRenderer.Razor" Version="$(CoreLibVersion)" />
+
+    <PackageVersion Include="LeanCode.AppRating" Version="$(AppRatingVersion)" />
+    <PackageVersion Include="LeanCode.AppRating.Contracts" Version="$(AppRatingVersion)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageVersion Include="Azure.Extensions.AspNetCore.DataProtection.Blobs" Version="1.3.2" />
+    <PackageVersion Include="Azure.Extensions.AspNetCore.DataProtection.Keys" Version="1.2.2" />
+
+    <PackageVersion Include="Azure.Storage.Blobs" Version="12.18.0" />
+
+    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="$(EFCoreVersion)" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="$(EFCoreVersion)" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.InMemory" Version="$(EFCoreVersion)" />
+
+    <PackageVersion Include="Microsoft.Extensions.Azure" Version="1.7.0" />
+
+    <PackageVersion Include="Microsoft.Extensions.Configuration" Version="$(ExtensionsVersion)" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration.AzureKeyVault" Version="$(ExtensionsVersion)" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration.Binder" Version="$(ExtensionsVersion)" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="$(ExtensionsVersion)" />
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="$(ExtensionsVersion)" />
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="$(ExtensionsVersion)" />
+    <PackageVersion Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="$(AspNetCoreVersion)" />
+    <PackageVersion Include="Microsoft.Extensions.Logging.Console" Version="$(ExtensionsVersion)" />
+    <PackageVersion Include="Microsoft.Extensions.Hosting" Version="$(ExtensionsVersion)" />
+    <PackageVersion Include="Microsoft.Extensions.Hosting.Abstractions" Version="$(ExtensionsVersion)" />
+    <PackageVersion Include="Microsoft.Extensions.Http" Version="$(ExtensionsVersion)" />
+    <PackageVersion Include="Microsoft.Extensions.Http.Polly" Version="$(ExtensionsVersion)" />
+
+    <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="$(AspNetCoreVersion)" />
+    <PackageVersion Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="$(AspNetCoreVersion)" />
+    <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="$(AspNetCoreVersion)" />
+
+    <PackageVersion Include="MassTransit" Version="$(MassTransitVersion)" />
+    <PackageVersion Include="MassTransit.Azure.ServiceBus.Core" Version="$(MassTransitVersion)" />
+    <PackageVersion Include="MassTransit.EntityFrameworkCore" Version="$(MassTransitVersion)" />
+    <PackageVersion Include="MassTransit.RabbitMQ" Version="$(MassTransitVersion)" />
+
+    <PackageVersion Include="Npgsql" Version="$(NpgsqlVersion)" />
+    <PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="$(NpgsqlVersion)" />
+    <PackageVersion Include="Npgsql.OpenTelemetry" Version="$(NpgsqlVersion)" />
+
+    <PackageVersion Include="OpenTelemetry" Version="1.5.1" />
+    <PackageVersion Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.6.0" />
+    <PackageVersion Include="OpenTelemetry.Extensions.Hosting" Version="1.6.0" />
+    <PackageVersion Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.5.1-beta.1" />
+    <PackageVersion Include="OpenTelemetry.Instrumentation.Http" Version="1.5.1-beta.1 " />
+
+    <PackageVersion Include="Microsoft.IdentityModel.JsonWebTokens" Version="7.0.3" />
+    <PackageVersion Include="Microsoft.IdentityModel.Tokens" Version="7.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageVersion Include="Dapper" Version="2.0.151" />
+    <PackageVersion Include="LeanCode.Pipe" Version="$(LeanPipeVersion)" />
+    <PackageVersion Include="Polly" Version="7.2.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageVersion Include="FluentAssertions" Version="6.12.0" />
+    <PackageVersion Include="LeanCode.Pipe.TestClient" Version="$(LeanPipeVersion)" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.7.2" />
+    <PackageVersion Include="NSubstitute" Version="5.1.0" />
+    <PackageVersion Include="xunit" Version="2.5.3" />
+    <PackageVersion Include="xunit.analyzers" Version="1.4.0" />
+    <PackageVersion Include="xunit.runner.visualstudio" Version="2.5.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageVersion Include="Serilog" Version="2.12.0" />
+    <PackageVersion Include="Serilog.Extensions.Logging" Version="7.0.0" />
+    <PackageVersion Include="Serilog.Sinks.Console" Version="3.1.1" />
+    <PackageVersion Include="Serilog.Sinks.Seq" Version="5.2.2" />
+    <PackageVersion Include="Serilog.Formatting.Compact" Version="1.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <GlobalPackageReference Include="Microsoft.CodeAnalysis.BannedApiAnalyzers" Version="3.3.4" />
+    <GlobalPackageReference Include="SerilogAnalyzer" Version="0.15.0" />
+  </ItemGroup>
+
+</Project>

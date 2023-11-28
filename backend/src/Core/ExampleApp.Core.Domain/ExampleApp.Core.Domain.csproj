@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <AssemblyName>ExampleApp.Core.Domain</AssemblyName>
-    <Nullable>enable</Nullable>
     <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
   </PropertyGroup>
 
