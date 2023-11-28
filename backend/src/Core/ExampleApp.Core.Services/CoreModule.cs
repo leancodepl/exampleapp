@@ -25,7 +25,7 @@ public static class CoreModuleExtensions
                 builder.UseAzureActiveDirectoryAuthentication(sp.GetRequiredService<TokenCredential>());
             }
 
-            builder.EnableDynamicJsonMappings(KnownConverters.AddAll(new()));
+            builder.EnableDynamicJson().ConfigureJsonOptions(KnownConverters.AddAll(new()));
 
             return builder.Build();
         });
