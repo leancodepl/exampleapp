@@ -66,6 +66,10 @@ variable "well_known" {
   type = map(string)
 }
 
+variable "kratos_webauthn_origins" {
+  type = list(string)
+}
+
 variable "kratos_dev_allowed_origins" {
   type = list(string)
 }

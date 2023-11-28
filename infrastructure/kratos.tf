@@ -46,6 +46,7 @@ module "kratos" {
     oidc_config         = var.oidc_config
     authority_name      = "ExampleApp"
     web_hook_api_key    = random_password.kratos_web_hook_api_key.result
+    webauthn_origins    = var.kratos_webauthn_origins
     dev_allowed_origins = var.kratos_dev_allowed_origins
   })
 

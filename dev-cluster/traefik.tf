@@ -4,7 +4,6 @@ locals {
   traefik_image         = "${local.traefik_image_name}:${local.traefik_image_version}"
 }
 
-
 resource "docker_image" "traefik" {
   name = local.traefik_image
 

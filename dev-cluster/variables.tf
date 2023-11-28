@@ -25,3 +25,8 @@ variable "oidc_config" {
   })
   default = null
 }
+
+variable "webauthn_origins" {
+  type    = list(string)
+  default = []
+}
