@@ -1,11 +1,16 @@
+using System.Collections.Immutable;
+using System.Reflection;
 using System.Text.Json;
 using ExampleApp.Core.Domain.Employees;
+using ExampleApp.Core.Domain.Events;
 using ExampleApp.Core.Domain.Projects;
+using ExampleApp.Core.Services.DataAccess.Serialization;
+using ExampleApp.Core.Services.Processes.Kratos;
 using LeanCode.Kratos.Model;
 
 namespace ExampleApp.Core.Services.Tests;
 
-public partial class EventsSerializationTests
+public partial class EventSerializationTests
 {
     private static readonly AssignmentId AssignmentId = AssignmentId.New();
     private static readonly EmployeeId EmployeeId = EmployeeId.New();
@@ -51,4 +56,20 @@ public partial class EventsSerializationTests
             MetadataPublic = JsonSerializer.Deserialize<JsonElement>(@"{""roles"":[""user""]}"),
             Traits = JsonSerializer.Deserialize<JsonElement>(@"{""email"":""test@leancode.pl""}"),
         };
+
+    private static readonly ImmutableArray<object> Events =
+    [
+        new EmployeeAssignedToAssignment(Guid, DateTime, ProjectId, AssignmentId, EmployeeId, null),
+        new EmployeeUnassignedFromAssignment(Guid, DateTime, ProjectId, AssignmentId, null),
+        new KratosIdentityUpdated(Guid, DateTime, KratosIdentity),
+        new KratosIdentityDeleted(Guid, DateTime, Guid),
+    ];
+
+    private static readonly ImmutableHashSet<Assembly> Assemblies =
+    [
+        typeof(Employee).Assembly,
+        typeof(DataAccess.CoreDbContext).Assembly,
+    ];
+
+    private static readonly JsonSerializerOptions SerializerOptions = KnownConverters.AddAll(new());
 }

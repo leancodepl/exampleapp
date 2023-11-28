@@ -1,34 +1,12 @@
-using System.Collections.Immutable;
-using System.Reflection;
 using System.Text.Json;
-using ExampleApp.Core.Domain.Employees;
-using ExampleApp.Core.Domain.Events;
-using ExampleApp.Core.Services.DataAccess.Serialization;
-using ExampleApp.Core.Services.Processes.Kratos;
 using FluentAssertions;
 using LeanCode.DomainModels.Model;
 using Xunit;
 
 namespace ExampleApp.Core.Services.Tests;
 
-public partial class EventsSerializationTests
+public partial class EventSerializationTests
 {
-    private static readonly JsonSerializerOptions SerializerOptions = KnownConverters.AddAll(new());
-
-    private static readonly ImmutableHashSet<Assembly> Assemblies =
-    [
-        typeof(Employee).Assembly,
-        typeof(DataAccess.CoreDbContext).Assembly,
-    ];
-
-    private static readonly ImmutableArray<object> Events =
-    [
-        new EmployeeAssignedToAssignment(Guid, DateTime, ProjectId, AssignmentId, EmployeeId, null),
-        new EmployeeUnassignedFromAssignment(Guid, DateTime, ProjectId, AssignmentId, null),
-        new KratosIdentityUpdated(Guid, DateTime, KratosIdentity),
-        new KratosIdentityDeleted(Guid, DateTime, Guid),
-    ];
-
     public static IEnumerable<object[]> EventTestData => Events.Select<object, object[]>(e => [e]);
 
     [Theory]
