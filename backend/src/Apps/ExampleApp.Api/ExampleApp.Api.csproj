@@ -10,6 +10,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <Content Remove="Templates/**" />
+    <Watch Include="Templates/**/*.cshtml" />
   </ItemGroup>
 
   <ItemGroup>

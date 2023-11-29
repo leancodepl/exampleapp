@@ -19,6 +19,7 @@ using LeanCode.Localization;
 using LeanCode.OpenTelemetry;
 using LeanCode.Pipe;
 using LeanCode.Pipe.Funnel.FunnelledService;
+using LeanCode.SendGrid;
 using LeanCode.Startup.MicrosoftDI;
 using LeanCode.ViewRenderer.Razor;
 using MassTransit;
@@ -29,13 +30,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders.Physical;
 using Microsoft.Extensions.Hosting;
+using SendGrid;
 
 namespace ExampleApp.Api;
 
 public class Startup : LeanStartup
 {
-    private static readonly RazorViewRendererOptions ViewOptions = new("Templates");
-
     public static readonly TypesCatalog AllHandlers = new(typeof(CoreDbContext));
     public static readonly TypesCatalog Api = new(typeof(CreateProject));
     public static readonly TypesCatalog Domain = new(typeof(EmployeeAssignedToAssignment));
@@ -69,6 +69,18 @@ public class Startup : LeanStartup
             services.AddLeanPipe(Api, AllHandlers);
         }
 
+        services.AddSendGridClient(
+            !string.IsNullOrEmpty(Config.SendGrid.ApiKey(Configuration))
+                ? new SendGridClientOptions
+                {
+                    ApiKey = Config.SendGrid.ApiKey(Configuration),
+                    HttpErrorAsException = true
+                }
+                : new SendGridClientOptions()
+        );
+
+        services.AddRazorViewRenderer(new("Templates/Email"));
+
         services.AddFluentValidation(AllHandlers);
         services.AddStringLocalizer(LocalizationConfiguration.For<Strings.Strings>());
         services.AddFCM<Guid>(fcm => fcm.AddTokenStore<CoreDbContext>());
@@ -85,6 +97,8 @@ public class Startup : LeanStartup
             });
 
             cfg.AddAuditLogsConsumer();
+
+            cfg.AddAppRatingConsumers<Guid>();
 
             if (leanPipeFunnelEnabled)
             {

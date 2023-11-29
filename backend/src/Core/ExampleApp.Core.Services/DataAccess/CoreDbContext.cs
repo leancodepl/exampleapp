@@ -20,7 +20,7 @@ public class CoreDbContext : DbContext, IAppRatingStore<Guid>
     public DbSet<Employee> Employees => Set<Employee>();
     public DbSet<Project> Projects => Set<Project>();
 
-    public DbSet<AppRatingEntity<Guid>> AppRatings => Set<AppRatingEntity<Guid>>();
+    public DbSet<AppRating<Guid>> AppRatings => Set<AppRating<Guid>>();
 
     public CoreDbContext(DbContextOptions<CoreDbContext> options)
         : base(options) { }

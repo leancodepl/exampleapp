@@ -9,7 +9,7 @@
     <MassTransitVersion>8.1.2</MassTransitVersion>
     <NpgsqlVersion>8.0.0</NpgsqlVersion>
     <LeanPipeVersion>0.2.5</LeanPipeVersion>
-    <AppRatingVersion>1.0.38</AppRatingVersion>
+    <AppRatingVersion>1.0.42</AppRatingVersion>
   </PropertyGroup>
 
   <ItemGroup>

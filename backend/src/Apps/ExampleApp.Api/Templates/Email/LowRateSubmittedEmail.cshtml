@@ -1,0 +1,21 @@
+<h4>One of your users send a low rate. Please log in to your admin panel to check details</h4>
+
+<ul>
+    <li>
+        UserId: @{
+            WriteLiteral(Model.UserId);
+        }
+    </li>
+
+    <li>
+        Rating: @{
+            WriteLiteral(Model.Rating.ToString("F1"));
+        }
+    </li>
+
+    <li>
+        AdditionalComment: @{
+            WriteLiteral(Model.AdditionalComment);
+        }
+    </li>
+</ul>
