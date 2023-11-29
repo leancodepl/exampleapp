@@ -1,6 +1,14 @@
 <Project>
 
   <PropertyGroup>
+    <Authors>LeanCode</Authors>
+    <Description>ExampleApp Package</Description>
+    <AssemblyVersion>9.9.9.9</AssemblyVersion>
+    <Version>$(APP_VERSION)</Version>
+    <InformationalVersion>$(APP_VERSION)-$(GIT_COMMIT)</InformationalVersion>
+  </PropertyGroup>
+
+  <PropertyGroup>
     <PackageId>$(AssemblyName)</PackageId>
     <RootNamespace>$(AssemblyName)</RootNamespace>
     <TargetFramework>net8.0</TargetFramework>
