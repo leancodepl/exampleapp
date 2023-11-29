@@ -6,9 +6,9 @@
     <ExtensionsVersion>8.0.0</ExtensionsVersion>
     <EFCoreVersion>8.0.0</EFCoreVersion>
     <AspNetCoreVersion>8.0.0</AspNetCoreVersion>
-    <MassTransitVersion>8.1.1</MassTransitVersion>
+    <MassTransitVersion>8.1.2</MassTransitVersion>
     <NpgsqlVersion>8.0.0</NpgsqlVersion>
-    <LeanPipeVersion>0.2.3</LeanPipeVersion>
+    <LeanPipeVersion>0.2.5</LeanPipeVersion>
     <AppRatingVersion>1.0.38</AppRatingVersion>
   </PropertyGroup>
 

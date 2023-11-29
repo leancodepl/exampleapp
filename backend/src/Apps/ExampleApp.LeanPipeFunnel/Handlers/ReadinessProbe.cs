@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Http;
+
 namespace ExampleApp.LeanPipeFunnel.Handlers;
 
 public static class ReadinessProbe
