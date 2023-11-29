@@ -3,6 +3,6 @@ ARG version
 FROM docker.io/library/alpine:latest AS alpine
 RUN apk -u --no-cache add fuse3
 
-FROM docker.io/rancher/k3s:$version
+FROM docker.io/rancher/k3s:${version}
 COPY --from=alpine /usr/sbin/mount.fuse3 /bin/
 COPY --from=alpine /usr/lib/libfuse3.so.3 /lib/ld-musl-x86_64.so.1 /lib/

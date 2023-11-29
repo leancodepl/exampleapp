@@ -1,3 +1,5 @@
+using Microsoft.Extensions.Configuration;
+
 namespace ExampleApp.LeanPipeFunnel;
 
 public static class Config

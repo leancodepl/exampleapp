@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <AssemblyName>ExampleApp.Core.Services</AssemblyName>
-    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>

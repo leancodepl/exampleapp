@@ -110,7 +110,8 @@ public class ProjectEmployeesAssignmentsTopicTests : TestsBase<AuthenticatedExam
         );
 
         var project = await App.Query.GetAsync(new ProjectDetails { Id = projectSummary.Id });
-        return project.Assignments.Should().ContainSingle().Subject;
+        project.Should().NotBeNull();
+        return project!.Assignments.Should().ContainSingle().Subject;
     }
 
     private async Task<ProjectDTO> CreateProjectAsync()

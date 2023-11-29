@@ -1,11 +1,16 @@
 version: v1.0.0
 serve:
   public:
+    base_url: https://auth.${domain}/
     cors:
       enabled: true
       allowed_origins:
         - https://${domain}
         - https://*.${domain}
+%{ for origin in dev_allowed_origins ~}
+        - https://${origin}
+        - https://*.${origin}
+%{ endfor ~}
 cookies:
   domain: "${domain}"
   same_site: Lax
@@ -14,6 +19,10 @@ selfservice:
   allowed_return_urls:
     - https://${domain}/
     - pl.leancode.template.tst://app
+%{ for origin in dev_allowed_origins ~}
+    - https://${origin}
+    - https://*.${origin}
+%{ endfor ~}
   methods:
     link:
       config:
@@ -34,7 +43,11 @@ selfservice:
         rp:
           display_name: "${authority_name}"
           id: "${domain}"
-          origin: https://${domain}
+          origins:
+            - "https://${domain}"
+%{ for origin in webauthn_origins ~}
+            - "${origin}"
+%{ endfor ~}
     profile:
       enabled: true
     code:
@@ -50,6 +63,12 @@ selfservice:
             label: Apple
             issuer_url: https://appleid.apple.com
             client_id: "${oidc_config.apple.client_id}"
+            additional_id_token_audiences:
+              - "${trimsuffix(oidc_config.apple.client_id, ".signin")}"
+%{ if strcontains(oidc_config.apple.client_id, ".tst") ~}
+              - "${replace(oidc_config.apple.client_id, ".tst", ".dev")}"
+              - "${replace(trimsuffix(oidc_config.apple.client_id, ".signin"), ".tst", ".dev")}"
+%{ endif ~}
             apple_team_id: "${oidc_config.apple.team_id}"
             apple_private_key_id: "${oidc_config.apple.private_key_id}"
             apple_private_key: "${replace(oidc_config.apple.private_key, "\n", "\\n")}"
@@ -207,3 +226,5 @@ identity:
   schemas:
     - id: user
       url: file:///etc/kratos/identity.user.schema.json
+feature_flags:
+  use_continue_with_transitions: true

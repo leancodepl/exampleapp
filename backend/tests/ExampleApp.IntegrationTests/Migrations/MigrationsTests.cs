@@ -33,7 +33,7 @@ public class MigrationTests
     [Fact]
     public async Task All_migrations_have_been_generated()
     {
-        var app = new ExampleAppTestApp { SkipDbContextInitialization = true };
+        await using var app = new ExampleAppTestApp { SkipDbContextInitialization = true };
 
         await app.InitializeAsync();
 
