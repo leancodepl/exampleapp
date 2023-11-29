@@ -10,20 +10,20 @@ resource "docker_image" "traefik" {
   build {
     context    = "./apps"
     dockerfile = "Dockerfile.traefik"
-    build_arg = {
-      dockerfile_trigger   = filemd5("./apps/Dockerfile.traefik")
-      dynamic_toml_trigger = filemd5("./apps/dynamic.toml")
-    }
   }
 
-  # Docker provider cannot push to insecure registries
-  provisioner "local-exec" {
-    command = "docker push ${local.traefik_image}"
+  triggers = {
+    dockerfile_trigger   = filemd5("./apps/Dockerfile.traefik")
+    dynamic_toml_trigger = filemd5("./apps/dynamic.toml")
   }
 
-  depends_on = [
-    null_resource.cluster_kubeconfig
-  ]
+}
+
+resource "docker_registry_image" "traefik" {
+  name                 = docker_image.traefik.name
+  insecure_skip_verify = true
+
+  depends_on = [null_resource.cluster_kubeconfig]
 }
 
 resource "helm_release" "traefik" {
@@ -80,6 +80,6 @@ resource "helm_release" "traefik" {
   })]
 
   depends_on = [
-    docker_image.traefik
+    docker_registry_image.traefik
   ]
 }

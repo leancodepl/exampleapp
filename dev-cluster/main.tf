@@ -39,3 +39,10 @@ provider "helm" {
     cluster_ca_certificate = local.credentials.cluster_ca_certificate
   }
 }
+
+provider "docker" {
+  registry_auth {
+    address       = "http://${local.registry_address}"
+    auth_disabled = true
+  }
+}

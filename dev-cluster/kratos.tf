@@ -1,38 +1,43 @@
 locals {
-  kratos_image_name    = "${local.registry_address}/kratos"
-  kratos_image_version = "v1.0.0-192-g020090f37"
-  kratos_image         = "${local.kratos_image_name}:${local.kratos_image_version}"
+  kratos_image_version     = "v1.0.0-192-g020090f37"
+  kratos_image_remote_name = "leancode.azurecr.io/kratos"
+  kratos_image_local_name  = "${local.registry_address}/kratos"
+  kratos_image_remote      = "${local.kratos_image_remote_name}:${local.kratos_image_version}"
+  kratos_image_local       = "${local.kratos_image_local_name}:${local.kratos_image_version}"
+
+  kratos_image_needs_retagging = startswith(local.kratos_image_remote_name, "docker.io/") ? 0 : 1
 }
 
-resource "docker_image" "kratos" {
-  name = local.kratos_image
+resource "docker_image" "kratos_remote" {
+  count = local.kratos_image_needs_retagging
 
-  build {
-    context    = "./apps"
-    dockerfile = "Dockerfile.kratos"
-    build_args = {
-      version = local.kratos_image_version
-    }
-  }
+  name = local.kratos_image_remote
+}
 
-  # Docker provider cannot push to insecure registries
-  provisioner "local-exec" {
-    command = "docker push ${local.kratos_image}"
-  }
+resource "docker_tag" "kratos" {
+  count = local.kratos_image_needs_retagging
 
-  depends_on = [
-    null_resource.cluster_kubeconfig
-  ]
+  source_image = docker_image.kratos_remote[0].name
+  target_image = local.kratos_image_local
+}
+
+resource "docker_registry_image" "kratos" {
+  count = local.kratos_image_needs_retagging
+
+  name                 = docker_tag.kratos[0].target_image
+  insecure_skip_verify = true
+
+  depends_on = [null_resource.cluster_kubeconfig]
 }
 
 module "kratos" {
   source     = "git@github.com:leancodepl/terraform-kratos-module.git//kratos?ref=5f5d2a06cd9d8d314b1f7b75ea1fa0c323e7b5fd"
-  depends_on = [docker_image.kratos, kubernetes_namespace_v1.kratos, postgresql_grant.kratos, postgresql_grant.kratos_public]
+  depends_on = [kubernetes_namespace_v1.kratos, postgresql_grant.kratos, postgresql_grant.kratos_public]
 
   namespace    = kubernetes_namespace_v1.kratos.metadata[0].name
   project      = "exampleapp"
   ingress_host = "auth.local.lncd.pl"
-  image        = local.kratos_image
+  image        = local.kratos_image_needs_retagging != 0 ? docker_registry_image.kratos[0].name : local.kratos_image_remote
   replicas     = 1
 
   resources = {
