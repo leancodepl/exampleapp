@@ -6,7 +6,7 @@ namespace ExampleApp.Core.Services.DataAccess.Entities;
 
 public class KratosIdentity : IIdentifiable<Guid>
 {
-    private readonly List<KratosIdentityAddress> recoveryAddresses = new();
+    private readonly List<KratosIdentityRecoveryAddress> recoveryAddresses = new();
     private readonly List<KratosIdentityVerifiableAddress> verifiableAddresses = new();
 
     public Guid Id { get; private init; }
@@ -19,7 +19,7 @@ public class KratosIdentity : IIdentifiable<Guid>
     public JsonElement? MetadataPublic { get; private set; }
     public JsonElement? MetadataAdmin { get; private set; }
 
-    public IReadOnlyCollection<KratosIdentityAddress> RecoveryAddresses => recoveryAddresses;
+    public IReadOnlyCollection<KratosIdentityRecoveryAddress> RecoveryAddresses => recoveryAddresses;
     public IReadOnlyCollection<KratosIdentityVerifiableAddress> VerifiableAddresses => verifiableAddresses;
 
     private KratosIdentity()
@@ -79,7 +79,7 @@ public class KratosIdentity : IIdentifiable<Guid>
         recoveryAddresses.AddRange(
             addresses.Select(
                 kria =>
-                    new KratosIdentityAddress
+                    new KratosIdentityRecoveryAddress
                     {
                         IdentityId = Id,
                         Id = kria.Id,
@@ -125,7 +125,7 @@ public class KratosIdentity : IIdentifiable<Guid>
     }
 }
 
-public class KratosIdentityAddress : IIdentifiable<Guid>
+public class KratosIdentityRecoveryAddress : IIdentifiable<Guid>
 {
     public Guid IdentityId { get; init; }
     public Guid Id { get; init; }
@@ -135,7 +135,13 @@ public class KratosIdentityAddress : IIdentifiable<Guid>
     public string Value { get; init; } = null!;
 }
 
-public class KratosIdentityVerifiableAddress : KratosIdentityAddress
+public class KratosIdentityVerifiableAddress : IIdentifiable<Guid>
 {
+    public Guid IdentityId { get; init; }
+    public Guid Id { get; init; }
+    public DateTime CreatedAt { get; init; }
+    public DateTime UpdatedAt { get; init; }
+    public string Via { get; init; } = null!;
+    public string Value { get; init; } = null!;
     public DateTime? VerifiedAt { get; init; }
 }
