@@ -9,6 +9,7 @@
   <ItemGroup>
     <PackageReference Include="LeanCode.AppRating.Contracts" />
     <PackageReference Include="LeanCode.Contracts" />
+    <PackageReference Include="LeanCode.Contracts.Admin" />
     <PackageReference Include="LeanCode.ForceUpdate.Contracts" />
   </ItemGroup>
 </Project>
