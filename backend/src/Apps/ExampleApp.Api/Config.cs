@@ -89,6 +89,12 @@ public static class Config
         public static string TableName(IConfiguration cfg) => cfg.GetString("AuditLogs:TableName");
     }
 
+    public static class AppRating
+    {
+        public static string[] EmailsTo(IConfiguration cfg) =>
+            cfg?.GetSection("AppRating:EmailsTo").Get<string[]>() ?? Array.Empty<string>();
+    }
+
     private static string GetString(this IConfiguration configuration, string key)
     {
         return configuration.GetValue<string>(key)!;
@@ -118,8 +124,7 @@ public static class Config
                 "en",
                 "emails.low-rate-submitted.subject",
                 "test+from@leancode.pl",
-                ["test+to@leancode.pl"],
-                ["test+bcc@leancode.pl"]
+                AppRating.EmailsTo(config)
             )
         );
     }
