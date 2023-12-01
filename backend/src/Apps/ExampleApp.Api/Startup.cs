@@ -70,12 +70,8 @@ public class Startup : LeanStartup
         }
 
         services.AddSendGridClient(
-            !string.IsNullOrEmpty(Config.SendGrid.ApiKey(Configuration))
-                ? new SendGridClientOptions
-                {
-                    ApiKey = Config.SendGrid.ApiKey(Configuration),
-                    HttpErrorAsException = true
-                }
+            Config.SendGrid.ApiKey(Configuration) is var sendGridApiKey && !string.IsNullOrEmpty(sendGridApiKey)
+                ? new SendGridClientOptions { ApiKey = sendGridApiKey, HttpErrorAsException = true }
                 : new SendGridClientOptions()
         );
 
