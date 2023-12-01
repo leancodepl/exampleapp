@@ -18,6 +18,6 @@ ENV ASPNETCORE_FORWARDEDHEADERS_ENABLED=true
 COPY --chown=$APP_UID config /home/app/config
 COPY --chown=$APP_UID out/api /home/app/bin
 
-WORKDIR /home/app/code/src/Apps/ExampleApp.Api
+WORKDIR /home/app/bin
 SHELL ["/bin/bash", "-c"]
 ENTRYPOINT /home/app/config/run.sh

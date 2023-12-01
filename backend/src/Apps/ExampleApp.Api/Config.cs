@@ -1,8 +1,10 @@
 using ExampleApp.Core.Services.Configuration;
+using LeanCode.AppRating.Configuration;
 using LeanCode.Firebase;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SendGrid;
 using Serilog.Events;
 
 namespace ExampleApp.Api;
@@ -52,6 +54,11 @@ public static class Config
         public static string? ApiKey(IConfiguration cfg) => cfg.GetString("Google:ApiKey");
     }
 
+    public static class SendGrid
+    {
+        public static string? ApiKey(IConfiguration cfg) => cfg.GetString("SendGrid:ApiKey");
+    }
+
     public static class Services
     {
         public static string[] AllowedOrigins(IConfiguration cfg) =>
@@ -82,6 +89,12 @@ public static class Config
         public static string TableName(IConfiguration cfg) => cfg.GetString("AuditLogs:TableName");
     }
 
+    public static class AppRating
+    {
+        public static string[] EmailsTo(IConfiguration cfg) =>
+            cfg?.GetSection("AppRating:EmailsTo").Get<string[]>() ?? Array.Empty<string>();
+    }
+
     private static string GetString(this IConfiguration configuration, string key)
     {
         return configuration.GetValue<string>(key)!;
@@ -104,5 +117,15 @@ public static class Config
         services.Configure<MetabaseConfiguration>(config.GetSection("Metabase"));
 
         services.Configure<LeanCode.ConfigCat.ConfigCatOptions>(config.GetSection("ConfigCat"));
+
+        services.AddSingleton(
+            new AppRatingReportsConfiguration(
+                2.0,
+                "en",
+                "emails.low-rate-submitted.subject",
+                "test+from@leancode.pl",
+                AppRating.EmailsTo(config)
+            )
+        );
     }
 }
