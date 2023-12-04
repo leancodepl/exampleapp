@@ -54,7 +54,7 @@ public class ExampleAppTestApp : LeanCodeTestFactory<Startup>
     {
         return LeanProgram
             .BuildMinimalHost<Startup>()
-            .ConfigureDefaultLogging(projectName: "ExampleApp-tests", destructurers: new[] { typeof(Program).Assembly })
+            .ConfigureDefaultLogging("ExampleApp-tests", [typeof(Program).Assembly])
             .UseEnvironment(Environments.Development);
     }
 

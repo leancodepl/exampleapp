@@ -34,21 +34,13 @@ public partial class KratosIdentitySyncHandler : KratosWebHookHandlerBase
         if (identity is null)
         {
             logger.Error("Identity is null");
-            await WriteErrorResponseAsync(
-                ctx,
-                new(1) { new(null, new(1) { new(1, "identity is null", "error", null) }) },
-                422
-            );
+            await WriteErrorResponseAsync(ctx, [new(null, [new(1, "identity is null", "error", null)])], 422);
             return;
         }
         else if (identity.Id == default)
         {
             logger.Error("Identity Id is empty");
-            await WriteErrorResponseAsync(
-                ctx,
-                new(1) { new(null, new(1) { new(2, "identity.id is empty", "error", null) }) },
-                422
-            );
+            await WriteErrorResponseAsync(ctx, [new(null, [new(2, "identity.id is empty", "error", null)])], 422);
             return;
         }
 
