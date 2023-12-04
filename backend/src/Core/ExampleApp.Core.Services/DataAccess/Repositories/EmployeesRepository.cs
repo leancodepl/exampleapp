@@ -1,7 +1,5 @@
 using ExampleApp.Core.Domain.Employees;
 using LeanCode.DomainModels.EF;
-using LeanCode.DomainModels.Model;
-using LeanCode.TimeProvider;
 using Microsoft.EntityFrameworkCore;
 
 namespace ExampleApp.Core.Services.DataAccess.Repositories;
