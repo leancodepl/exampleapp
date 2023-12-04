@@ -1,3 +1,4 @@
+using System.Text.Json;
 using ExampleApp.Core.Domain.Employees;
 using ExampleApp.Core.Domain.Projects;
 using ExampleApp.Core.Services.DataAccess.Entities;
@@ -34,6 +35,13 @@ public class CoreDbContext : DbContext, IAppRatingStore<Guid>
 
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
     {
+#if CHECK_EFCORE_PG_2977
+#error Check if this workaround is still required.
+#else
+        // workaround for https://github.com/npgsql/efcore.pg/issues/2977
+        configurationBuilder.Properties<JsonElement?>().HaveColumnType("jsonb");
+#endif
+
         ConfigureId<EmployeeId>(configurationBuilder);
         ConfigureId<ProjectId>(configurationBuilder);
         ConfigureId<AssignmentId>(configurationBuilder);
