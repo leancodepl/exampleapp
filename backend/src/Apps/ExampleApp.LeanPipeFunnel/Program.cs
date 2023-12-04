@@ -21,7 +21,7 @@ var hostBuilder = appBuilder.Host;
 
 hostBuilder
     .AddAppConfigurationFromAzureKeyVaultOnNonDevelopmentEnvironment()
-    .ConfigureDefaultLogging("ExampleApp.LeanPipeFunnel", new[] { typeof(Program).Assembly });
+    .ConfigureDefaultLogging("ExampleApp.LeanPipeFunnel", [typeof(Program).Assembly]);
 
 var hostEnv = appBuilder.Environment;
 var services = appBuilder.Services;

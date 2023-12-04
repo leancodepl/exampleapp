@@ -5,7 +5,7 @@ namespace ExampleApp.Core.Services.DataAccess.Serialization;
 
 public static class KnownConverters
 {
-    public static IEnumerable<JsonConverter> All { get; } = Array.Empty<JsonConverter>();
+    public static IEnumerable<JsonConverter> All { get; } = [];
 
     public static JsonSerializerOptions AddAll(JsonSerializerOptions settings)
     {

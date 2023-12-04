@@ -26,9 +26,7 @@ public class SyncKratosIdentity : IConsumer<KratosIdentityUpdated>, IConsumer<Kr
         var kratosIdentity = context.Message.Identity;
         var identityId = kratosIdentity.Id;
 
-        var dbIdentity = await dbContext
-            .KratosIdentities
-            .FindAsync(keyValues: new[] { (object)identityId }, context.CancellationToken);
+        var dbIdentity = await dbContext.KratosIdentities.FindAsync(keyValues: [identityId], context.CancellationToken);
 
         if (dbIdentity is null)
         {

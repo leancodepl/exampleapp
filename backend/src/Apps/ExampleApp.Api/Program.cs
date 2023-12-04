@@ -14,6 +14,6 @@ public class Program
         return LeanProgram
             .BuildMinimalHost<Startup>()
             .AddAppConfigurationFromAzureKeyVaultOnNonDevelopmentEnvironment()
-            .ConfigureDefaultLogging("ExampleApp.Api", new[] { typeof(Program).Assembly });
+            .ConfigureDefaultLogging("ExampleApp.Api", [typeof(Program).Assembly]);
     }
 }

@@ -10,5 +10,5 @@ public class EmployeeAssignmentsTopicKeys
         EmployeeUnassignedFromProjectAssignmentDTO
     >
 {
-    public override IEnumerable<string> Get(EmployeeAssignmentsTopic topic) => new[] { topic.EmployeeId };
+    public override IEnumerable<string> Get(EmployeeAssignmentsTopic topic) => [topic.EmployeeId];
 }

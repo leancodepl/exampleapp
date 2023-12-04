@@ -11,9 +11,7 @@ public class DbContextInitializer<T> : IHostedService
 {
     private static readonly IAsyncPolicy CreatePolicy = Policy
         .Handle((NpgsqlException e) => e.IsTransient)
-        .WaitAndRetryAsync(
-            new TimeSpan[3] { TimeSpan.FromSeconds(0.5), TimeSpan.FromSeconds(1.0), TimeSpan.FromSeconds(3.0) }
-        );
+        .WaitAndRetryAsync([TimeSpan.FromSeconds(0.5), TimeSpan.FromSeconds(1.0), TimeSpan.FromSeconds(3.0)]);
 
     private readonly ILogger logger = Log.ForContext<DbContextInitializer<T>>();
 

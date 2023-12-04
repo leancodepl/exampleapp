@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <AssemblyName>ExampleApp.Core.Services</AssemblyName>
+    <DefineConstants Condition="$([MSBuild]::VersionGreaterThan('$(NpgsqlVersion)', '8.0.0'))">$(DefineConstants);CHECK_EFCORE_PG_2977</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
@@ -34,4 +35,5 @@
 
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
   </ItemGroup>
+
 </Project>

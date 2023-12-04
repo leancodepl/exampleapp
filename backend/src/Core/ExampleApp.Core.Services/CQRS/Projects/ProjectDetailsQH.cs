@@ -20,7 +20,7 @@ public class ProjectDetailsQH : IQueryHandler<ProjectDetails, ProjectDetailsDTO?
     {
         if (!ProjectId.TryParse(query.Id, out var projectId))
         {
-            return null!;
+            return Task.FromResult<ProjectDetailsDTO?>(null);
         }
 
         return dbContext

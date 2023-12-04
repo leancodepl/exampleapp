@@ -27,7 +27,7 @@ public class AllEmployeesQH : IQueryHandler<AssignmentEmployerEmbed, Uri>
 
         var tokenHandler = new JsonWebTokenHandler();
         var tokenString = tokenHandler.CreateToken(
-            new SecurityTokenDescriptor()
+            new SecurityTokenDescriptor
             {
                 Claims = new Dictionary<string, object?>
                 {
