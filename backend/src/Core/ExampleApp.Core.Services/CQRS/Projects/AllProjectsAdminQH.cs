@@ -20,7 +20,7 @@ public class AllProjectsAdminQH : IQueryHandler<AllProjectsAdmin, AdminQueryResu
 
     public async Task<AdminQueryResult<AdminProjectDTO>> ExecuteAsync(HttpContext context, AllProjectsAdmin query)
     {
-        var projects = ApplyFilters(query, dbContext.Projects.AsQueryable());
+        var projects = ApplyFilters(query, dbContext.Projects);
         projects = ApplySort(query, projects);
         var pageSize = Math.Min(query.PageSize, 10000);
 
