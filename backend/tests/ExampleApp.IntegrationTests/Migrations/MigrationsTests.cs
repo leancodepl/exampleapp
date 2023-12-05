@@ -1,4 +1,4 @@
-using ExampleApp.Core.Services.DataAccess;
+using ExampleApp.Examples.Services.DataAccess;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
@@ -18,7 +18,7 @@ public class MigrationTests
 
         await app.InitializeAsync();
         using var scope = app.Services.CreateScope();
-        var dbContext = scope.ServiceProvider.GetRequiredService<CoreDbContext>();
+        var dbContext = scope.ServiceProvider.GetRequiredService<ExamplesDbContext>();
 
         try
         {
@@ -37,7 +37,7 @@ public class MigrationTests
 
         await app.InitializeAsync();
 
-        var dbContext = app.Services.GetRequiredService<CoreDbContext>();
+        var dbContext = app.Services.GetRequiredService<ExamplesDbContext>();
 
         var migrationsAssembly = dbContext.GetService<IMigrationsAssembly>();
         var initializer = dbContext.GetService<IModelRuntimeInitializer>();

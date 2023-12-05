@@ -19,7 +19,7 @@ cd dev/proxy
 cd src/Apps/ExampleApp.Migrations
 # This is required for now, but it does not need to point to a real database
 export PostgreSQL__ConnectionString='Host=localhost;Database=app;Username=app;Password=Passw12#'
-dotnet ef migrations add --context CoreDbContext -o Core InitialMigration # Our context
+dotnet ef migrations add --context ExamplesDbContext -o Migrations InitialMigration # Our context
 ```
 
 ### 3. Trust the certificate (Ubuntu)

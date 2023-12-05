@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text.Json;
-using ExampleApp.Core.Services.DataAccess;
+using ExampleApp.Examples.Services.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
@@ -13,7 +13,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace ExampleApp.Migrations.Migrations
 {
-    [DbContext(typeof(CoreDbContext))]
+    [DbContext(typeof(ExamplesDbContext))]
     [Migration("20231113120609_IntroduceAppRatings")]
     partial class IntroduceAppRatings
     {
@@ -28,7 +28,7 @@ namespace ExampleApp.Migrations.Migrations
             NpgsqlModelBuilderExtensions.HasPostgresExtension(modelBuilder, "citext");
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("ExampleApp.Core.Domain.Employees.Employee", b =>
+            modelBuilder.Entity("ExampleApp.Examples.Domain.Employees.Employee", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("citext");
@@ -56,7 +56,7 @@ namespace ExampleApp.Migrations.Migrations
                     b.ToTable("Employees");
                 });
 
-            modelBuilder.Entity("ExampleApp.Core.Domain.Projects.Project", b =>
+            modelBuilder.Entity("ExampleApp.Examples.Domain.Projects.Project", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("citext");
@@ -80,7 +80,7 @@ namespace ExampleApp.Migrations.Migrations
                     b.ToTable("Projects");
                 });
 
-            modelBuilder.Entity("ExampleApp.Core.Services.DataAccess.Entities.KratosIdentity", b =>
+            modelBuilder.Entity("ExampleApp.Examples.Services.DataAccess.Entities.KratosIdentity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -342,9 +342,9 @@ namespace ExampleApp.Migrations.Migrations
                     b.ToTable("OutboxState");
                 });
 
-            modelBuilder.Entity("ExampleApp.Core.Domain.Projects.Project", b =>
+            modelBuilder.Entity("ExampleApp.Examples.Domain.Projects.Project", b =>
                 {
-                    b.OwnsMany("ExampleApp.Core.Domain.Projects.Assignment", "Assignments", b1 =>
+                    b.OwnsMany("ExampleApp.Examples.Domain.Projects.Assignment", "Assignments", b1 =>
                         {
                             b1.Property<string>("ParentProjectId")
                                 .HasColumnType("citext");
@@ -375,9 +375,9 @@ namespace ExampleApp.Migrations.Migrations
                     b.Navigation("Assignments");
                 });
 
-            modelBuilder.Entity("ExampleApp.Core.Services.DataAccess.Entities.KratosIdentity", b =>
+            modelBuilder.Entity("ExampleApp.Examples.Services.DataAccess.Entities.KratosIdentity", b =>
                 {
-                    b.OwnsMany("ExampleApp.Core.Services.DataAccess.Entities.KratosIdentityAddress", "RecoveryAddresses", b1 =>
+                    b.OwnsMany("ExampleApp.Examples.Services.DataAccess.Entities.KratosIdentityAddress", "RecoveryAddresses", b1 =>
                         {
                             b1.Property<Guid>("Id")
                                 .ValueGeneratedOnAdd()
@@ -410,7 +410,7 @@ namespace ExampleApp.Migrations.Migrations
                                 .HasForeignKey("IdentityId");
                         });
 
-                    b.OwnsMany("ExampleApp.Core.Services.DataAccess.Entities.KratosIdentityVerifiableAddress", "VerifiableAddresses", b1 =>
+                    b.OwnsMany("ExampleApp.Examples.Services.DataAccess.Entities.KratosIdentityVerifiableAddress", "VerifiableAddresses", b1 =>
                         {
                             b1.Property<Guid>("Id")
                                 .ValueGeneratedOnAdd()

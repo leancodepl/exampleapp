@@ -1,5 +1,5 @@
 using LeanCode.CQRS.Security;
-using R = ExampleApp.Core.Contracts.Auth.Roles;
+using R = ExampleApp.Examples.Contracts.Auth.Roles;
 
 namespace ExampleApp.Api;
 
