@@ -1,4 +1,3 @@
-import { StrictMode } from "react";
 import { KratosComponents, KratosContextProvider } from "@leancodepl/kratos";
 import { ConfigProvider, App as AntdApp } from "antd";
 import * as ReactDOM from "react-dom/client";
@@ -47,18 +46,16 @@ const AntdAppWrapper = styled(AntdApp)`
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
 root.render(
-    <StrictMode>
-        <BrowserRouter>
-            <IntlProvider defaultLocale="en" locale="en">
-                <ConfigProvider>
-                    <AntdAppWrapper>
-                        <GlobalStyles />
-                        <KratosContextProvider components={components} useHandleFlowError={useHandleFlowError}>
-                            <App />
-                        </KratosContextProvider>
-                    </AntdAppWrapper>
-                </ConfigProvider>
-            </IntlProvider>
-        </BrowserRouter>
-    </StrictMode>,
+    <BrowserRouter>
+        <IntlProvider defaultLocale="en" locale="en">
+            <ConfigProvider>
+                <AntdAppWrapper>
+                    <GlobalStyles />
+                    <KratosContextProvider components={components} useHandleFlowError={useHandleFlowError}>
+                        <App />
+                    </KratosContextProvider>
+                </AntdAppWrapper>
+            </ConfigProvider>
+        </IntlProvider>
+    </BrowserRouter>,
 );

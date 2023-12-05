@@ -57,7 +57,7 @@ export function Settings() {
                                 <Typography.Title level={4}>
                                     <FormattedMessage defaultMessage="Webauthn" />
                                 </Typography.Title>
-                                <UserSettingsCard includeScripts flow={flow} flowType="webauthn" onSubmit={submit} />
+                                <UserSettingsCard flow={flow} flowType="webauthn" onSubmit={submit} />
                             </div>
                         </>
                     ) : (

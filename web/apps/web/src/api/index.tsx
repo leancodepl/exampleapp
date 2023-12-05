@@ -2,7 +2,6 @@ import { createApiComponents } from "@leancodepl/admin";
 import { TokenProvider } from "@leancodepl/cqrs-client-base";
 import { mkCqrsClient } from "@leancodepl/react-query-cqrs-client";
 import { QueryClient } from "@tanstack/react-query";
-import { merge } from "lodash";
 import schema from "./api-components-schema";
 import cqrs from "./cqrs";
 import { sessionManager } from "../auth/sessionManager";
