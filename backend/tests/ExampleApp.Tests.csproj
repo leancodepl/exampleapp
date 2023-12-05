@@ -6,7 +6,9 @@
   </PropertyGroup>
 
   <PropertyGroup>
+<!--/-:msbuild-conditional:noEmit -->
     <LogFileName Condition="'$(LogFileName)' == ''">log.trx</LogFileName>
+<!--/+:msbuild-conditional:noEmit -->
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,8 +20,10 @@
 
   <Target Name="RunTests" DependsOnTargets="Build">
     <ItemGroup>
+<!--/-:msbuild-conditional:noEmit -->
       <TestProjectsAssemblies Include="@(_ResolvedProjectReferencePaths)"
         Condition="($([System.String]::new('%(FullPath)').Contains('/tests/')) Or $([System.String]::new('%(FullPath)').Contains('\\tests\\'))) And !$([System.String]::new('%(FullPath)').Contains('Helpers\\')) And !$([System.String]::new('%(FullPath)').Contains('Helpers/'))" />
+<!--/+:msbuild-conditional:noEmit -->
     </ItemGroup>
 
     <exec

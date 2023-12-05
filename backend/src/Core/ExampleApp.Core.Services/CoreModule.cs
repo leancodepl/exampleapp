@@ -33,9 +33,11 @@ public static class CoreModuleExtensions
         services.AddDbContext<CoreDbContext>(
             (sp, opts) =>
                 opts
+//-:cnd:noEmit
 #if DEBUG
                 .EnableSensitiveDataLogging()
 #endif
+//+:cnd:noEmit
                     .UseNpgsql(
                         sp.GetRequiredService<NpgsqlDataSource>(),
                         cfg => cfg.MigrationsAssembly("ExampleApp.Migrations").SetPostgresVersion(15, 0)
