@@ -12,7 +12,7 @@ function print_help()
 {
     cat <<EOF
 Usage:
-    bootstrap.sh [-h|--help] [--dev-cluster] [--no-dev-cluster] [--source-repository=REPOSITORY] PROJECT
+    bootstrap.sh [-h|--help] [--dev-cluster] [--no-dev-cluster] [--source-repository=REPOSITORY] [--context=CONTEXT] PROJECT
 
 Positional arguments:
     PROJECT: PascalCased name of the new project to bootstrap.
@@ -31,6 +31,9 @@ Options:
 
     --source-repository=REPOSITORY:
         Clone ExampleApp from REPOSITORY instead of default ${default_source_repository}.
+
+    --context=CONTEXT:
+        Set name of the first bounded context to CONTEXT. This should be a PascalCased name.
 EOF
 }
 
@@ -70,6 +73,13 @@ do
         (--source-repository=*)
             source_repository="${1##--source-repository=}"
         ;;
+        (--context)
+            shift
+            context_name="${1}"
+        ;;
+        (--context=*)
+            context_name="${1##--context=}"
+        ;;
         (--*)
             echo 1>&2 "${0}: Unknown option '${1}'."
             print_help 1>&2
@@ -95,12 +105,9 @@ then
     exit 255
 fi
 
-pascal=${project_name}
-lower=${project_name,,}
-
 # Checkout the repository
-git clone "${source_repository}" "${lower}"
-cd "${lower}"
+git clone "${source_repository}" "${project_name,,}"
+cd "${project_name,,}"
 # Delete existing history, bootstrap.sh and its pipeline's Jenkinsfile
 rm -rf ./.git ./bootstrap.sh ./Jenkinsfile.bootstrap
 
@@ -112,21 +119,26 @@ git commit -m Bootstrap
 # Ensure there are no leftovers
 git clean -dffx
 
-# Perform directory and file renames, this operates breadth-first up to arbitrary depth of 10 levels to make sure
-# we don't attempt to rename a file in some directory that no longer exists because it has been renamed earlier
-for depth in {0..10}
-do
-    # Gather all matches first to MAPFILE variable/array
-    mapfile -d '' < <(find . -mindepth "${depth}" -maxdepth "${depth}" \( -not -path '*/.git/*' \) -name '*ExampleApp*' -print0)
-
-    for file in "${MAPFILE[@]}"
+function rename_and_replace()
+{
+    # Perform directory and file renames, this operates breadth-first up to arbitrary depth of 10 levels to make sure
+    # we don't attempt to rename a file in some directory that no longer exists because it has been renamed earlier
+    for depth in {0..10}
     do
-        mv -T "${file}" "${file//ExampleApp/${pascal}}"
-    done
-done
+        # Gather all matches first to MAPFILE variable/array
+        mapfile -d '' < <(find . -mindepth "${depth}" -maxdepth "${depth}" \( -not -path '*/.git/*' \) -name "*${1}*" -print0)
 
-# Replace names in all text files, preserving casing (supports lowercase and PascalCase)
-find . \( -not -path '*/.git/*' \) -type f -execdir sed -i -e "s/ExampleApp/${pascal}/g;s/exampleapp/${lower}/g" '{}' +
+        for file in "${MAPFILE[@]}"
+        do
+            mv -T "${file}" "${file//${1}/${2}}"
+        done
+    done
+
+    # Replace names in all text files, preserving casing (supports lowercase and PascalCase)
+    find . \( -not -path '*/.git/*' \) -type f -execdir sed -i -e "s/${1}/${2}/g;s/${1,,}/${2,,}/g" '{}' +
+}
+
+rename_and_replace ExampleApp "${project_name}"
 
 # Create dev cluster, if your filesystem does not support overlayfs edit k3d.yaml before this step
 if (( deploy_dev_cluster ))
@@ -134,7 +146,7 @@ then
     pushd ./dev-cluster
     echo "sendgrid_api_key = \"${SENDGRID_API_KEY:-PLACEHOLDER}\"" > ./terraform.tfvars
     ./deploy.sh
-    kubectl config use-context "k3d-${lower}"
+    kubectl config use-context "k3d-${project_name,,}"
     popd
 fi
 
@@ -167,12 +179,17 @@ sed -Ei '/ConfigureConventions/,/^    \}$/{s/^    /    \/\/ /};' \
 sed -Ei '/(Domain|Assignment|Employee|Project|Repositories)/d;' \
     ./src/Examples/*.Examples.Services/ServiceCollectionExtensions.cs
 
+if [[ -v context_name ]]
+then
+    rename_and_replace Examples "${context_name}"
+fi
+
 # Fix remaining usings
 dotnet tool restore
 dotnet tool run dotnet-format .
 
 # Create new migration
-pushd "src/Apps/${pascal}.Migrations"
+pushd "src/Apps/${project_name}.Migrations"
 export PostgreSQL__ConnectionString="Host=localhost;Database=app;Username=app;Password=Passw12#"
 dotnet tool run dotnet-ef migrations add InitialMigration -o ./Migrations
 

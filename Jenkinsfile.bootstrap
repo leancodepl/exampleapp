@@ -19,7 +19,7 @@ leancode.builder('exampleapp-bootstrap')
                 cd "$(mktemp -d)"
                 env GIT_AUTHOR_NAME=Jenkins GIT_AUTHOR_EMAIL=jenkins@leancode.pl \
                     GIT_COMMITTER_NAME=Jenkins GIT_COMMITTER_EMAIL=jenkins@leancode.pl \
-                    "${repo}/bootstrap.sh" --no-dev-cluster --source-repository="${repo}" NewProject
+                    "${repo}/bootstrap.sh" --no-dev-cluster --source-repository="${repo}" --context=Primary NewProject
             '''
         }
     }
