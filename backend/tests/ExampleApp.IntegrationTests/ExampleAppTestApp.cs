@@ -3,8 +3,8 @@ using System.Net.Http.Headers;
 using System.Reflection;
 using System.Security.Claims;
 using ExampleApp.Api;
-using ExampleApp.Core.Contracts;
-using ExampleApp.Core.Services.DataAccess;
+using ExampleApp.Examples.Contracts;
+using ExampleApp.Examples.Services.DataAccess;
 using LeanCode.CQRS.MassTransitRelay;
 using LeanCode.CQRS.RemoteHttp.Client;
 using LeanCode.IntegrationTestHelpers;
@@ -66,7 +66,7 @@ public class ExampleAppTestApp : LeanCodeTestFactory<Startup>
         {
             if (!SkipDbContextInitialization)
             {
-                services.AddHostedService<DbContextInitializer<CoreDbContext>>();
+                services.AddHostedService<DbContextInitializer<ExamplesDbContext>>();
             }
 
             services.AddBusActivityMonitor();

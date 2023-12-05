@@ -1,5 +1,5 @@
-using ExampleApp.Core.Contracts.Employees;
-using ExampleApp.Core.Contracts.Projects;
+using ExampleApp.Examples.Contracts.Employees;
+using ExampleApp.Examples.Contracts.Projects;
 using ExampleApp.IntegrationTests.Helpers;
 using FluentAssertions;
 using LeanCode.Pipe.TestClient;

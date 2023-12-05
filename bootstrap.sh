@@ -145,27 +145,27 @@ pushd backend
 # Remove ExampleApp-specific stuff: sample domain and related contracts/handlers/repositories/tests
 rm -rf \
     ./src/Apps/*.Migrations/Migrations/* \
-    ./src/Core/*.Core.{Contracts,Domain}/{Events,Employees,Projects} \
-    ./src/Core/*.Core.Services/{CQRS,Processes}/{Employees,Projects} \
-    ./src/Core/*.Core.Services/DataAccess/Repositories/{Employees,Projects}Repository.cs \
-    ./tests/Core/*/**.cs \
+    ./src/Examples/*.Examples.{Contracts,Domain}/{Events,Employees,Projects} \
+    ./src/Examples/*.Examples.Services/{CQRS,Processes}/{Employees,Projects} \
+    ./src/Examples/*.Examples.Services/DataAccess/Repositories/{Employees,Projects}Repository.cs \
+    ./tests/Examples/*/**.cs \
     ./tests/*.IntegrationTests/Example
 
 # Remove configuration of deleted entities
 sed -Ei '/^        builder\.Entity<(Employee|Project)>/,/^        \}\);$/d;' \
-    ./src/Core/*.Core.Services/DataAccess/*DbContext.cs
+    ./src/Examples/*.Examples.Services/DataAccess/*DbContext.cs
 
 # Remove DbSets, ID types, usings
 sed -Ei '/(Assignment|Employee|Project)/d;' \
-    ./src/Core/*.Core.Services/DataAccess/*DbContext.cs
+    ./src/Examples/*.Examples.Services/DataAccess/*DbContext.cs
 
 # Comment out ConfigureConventions because it's an error to have a local function that's never called
 sed -Ei '/ConfigureConventions/,/^    \}$/{s/^    /    \/\/ /};' \
-    ./src/Core/*.Core.Services/DataAccess/*DbContext.cs
+    ./src/Examples/*.Examples.Services/DataAccess/*DbContext.cs
 
 # Remove invalid usings and registrations of removed repositories
 sed -Ei '/(Domain|Assignment|Employee|Project|Repositories)/d;' \
-    ./src/Core/*.Core.Services/*Module.cs
+    ./src/Examples/*.Examples.Services/ServiceCollectionExtensions.cs
 
 # Fix remaining usings
 dotnet tool restore

@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AssemblyName>ExampleApp.Examples.Contracts</AssemblyName>
+    <Nullable>annotations</Nullable>
+    <TargetFramework>net6.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="LeanCode.AppRating.Contracts" />
+    <PackageReference Include="LeanCode.Contracts" />
+    <PackageReference Include="LeanCode.Contracts.Admin" />
+    <PackageReference Include="LeanCode.ForceUpdate.Contracts" />
+  </ItemGroup>
+</Project>

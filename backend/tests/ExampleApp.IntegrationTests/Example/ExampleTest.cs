@@ -1,4 +1,4 @@
-using ExampleApp.Core.Contracts.Projects;
+using ExampleApp.Examples.Contracts.Projects;
 using ExampleApp.IntegrationTests.Helpers;
 using Xunit;
 

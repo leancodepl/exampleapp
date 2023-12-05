@@ -1,6 +1,6 @@
 using System.Globalization;
 using ExampleApp.Api.Handlers;
-using ExampleApp.Core.Services.DataAccess;
+using ExampleApp.Examples.Services.DataAccess;
 using LeanCode.AuditLogs;
 using LeanCode.AzureIdentity;
 using LeanCode.OpenTelemetry;
@@ -16,7 +16,7 @@ using Npgsql;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
-using static ExampleApp.Core.Contracts.Auth;
+using static ExampleApp.Examples.Contracts.Auth;
 
 namespace ExampleApp.Api;
 
@@ -32,7 +32,7 @@ internal static class ApiModule
     {
         services.AddCors(cors => ConfigureCORS(cors, config));
         services.AddRouting();
-        services.AddHealthChecks().AddDbContextCheck<CoreDbContext>();
+        services.AddHealthChecks().AddDbContextCheck<ExamplesDbContext>();
 
         services
             .AddAuthentication()
