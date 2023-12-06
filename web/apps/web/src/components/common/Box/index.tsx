@@ -1,6 +1,8 @@
 import { isString } from "lodash";
 import styled from "styled-components";
-import { Spacing, spacings } from "../../../_styling/globals";
+import { theme } from "../../../_styling/theme";
+
+type Spacing = keyof typeof theme.spacing;
 
 type Direction = "row" | "column" | "row-reverse" | "column-reverse";
 type Alignment = "baseline" | "center" | "end" | "start" | "stretch";
@@ -21,7 +23,7 @@ export const Box = styled.div<BoxProps>`
     display: flex;
     flex-direction: ${({ direction }) => direction};
     flex-wrap: ${({ wrap }) => wrap};
-    gap: ${({ gap }) => gap && spacings[gap]};
+    gap: ${({ gap }) => gap && theme.spacing[gap]};
     align-items: ${({ align }) => align};
     justify-content: ${({ justify }) => justify};
     padding: ${({ padding }) => padding && cssPadding(padding)};
@@ -38,7 +40,7 @@ const cssPadding = (padding?: Padding) => {
     let left: Spacing | undefined = undefined;
 
     if (isString(padding)) {
-        return spacings[padding];
+        return theme.spacing[padding];
     } else {
         top = padding.top ?? padding.y;
         right = padding.right ?? padding.x;
@@ -47,10 +49,10 @@ const cssPadding = (padding?: Padding) => {
     }
 
     const paddings = [
-        (top && spacings[top]) || 0,
-        (right && spacings[right]) || 0,
-        (bottom && spacings[bottom]) || 0,
-        (left && spacings[left]) || 0,
+        (top && theme.spacing[top]) || 0,
+        (right && theme.spacing[right]) || 0,
+        (bottom && theme.spacing[bottom]) || 0,
+        (left && theme.spacing[left]) || 0,
     ];
 
     return paddings.join(" ");

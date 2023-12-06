@@ -3,7 +3,8 @@ import { ConfigProvider, App as AntdApp } from "antd";
 import * as ReactDOM from "react-dom/client";
 import { IntlProvider } from "react-intl";
 import { BrowserRouter } from "react-router-dom";
-import styled, { createGlobalStyle } from "styled-components";
+import styled, { ThemeProvider, createGlobalStyle } from "styled-components";
+import { theme } from "./_styling/theme";
 import { App } from "./app/app";
 import { kratosComponents } from "./auth/ui/kratosComponents";
 import { useHandleFlowError } from "./auth/useHandleFlowError";
@@ -30,10 +31,12 @@ root.render(
         <IntlProvider defaultLocale="en" locale="en">
             <ConfigProvider>
                 <AntdAppWrapper>
-                    <GlobalStyles />
-                    <KratosContextProvider components={kratosComponents} useHandleFlowError={useHandleFlowError}>
-                        <App />
-                    </KratosContextProvider>
+                    <ThemeProvider theme={theme}>
+                        <GlobalStyles />
+                        <KratosContextProvider components={kratosComponents} useHandleFlowError={useHandleFlowError}>
+                            <App />
+                        </KratosContextProvider>
+                    </ThemeProvider>
                 </AntdAppWrapper>
             </ConfigProvider>
         </IntlProvider>

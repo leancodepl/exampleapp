@@ -1,6 +1,5 @@
 import { Layout } from "antd";
 import styled from "styled-components";
-import { spacingSmall } from "../../_styling/globals";
 
 const { Sider, Content } = Layout;
 
@@ -22,7 +21,7 @@ export const LogoContainer = styled.div`
     justify-content: center;
     height: 80px;
 
-    padding: ${spacingSmall};
+    padding: ${({ theme }) => theme.spacing.small};
 `;
 
 export const ContentWrapper = styled(Content)`
