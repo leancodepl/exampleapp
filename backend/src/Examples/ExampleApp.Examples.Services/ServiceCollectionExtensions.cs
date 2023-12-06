@@ -33,11 +33,11 @@ public static class ServiceCollectionExtensions
         services.AddDbContext<ExamplesDbContext>(
             (sp, opts) =>
                 opts
-//-:cnd:noEmit
+                //-:cnd:noEmit
 #if DEBUG
                 .EnableSensitiveDataLogging()
 #endif
-//+:cnd:noEmit
+                    //+:cnd:noEmit
                     .UseNpgsql(
                         sp.GetRequiredService<NpgsqlDataSource>(),
                         cfg => cfg.MigrationsAssembly("ExampleApp.Migrations").SetPostgresVersion(15, 0)
