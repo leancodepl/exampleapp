@@ -21,6 +21,9 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
     <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)ExampleApp.ruleset</CodeAnalysisRuleSet>
+    <!--#if 0 -->
+    <DefineConstants>$(DefineConstants);Example</DefineConstants>
+    <!--#endif -->
   </PropertyGroup>
 
   <ItemGroup>

@@ -1,0 +1,80 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "LeanCode",
+  "classifications": [
+    "LeanCode",
+    "Backend",
+    "Web"
+  ],
+  "tags": {
+    "language": "C#",
+    "type": "solution"
+  },
+  "identity": "LeanCode.CoreLibrary.Backend.Template",
+  "name": "LeanCode CoreLibrary Backend Template",
+  "shortName": "lncdcorelibbackend",
+  "sources": [
+    {
+      "source": "./backend",
+      "target": "./backend",
+      "exclude": [
+        "**/[Bb]in/**",
+        "**/[Oo]bj/**",
+        "**/*secrets.sh",
+        "**/Migrations/*.cs"
+      ]
+    },
+    {
+      "source": "./dev-cluster",
+      "target": "./dev-cluster",
+      "exclude": [
+        "**/.terraform/**",
+        "**/terraform.*"
+      ]
+    },
+    {
+      "source": "./infrastructure",
+      "target": "./infrastructure"
+    },
+    {
+      "source": "./",
+      "target": "./",
+      "include": [
+        "**/.dockerignore",
+        "**/.editorconfig",
+        "**/.gitattributes",
+        "**/.gitignore"
+      ]
+    }
+  ],
+  "symbols": {
+    "project-name": {
+      "type": "parameter",
+      "datatype": "string",
+      "description": "The name of the new project.",
+      "replaces": "ExampleApp",
+      "fileRename": "ExampleApp",
+      "isRequired": true,
+      "forms": {
+        "global": ["lc", "uc"]
+      }
+    },
+    "context": {
+      "type": "parameter",
+      "datatype": "string",
+      "description": "The name of the first bounded context.",
+      "replaces": "Examples",
+      "fileRename": "Examples",
+      "isRequired": true
+    }
+  },
+  "forms": {
+    "lc": {
+      "identifier": "lowerCaseInvariant"
+    },
+    "uc": {
+      "identifier": "upperCaseInvariant"
+    }
+  },
+  "postActions": []
+}
