@@ -1,7 +1,7 @@
 import { Suspense, lazy } from "react";
 import { Route, Routes } from "react-router";
-import LoggedInGuard from "../components/auth/LoggedInGuard";
-import NotLoggedInGuard from "../components/auth/NotLoggedInGuard";
+import { LoggedInGuard } from "../components/auth/LoggedInGuard";
+import { NotLoggedInGuard } from "../components/auth/NotLoggedInGuard";
 import { SplashScreen } from "../components/common/SplashScreen";
 import { UnauthenticatedLayout } from "../components/common/UnauthenticatedLayout";
 import { LoginPage } from "../pages/login";
@@ -38,4 +38,4 @@ export function App() {
     );
 }
 
-const AuthenticatedApp = lazy(() => import("./authenticatedApp"));
+const AuthenticatedApp = lazy(() => import("./authenticatedApp").then(m => ({ default: m.AuthenticatedApp })));

@@ -1,32 +1,12 @@
-import { KratosComponents, KratosContextProvider } from "@leancodepl/kratos";
+import { KratosContextProvider } from "@leancodepl/kratos";
 import { ConfigProvider, App as AntdApp } from "antd";
 import * as ReactDOM from "react-dom/client";
 import { IntlProvider } from "react-intl";
 import { BrowserRouter } from "react-router-dom";
 import styled, { createGlobalStyle } from "styled-components";
 import { App } from "./app/app";
-import { ButtonComponent } from "./auth/ui/components/Button";
-import { CheckboxComponent } from "./auth/ui/components/Checkbox";
-import { InputComponent } from "./auth/ui/components/Input";
-import { MessageFormat } from "./auth/ui/components/MessageFormat";
-import { OidcSectionWrapper } from "./auth/ui/components/OidcSectionWrapper";
-import { TextComponent } from "./auth/ui/components/Text";
-import { UiMessages } from "./auth/ui/components/UiMessages";
+import { kratosComponents } from "./auth/ui/kratosComponents";
 import { useHandleFlowError } from "./auth/useHandleFlowError";
-
-const components: Partial<KratosComponents> = {
-    MessageFormat: MessageFormat,
-    /*Image: undefined,*/
-    Text: TextComponent,
-    /*Link: undefined,*/
-    Input: InputComponent,
-    Button: ButtonComponent,
-    Checkbox: CheckboxComponent,
-    /*Message: undefined,*/
-    UiMessages,
-
-    OidcSectionWrapper,
-};
 
 const GlobalStyles = createGlobalStyle`
     * {
@@ -51,7 +31,7 @@ root.render(
             <ConfigProvider>
                 <AntdAppWrapper>
                     <GlobalStyles />
-                    <KratosContextProvider components={components} useHandleFlowError={useHandleFlowError}>
+                    <KratosContextProvider components={kratosComponents} useHandleFlowError={useHandleFlowError}>
                         <App />
                     </KratosContextProvider>
                 </AntdAppWrapper>

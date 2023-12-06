@@ -4,8 +4,8 @@ import { FormattedMessage } from "react-intl";
 import { Link } from "react-router-dom";
 import { kratosClient } from "../../../auth";
 import { sessionManager } from "../../../auth/sessionManager";
+import { settingsRoute } from "../../../authRoutes";
 import { loginRoute, recoveryRoute } from "../../../publicRoutes";
-import { path } from "../../../routes";
 import { Box } from "../../common/Box";
 import { CardTitle } from "../_common/MarginlessTitle";
 
@@ -18,9 +18,9 @@ export function Recovery() {
         },
         onContinueWith: continueWith => {
             if (continueWith[0]?.action === "show_settings_ui") {
-                const url = new URL(window.location.origin + path("settings"));
+                const url = new URL(settingsRoute, window.location.origin);
                 url.searchParams.set(flowIdParameterName, continueWith[0].flow.id);
-                window.open(url, "_self");
+                window.location.href = url.toString();
             }
         },
     });

@@ -4,7 +4,7 @@ import { useIsLoggedIn } from "../../../_hooks/useIsLoggedIn";
 import { loginRoute } from "../../../publicRoutes";
 import { Redirect } from "../../common/Redirect";
 
-export default function LoggedInGuard() {
+export function LoggedInGuard() {
     const isLoggedIn = useIsLoggedIn();
     const { pathname, search } = useLocation();
 

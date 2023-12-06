@@ -1,6 +1,7 @@
 import { MutableDeep } from "@leancodepl/utils";
 import { FormattedMessage } from "react-intl";
 import { mkPath } from "./_utils/mkPath";
+import { settingsRoute } from "./authRoutes";
 import { Redirect } from "./components/common/Redirect";
 import { ProjectsPage } from "./pages/projects";
 import { SettingsPage } from "./pages/settings";
@@ -11,7 +12,7 @@ const internalRoutes = [
         path: "",
         element: <Redirect path="/projects" />,
     },
-    { name: "settings", path: "settings/", element: <SettingsPage /> },
+    { name: settingsRoute, path: `${settingsRoute}/`, element: <SettingsPage /> },
     {
         name: "projects",
         path: "projects/",
