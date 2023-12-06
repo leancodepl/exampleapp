@@ -1,0 +1,111 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "LeanCode",
+  "classifications": [
+    "LeanCode",
+    "Project",
+    "Web"
+  ],
+  "tags": {
+    "language": "C#",
+    "type": "solution"
+  },
+  "identity": "LeanCode.CoreLibrary.Project.Template",
+  "name": "LeanCode CoreLibrary Project Template",
+  "shortName": "lncdproj",
+  "sources": [
+    {
+      "source": "./backend",
+      "target": "./backend",
+      "exclude": [
+        "**/[Bb]in/**",
+        "**/[Oo]bj/**",
+        "**/out/**",
+        "**/*secrets.sh",
+        "**/Migrations/*.cs",
+        "**/Jenkinsfile"
+      ]
+    },
+    {
+      "source": "./dev-cluster",
+      "target": "./dev-cluster",
+      "exclude": [
+        "**/.terraform/**",
+        "**/terraform.*"
+      ]
+    },
+    {
+      "source": "./infrastructure",
+      "target": "./infrastructure"
+    },
+    {
+      "source": "./",
+      "target": "./",
+      "include": [
+        ".dockerignore",
+        ".editorconfig",
+        ".gitattributes",
+        ".gitignore"
+      ]
+    }
+  ],
+  "forms": {
+    "lc": {
+      "identifier": "lowerCaseInvariant"
+    },
+    "uc": {
+      "identifier": "upperCaseInvariant"
+    }
+  },
+  "symbols": {
+    "project-name": {
+      "type": "parameter",
+      "datatype": "string",
+      "description": "The name of the new project.",
+      "replaces": "ExampleApp",
+      "fileRename": "ExampleApp",
+      "isRequired": true,
+      "forms": {
+        "global": [
+          "lc",
+          "uc"
+        ]
+      }
+    },
+    "context": {
+      "type": "parameter",
+      "datatype": "string",
+      "description": "The name of the first bounded context.",
+      "replaces": "Examples",
+      "fileRename": "Examples",
+      "isRequired": true
+    }
+  },
+  "primaryOutputs": [
+    {
+      "path": "backend/ExampleApp.sln"
+    }
+  ],
+  "postActions": [
+    {
+      "actionId": "3A7C4B45-1F5D-4A30-959A-51B88E82B5D2",
+      "args": {
+        "executable": "find",
+        "args": "-type f -name *.cs -size 0 -delete"
+      },
+      "manualInstructions": [
+        {
+          "text": "Find and delete empty *.cs files"
+        }
+      ]
+    },
+    {
+      "actionId": "210D431B-A78B-4D2F-B762-4ED3E3EA9025",
+      "manualInstructions": [
+        {
+          "text": "Run 'dotnet restore'"
+        }
+      ]
+    }
+  ]
+}
