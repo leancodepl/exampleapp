@@ -1,7 +1,7 @@
 import { returnToParameterName } from "@leancodepl/kratos";
 import { Outlet, useLocation } from "react-router";
 import { useIsLoggedIn } from "../../../_hooks/useIsLoggedIn";
-import { loginRoute } from "../../../publicRoutes";
+import { loginRoute } from "../../../kratosRoutes";
 import { Redirect } from "../../common/Redirect";
 
 export function LoggedInGuard() {

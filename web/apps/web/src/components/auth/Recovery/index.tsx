@@ -4,8 +4,7 @@ import { FormattedMessage } from "react-intl";
 import { Link } from "react-router-dom";
 import { kratosClient } from "../../../auth";
 import { sessionManager } from "../../../auth/sessionManager";
-import { settingsRoute } from "../../../authRoutes";
-import { loginRoute, recoveryRoute } from "../../../publicRoutes";
+import { loginRoute, recoveryRoute, settingsRoute } from "../../../kratosRoutes";
 import { Box } from "../../common/Box";
 import { CardTitle } from "../_common/MarginlessTitle";
 

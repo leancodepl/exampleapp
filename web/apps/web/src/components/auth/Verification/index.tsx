@@ -3,7 +3,7 @@ import { Spin, Divider } from "antd";
 import { FormattedMessage } from "react-intl";
 import { Link, useNavigate } from "react-router-dom";
 import { kratosClient } from "../../../auth";
-import { loginRoute } from "../../../publicRoutes";
+import { loginRoute } from "../../../kratosRoutes";
 import { Box } from "../../common/Box";
 import { CardTitle } from "../_common/MarginlessTitle";
 

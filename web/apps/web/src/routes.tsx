@@ -1,7 +1,7 @@
 import { MutableDeep } from "@leancodepl/utils";
 import { FormattedMessage } from "react-intl";
 import { mkPath } from "./_utils/mkPath";
-import { settingsRoute } from "./authRoutes";
+import { settingsRoute } from "./kratosRoutes";
 import { Redirect } from "./components/common/Redirect";
 import { ProjectsPage } from "./pages/projects";
 import { SettingsPage } from "./pages/settings";

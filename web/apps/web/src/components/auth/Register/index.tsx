@@ -5,7 +5,7 @@ import { FormattedMessage } from "react-intl";
 import { Link } from "react-router-dom";
 import { kratosClient } from "../../../auth";
 import { sessionManager } from "../../../auth/sessionManager";
-import { loginRoute, registerRoute } from "../../../publicRoutes";
+import { loginRoute, registerRoute } from "../../../kratosRoutes";
 import { Box } from "../../common/Box";
 import { CardTitle } from "../_common/MarginlessTitle";
 

@@ -1,7 +1,7 @@
 import { BaseSessionManager } from "@leancodepl/kratos";
 import { map } from "rxjs";
 import { environment } from "../environments/environment";
-import { loginRoute } from "../publicRoutes";
+import { loginRoute } from "../kratosRoutes";
 
 class SessionManager extends BaseSessionManager {
     email$ = this.identity$.pipe(

@@ -6,6 +6,7 @@ import type { ReactQueryCqrs as CQRS } from ".";
 export type Query<TResult> = {}
 export type Command = {}
 export type Operation<TResult> = {}
+export type Topic = {}
 
 `.trimStart();
 
@@ -26,6 +27,13 @@ module.exports = {
             base: "../../../backend/src",
             project: ["Core/ExampleApp.Core.Contracts/ExampleApp.Core.Contracts.csproj"],
         },
-        nameTransform: nameWithNamespace => nameWithNamespace.split(".").at(-1),
+        nameTransform: nameWithNamespace => {
+            const nameParts = nameWithNamespace.split(".");
+            let name = nameParts.at(-1);
+
+            if (nameParts.at(1) === "ForceUpdate") name = `ForceUpdate${name}`;
+
+            return name;
+        },
     },
 };

@@ -7,7 +7,7 @@ import { useNavigate } from "react-router";
 import { Link, useSearchParams } from "react-router-dom";
 import { kratosClient } from "../../../auth";
 import { sessionManager } from "../../../auth/sessionManager";
-import { loginRoute, recoveryRoute, registerRoute } from "../../../publicRoutes";
+import { loginRoute, recoveryRoute, registerRoute } from "../../../kratosRoutes";
 import { Box } from "../../common/Box";
 import { CardTitle } from "../_common/MarginlessTitle";
 

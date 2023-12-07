@@ -3,7 +3,7 @@ import { ErrorId, UseHandleFlowError, returnToParameterName } from "@leancodepl/
 import { App } from "antd";
 import { FormattedMessage } from "react-intl";
 import { useNavigate } from "react-router";
-import { loginRoute } from "../publicRoutes";
+import { loginRoute } from "../kratosRoutes";
 
 export const useHandleFlowError: UseHandleFlowError = ({
     resetFlow,

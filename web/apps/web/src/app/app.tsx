@@ -8,7 +8,7 @@ import { LoginPage } from "../pages/login";
 import { RecoveryPage } from "../pages/recovery";
 import { RegisterPage } from "../pages/register";
 import { VerificationPage } from "../pages/verification";
-import { loginRoute, recoveryRoute, registerRoute, verificationRoute } from "../publicRoutes";
+import { loginRoute, recoveryRoute, registerRoute, verificationRoute } from "../kratosRoutes";
 
 export function App() {
     return (
