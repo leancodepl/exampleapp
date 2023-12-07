@@ -1,8 +1,12 @@
 using Azure.Core;
+#if Example
 using ExampleApp.Examples.Domain.Employees;
 using ExampleApp.Examples.Domain.Projects;
+#endif
 using ExampleApp.Examples.Services.DataAccess;
+#if Example
 using ExampleApp.Examples.Services.DataAccess.Repositories;
+#endif
 using ExampleApp.Examples.Services.DataAccess.Serialization;
 using LeanCode.DomainModels.DataAccess;
 using LeanCode.Npgsql.ActiveDirectory;
@@ -44,10 +48,12 @@ public static class ServiceCollectionExtensions
                     )
         );
 
+#if Example
         services.AddScoped<ProjectsRepository>();
         services.AddScoped<IRepository<Project, ProjectId>, ProjectsRepository>();
 
         services.AddScoped<EmployeesRepository>();
         services.AddScoped<IRepository<Employee, EmployeeId>, EmployeesRepository>();
+#endif
     }
 }

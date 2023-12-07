@@ -1,3 +1,4 @@
+#if Example
 using LeanCode.Contracts.Admin;
 using LeanCode.Contracts.Security;
 
@@ -17,3 +18,4 @@ public class AdminProjectDTO
     [AdminColumn("Name"), AdminSortable]
     public string Name { get; set; }
 }
+#endif

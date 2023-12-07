@@ -1,3 +1,4 @@
+#if Example
 using ExampleApp.Examples.Contracts.Employees;
 using ExampleApp.Examples.Domain.Employees;
 using ExampleApp.Examples.Services.DataAccess;
@@ -70,3 +71,4 @@ public class CreateEmployeeCH : ICommandHandler<CreateEmployee>
         return Task.CompletedTask;
     }
 }
+#endif

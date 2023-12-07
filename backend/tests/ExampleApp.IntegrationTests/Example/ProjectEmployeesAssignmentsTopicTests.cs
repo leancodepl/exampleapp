@@ -1,3 +1,4 @@
+#if Example
 using ExampleApp.Examples.Contracts.Employees;
 using ExampleApp.Examples.Contracts.Projects;
 using ExampleApp.IntegrationTests.Helpers;
@@ -122,3 +123,4 @@ public class ProjectEmployeesAssignmentsTopicTests : TestsBase<AuthenticatedExam
         return projects.Should().ContainSingle().Subject;
     }
 }
+#endif

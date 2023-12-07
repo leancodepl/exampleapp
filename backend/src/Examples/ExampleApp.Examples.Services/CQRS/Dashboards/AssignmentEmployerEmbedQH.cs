@@ -1,3 +1,4 @@
+#if Example
 using System.Text;
 using ExampleApp.Examples.Contracts.Dashboards;
 using ExampleApp.Examples.Services.Configuration;
@@ -45,3 +46,4 @@ public class AllEmployeesQH : IQueryHandler<AssignmentEmployerEmbed, Uri>
         return Task.FromResult(new Uri($"{config.MetabaseUrl}/embed/question/{tokenString}#bordered=true&titled=true"));
     }
 }
+#endif

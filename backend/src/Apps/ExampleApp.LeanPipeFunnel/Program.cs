@@ -44,7 +44,7 @@ services
         options.ClaimsExtractor = (s, o, c) =>
         {
             c.Add(new(o.RoleClaimType, Auth.Roles.User)); // every identity is a valid User
-
+#if Example
             if (
                 s.Identity
                     .VerifiableAddresses
@@ -58,6 +58,7 @@ services
             {
                 c.Add(new(o.RoleClaimType, Auth.Roles.Admin));
             }
+#endif
         };
     });
 

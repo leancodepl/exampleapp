@@ -1,3 +1,4 @@
+#if Example
 using LeanCode.Contracts;
 using LeanCode.Contracts.Security;
 
@@ -17,3 +18,4 @@ public class CreateEmployee : ICommand
         public const int EmailIsNotUnique = 4;
     }
 }
+#endif

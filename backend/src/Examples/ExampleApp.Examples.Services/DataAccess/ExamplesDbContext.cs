@@ -1,6 +1,8 @@
 using System.Text.Json;
+#if Example
 using ExampleApp.Examples.Domain.Employees;
 using ExampleApp.Examples.Domain.Projects;
+#endif
 using ExampleApp.Examples.Services.DataAccess.Entities;
 using LeanCode.AppRating.DataAccess;
 using LeanCode.DomainModels.EF;
@@ -18,8 +20,10 @@ public class ExamplesDbContext : DbContext, IAppRatingStore<Guid>
 
     public DbSet<KratosIdentity> KratosIdentities => Set<KratosIdentity>();
 
+#if Example
     public DbSet<Employee> Employees => Set<Employee>();
     public DbSet<Project> Projects => Set<Project>();
+#endif
 
     public DbSet<AppRating<Guid>> AppRatings => Set<AppRating<Guid>>();
 
@@ -44,10 +48,15 @@ public class ExamplesDbContext : DbContext, IAppRatingStore<Guid>
 #endif
         //+:cnd:noEmit
 
+#if Example
         ConfigureId<EmployeeId>(configurationBuilder);
         ConfigureId<ProjectId>(configurationBuilder);
         ConfigureId<AssignmentId>(configurationBuilder);
+#endif
 
+#if !Example
+    /*
+#endif
         static PropertiesConfigurationBuilder<TId> ConfigureId<TId>(ModelConfigurationBuilder configurationBuilder)
             where TId : struct, IPrefixedTypedId<TId>
         {
@@ -56,6 +65,9 @@ public class ExamplesDbContext : DbContext, IAppRatingStore<Guid>
                 .HaveColumnType("citext")
                 .HaveConversion<PrefixedTypedIdConverter<TId>, PrefixedTypedIdComparer<TId>>();
         }
+#if !Example
+    */
+#endif
     }
 
     protected override void OnModelCreating(ModelBuilder builder)
@@ -94,6 +106,7 @@ public class ExamplesDbContext : DbContext, IAppRatingStore<Guid>
             e.Property<uint>("xmin").IsRowVersion();
         });
 
+#if Example
         builder.Entity<Employee>(e =>
         {
             e.HasKey(t => t.Id);
@@ -119,5 +132,6 @@ public class ExamplesDbContext : DbContext, IAppRatingStore<Guid>
             e.IsOptimisticConcurrent(addRowVersion: false);
             e.Property<uint>("xmin").IsRowVersion();
         });
+#endif
     }
 }

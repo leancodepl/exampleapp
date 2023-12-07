@@ -1,3 +1,4 @@
+#if Example
 using ExampleApp.Examples.Contracts.Employees;
 using ExampleApp.Examples.Services.DataAccess;
 using LeanCode.CQRS.Execution;
@@ -32,3 +33,4 @@ public class AllEmployeesQH : IQueryHandler<AllEmployees, List<EmployeeDTO>>
             .ToListAsync(context.RequestAborted);
     }
 }
+#endif

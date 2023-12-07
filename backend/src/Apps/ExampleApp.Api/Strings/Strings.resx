@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
+<!--#if Example -->
   <data name="notifications.meeting-started.title" xml:space="preserve">
     <value>Meeting has started</value>
   </data>
   <data name="notifications.meeting-started.body" xml:space="preserve">
     <value>{0}</value>
   </data>
+<!--#endif -->
   <data name="emails.low-rate-submitted.subject" xml:space="preserve">
     <value>Your app got a low rate</value>
   </data>

@@ -1,3 +1,4 @@
+#if Example
 using ExampleApp.Examples.Contracts.Projects;
 using ExampleApp.IntegrationTests.Helpers;
 using Xunit;
@@ -25,3 +26,4 @@ public class ExampleTest : TestsBase<UnauthenticatedExampleAppTestApp>
         Assert.Empty(projectDetails.Assignments);
     }
 }
+#endif

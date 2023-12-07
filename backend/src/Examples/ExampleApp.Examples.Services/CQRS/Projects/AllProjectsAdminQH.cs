@@ -1,3 +1,4 @@
+#if Example
 using ExampleApp.Examples.Contracts.Projects;
 using ExampleApp.Examples.Domain.Projects;
 using ExampleApp.Examples.Services.DataAccess;
@@ -60,3 +61,4 @@ public class AllProjectsAdminQH : IQueryHandler<AllProjectsAdmin, AdminQueryResu
         return q;
     }
 }
+#endif

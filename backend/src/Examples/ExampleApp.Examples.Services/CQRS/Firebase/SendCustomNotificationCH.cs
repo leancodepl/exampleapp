@@ -1,3 +1,4 @@
+#if Example
 using ExampleApp.Examples.Contracts.Firebase;
 using FirebaseAdmin.Messaging;
 using FluentValidation;
@@ -52,3 +53,4 @@ public class SendCustomNotificationCH : ICommandHandler<SendCustomNotification>
         await fcmClient.SendToUserAsync(userId, message, context.RequestAborted);
     }
 }
+#endif

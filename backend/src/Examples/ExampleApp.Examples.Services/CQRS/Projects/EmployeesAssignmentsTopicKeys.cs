@@ -1,3 +1,4 @@
+#if Example
 using ExampleApp.Examples.Contracts.Projects;
 using LeanCode.Pipe;
 
@@ -12,3 +13,4 @@ public class EmployeeAssignmentsTopicKeys
 {
     public override IEnumerable<string> Get(EmployeeAssignmentsTopic topic) => [topic.EmployeeId];
 }
+#endif
