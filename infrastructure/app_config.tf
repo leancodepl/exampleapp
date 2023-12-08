@@ -24,6 +24,14 @@ module "app_config" {
       labels = local.tags
       data   = var.well_known
     }
+
+    "exampleapp-web-config" = {
+      labels = merge(local.tags, { component = "web" })
+      data = {
+        "apiUrl"  = "https://api.${var.domain}",
+        "authUrl" = "https://auth.${var.domain}",
+      }
+    }
   }
 
   k8s_secrets = {
