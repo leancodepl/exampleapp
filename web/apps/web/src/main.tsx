@@ -30,14 +30,14 @@ root.render(
     <BrowserRouter>
         <IntlProvider defaultLocale="en" locale="en">
             <ConfigProvider>
-                <AntdAppWrapper>
+                <KratosContextProvider components={kratosComponents} useHandleFlowError={useHandleFlowError}>
+                    <GlobalStyles />
                     <ThemeProvider theme={theme}>
-                        <GlobalStyles />
-                        <KratosContextProvider components={kratosComponents} useHandleFlowError={useHandleFlowError}>
+                        <AntdAppWrapper>
                             <App />
-                        </KratosContextProvider>
+                        </AntdAppWrapper>
                     </ThemeProvider>
-                </AntdAppWrapper>
+                </KratosContextProvider>
             </ConfigProvider>
         </IntlProvider>
     </BrowserRouter>,

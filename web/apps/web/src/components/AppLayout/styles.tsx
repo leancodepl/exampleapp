@@ -5,9 +5,7 @@ const { Content } = Layout;
 
 export const LayoutWrapper = styled(Layout)`
     height: 100%;
-`;
 
-export const SiderWrapper = styled.div`
     .ant-layout-sider-children {
         display: flex;
         flex-direction: column;
