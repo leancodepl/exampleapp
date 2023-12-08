@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../Core/ExampleApp.Core.Services/ExampleApp.Core.Services.csproj" />
+    <ProjectReference Include="../../Examples/ExampleApp.Examples.Services/ExampleApp.Examples.Services.csproj" />
 
     <PackageReference Include="LeanCode.AzureIdentity" />
     <PackageReference Include="LeanCode.EFMigrator" />

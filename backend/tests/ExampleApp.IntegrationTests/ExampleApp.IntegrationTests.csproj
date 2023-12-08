@@ -7,7 +7,7 @@
   <ItemGroup>
     <ProjectReference Include="../../src/Apps/ExampleApp.Api/ExampleApp.Api.csproj" />
     <ProjectReference Include="../../src/Apps/ExampleApp.Migrations/ExampleApp.Migrations.csproj" />
-    <ProjectReference Include="../../src/Core/ExampleApp.Core.Services/ExampleApp.Core.Services.csproj" />
+    <ProjectReference Include="../../src/Examples/ExampleApp.Examples.Services/ExampleApp.Examples.Services.csproj" />
 
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" />

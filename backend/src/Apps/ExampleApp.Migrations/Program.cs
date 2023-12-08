@@ -1,5 +1,5 @@
 using System.Data.Common;
-using ExampleApp.Core.Services.DataAccess;
+using ExampleApp.Examples.Services.DataAccess;
 using LeanCode.AzureIdentity;
 using LeanCode.EFMigrator;
 using LeanCode.Npgsql.ActiveDirectory;
@@ -14,11 +14,11 @@ public class Program
     {
         MigrationsConfig.ConnectionStringKey = "PostgreSQL:ConnectionString";
 
-        new CoreMigrator().Run(args);
+        new ExamplesMigrator().Run(args);
     }
 }
 
-internal class CoreMigrator : Migrator
+internal class ExamplesMigrator : Migrator
 {
     private static readonly NpgsqlDataSource DataSource = CreateDataSource();
 
@@ -40,12 +40,12 @@ internal class CoreMigrator : Migrator
 
     protected override DbConnection GetDbConnection() => DataSource.CreateConnection();
 
-    protected override void MigrateAll() => Migrate<CoreDbContext, CoreDbContextFactory>();
+    protected override void MigrateAll() => Migrate<ExamplesDbContext, ExamplesDbContextFactory>();
 
-    private class CoreDbContextFactory : BaseFactory<CoreDbContext, CoreDbContextFactory>
+    private class ExamplesDbContextFactory : BaseFactory<ExamplesDbContext, ExamplesDbContextFactory>
     {
-        public override DbContextOptionsBuilder<CoreDbContext> UseDbProvider(
-            DbContextOptionsBuilder<CoreDbContext> builder
+        public override DbContextOptionsBuilder<ExamplesDbContext> UseDbProvider(
+            DbContextOptionsBuilder<ExamplesDbContext> builder
         )
         {
             return builder.UseNpgsql(DataSource, cfg => cfg.MigrationsAssembly(AssemblyName).SetPostgresVersion(15, 0));

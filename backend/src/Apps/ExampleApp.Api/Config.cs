@@ -1,4 +1,4 @@
-using ExampleApp.Core.Services.Configuration;
+using ExampleApp.Examples.Services.Configuration;
 using LeanCode.AppRating.Configuration;
 using LeanCode.Firebase;
 using Microsoft.AspNetCore.Hosting;

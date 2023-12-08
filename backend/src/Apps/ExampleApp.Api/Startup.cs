@@ -1,18 +1,16 @@
 using ExampleApp.Api.Handlers;
-using ExampleApp.Core.Contracts;
-using ExampleApp.Core.Contracts.Projects;
-using ExampleApp.Core.Domain.Events;
-using ExampleApp.Core.Services;
-using ExampleApp.Core.Services.DataAccess;
-using ExampleApp.Core.Services.DataAccess.Serialization;
+using ExampleApp.Examples.Contracts;
+using ExampleApp.Examples.Services;
+using ExampleApp.Examples.Services.DataAccess;
+using ExampleApp.Examples.Services.DataAccess.Serialization;
 using LeanCode.AppRating;
 using LeanCode.AuditLogs;
 using LeanCode.AzureIdentity;
-using LeanCode.Components;
 using LeanCode.CQRS.AspNetCore;
 using LeanCode.CQRS.MassTransitRelay;
 using LeanCode.CQRS.MassTransitRelay.Middleware;
 using LeanCode.CQRS.Validation.Fluent;
+using LeanCode.Components;
 using LeanCode.Firebase.FCM;
 using LeanCode.ForceUpdate;
 using LeanCode.Localization;
@@ -36,9 +34,8 @@ namespace ExampleApp.Api;
 
 public class Startup : LeanStartup
 {
-    public static readonly TypesCatalog AllHandlers = new(typeof(CoreDbContext));
-    public static readonly TypesCatalog Api = new(typeof(CreateProject));
-    public static readonly TypesCatalog Domain = new(typeof(EmployeeAssignedToAssignment));
+    public static readonly TypesCatalog AllHandlers = new(typeof(ExamplesDbContext));
+    public static readonly TypesCatalog Api = new(typeof(PaginatedQuery<>));
 
     private readonly IWebHostEnvironment hostEnv;
 
@@ -52,7 +49,7 @@ public class Startup : LeanStartup
     {
         services
             .AddCQRS(Api, AllHandlers)
-            .AddAppRating<Guid, CoreDbContext, UserIdExtractor>()
+            .AddAppRating<Guid, ExamplesDbContext, UserIdExtractor>()
             .AddForceUpdate(
                 new AndroidVersionsConfiguration(new Version(1, 0), new Version(1, 1)),
                 new IOSVersionsConfiguration(new Version(1, 0), new Version(1, 1))
@@ -79,13 +76,13 @@ public class Startup : LeanStartup
 
         services.AddFluentValidation(AllHandlers);
         services.AddStringLocalizer(LocalizationConfiguration.For<Strings.Strings>());
-        services.AddFCM<Guid>(fcm => fcm.AddTokenStore<CoreDbContext>());
-        services.AddCoreServices(Config.PostgreSQL.ConnectionString(Configuration));
+        services.AddExamplesServices(Config.PostgreSQL.ConnectionString(Configuration));
+        services.AddFCM<Guid>(fcm => fcm.AddTokenStore<ExamplesDbContext>());
         services.AddApiServices(Configuration, hostEnv);
 
         services.AddCQRSMassTransitIntegration(cfg =>
         {
-            cfg.AddEntityFrameworkOutbox<CoreDbContext>(outboxCfg =>
+            cfg.AddEntityFrameworkOutbox<ExamplesDbContext>(outboxCfg =>
             {
                 outboxCfg.LockStatementProvider =
                     new LeanCode.CQRS.MassTransitRelay.LockProviders.CustomPostgresLockStatementProvider();
@@ -209,16 +206,16 @@ public class Startup : LeanStartup
                             c.CQRSTrace()
                                 .Secure()
                                 .Validate()
-                                .CommitTransaction<CoreDbContext>()
+                                .CommitTransaction<ExamplesDbContext>()
                                 .PublishEvents()
-                                .Audit<CoreDbContext>();
+                                .Audit<ExamplesDbContext>();
                         cqrs.Queries = c => c.CQRSTrace().Secure();
                         cqrs.Operations = c =>
                             c.CQRSTrace()
                                 .Secure()
-                                .CommitTransaction<CoreDbContext>()
+                                .CommitTransaction<ExamplesDbContext>()
                                 .PublishEvents()
-                                .Audit<CoreDbContext>();
+                                .Audit<ExamplesDbContext>();
                     }
                 );
 
@@ -242,9 +239,9 @@ public class DefaultConsumerDefinition<TConsumer> : ConsumerDefinition<TConsumer
         endpointConfigurator.UseMessageRetry(
             r => r.Immediate(1).Incremental(3, TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(5))
         );
-        endpointConfigurator.UseEntityFrameworkOutbox<CoreDbContext>(context);
+        endpointConfigurator.UseEntityFrameworkOutbox<ExamplesDbContext>(context);
         endpointConfigurator.UseDomainEventsPublishing(context);
-        endpointConfigurator.UseAuditLogs<CoreDbContext>(context);
+        endpointConfigurator.UseAuditLogs<ExamplesDbContext>(context);
     }
 }
 

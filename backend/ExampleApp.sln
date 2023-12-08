@@ -10,21 +10,21 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleApp.Api", "src\Apps\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleApp.Migrations", "src\Apps\ExampleApp.Migrations\ExampleApp.Migrations.csproj", "{2305ECFB-2633-4302-B230-A98526CF0398}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{FFD4BBED-969F-4D9F-92F6-3DB4179A1F7D}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{FFD4BBED-969F-4D9F-92F6-3DB4179A1F7D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleApp.Core.Contracts", "src\Core\ExampleApp.Core.Contracts\ExampleApp.Core.Contracts.csproj", "{57A94A2C-817B-4FC8-87F6-49935E8848E5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleApp.Examples.Contracts", "src\Examples\ExampleApp.Examples.Contracts\ExampleApp.Examples.Contracts.csproj", "{57A94A2C-817B-4FC8-87F6-49935E8848E5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleApp.Core.Domain", "src\Core\ExampleApp.Core.Domain\ExampleApp.Core.Domain.csproj", "{4E633ACD-ABFA-49FA-B5F0-77161252C10A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleApp.Examples.Domain", "src\Examples\ExampleApp.Examples.Domain\ExampleApp.Examples.Domain.csproj", "{4E633ACD-ABFA-49FA-B5F0-77161252C10A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleApp.Core.Services", "src\Core\ExampleApp.Core.Services\ExampleApp.Core.Services.csproj", "{EBF80889-FDB4-4617-8BF8-C0386BFB08D7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleApp.Examples.Services", "src\Examples\ExampleApp.Examples.Services\ExampleApp.Examples.Services.csproj", "{EBF80889-FDB4-4617-8BF8-C0386BFB08D7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{11830B13-B74F-422D-9732-A6190D50FA4E}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{296BCC53-8602-4B29-BAAE-9F19C219F272}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{296BCC53-8602-4B29-BAAE-9F19C219F272}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleApp.Core.Domain.Tests", "tests\Core\ExampleApp.Core.Domain.Tests\ExampleApp.Core.Domain.Tests.csproj", "{D23A2285-3BB9-4955-BC7C-1C959589D828}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleApp.Examples.Domain.Tests", "tests\Examples\ExampleApp.Examples.Domain.Tests\ExampleApp.Examples.Domain.Tests.csproj", "{D23A2285-3BB9-4955-BC7C-1C959589D828}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleApp.Core.Services.Tests", "tests\Core\ExampleApp.Core.Services.Tests\ExampleApp.Core.Services.Tests.csproj", "{77F32C87-67C4-4BDE-B398-0FC919502CA2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleApp.Examples.Services.Tests", "tests\Examples\ExampleApp.Examples.Services.Tests\ExampleApp.Examples.Services.Tests.csproj", "{77F32C87-67C4-4BDE-B398-0FC919502CA2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleApp.IntegrationTests", "tests\ExampleApp.IntegrationTests\ExampleApp.IntegrationTests.csproj", "{AD276279-92B3-4E8F-94A3-44AFFDD62A63}"
 EndProject
