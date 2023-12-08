@@ -1,0 +1,114 @@
+def isHotfix = BRANCH_NAME ==~ 'web-hotfix/.*'
+def isMaster = BRANCH_NAME == 'master'
+def isReleaseBuild = isMaster || isHotfix
+
+leancode.builder('exampleapp-web')
+    .withMonorepoTest(['web/apps/web', 'web/package-lock.json'])
+    .withNode([
+        version: '20',
+        requestCpu: '1',
+        limitCpu: '8',
+        requestMemory: '4Gi',
+        limitMemory: '16Gi'
+    ])
+    .withBuildKit()
+    .runOnSpot()
+    .run {
+
+    def scmVars
+
+    stage('Checkout') {
+        scmVars = safeCheckout scm
+    }
+
+    leancode.configureRepositories()
+
+    stage('Version') {
+        env.GIT_COMMIT = scmVars.GIT_COMMIT
+        env.BLUEBIRD_DEBUG = 0 // https://npm.community/t/npm-ci-produces-a-tonn-of-excess-warnings-on-install/3261
+        
+        if (isHotfix) {
+            gitUtils.fetch("master")
+            def mergeBase = sh(script: 'git merge-base HEAD origin/master', returnStdout: true).trim()
+            def baseTag = sh(script: "git describe --tags --exact-match --match='web-v*' ${mergeBase}", returnStdout: true).trim()
+            def baseVersion = baseTag.minus('web-v')
+            if (!baseVersion) {
+                error 'Cannot decode base version'
+            }
+
+            def hotfixName = isHotfix ? (BRANCH_NAME =~ 'web-hotfix/(.*)')[0][1] : ''
+            def hotfixVersion = nextBuildNumber(hotfixName.replace('/', '_').replace('-', '_'))
+            env.APP_VERSION = "${baseVersion}-${hotfixName}-${hotfixVersion}"
+            currentBuild.displayName = "v${env.APP_VERSION}"
+        } else if (isMaster) {
+            env.APP_VERSION = "0.0.${nextBuildNumber()}"
+            currentBuild.displayName = "v${env.APP_VERSION}"
+        } else {
+            env.APP_VERSION = "0.0.0"
+        }
+
+        echo "Building version: ${env.APP_VERSION}"
+    }
+
+    dir('web') {
+        container('node') {
+
+            stage('Install') {
+                sh 'npm ci --legacy-peer-deps'
+            }
+
+            stage('Format check') {
+                sh 'npx nx format:check --base=origin/master'
+                sh 'npx nx run web:lint'
+            }
+
+            stage('Test') {
+                sh 'npx nx run web:test'
+            }
+
+            stage('Build') {
+                sh 'npx nx run web:build:production'
+            }
+        }
+
+        stage('Push containers') {
+            when (isReleaseBuild) {
+                leancode.withACR {
+                    sh """
+                        buildctl build \
+                            --frontend dockerfile.v0 \
+                            --local context=. \
+                            --local dockerfile=./cms/release \
+                            --output type=image,name="${leancode.ACR()}/exampleapp-web:$APP_VERSION",push=true
+                    """
+                }
+            }
+        }
+    }
+
+    dir('web/apps/web/release') {
+        stage('Deploy to test') {
+            when (isMaster) {
+                withCredentials([usernamePassword(credentialsId: 'github-app',
+                                                  usernameVariable: 'GITHUB_APP',
+                                                  passwordVariable: 'GITHUB_ACCESS_TOKEN')]) {
+                        sh '''
+                            git config --global user.email "jenkins@leancode.pl"
+                            git config --global user.name "Jenkins"
+                            git clone "https://x-access-token:${GITHUB_ACCESS_TOKEN}@github.com/leancodepl/exampleapp-deployment.git"
+                            cd exampleapp-deployment/apps/exampleapp-web/test
+                            kustomize edit set image exampleapp-web="*:${APP_VERSION}"
+                            git add -A
+                            git commit -m "Update ExampleApp web version to $APP_VERSION"
+                            git push
+                        '''
+                }
+            }
+        }
+
+        stage('Write artifacts') {
+            relatedBuild.writeAsArtifact "$APP_VERSION", 'APP_VERSION'
+            relatedBuild.writeAsArtifact "$GIT_COMMIT", 'GIT_COMMIT'
+        }
+    }
+}
