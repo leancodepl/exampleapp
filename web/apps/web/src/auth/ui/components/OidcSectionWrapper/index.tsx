@@ -7,7 +7,7 @@ type OidcSectionWrapperProps = {
 
 export function OidcSectionWrapper({ children }: OidcSectionWrapperProps) {
     return (
-        <Box gap="small" direction="column">
+        <Box direction="column" gap="small">
             {children}
         </Box>
     );

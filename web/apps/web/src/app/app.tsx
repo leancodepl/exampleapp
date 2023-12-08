@@ -4,11 +4,11 @@ import { LoggedInGuard } from "../components/auth/LoggedInGuard";
 import { NotLoggedInGuard } from "../components/auth/NotLoggedInGuard";
 import { SplashScreen } from "../components/common/SplashScreen";
 import { UnauthenticatedLayout } from "../components/common/UnauthenticatedLayout";
+import { loginRoute, recoveryRoute, registerRoute, verificationRoute } from "../kratosRoutes";
 import { LoginPage } from "../pages/login";
 import { RecoveryPage } from "../pages/recovery";
 import { RegisterPage } from "../pages/register";
 import { VerificationPage } from "../pages/verification";
-import { loginRoute, recoveryRoute, registerRoute, verificationRoute } from "../kratosRoutes";
 
 export function App() {
     return (

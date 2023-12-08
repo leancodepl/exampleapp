@@ -1,13 +1,13 @@
 import { Layout } from "antd";
 import styled from "styled-components";
 
-const { Sider, Content } = Layout;
+const { Content } = Layout;
 
 export const LayoutWrapper = styled(Layout)`
     height: 100%;
 `;
 
-export const SiderWrapper = styled(Sider)`
+export const SiderWrapper = styled.div`
     .ant-layout-sider-children {
         display: flex;
         flex-direction: column;

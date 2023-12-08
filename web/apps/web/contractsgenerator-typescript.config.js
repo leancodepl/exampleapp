@@ -1,5 +1,5 @@
 const preamble = `
-/*eslint-disable import/no-anonymous-default-export, unused-imports/no-unused-vars-ts, @typescript-eslint/no-unused-vars, @typescript-eslint/ban-types, @typescript-eslint/no-empty-interface, @typescript-eslint/no-namespace, @nrwl/nx/enforce-module-boundaries*/
+/*eslint-disable import/no-anonymous-default-export, unused-imports/no-unused-vars-ts, @typescript-eslint/no-unused-vars, @typescript-eslint/ban-types, @typescript-eslint/no-empty-interface, @typescript-eslint/no-namespace, @nx/enforce-module-boundaries, @typescript-eslint/no-explicit-any*/
 import type { ApiDateTimeOffset } from "@leancodepl/api-date-datefns"
 import type { ReactQueryCqrs as CQRS } from ".";
 
