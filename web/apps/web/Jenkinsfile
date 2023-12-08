@@ -78,7 +78,7 @@ leancode.builder('exampleapp-web')
                         buildctl build \
                             --frontend dockerfile.v0 \
                             --local context=. \
-                            --local dockerfile=./cms/release \
+                            --local dockerfile=./apps/web/release \
                             --output type=image,name="${leancode.ACR()}/exampleapp-web:$APP_VERSION",push=true
                     """
                 }
