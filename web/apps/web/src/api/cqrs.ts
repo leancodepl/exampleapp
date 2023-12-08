@@ -1,4 +1,4 @@
-/*eslint-disable import/no-anonymous-default-export, unused-imports/no-unused-vars-ts, @typescript-eslint/no-unused-vars, @typescript-eslint/ban-types, @typescript-eslint/no-empty-interface, @typescript-eslint/no-namespace, @nrwl/nx/enforce-module-boundaries, @typescript-eslint/no-explicit-any*/
+/*eslint-disable import/no-anonymous-default-export, unused-imports/no-unused-vars-ts, @typescript-eslint/no-unused-vars, @typescript-eslint/ban-types, @typescript-eslint/no-empty-interface, @typescript-eslint/no-namespace, @nx/enforce-module-boundaries, @typescript-eslint/no-explicit-any*/
 import type { ApiDateTimeOffset } from "@leancodepl/api-date-datefns"
 import type { ReactQueryCqrs as CQRS } from ".";
 
@@ -342,29 +342,29 @@ export enum ForceUpdateVersionSupportResultDTO {
 }
 export default function (cqrsClient: CQRS) {
     return {
-        AssignmentEmployerEmbed: cqrsClient.createQuery<AssignmentEmployerEmbed, string>("ExampleApp.Core.Contracts.Dashboards.AssignmentEmployerEmbed"),
-        AllEmployees: cqrsClient.createQuery<AllEmployees, EmployeeDTO[]>("ExampleApp.Core.Contracts.Employees.AllEmployees"),
-        CreateEmployee: cqrsClient.createCommand<CreateEmployee, CreateEmployee.ErrorCodes>("ExampleApp.Core.Contracts.Employees.CreateEmployee", CreateEmployee.ErrorCodes),
-        AddNotificationToken: cqrsClient.createCommand<AddNotificationToken, AddNotificationToken.ErrorCodes>("ExampleApp.Core.Contracts.Firebase.AddNotificationToken", AddNotificationToken.ErrorCodes),
-        RemoveNotificationToken: cqrsClient.createCommand<RemoveNotificationToken, RemoveNotificationToken.ErrorCodes>("ExampleApp.Core.Contracts.Firebase.RemoveNotificationToken", RemoveNotificationToken.ErrorCodes),
-        SendCustomNotification: cqrsClient.createCommand<SendCustomNotification, SendCustomNotification.ErrorCodes>("ExampleApp.Core.Contracts.Firebase.SendCustomNotification", SendCustomNotification.ErrorCodes),
-        SearchIdentities: cqrsClient.createQuery<SearchIdentities, PaginatedResult<KratosIdentityDTO>>("ExampleApp.Core.Contracts.Identities.SearchIdentities"),
-        AddAssignmentsToProject: cqrsClient.createCommand<AddAssignmentsToProject, AddAssignmentsToProject.ErrorCodes>("ExampleApp.Core.Contracts.Projects.AddAssignmentsToProject", AddAssignmentsToProject.ErrorCodes),
-        AllProjects: cqrsClient.createQuery<AllProjects, ProjectDTO[]>("ExampleApp.Core.Contracts.Projects.AllProjects"),
-        AllProjectsAdmin: cqrsClient.createQuery<AllProjectsAdmin, AdminQueryResult<AdminProjectDTO>>("ExampleApp.Core.Contracts.Projects.AllProjectsAdmin"),
-        AssignEmployeeToAssignment: cqrsClient.createCommand<AssignEmployeeToAssignment, AssignEmployeeToAssignment.ErrorCodes>("ExampleApp.Core.Contracts.Projects.AssignEmployeeToAssignment", AssignEmployeeToAssignment.ErrorCodes),
-        CreateProject: cqrsClient.createCommand<CreateProject, CreateProject.ErrorCodes>("ExampleApp.Core.Contracts.Projects.CreateProject", CreateProject.ErrorCodes),
+        AssignmentEmployerEmbed: cqrsClient.createQuery<AssignmentEmployerEmbed, string>("ExampleApp.Examples.Contracts.Dashboards.AssignmentEmployerEmbed"),
+        AllEmployees: cqrsClient.createQuery<AllEmployees, EmployeeDTO[]>("ExampleApp.Examples.Contracts.Employees.AllEmployees"),
+        CreateEmployee: cqrsClient.createCommand<CreateEmployee, CreateEmployee.ErrorCodes>("ExampleApp.Examples.Contracts.Employees.CreateEmployee", CreateEmployee.ErrorCodes),
+        AddNotificationToken: cqrsClient.createCommand<AddNotificationToken, AddNotificationToken.ErrorCodes>("ExampleApp.Examples.Contracts.Firebase.AddNotificationToken", AddNotificationToken.ErrorCodes),
+        RemoveNotificationToken: cqrsClient.createCommand<RemoveNotificationToken, RemoveNotificationToken.ErrorCodes>("ExampleApp.Examples.Contracts.Firebase.RemoveNotificationToken", RemoveNotificationToken.ErrorCodes),
+        SendCustomNotification: cqrsClient.createCommand<SendCustomNotification, SendCustomNotification.ErrorCodes>("ExampleApp.Examples.Contracts.Firebase.SendCustomNotification", SendCustomNotification.ErrorCodes),
+        SearchIdentities: cqrsClient.createQuery<SearchIdentities, PaginatedResult<KratosIdentityDTO>>("ExampleApp.Examples.Contracts.Identities.SearchIdentities"),
+        AddAssignmentsToProject: cqrsClient.createCommand<AddAssignmentsToProject, AddAssignmentsToProject.ErrorCodes>("ExampleApp.Examples.Contracts.Projects.AddAssignmentsToProject", AddAssignmentsToProject.ErrorCodes),
+        AllProjects: cqrsClient.createQuery<AllProjects, ProjectDTO[]>("ExampleApp.Examples.Contracts.Projects.AllProjects"),
+        AllProjectsAdmin: cqrsClient.createQuery<AllProjectsAdmin, AdminQueryResult<AdminProjectDTO>>("ExampleApp.Examples.Contracts.Projects.AllProjectsAdmin"),
+        AssignEmployeeToAssignment: cqrsClient.createCommand<AssignEmployeeToAssignment, AssignEmployeeToAssignment.ErrorCodes>("ExampleApp.Examples.Contracts.Projects.AssignEmployeeToAssignment", AssignEmployeeToAssignment.ErrorCodes),
+        CreateProject: cqrsClient.createCommand<CreateProject, CreateProject.ErrorCodes>("ExampleApp.Examples.Contracts.Projects.CreateProject", CreateProject.ErrorCodes),
         EmployeeAssignmentsTopic: cqrsClient.createTopic<EmployeeAssignmentsTopic, {
-            "ExampleApp.Core.Contracts.Projects.EmployeeAssignedToProjectAssignmentDTO": EmployeeAssignedToProjectAssignmentDTO;
-            "ExampleApp.Core.Contracts.Projects.EmployeeUnassignedFromProjectAssignmentDTO": EmployeeUnassignedFromProjectAssignmentDTO;
-        }>("ExampleApp.Core.Contracts.Projects.EmployeeAssignmentsTopic"),
-        ProjectDetails: cqrsClient.createQuery<ProjectDetails, ProjectDetailsDTO | null | undefined>("ExampleApp.Core.Contracts.Projects.ProjectDetails"),
+            "ExampleApp.Examples.Contracts.Projects.EmployeeAssignedToProjectAssignmentDTO": EmployeeAssignedToProjectAssignmentDTO;
+            "ExampleApp.Examples.Contracts.Projects.EmployeeUnassignedFromProjectAssignmentDTO": EmployeeUnassignedFromProjectAssignmentDTO;
+        }>("ExampleApp.Examples.Contracts.Projects.EmployeeAssignmentsTopic"),
+        ProjectDetails: cqrsClient.createQuery<ProjectDetails, ProjectDetailsDTO | null | undefined>("ExampleApp.Examples.Contracts.Projects.ProjectDetails"),
         ProjectEmployeesAssignmentsTopic: cqrsClient.createTopic<ProjectEmployeesAssignmentsTopic, {
-            "ExampleApp.Core.Contracts.Projects.EmployeeAssignedToAssignmentDTO": EmployeeAssignedToAssignmentDTO;
-            "ExampleApp.Core.Contracts.Projects.EmployeeUnassignedFromAssignmentDTO": EmployeeUnassignedFromAssignmentDTO;
-        }>("ExampleApp.Core.Contracts.Projects.ProjectEmployeesAssignmentsTopic"),
-        UnassignEmployeeFromAssignment: cqrsClient.createCommand<UnassignEmployeeFromAssignment, UnassignEmployeeFromAssignment.ErrorCodes>("ExampleApp.Core.Contracts.Projects.UnassignEmployeeFromAssignment", UnassignEmployeeFromAssignment.ErrorCodes),
-        DeleteOwnAccount: cqrsClient.createCommand<DeleteOwnAccount, {}>("ExampleApp.Core.Contracts.Users.DeleteOwnAccount", {}),
+            "ExampleApp.Examples.Contracts.Projects.EmployeeAssignedToAssignmentDTO": EmployeeAssignedToAssignmentDTO;
+            "ExampleApp.Examples.Contracts.Projects.EmployeeUnassignedFromAssignmentDTO": EmployeeUnassignedFromAssignmentDTO;
+        }>("ExampleApp.Examples.Contracts.Projects.ProjectEmployeesAssignmentsTopic"),
+        UnassignEmployeeFromAssignment: cqrsClient.createCommand<UnassignEmployeeFromAssignment, UnassignEmployeeFromAssignment.ErrorCodes>("ExampleApp.Examples.Contracts.Projects.UnassignEmployeeFromAssignment", UnassignEmployeeFromAssignment.ErrorCodes),
+        DeleteOwnAccount: cqrsClient.createCommand<DeleteOwnAccount, {}>("ExampleApp.Examples.Contracts.Users.DeleteOwnAccount", {}),
         RatingAlreadySent: cqrsClient.createQuery<RatingAlreadySent, boolean>("LeanCode.AppRating.Contracts.RatingAlreadySent"),
         SubmitAppRating: cqrsClient.createCommand<SubmitAppRating, SubmitAppRating.ErrorCodes>("LeanCode.AppRating.Contracts.SubmitAppRating", SubmitAppRating.ErrorCodes),
         ForceUpdateVersionSupport: cqrsClient.createQuery<ForceUpdateVersionSupport, ForceUpdateVersionSupportDTO>("LeanCode.ForceUpdate.Contracts.VersionSupport")

@@ -25,7 +25,7 @@ module.exports = {
         },
         input: {
             base: "../../../backend/src",
-            project: ["Core/ExampleApp.Core.Contracts/ExampleApp.Core.Contracts.csproj"],
+            project: ["Examples/ExampleApp.Examples.Contracts/ExampleApp.Examples.Contracts.csproj"],
         },
         nameTransform: nameWithNamespace => {
             const nameParts = nameWithNamespace.split(".");
