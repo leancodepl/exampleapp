@@ -1,4 +1,5 @@
-# Add files here to ignore them from prettier formatting
 /dist
 /coverage
 /.nx/cache
+/apps/web/src/api/api-components-schema.ts
+/apps/web/src/api/cqrs.ts

@@ -8,4 +8,3 @@ export const environment = new Proxy({} as Environment, {
         throw new Error("You can't use unknown environment configuration. Please check you config.");
     },
 });
-
