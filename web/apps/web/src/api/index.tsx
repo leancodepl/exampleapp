@@ -31,7 +31,7 @@ const cqrsClientConfig = {
 const mkApiClient = { ...mkCqrsClient(cqrsClientConfig), createTopic: () => void 0 } as ReturnType<
     typeof mkCqrsClient
 > & {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars, unused-imports/no-unused-vars
     createTopic: <TTopic, TNotifications extends Record<string, unknown>>(endpoint: string) => unknown;
 };
 

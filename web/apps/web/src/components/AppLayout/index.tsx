@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
+import { Layout } from "antd";
 import { NavMenu } from "./NavMenu";
 import { ContentWrapper, LayoutWrapper } from "./styles";
-import { Layout } from "antd";
 
 const { Sider } = Layout;
 
