@@ -46,8 +46,9 @@ module "app_config" {
 
         "Metabase__Url"       = "https://${kubernetes_ingress_v1.metabase_ingress.spec[0].rule[0].host}"
         "Metabase__SecretKey" = random_password.metabase_embedding_key.result
-
+        //#if Example
         "Metabase__AssignmentEmployerEmbedQuestion" = 1
+        //#endif
       })
     }
     "exampleapp-migrations-secret" = {

@@ -40,8 +40,15 @@ data "kubernetes_namespace_v1" "main" {
 }
 
 locals {
-  project             = "exampleapp"
-  azure_resource_name = "lncd-${local.project}-${var.environment}" # prefix to avoid resource FQDN collisions
+  project = "exampleapp"
+
+  azure_resource_name = join("-", [
+    //#if Example
+    "lncd", # prefix to avoid resource FQDN collisions
+    //#endif
+    local.project,
+    var.environment
+  ])
 
   tags = {
     project     = local.project
