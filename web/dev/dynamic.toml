@@ -14,9 +14,6 @@
   [http.services.local.loadBalancer]
     [[http.services.local.loadBalancer.servers]]
       url = "http://host.docker.internal:4200/"
-  [http.services.landing.loadBalancer]
-    [[http.services.landing.loadBalancer.servers]]
-      url = "http://host.docker.internal:4201/"
 
 [http.middlewares]
   [http.middlewares.redirecthttps.redirectScheme]
