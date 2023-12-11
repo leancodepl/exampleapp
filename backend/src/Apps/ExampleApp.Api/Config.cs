@@ -1,12 +1,12 @@
-#if Example
-using ExampleApp.Examples.Services.Configuration;
-#endif
 using LeanCode.AppRating.Configuration;
 using LeanCode.Firebase;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog.Events;
+#if Example
+using ExampleApp.Examples.Services.Configuration;
+#endif
 
 namespace ExampleApp.Api;
 

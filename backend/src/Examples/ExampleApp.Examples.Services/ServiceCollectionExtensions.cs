@@ -1,18 +1,16 @@
 using Azure.Core;
-#if Example
-using ExampleApp.Examples.Domain.Employees;
-using ExampleApp.Examples.Domain.Projects;
-#endif
 using ExampleApp.Examples.Services.DataAccess;
-#if Example
-using ExampleApp.Examples.Services.DataAccess.Repositories;
-#endif
 using ExampleApp.Examples.Services.DataAccess.Serialization;
 using LeanCode.DomainModels.DataAccess;
 using LeanCode.Npgsql.ActiveDirectory;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Npgsql;
+#if Example
+using ExampleApp.Examples.Domain.Employees;
+using ExampleApp.Examples.Domain.Projects;
+using ExampleApp.Examples.Services.DataAccess.Repositories;
+#endif
 
 namespace ExampleApp.Examples.Services;
 

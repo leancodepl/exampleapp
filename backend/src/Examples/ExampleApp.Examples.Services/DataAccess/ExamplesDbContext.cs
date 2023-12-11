@@ -1,8 +1,4 @@
 using System.Text.Json;
-#if Example
-using ExampleApp.Examples.Domain.Employees;
-using ExampleApp.Examples.Domain.Projects;
-#endif
 using ExampleApp.Examples.Services.DataAccess.Entities;
 using LeanCode.AppRating.DataAccess;
 using LeanCode.DomainModels.EF;
@@ -11,6 +7,10 @@ using LeanCode.Firebase.FCM;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+#if Example
+using ExampleApp.Examples.Domain.Employees;
+using ExampleApp.Examples.Domain.Projects;
+#endif
 
 namespace ExampleApp.Examples.Services.DataAccess;
 
@@ -55,7 +55,7 @@ public class ExamplesDbContext : DbContext, IAppRatingStore<Guid>
 #endif
 
 #if !Example
-    /*
+        /*
 #endif
         static PropertiesConfigurationBuilder<TId> ConfigureId<TId>(ModelConfigurationBuilder configurationBuilder)
             where TId : struct, IPrefixedTypedId<TId>
