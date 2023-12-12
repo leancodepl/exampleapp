@@ -9,14 +9,10 @@ import { UiMessages } from "./components/UiMessages";
 
 export const kratosComponents: Partial<KratosComponents> = {
     MessageFormat: MessageFormat,
-    /*Image: undefined,*/
     Text: TextComponent,
-    /*Link: undefined,*/
     Input: InputComponent,
     Button: ButtonComponent,
     Checkbox: CheckboxComponent,
-    /*Message: undefined,*/
     UiMessages,
-
     OidcSectionWrapper,
 };

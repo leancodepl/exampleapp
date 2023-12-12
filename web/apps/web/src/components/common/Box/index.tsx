@@ -1,13 +1,19 @@
-import { isString } from "lodash";
-import styled from "styled-components";
-import { theme } from "../../../_styling/theme";
-
-type Spacing = keyof typeof theme.spacing;
+import { Spacing } from "apps/web/src/_styling/theme";
+import styled, { css } from "styled-components";
 
 type Direction = "row" | "column" | "row-reverse" | "column-reverse";
 type Alignment = "baseline" | "center" | "end" | "start" | "stretch";
 type Justify = "flex-start" | "flex-end" | "center" | "space-between" | "space-around" | "space-evenly";
-type Padding = Spacing | { x?: Spacing; y?: Spacing; top?: Spacing; right?: Spacing; bottom?: Spacing; left?: Spacing };
+type Padding =
+    | Spacing
+    | {
+          x?: Spacing;
+          y?: Spacing;
+          top?: Spacing;
+          right?: Spacing;
+          bottom?: Spacing;
+          left?: Spacing;
+      };
 type Wrap = "wrap" | "wrap-reverse";
 
 export type BoxProps = {
@@ -23,7 +29,7 @@ export const Box = styled.div<BoxProps>`
     display: flex;
     flex-direction: ${({ direction }) => direction};
     flex-wrap: ${({ wrap }) => wrap};
-    gap: ${({ gap }) => gap && theme.spacing[gap]};
+    gap: ${({ gap, theme }) => gap && theme.spacing[gap]};
     align-items: ${({ align }) => align};
     justify-content: ${({ justify }) => justify};
     padding: ${({ padding }) => padding && cssPadding(padding)};
@@ -39,8 +45,10 @@ const cssPadding = (padding?: Padding) => {
     let bottom: Spacing | undefined = undefined;
     let left: Spacing | undefined = undefined;
 
-    if (isString(padding)) {
-        return theme.spacing[padding];
+    if (typeof padding === "string") {
+        return css`
+            padding: ${({ theme }) => theme.spacing[padding]};
+        `;
     } else {
         top = padding.top ?? padding.y;
         right = padding.right ?? padding.x;
@@ -48,12 +56,10 @@ const cssPadding = (padding?: Padding) => {
         left = padding.left ?? padding.x;
     }
 
-    const paddings = [
-        (top && theme.spacing[top]) || 0,
-        (right && theme.spacing[right]) || 0,
-        (bottom && theme.spacing[bottom]) || 0,
-        (left && theme.spacing[left]) || 0,
-    ];
+    const paddings = [top || 0, right || 0, bottom || 0, left || 0];
 
-    return paddings.join(" ");
+    return css`
+        padding: ${({ theme }) =>
+            paddings.map(padding => (typeof padding === "number" ? padding : theme.spacing[padding])).join(" ")};
+    `;
 };

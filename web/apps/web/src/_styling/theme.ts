@@ -22,7 +22,8 @@ export const theme = {
     },
 } as const;
 
-type Theme = typeof theme;
+export type Theme = typeof theme;
+export type Spacing = keyof Theme["spacing"];
 
 declare module "styled-components" {
     // eslint-disable-next-line @typescript-eslint/no-empty-interface
