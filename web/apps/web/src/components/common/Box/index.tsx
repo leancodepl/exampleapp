@@ -1,4 +1,4 @@
-import { Spacing } from "apps/web/src/_styling/theme";
+import { Spacing } from "_styling/theme";
 import styled, { css } from "styled-components";
 
 type Direction = "row" | "column" | "row-reverse" | "column-reverse";
