@@ -1,11 +1,11 @@
 import { useCallback } from "react";
-import { RegistrationCard, useRegisterFlow } from "@leancodepl/kratos";
+import { RegistrationCard, flowIdParameterName, useRegisterFlow } from "@leancodepl/kratos";
 import { Typography, Spin, Space, Divider } from "antd";
 import { FormattedMessage } from "react-intl";
 import { Link } from "react-router-dom";
 import { kratosClient } from "../../../auth";
 import { sessionManager } from "../../../auth/sessionManager";
-import { loginRoute, registerRoute } from "../../../kratosRoutes";
+import { loginRoute, registerRoute, verificationRoute } from "../../../kratosRoutes";
 import { Box } from "../../common/Box";
 import { CardTitle } from "../_common/MarginlessTitle";
 
@@ -16,6 +16,13 @@ export function Register() {
         onSessionAlreadyAvailable: useCallback(() => {
             sessionManager.checkIfLoggedIn();
         }, []),
+        onContinueWith: continueWith => {
+            if (continueWith[0]?.action === "show_verification_ui") {
+                const url = new URL(verificationRoute, window.location.origin);
+                url.searchParams.set(flowIdParameterName, continueWith[0].flow.id);
+                window.location.href = url.toString();
+            }
+        },
     });
 
     if (isRegistered) {
