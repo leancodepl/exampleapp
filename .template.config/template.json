@@ -107,6 +107,17 @@
           "text": "Run 'dotnet restore'"
         }
       ]
+    },
+    {
+      "actionId": "CB9A6CF3-4F5C-4860-B9D2-03A574959774",
+      "args": {
+        "+x": ["./backend/dev/*/*.sh", "./dev-cluster/*.sh"]
+      },
+      "manualInstructions": [
+        {
+          "text": "Run 'chmod +x ./backend/dev/*/*.sh ./dev-cluster/*.sh'"
+        }
+      ]
     }
   ]
 }

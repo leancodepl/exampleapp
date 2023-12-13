@@ -18,6 +18,7 @@ leancode.builder('exampleapp-template')
                 dotnet new install .
                 cd "$(mktemp -d)"
                 dotnet new create lncdproj --output . --allow-scripts Yes --project-name NewProject --context Primary
+                find -type f -name '*.sh' ! -executable -print -exec false '{}' +
                 dotnet build ./backend
             '''
         }
