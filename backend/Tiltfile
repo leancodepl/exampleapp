@@ -34,7 +34,7 @@ local_resource(
 
 local_resource(
   'build-tests',
-  'dotnet publish -o dev/out/tests tests/ExampleApp.Tests.csproj',
+  'dotnet publish -o dev/out/tests tests/ExampleApp.Tests.sln',
   dir='.',
   deps=['src', 'tests', 'ExampleApp.sln', 'Directory.Build.targets'],
   ignore=['**/obj', '**/bin'],
