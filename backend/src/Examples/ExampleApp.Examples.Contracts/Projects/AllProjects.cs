@@ -1,3 +1,4 @@
+#if Example
 using LeanCode.Contracts;
 using LeanCode.Contracts.Security;
 
@@ -14,3 +15,4 @@ public class ProjectDTO
     public string Id { get; set; }
     public string Name { get; set; }
 }
+#endif

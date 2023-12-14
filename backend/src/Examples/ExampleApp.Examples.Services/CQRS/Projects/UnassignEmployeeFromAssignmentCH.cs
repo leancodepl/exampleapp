@@ -1,3 +1,4 @@
+#if Example
 using ExampleApp.Examples.Contracts.Projects;
 using ExampleApp.Examples.Domain.Projects;
 using ExampleApp.Examples.Services.DataAccess;
@@ -75,3 +76,4 @@ public class UnassignEmployeeFromAssignmentCH : ICommandHandler<UnassignEmployee
         );
     }
 }
+#endif

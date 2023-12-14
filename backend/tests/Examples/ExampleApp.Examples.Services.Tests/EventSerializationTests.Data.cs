@@ -1,20 +1,24 @@
 using System.Collections.Immutable;
 using System.Reflection;
 using System.Text.Json;
-using ExampleApp.Examples.Domain.Employees;
-using ExampleApp.Examples.Domain.Events;
-using ExampleApp.Examples.Domain.Projects;
 using ExampleApp.Examples.Services.DataAccess.Serialization;
 using ExampleApp.Examples.Services.Processes.Kratos;
 using LeanCode.Kratos.Model;
+#if Example
+using ExampleApp.Examples.Domain.Employees;
+using ExampleApp.Examples.Domain.Events;
+using ExampleApp.Examples.Domain.Projects;
+#endif
 
 namespace ExampleApp.Examples.Services.Tests;
 
 public partial class EventSerializationTests
 {
+#if Example
     private static readonly AssignmentId AssignmentId = AssignmentId.New();
     private static readonly EmployeeId EmployeeId = EmployeeId.New();
     private static readonly ProjectId ProjectId = ProjectId.New();
+#endif
     private static readonly Guid Guid = Guid.NewGuid();
     private static readonly DateTime DateTime = DateTime.UtcNow;
     private static readonly Identity KratosIdentity =
@@ -59,15 +63,19 @@ public partial class EventSerializationTests
 
     private static readonly ImmutableArray<object> Events =
     [
+#if Example
         new EmployeeAssignedToAssignment(Guid, DateTime, ProjectId, AssignmentId, EmployeeId, null),
         new EmployeeUnassignedFromAssignment(Guid, DateTime, ProjectId, AssignmentId, null),
+#endif
         new KratosIdentityUpdated(Guid, DateTime, KratosIdentity),
         new KratosIdentityDeleted(Guid, DateTime, Guid),
     ];
 
     private static readonly ImmutableHashSet<Assembly> Assemblies =
     [
+#if Example
         typeof(Employee).Assembly,
+#endif
         typeof(DataAccess.ExamplesDbContext).Assembly,
     ];
 

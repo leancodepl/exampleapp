@@ -1,3 +1,4 @@
+#if Example
 using ExampleApp.Examples.Contracts.Projects;
 using ExampleApp.Examples.Domain.Employees;
 using ExampleApp.Examples.Domain.Projects;
@@ -103,3 +104,4 @@ public class AssignEmployeeToAssignmentCH : ICommandHandler<AssignEmployeeToAssi
         );
     }
 }
+#endif

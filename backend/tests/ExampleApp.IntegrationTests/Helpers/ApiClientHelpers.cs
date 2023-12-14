@@ -1,8 +1,8 @@
 using System.Linq.Expressions;
 using FluentAssertions;
-using LeanCode.CQRS.RemoteHttp.Client;
 using LeanCode.Contracts;
 using LeanCode.Contracts.Validation;
+using LeanCode.CQRS.RemoteHttp.Client;
 
 namespace ExampleApp.IntegrationTests.Helpers;
 

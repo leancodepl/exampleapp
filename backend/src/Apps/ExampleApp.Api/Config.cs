@@ -1,10 +1,12 @@
-using ExampleApp.Examples.Services.Configuration;
 using LeanCode.AppRating.Configuration;
 using LeanCode.Firebase;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog.Events;
+#if Example
+using ExampleApp.Examples.Services.Configuration;
+#endif
 
 namespace ExampleApp.Api;
 
@@ -113,7 +115,9 @@ public static class Config
         services.AddSingleton(new LeanCode.Kratos.KratosWebHookHandlerConfig(Kratos.WebhookApiKey(config)));
         services.AddSingleton(FirebaseConfiguration.Prepare(Google.ApiKey(config), Guid.NewGuid().ToString()));
 
+#if Example
         services.Configure<MetabaseConfiguration>(config.GetSection("Metabase"));
+#endif
 
         services.Configure<LeanCode.ConfigCat.ConfigCatOptions>(config.GetSection("ConfigCat"));
 

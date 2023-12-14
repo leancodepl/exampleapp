@@ -1,0 +1,19 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003"
+  InitialTargets="CleanupEmptyFilesAndDirectories;FormatBackendCode;CleanupSelf">
+
+  <Target Name="CleanupEmptyFilesAndDirectories">
+    <Exec Command="find -type f -name '*.cs' -empty -delete" WorkingDirectory="$(MSBuildThisFileDirectory)backend" />
+    <Exec Command="find -type d -empty -delete" WorkingDirectory="$(MSBuildThisFileDirectory)backend" />
+  </Target>
+
+  <Target Name="FormatBackendCode">
+    <Exec Command="dotnet tool restore" WorkingDirectory="$(MSBuildThisFileDirectory)backend" />
+    <Exec Command="dotnet tool run dotnet-format ." WorkingDirectory="$(MSBuildThisFileDirectory)backend" />
+    <Exec Command="dotnet tool run dotnet-csharpier ." WorkingDirectory="$(MSBuildThisFileDirectory)backend" />
+  </Target>
+
+  <Target Name="CleanupSelf">
+    <Delete Files="$(MSBuildThisFileFullPath)" />
+  </Target>
+
+</Project>

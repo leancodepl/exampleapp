@@ -1,3 +1,4 @@
+#if Example
 using ExampleApp.Examples.Domain.Employees;
 using ExampleApp.Examples.Domain.Events;
 using LeanCode.DomainModels.Ids;
@@ -59,3 +60,4 @@ public class Project : IAggregateRoot<ProjectId>
         assignments.Single(t => t.Id == assignmentId).ChangeStatus(status);
     }
 }
+#endif

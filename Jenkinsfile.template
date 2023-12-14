@@ -1,0 +1,26 @@
+leancode.builder('exampleapp-template')
+    .withMonorepoTest(['backend', 'dev-cluster', 'infrastructure', '.template.config', 'FinalizeTemplate.proj', 'Jenkinsfile.template'])
+    .withDotnet([version: '8.0', image: 'mcr.microsoft.com/dotnet/sdk'])
+    .runOnSpot()
+    .run {
+
+    def scmVars
+
+    stage('Checkout') {
+        scmVars = safeCheckout scm
+    }
+
+    leancode.configureRepositories()
+
+    stage('Create new project from template') {
+        container('dotnet') {
+            sh '''
+                dotnet new install .
+                cd "$(mktemp -d)"
+                dotnet new create lncdproj --output . --allow-scripts Yes --project-name NewProject --context Primary
+                find -type f -name '*.sh' ! -executable -print -exec false '{}' +
+                dotnet build ./backend
+            '''
+        }
+    }
+}

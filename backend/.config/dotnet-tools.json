@@ -3,9 +3,15 @@
   "isRoot": true,
   "tools": {
     "csharpier": {
-      "version": "0.26.4",
+      "version": "0.26.5",
       "commands": [
         "dotnet-csharpier"
+      ]
+    },
+    "dotnet-format": {
+      "version": "5.1.250801",
+      "commands": [
+        "dotnet-format"
       ]
     }
   }

@@ -44,7 +44,7 @@ internal static class ApiModule
                 options.ClaimsExtractor = (s, o, c) =>
                 {
                     c.Add(new(o.RoleClaimType, Roles.User)); // every identity is a valid User
-
+#if Example
                     if (
                         s.Identity
                             .VerifiableAddresses
@@ -58,6 +58,7 @@ internal static class ApiModule
                     {
                         c.Add(new(o.RoleClaimType, Roles.Admin));
                     }
+#endif
                 };
             });
 

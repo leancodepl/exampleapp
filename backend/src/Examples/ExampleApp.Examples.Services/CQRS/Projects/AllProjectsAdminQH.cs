@@ -1,8 +1,9 @@
+#if Example
 using ExampleApp.Examples.Contracts.Projects;
 using ExampleApp.Examples.Domain.Projects;
 using ExampleApp.Examples.Services.DataAccess;
-using LeanCode.CQRS.Execution;
 using LeanCode.Contracts.Admin;
+using LeanCode.CQRS.Execution;
 using LeanCode.QueryableExtensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -60,3 +61,4 @@ public class AllProjectsAdminQH : IQueryHandler<AllProjectsAdmin, AdminQueryResu
         return q;
     }
 }
+#endif
