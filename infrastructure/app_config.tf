@@ -37,7 +37,7 @@ module "app_config" {
   k8s_secrets = {
     "exampleapp-api-secret" = {
       labels = merge(local.tags, { component = "api" })
-      data = merge(local.backend_dev_allowed_origins, {
+      data = merge(local.backend_cors_allowed_origins, {
         "ASPNETCORE_ENVIRONMENT" = title(var.environment)
 
         "Logging__MinimumLevel"               = "Information"
@@ -71,7 +71,7 @@ module "app_config" {
 }
 
 locals {
-  backend_dev_allowed_origins = {
-    for idx, element in tolist(var.backend_dev_allowed_origins) : "CORS__External__${idx}" => element
+  backend_cors_allowed_origins = {
+    for idx, element in concat(["https://${var.domain}"], var.backend_dev_allowed_origins) : "CORS__AllowedOrigins__${idx}" => element
   }
 }

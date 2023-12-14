@@ -141,7 +141,7 @@ internal static class ApiModule
             ApiCorsPolicy,
             cfg =>
             {
-                cfg.WithOrigins(Config.Services.AllowedOrigins(config))
+                cfg.WithOrigins(Config.CORS.AllowedOrigins(config))
                     .AllowAnyMethod()
                     .AllowAnyHeader()
                     .AllowCredentials()

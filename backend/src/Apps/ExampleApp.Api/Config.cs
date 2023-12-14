@@ -60,13 +60,10 @@ public static class Config
         public static string? ApiKey(IConfiguration cfg) => cfg.GetString("SendGrid:ApiKey");
     }
 
-    public static class Services
+    public static class CORS
     {
         public static string[] AllowedOrigins(IConfiguration cfg) =>
-            ExternalApps(cfg).Concat(Array.Empty<string>()).ToArray();
-
-        public static string[] ExternalApps(IConfiguration cfg) =>
-            cfg?.GetSection("CORS:External").Get<string[]>() ?? Array.Empty<string>();
+            cfg.GetSection("CORS:AllowedOrigins").Get<string[]>() ?? [];
     }
 
     public static class Logging
