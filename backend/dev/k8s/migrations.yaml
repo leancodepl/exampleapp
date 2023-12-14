@@ -1,15 +1,12 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: batch/v1
+kind: Job
 metadata:
   name: exampleapp-migrations
   namespace: exampleapp-dev
   labels:
     app: exampleapp-migrations
 spec:
-  selector:
-    matchLabels:
-      app: exampleapp-migrations
-  replicas: 1
+  backoffLimit: 3
   template:
     metadata:
       labels:
@@ -25,3 +22,4 @@ spec:
           limits:
             cpu: '1'
             memory: '1Gi'
+      restartPolicy: OnFailure
