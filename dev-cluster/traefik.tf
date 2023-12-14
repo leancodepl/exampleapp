@@ -2,6 +2,11 @@ locals {
   traefik_image_name    = "${local.registry_address}/traefik"
   traefik_image_version = "2.6.0"
   traefik_image         = "${local.traefik_image_name}:${local.traefik_image_version}"
+
+  traefik_triggers = {
+    dockerfile_trigger   = filemd5("./apps/Dockerfile.traefik")
+    dynamic_toml_trigger = filemd5("./apps/dynamic.toml")
+  }
 }
 
 resource "docker_image" "traefik" {
@@ -12,16 +17,15 @@ resource "docker_image" "traefik" {
     dockerfile = "Dockerfile.traefik"
   }
 
-  triggers = {
-    dockerfile_trigger   = filemd5("./apps/Dockerfile.traefik")
-    dynamic_toml_trigger = filemd5("./apps/dynamic.toml")
-  }
-
+  triggers = local.traefik_triggers
 }
 
 resource "docker_registry_image" "traefik" {
   name                 = docker_image.traefik.name
   insecure_skip_verify = true
+  keep_remotely        = true
+
+  triggers = local.traefik_triggers
 
   depends_on = [null_resource.cluster_kubeconfig]
 }
