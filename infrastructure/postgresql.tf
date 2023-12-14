@@ -35,7 +35,7 @@ locals {
 }
 
 module "postgresql" {
-  source = "git@github.com:leancodepl/terraform-common-modules.git//postgresql?ref=v0.1.0"
+  source = "git::https://github.com/leancodepl/terraform-common-modules.git//postgresql?ref=v0.1.0"
 
   resource_group = {
     name     = data.azurerm_resource_group.main.name
