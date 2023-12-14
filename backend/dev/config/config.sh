@@ -21,6 +21,8 @@ DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 export ConfigCat__FlagOverridesJsonObject="$(< "${DIR}/ConfigCatFlagOverrides.json")"
 
+export CORS__External__0="https://local.lncd.pl"
+
 if [[ -f "$DIR/secrets.sh" ]]
 then
     source "$DIR/secrets.sh"

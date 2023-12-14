@@ -40,7 +40,7 @@ locals {
       },
       {
         rule     = "Host(`${var.domain}`)"
-        service  = "${local.project}-kratos-ui-svc"
+        service  = "${local.project}-web"
         port     = 80
         priority = 1
       },

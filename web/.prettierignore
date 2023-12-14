@@ -1,0 +1,5 @@
+/dist
+/coverage
+/.nx/cache
+/apps/web/src/api/api-components-schema.ts
+/apps/web/src/api/cqrs.ts

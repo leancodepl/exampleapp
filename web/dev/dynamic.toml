@@ -13,7 +13,7 @@
 [http.services]
   [http.services.local.loadBalancer]
     [[http.services.local.loadBalancer.servers]]
-      url = "http://host.k3d.internal:4200/"
+      url = "http://host.docker.internal:4200/"
 
 [http.middlewares]
   [http.middlewares.redirecthttps.redirectScheme]
