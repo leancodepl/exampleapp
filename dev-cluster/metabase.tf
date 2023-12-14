@@ -1,4 +1,6 @@
 resource "kubernetes_deployment_v1" "metabase" {
+  count = var.metabase ? 1 : 0
+
   metadata {
     name      = "exampleapp-metabase"
     namespace = kubernetes_namespace_v1.metabase.metadata[0].name
@@ -68,6 +70,8 @@ resource "kubernetes_deployment_v1" "metabase" {
 }
 
 resource "kubernetes_service_v1" "metabase_service" {
+  count = var.metabase ? 1 : 0
+
   metadata {
     name      = "exampleapp-metabase-svc"
     namespace = kubernetes_namespace_v1.metabase.metadata[0].name
@@ -85,6 +89,8 @@ resource "kubernetes_service_v1" "metabase_service" {
 }
 
 resource "kubernetes_ingress_v1" "metabase_ingress" {
+  count = var.metabase ? 1 : 0
+
   metadata {
     name      = "exampleapp-metabase-ingress"
     namespace = kubernetes_namespace_v1.metabase.metadata[0].name
@@ -97,7 +103,7 @@ resource "kubernetes_ingress_v1" "metabase_ingress" {
         path {
           backend {
             service {
-              name = kubernetes_service_v1.metabase_service.metadata[0].name
+              name = kubernetes_service_v1.metabase_service[0].metadata[0].name
               port {
                 number = 80
               }

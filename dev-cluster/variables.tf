@@ -1,4 +1,10 @@
+variable "metabase" {
+  type    = bool
+  default = false
+}
+
 variable "rabbit" {
+  type    = bool
   default = true
 }
 
