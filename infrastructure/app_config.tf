@@ -28,8 +28,8 @@ module "app_config" {
     "exampleapp-web-config" = {
       labels = merge(local.tags, { component = "web" })
       data = {
-        "apiUrl"  = "https://api.${var.domain}",
-        "authUrl" = "https://auth.${var.domain}",
+        "NX_API_BASE"  = "https://api.${var.domain}",
+        "NX_AUTH_BASE" = "https://auth.${var.domain}",
       }
     }
   }
