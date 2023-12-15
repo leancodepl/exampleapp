@@ -1,5 +1,5 @@
 module "storage" {
-  source = "git@github.com:leancodepl/terraform-common-modules.git//azure_blob_storage?ref=v0.1.0"
+  source = "git::https://github.com/leancodepl/terraform-common-modules.git//azure_blob_storage?ref=v0.1.0"
 
   resource_group_name  = data.azurerm_resource_group.main.name
   storage_account_name = replace(local.azure_resource_name, "-", "")
@@ -20,7 +20,7 @@ module "storage" {
 }
 
 module "storage_assets" {
-  source = "git@github.com:leancodepl/terraform-common-modules.git//azure_blob_storage_assets?ref=v0.1.0"
+  source = "git::https://github.com/leancodepl/terraform-common-modules.git//azure_blob_storage_assets?ref=v0.1.0"
 
   storage_account_name = module.storage.storage_account_name
   container_name       = module.storage.storage_containers["public"].name

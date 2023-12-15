@@ -12,14 +12,34 @@ leancode.builder('exampleapp-template')
 
     leancode.configureRepositories()
 
-    stage('Create new project from template') {
+    stage('Prepare workspace') {
+        env.DESTDIR = sh(script: 'mktemp -d', returnStdout: true).trim()
+    }
+
+    stage('Install template') {
+        container('dotnet') {
+            sh 'dotnet new install .'
+        }
+    }
+
+    stage('Create project') {
         container('dotnet') {
             sh '''
-                dotnet new install .
-                cd "$(mktemp -d)"
-                dotnet new create lncdproj --output . --allow-scripts Yes --project-name NewProject --context Primary
-                find -type f -name '*.sh' ! -executable -print -exec false '{}' +
-                dotnet build ./backend
+                dotnet new create lncdproj --output "${DESTDIR}" --allow-scripts Yes --project-name NewProject --context Primary
+            '''
+        }
+    }
+
+    stage('Ensure all scripts are executable') {
+        sh '''
+            find "${DESTDIR}" -type f -name '*.sh' ! -executable -print -exec false '{}' +
+        '''
+    }
+
+    stage('Build backend') {
+        container('dotnet') {
+            sh '''
+                dotnet build "${DESTDIR}/backend"
             '''
         }
     }

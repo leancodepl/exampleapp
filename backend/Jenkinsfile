@@ -84,10 +84,10 @@ leancode.builder('exampleapp-backend')
             stage('Test') {
                 try {
                     dir('tests') {
-                        sh 'dotnet msbuild -t:RunTests -p:Configuration=Release -p:LogFileName="${PWD}/test-results/tests.trx"'
+                        sh 'dotnet test -c Release -l trx'
                     }
                 } finally {
-                    step([$class: 'MSTestPublisher', testResultsFile:'*/test-results/*.trx', failOnError: true, keepLongStdio: true])
+                    step([$class: 'MSTestPublisher', testResultsFile: 'tests/**/TestResults/*.trx', failOnError: true, keepLongStdio: true])
                 }
             }
 
@@ -102,10 +102,10 @@ leancode.builder('exampleapp-backend')
                             "showButtonLeadingOnHomePage": true
                         }'''
 
-                        sh 'dotnet test -c Release -l "trx;LogFileName=${PWD}/test-results/integration.trx" -p:MaxParallelThreads=2'
+                        sh 'dotnet test -c Release -l trx -p:MaxParallelThreads=2'
                     }
                 } finally {
-                    step([$class: 'MSTestPublisher', testResultsFile: 'tests/ExampleApp.IntegrationTests/test-results/*.trx', failOnError: true, keepLongStdio: true])
+                    step([$class: 'MSTestPublisher', testResultsFile: 'tests/ExampleApp.IntegrationTests/TestResults/*.trx', failOnError: true, keepLongStdio: true])
                 }
             }
 
