@@ -41,7 +41,7 @@ module "kratos" {
   }
 
   config_yaml = templatefile("${path.module}/kratos.yaml", {
-    api                 = "http://exampleapp-api.${data.kubernetes_namespace_v1.main.metadata[0].name}.svc.cluster.local"
+    api                 = "http://exampleapp-examples-api.${data.kubernetes_namespace_v1.main.metadata[0].name}.svc.cluster.local"
     domain              = var.domain
     oidc_config         = var.oidc_config
     authority_name      = "ExampleApp"

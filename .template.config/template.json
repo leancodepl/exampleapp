@@ -79,7 +79,13 @@
       "description": "The name of the first bounded context.",
       "replaces": "Examples",
       "fileRename": "Examples",
-      "isRequired": true
+      "isRequired": true,
+      "forms": {
+        "global": [
+          "lc",
+          "uc"
+        ]
+      }
     }
   },
   "primaryOutputs": [

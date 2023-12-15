@@ -16,7 +16,7 @@ cd dev/proxy
 ### 2. Generate initial migrations
 
 ```sh
-cd src/Apps/ExampleApp.Migrations
+cd src/Examples/ExampleApp.Examples.Migrations
 # This is required for now, but it does not need to point to a real database
 export PostgreSQL__ConnectionString='Host=localhost;Database=app;Username=app;Password=Passw12#'
 dotnet ef migrations add --context ExamplesDbContext -o Migrations InitialMigration # Our context

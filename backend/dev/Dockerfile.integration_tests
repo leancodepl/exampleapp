@@ -12,11 +12,11 @@ USER $APP_UID
 ARG APP_VERSION
 
 ENV APP_VERSION=${APP_VERSION}
-ENV ASPNETCORE_TEST_CONTENTROOT_EXAMPLEAPP_API='/home/app/bin'
+ENV ASPNETCORE_TEST_CONTENTROOT_EXAMPLEAPP_EXAMPLES_API='/home/app/bin'
 
 COPY --chown=$APP_UID out/integration_tests /home/app/bin
 COPY --chown=$APP_UID config /home/app/config
 
-WORKDIR /home/app/code/tests/ExampleApp.IntegrationTests
+WORKDIR /home/app/code/tests/Examples/ExampleApp.Examples.IntegrationTests
 SHELL ["/bin/bash", "-c"]
 ENTRYPOINT /home/app/config/run_tests.sh

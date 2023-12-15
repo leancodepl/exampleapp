@@ -8,6 +8,6 @@ EXPOSE 8080
 
 ENV ASPNETCORE_FORWARDEDHEADERS_ENABLED=true
 
-COPY src/Apps/ExampleApp.Api/deploy .
+COPY src/Examples/ExampleApp.Examples.Api/deploy .
 
-ENTRYPOINT ["dotnet", "ExampleApp.Api.dll"]
+ENTRYPOINT ["dotnet", "ExampleApp.Examples.Api.dll"]

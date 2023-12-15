@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: exampleapp-api
+  name: exampleapp-examples-api
   namespace: exampleapp-dev
   labels:
-    app: exampleapp-api
+    app: exampleapp-examples-api
 spec:
   selector:
     matchLabels:
-      app: exampleapp-api
+      app: exampleapp-examples-api
   replicas: 1
   template:
     metadata:
       labels:
-        app: exampleapp-api
+        app: exampleapp-examples-api
     spec:
       volumes:
         - name: wellknown-volume
@@ -21,7 +21,7 @@ spec:
             name: exampleapp-wellknown
       containers:
         - name: api
-          image: exampleapp-api
+          image: exampleapp-examples-api
           ports:
             - containerPort: 8080
             - containerPort: 22
@@ -48,10 +48,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: exampleapp-api-svc
+  name: exampleapp-examples-api-svc
   namespace: exampleapp-dev
   labels:
-    app: exampleapp-api
+    app: exampleapp-examples-api
 spec:
   type: ClusterIP
   ports:
@@ -59,7 +59,7 @@ spec:
       targetPort: 8080
       protocol: TCP
   selector:
-    app: exampleapp-api
+    app: exampleapp-examples-api
 ---
 apiVersion: traefik.containo.us/v1alpha1
 kind: Middleware
@@ -74,7 +74,7 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: exampleapp-api-ingress
+  name: exampleapp-examples-api-ingress
   namespace: exampleapp-dev
 spec:
   rules:
@@ -84,21 +84,21 @@ spec:
           - path: /api
             backend:
               service:
-                name: exampleapp-api-svc
+                name: exampleapp-examples-api-svc
                 port:
                   number: 80
             pathType: ImplementationSpecific
           - path: /leanpipe
             backend:
               service:
-                name: exampleapp-api-svc
+                name: exampleapp-examples-api-svc
                 port:
                   number: 80
             pathType: ImplementationSpecific
           - path: /.well-known
             backend:
               service:
-                name: exampleapp-api-svc
+                name: exampleapp-examples-api-svc
                 port:
                   number: 80
             pathType: ImplementationSpecific

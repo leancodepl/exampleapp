@@ -93,7 +93,7 @@ leancode.builder('exampleapp-backend')
 
             stage('Integration test') {
                 try {
-                    dir('tests/ExampleApp.IntegrationTests') {
+                    dir('tests/Examples/ExampleApp.Examples.IntegrationTests') {
                         env.Kratos__AdminEndpoint = 'http://localhost:4434'
                         env.Kratos__PublicEndpoint = 'http://localhost:4433'
                         env.BlobStorage__ConnectionString = 'DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://localhost:10000/devstoreaccount1;'
@@ -105,15 +105,15 @@ leancode.builder('exampleapp-backend')
                         sh 'dotnet test -c Release -l trx -p:MaxParallelThreads=2'
                     }
                 } finally {
-                    step([$class: 'MSTestPublisher', testResultsFile: 'tests/ExampleApp.IntegrationTests/TestResults/*.trx', failOnError: true, keepLongStdio: true])
+                    step([$class: 'MSTestPublisher', testResultsFile: 'tests/Examples/ExampleApp.Examples.IntegrationTests/TestResults/*.trx', failOnError: true, keepLongStdio: true])
                 }
             }
 
             stage('Publish') {
-                dir('src/Apps/ExampleApp.Api') {
+                dir('src/Examples/ExampleApp.Examples.Api') {
                     sh 'dotnet publish -c Release -o deploy --no-build'
                 }
-                dir('src/Apps/ExampleApp.Migrations') {
+                dir('src/Examples/ExampleApp.Examples.Migrations') {
                     sh 'dotnet publish -c Release -o deploy --no-build'
                 }
             }
@@ -128,13 +128,13 @@ leancode.builder('exampleapp-backend')
                             --local context=. \
                             --local dockerfile=./release \
                             --opt filename=Dockerfile.api \
-                            --output type=image,name="${leancode.ACR()}/exampleapp-api:$APP_VERSION",push=true
+                            --output type=image,name="${leancode.ACR()}/exampleapp-examples-api:$APP_VERSION",push=true
                         buildctl build \
                             --frontend dockerfile.v0 \
                             --local context=. \
                             --local dockerfile=./release \
                             --opt filename=Dockerfile.migrations \
-                            --output type=image,name="${leancode.ACR()}/exampleapp-migrations:$APP_VERSION",push=true
+                            --output type=image,name="${leancode.ACR()}/exampleapp-examples-migrations:$APP_VERSION",push=true
                     """
                 }
             }
@@ -152,9 +152,9 @@ leancode.builder('exampleapp-backend')
                         git config --global user.name "Jenkins"
                         git clone "https://x-access-token:${GITHUB_ACCESS_TOKEN}@github.com/leancodepl/exampleapp-deployment.git"
                         cd exampleapp-deployment/apps/exampleapp-backend/test
-                        kustomize edit set image exampleapp-api="*:${APP_VERSION}" exampleapp-migrations="*:${APP_VERSION}"
+                        kustomize edit set image exampleapp-examples-api="*:${APP_VERSION}" exampleapp-examples-migrations="*:${APP_VERSION}"
                         git add -A
-                        git commit -m "Update ExampleApp backend version to $APP_VERSION"
+                        git commit -m "Update ExampleApp Examples backend version to $APP_VERSION"
                         git push
                     '''
                }

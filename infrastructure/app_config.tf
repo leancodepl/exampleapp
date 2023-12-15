@@ -35,7 +35,7 @@ module "app_config" {
   }
 
   k8s_secrets = {
-    "exampleapp-api-secret" = {
+    "exampleapp-examples-api-secret" = {
       labels = merge(local.tags, { component = "api" })
       data = merge(local.backend_cors_allowed_origins, {
         "ASPNETCORE_ENVIRONMENT" = title(var.environment)
@@ -59,7 +59,7 @@ module "app_config" {
         //#endif
       })
     }
-    "exampleapp-migrations-secret" = {
+    "exampleapp-examples-migrations-secret" = {
       labels = merge(local.tags, { component = "migrations" })
       data = {
         "Azure__UseAzureWorkloadIdentity" = "true"
