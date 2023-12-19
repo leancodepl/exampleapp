@@ -4,25 +4,25 @@ locals {
     rules = [
       {
         rule     = "Host(`auth.${var.domain}`) && PathPrefix(`/.well-known/`) && !PathPrefix(`/.well-known/ory/`)"
-        service  = "${local.project}-api"
+        service  = "${local.project}-examples-api"
         port     = 80
         priority = 100
       },
       {
         rule     = "Host(`${var.domain}`) && PathPrefix(`/api/`)"
-        service  = "${local.project}-api"
+        service  = "${local.project}-examples-api"
         port     = 80
         priority = 50
       },
       {
         rule     = "Host(`${var.domain}`) && (Path(`/leanpipe`) || Path(`/leanpipe/negotiate`))"
-        service  = "${local.project}-api"
+        service  = "${local.project}-examples-api"
         port     = 80
         priority = 50
       },
       {
         rule     = "Host(`${var.domain}`) && PathPrefix(`/.well-known/`)"
-        service  = "${local.project}-api"
+        service  = "${local.project}-examples-api"
         port     = 80
         priority = 50
       },
@@ -34,7 +34,7 @@ locals {
       },
       {
         rule     = "Host(`api.${var.domain}`)"
-        service  = "${local.project}-api"
+        service  = "${local.project}-examples-api"
         port     = 80
         priority = 1
       },
