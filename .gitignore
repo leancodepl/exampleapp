@@ -247,9 +247,10 @@ src/Apps/*/dist/
 **/integration_tests_secrets.sh
 **/dist
 
-dev/proxy/*.pem
-dev/proxy/*.crt
-dev/proxy/*.key
+**/*.pem
+**/*.crt
+**/*.cert
+**/*.key
 
 !dev/**/.env
 !release/

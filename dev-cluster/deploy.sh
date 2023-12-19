@@ -6,10 +6,10 @@ cd "${0:A:h}"
 k3d cluster delete exampleapp || true
 k3d registry delete k3d-exampleapp-registry.local.lncd.pl || true
 rm *.tfstate* || true
+docker rm exampleapp-certificates || true
 
 # Docker provider will not be able to use the token
-az acr login -n leancode
-docker pull leancode.azurecr.io/traefik-proxy
+az acr login -n leancode && docker pull leancode.azurecr.io/traefik-proxy || true
 
 # We depend on these charts
 helm repo add traefik https://helm.traefik.io/traefik || true

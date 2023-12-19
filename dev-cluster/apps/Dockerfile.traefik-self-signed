@@ -1,0 +1,7 @@
+FROM traefik
+
+COPY --chmod=0644 local.lncd.pl.cert local.lncd.pl.key /certs/
+COPY config.toml /config/config.toml
+COPY dynamic.toml /config/dynamic/main.toml
+
+CMD ["--configFile=/config/config.toml"]

@@ -1,3 +1,8 @@
+variable "traefik_self_signed" {
+  type    = bool
+  default = true
+}
+
 variable "metabase" {
   type    = bool
   default = false
