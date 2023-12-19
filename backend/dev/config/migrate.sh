@@ -7,8 +7,8 @@ cd ~/bin
 if [[ -v SEED ]]
 then
     echo "Seeding"
-    dotnet ExampleApp.Migrations.dll seed
+    dotnet ExampleApp.Examples.Migrations.dll seed
 else
     echo "Migrating"
-    dotnet ExampleApp.Migrations.dll migrate
+    dotnet ExampleApp.Examples.Migrations.dll migrate
 fi

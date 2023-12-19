@@ -2,10 +2,10 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Attach to Api",
+      "name": "Attach to Examples.Api",
       "type": "coreclr",
       "request": "attach",
-      "processId": "${input:exampleapp_api_pid}",
+      "processId": "${input:exampleapp_examples_api_pid}",
       "sourceFileMap": {
         "/home/app/code": "${workspaceFolder}"
       },
@@ -14,17 +14,22 @@
         "pipeProgram": "kubectl",
         "quoteArgs": false,
         "pipeArgs": [
-          "exec -i -n exampleapp-dev --context k3d-exampleapp deployment/exampleapp-api --"
+          "--context=k3d-exampleapp",
+          "exec",
+          "--stdin=true",
+          "--namespace=exampleapp-dev",
+          "deployments/exampleapp-examples-api",
+          "--"
         ],
         "debuggerPath": "/vsdbg/vsdbg"
       },
       "justMyCode": false
     },
     {
-      "name": "Attach to Integration tests",
+      "name": "Attach to Examples.IntegrationTests",
       "type": "coreclr",
       "request": "attach",
-      "processId": "${input:exampleapp_tests_pid}",
+      "processId": "${input:exampleapp_examples_integration_tests_pid}",
       "sourceFileMap": {
         "/home/app/code": "${workspaceFolder}"
       },
@@ -35,7 +40,12 @@
         "pipeProgram": "kubectl",
         "quoteArgs": false,
         "pipeArgs": [
-          "exec -i -n exampleapp-dev --context k3d-exampleapp pod/exampleapp-integration-tests --"
+          "--context=k3d-exampleapp",
+          "exec",
+          "--stdin=true",
+          "--namespace=exampleapp-dev",
+          "pods/exampleapp-examples-integration-tests",
+          "--"
         ],
         "debuggerPath": "/vsdbg/vsdbg"
       }
@@ -43,7 +53,7 @@
   ],
   "inputs": [
     {
-      "id": "exampleapp_api_pid",
+      "id": "exampleapp_examples_api_pid",
       "type": "command",
       "command": "shellCommand.execute",
       "args": {
@@ -53,15 +63,15 @@
         "env": {
           "K8S_CONTEXT": "k3d-exampleapp",
           "K8S_NS": "exampleapp-dev",
-          "WORKLOAD": "deployment/exampleapp-api",
-          "FILTER": "ExampleApp.Api",
+          "WORKLOAD": "deployments/exampleapp-examples-api",
+          "FILTER": "ExampleApp.Examples.Api",
           "HOME": "${env:HOME}",
           "PATH": "${env:PATH}"
         }
       }
     },
     {
-      "id": "exampleapp_tests_pid",
+      "id": "exampleapp_examples_integration_tests_pid",
       "type": "command",
       "command": "shellCommand.execute",
       "args": {
@@ -71,8 +81,8 @@
         "env": {
           "K8S_CONTEXT": "k3d-exampleapp",
           "K8S_NS": "exampleapp-dev",
-          "WORKLOAD": "pod/exampleapp-integration-tests",
-          "FILTER": "ExampleApp.IntegrationTests.runtimeconfig.json",
+          "WORKLOAD": "pods/exampleapp-examples-integration-tests",
+          "FILTER": "ExampleApp.Examples.IntegrationTests.runtimeconfig.json",
           "HOME": "${env:HOME}",
           "PATH": "${env:PATH}"
         }

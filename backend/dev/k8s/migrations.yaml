@@ -1,20 +1,20 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: exampleapp-migrations
+  name: exampleapp-examples-migrations
   namespace: exampleapp-dev
   labels:
-    app: exampleapp-migrations
+    app: exampleapp-examples-migrations
 spec:
   backoffLimit: 3
   template:
     metadata:
       labels:
-        app: exampleapp-migrations
+        app: exampleapp-examples-migrations
     spec:
       containers:
       - name: migrations
-        image: exampleapp-migrations
+        image: exampleapp-examples-migrations
         resources:
           requests:
             cpu: '500m'
