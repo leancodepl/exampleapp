@@ -20,10 +20,10 @@ resource "docker_container" "certificates" {
 
   start       = true
   attach      = true
-  wait        = true
-  rm          = true
+  must_run    = false
   working_dir = "/mnt"
   command     = ["./generate_certs.sh"]
+  env         = ["TIME=${timestamp()}"]
 
   mounts {
     type   = "bind"
