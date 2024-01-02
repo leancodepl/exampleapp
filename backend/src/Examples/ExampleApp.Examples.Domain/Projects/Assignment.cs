@@ -1,4 +1,3 @@
-#if Example
 using ExampleApp.Examples.Domain.Employees;
 using LeanCode.DomainModels.Ids;
 using LeanCode.DomainModels.Model;
@@ -59,4 +58,3 @@ public class Assignment : IIdentifiable<AssignmentId>
         Finished,
     }
 }
-#endif

@@ -1,4 +1,3 @@
-#if Example
 using ExampleApp.Examples.Domain.Projects;
 using Xunit;
 
@@ -14,4 +13,3 @@ public class ProjectTests
         Assert.Empty(project.Assignments);
     }
 }
-#endif

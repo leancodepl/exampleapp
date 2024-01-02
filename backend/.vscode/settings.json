@@ -10,5 +10,6 @@
     "deploy": true,
     ".vs": true,
     "dev/out": true
-  }
+  },
+  "dotnet.defaultSolution": "ExampleApp.sln"
 }

@@ -1,4 +1,3 @@
-#if Example
 using LeanCode.Contracts;
 using LeanCode.Contracts.Security;
 
@@ -16,4 +15,3 @@ public class SendCustomNotification : ICommand
         public const int ImageUrlInvalid = 2;
     }
 }
-#endif

@@ -1,4 +1,3 @@
-#if Example
 using LeanCode.Contracts;
 using LeanCode.Contracts.Security;
 
@@ -30,4 +29,3 @@ public class AssignmentWriteDTO
         public const int NameTooLong = 102;
     }
 }
-#endif

@@ -1,4 +1,3 @@
-#if Example
 using ExampleApp.Examples.Contracts.Projects;
 using ExampleApp.Examples.Domain.Events;
 using LeanCode.Pipe;
@@ -50,4 +49,3 @@ public class PublishEmployeeAssignedToProjectAssignmentNotification : IConsumer<
         }
     }
 }
-#endif

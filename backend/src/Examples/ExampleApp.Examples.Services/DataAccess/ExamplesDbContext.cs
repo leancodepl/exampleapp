@@ -16,8 +16,9 @@ namespace ExampleApp.Examples.Services.DataAccess;
 
 public class ExamplesDbContext : DbContext, IAppRatingStore<Guid>
 {
+#if Example
     public DbSet<PushNotificationTokenEntity<Guid>> PushNotificationTokens => Set<PushNotificationTokenEntity<Guid>>();
-
+#endif
     public DbSet<KratosIdentity> KratosIdentities => Set<KratosIdentity>();
 
 #if Example
