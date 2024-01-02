@@ -1,4 +1,3 @@
-#if Example
 using LeanCode.DomainModels.Ids;
 using LeanCode.DomainModels.Model;
 
@@ -27,4 +26,3 @@ public class Employee : IAggregateRoot<EmployeeId>
         };
     }
 }
-#endif

@@ -1,4 +1,3 @@
-#if Example
 using LeanCode.Contracts;
 using LeanCode.Contracts.Security;
 
@@ -23,4 +22,3 @@ public class EmployeeUnassignedFromAssignmentDTO
 {
     public string AssignmentId { get; set; }
 }
-#endif

@@ -1,4 +1,3 @@
-#if Example
 using ExampleApp.Examples.Domain.Projects;
 using LeanCode.DomainModels.EF;
 using Microsoft.EntityFrameworkCore;
@@ -25,4 +24,3 @@ public class ProjectsRepository : EFRepository<Project, ProjectId, ExamplesDbCon
             .FirstOrDefaultAsync(p => p.Assignments.Any(a => a.Id == assignmentId), cancellationToken)!;
     }
 }
-#endif

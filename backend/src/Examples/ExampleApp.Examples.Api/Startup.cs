@@ -77,7 +77,9 @@ public class Startup : LeanStartup
         services.AddFluentValidation(AllHandlers);
         services.AddStringLocalizer(LocalizationConfiguration.For<Strings.Strings>());
         services.AddExamplesServices(Config.PostgreSQL.ConnectionString(Configuration));
+#if Example
         services.AddFCM<Guid>(fcm => fcm.AddTokenStore<ExamplesDbContext>());
+#endif
         services.AddApiServices(Configuration, hostEnv);
 
         services.AddCQRSMassTransitIntegration(cfg =>

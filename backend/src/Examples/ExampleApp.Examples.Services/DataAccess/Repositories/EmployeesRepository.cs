@@ -1,4 +1,3 @@
-#if Example
 using ExampleApp.Examples.Domain.Employees;
 using LeanCode.DomainModels.EF;
 using Microsoft.EntityFrameworkCore;
@@ -15,4 +14,3 @@ public class EmployeesRepository : EFRepository<Employee, EmployeeId, ExamplesDb
         return DbSet.AsTracking().FirstOrDefaultAsync(e => e.Id == id, cancellationToken)!;
     }
 }
-#endif

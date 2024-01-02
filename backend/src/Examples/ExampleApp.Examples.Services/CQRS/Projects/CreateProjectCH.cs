@@ -1,4 +1,3 @@
-#if Example
 using ExampleApp.Examples.Contracts.Projects;
 using ExampleApp.Examples.Domain.Projects;
 using FluentValidation;
@@ -42,4 +41,3 @@ public class CreateProjectCH : ICommandHandler<CreateProject>
         return Task.CompletedTask;
     }
 }
-#endif

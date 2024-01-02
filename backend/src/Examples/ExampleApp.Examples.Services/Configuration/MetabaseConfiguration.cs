@@ -1,4 +1,3 @@
-#if Example
 namespace ExampleApp.Examples.Services.Configuration;
 
 public sealed record class MetabaseConfiguration(
@@ -10,4 +9,3 @@ public sealed record class MetabaseConfiguration(
     public MetabaseConfiguration()
         : this(default!, default!, default) { }
 };
-#endif

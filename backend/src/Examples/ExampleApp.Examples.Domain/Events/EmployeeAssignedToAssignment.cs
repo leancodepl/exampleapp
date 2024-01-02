@@ -1,4 +1,3 @@
-#if Example
 using System.Text.Json.Serialization;
 using ExampleApp.Examples.Domain.Employees;
 using ExampleApp.Examples.Domain.Projects;
@@ -46,4 +45,3 @@ public class EmployeeAssignedToAssignment : IDomainEvent
         PreviousEmployeeId = previousEmployeeId;
     }
 }
-#endif

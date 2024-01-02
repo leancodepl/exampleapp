@@ -1,4 +1,3 @@
-#if Example
 using LeanCode.Contracts;
 using LeanCode.Contracts.Security;
 
@@ -18,4 +17,3 @@ public class AssignEmployeeToAssignment : ICommand
         public const int EmployeeDoesNotExist = 4;
     }
 }
-#endif

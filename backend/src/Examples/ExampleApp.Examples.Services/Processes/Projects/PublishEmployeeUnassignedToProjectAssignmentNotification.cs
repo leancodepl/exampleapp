@@ -1,4 +1,3 @@
-#if Example
 using ExampleApp.Examples.Contracts.Projects;
 using ExampleApp.Examples.Domain.Events;
 using LeanCode.Pipe;
@@ -37,4 +36,3 @@ public class PublishEmployeeUnassignedToProjectAssignmentNotification : IConsume
         await topicPublisher.PublishAsync(topic, notification, context.CancellationToken);
     }
 }
-#endif

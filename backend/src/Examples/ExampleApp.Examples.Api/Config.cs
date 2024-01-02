@@ -50,10 +50,12 @@ public static class Config
         public static bool EnableLeanPipeFunnel(IConfiguration cfg) => cfg.GetValue<bool>("LeanPipe:EnableFunnel");
     }
 
+#if Example
     public static class Google
     {
         public static string? ApiKey(IConfiguration cfg) => cfg.GetString("Google:ApiKey");
     }
+#endif
 
     public static class SendGrid
     {
@@ -110,9 +112,8 @@ public static class Config
     )
     {
         services.AddSingleton(new LeanCode.Kratos.KratosWebHookHandlerConfig(Kratos.WebhookApiKey(config)));
-        services.AddSingleton(FirebaseConfiguration.Prepare(Google.ApiKey(config), Guid.NewGuid().ToString()));
-
 #if Example
+        services.AddSingleton(FirebaseConfiguration.Prepare(Google.ApiKey(config), Guid.NewGuid().ToString()));
         services.Configure<MetabaseConfiguration>(config.GetSection("Metabase"));
 #endif
 
