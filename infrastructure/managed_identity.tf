@@ -1,9 +1,9 @@
-module "managed_identity_api" {
+module "managed_identity_examples_api" {
   source = "git::https://github.com/leancodepl/terraform-common-modules.git//managed_identity?ref=v0.1.0"
 
   azure_resource_group  = data.azurerm_resource_group.main.name
-  managed_identity_name = "${local.azure_resource_name}-api"
-  service_account_name  = "${local.project}-api"
+  managed_identity_name = "${local.azure_resource_name}-examples-api"
+  service_account_name  = "${local.project}-examples-api"
 
   kubernetes = {
     azure_resource_group    = var.azure.aks.resource_group_name
@@ -16,12 +16,12 @@ module "managed_identity_api" {
   depends_on = [data.azurerm_resource_group.main]
 }
 
-module "managed_identity_migrations" {
+module "managed_identity_examples_migrations" {
   source = "git::https://github.com/leancodepl/terraform-common-modules.git//managed_identity?ref=v0.1.0"
 
   azure_resource_group  = data.azurerm_resource_group.main.name
-  managed_identity_name = "${local.azure_resource_name}-migrations"
-  service_account_name  = "${local.project}-migrations"
+  managed_identity_name = "${local.azure_resource_name}-examples-migrations"
+  service_account_name  = "${local.project}-examples-migrations"
 
   kubernetes = {
     azure_resource_group    = var.azure.aks.resource_group_name

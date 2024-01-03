@@ -105,8 +105,8 @@ resource "time_sleep" "postgres_setup_delay" {
   ]
 }
 
-resource "postgresql_database" "app" {
-  name       = "app"
+resource "postgresql_database" "examples" {
+  name       = "examples"
   lc_collate = "en_US.utf8"
 
   depends_on = [
@@ -114,8 +114,8 @@ resource "postgresql_database" "app" {
   ]
 }
 
-resource "postgresql_role" "app" {
-  name     = "app"
+resource "postgresql_role" "examples" {
+  name     = "examples"
   login    = true
   password = "Passw12#"
 
@@ -124,15 +124,15 @@ resource "postgresql_role" "app" {
   ]
 }
 
-resource "postgresql_grant" "app" {
-  database    = postgresql_database.app.name
-  role        = postgresql_role.app.name
+resource "postgresql_grant" "examples" {
+  database    = postgresql_database.examples.name
+  role        = postgresql_role.examples.name
   object_type = "database"
   privileges  = ["CREATE"]
 }
 
-resource "postgresql_grant" "app_public" {
-  database    = postgresql_database.app.name
+resource "postgresql_grant" "examples_public" {
+  database    = postgresql_database.examples.name
   role        = "public"
   object_type = "schema"
   schema      = "public"
