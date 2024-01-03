@@ -126,11 +126,11 @@ locals {
 
 output "metabase_roles_script" {
   value = <<EOT
-      \connect "app"
+      \connect "examples"
 
-      grant "${local.databases["app"].ad_roles.migrations_role}" to "${module.postgresql.administrator_login}";
+      grant "${local.databases["examples"].ad_roles.migrations_role}" to "${module.postgresql.administrator_login}";
 
-      alter default privileges for role "${local.databases["app"].ad_roles.migrations_role}"
+      alter default privileges for role "${local.databases["examples"].ad_roles.migrations_role}"
       grant select
       on tables
       to "${module.postgresql.roles["metabase"].name}";
@@ -138,13 +138,13 @@ output "metabase_roles_script" {
 
       grant select on all tables in schema public to "${module.postgresql.roles["metabase"].name}";
 
-      alter default privileges for role "${local.databases["app"].ad_roles.migrations_role}"
+      alter default privileges for role "${local.databases["examples"].ad_roles.migrations_role}"
       grant usage
       on schemas
       to "${module.postgresql.roles["metabase"].name}";
 
       grant usage on all schemas to "${module.postgresql.roles["metabase"].name}";
 
-      revoke "${local.databases["app"].ad_roles.migrations_role}" from "${module.postgresql.administrator_login}";
+      revoke "${local.databases["examples"].ad_roles.migrations_role}" from "${module.postgresql.administrator_login}";
     EOT
 }

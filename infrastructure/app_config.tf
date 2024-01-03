@@ -6,14 +6,14 @@ module "app_config" {
 
   key_vault_access_policy = {
     tenant_id = var.azure.tenant_id
-    object_id = module.managed_identity_api.managed_identity.object_id
+    object_id = module.managed_identity_examples_api.managed_identity.object_id
   }
 
   key_vault_secrets = merge(var.key_vault_secrets, {
     "Kratos--WebhookApiKey"         = random_password.kratos_web_hook_api_key.result
     "BlobStorage--ConnectionString" = module.storage.storage_connection_string
 
-    "PostgreSQL--ConnectionString"           = module.postgresql.ad_roles[module.managed_identity_api.managed_identity.name].npg_connection_string
+    "PostgreSQL--ConnectionString"           = module.postgresql.ad_roles[module.managed_identity_examples_api.managed_identity.name].npg_connection_string
     "MassTransit--AzureServiceBus--Endpoint" = module.service_bus.service_bus_endpoint
   })
 
@@ -64,7 +64,7 @@ module "app_config" {
       data = {
         "Azure__UseAzureWorkloadIdentity" = "true"
 
-        "PostgreSQL__ConnectionString" = module.postgresql.ad_roles[module.managed_identity_migrations.managed_identity.name].npg_connection_string
+        "PostgreSQL__ConnectionString" = module.postgresql.ad_roles[module.managed_identity_examples_migrations.managed_identity.name].npg_connection_string
       }
     }
   }

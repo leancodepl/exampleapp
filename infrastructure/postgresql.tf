@@ -1,14 +1,14 @@
 locals {
   databases = {
-    "app" = {
+    "examples" = {
       charset   = "UTF8"
       collation = "en_US.utf8"
 
       roles = {}
 
       ad_roles = {
-        app_role        = module.managed_identity_api.managed_identity.name
-        migrations_role = module.managed_identity_migrations.managed_identity.name
+        app_role        = module.managed_identity_examples_api.managed_identity.name
+        migrations_role = module.managed_identity_examples_migrations.managed_identity.name
       }
     }
     "kratos" = {
