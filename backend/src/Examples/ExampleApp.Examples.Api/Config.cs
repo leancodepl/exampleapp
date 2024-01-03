@@ -1,11 +1,11 @@
-using LeanCode.AppRating.Configuration;
-using LeanCode.Firebase;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog.Events;
 #if Example
 using ExampleApp.Examples.Services.Configuration;
+using LeanCode.AppRating.Configuration;
+using LeanCode.Firebase;
 #endif
 
 namespace ExampleApp.Examples.Api;
@@ -89,11 +89,13 @@ public static class Config
         public static string TableName(IConfiguration cfg) => cfg.GetString("AuditLogs:TableName");
     }
 
+#if Example
     public static class AppRating
     {
         public static string[] EmailsTo(IConfiguration cfg) =>
             cfg?.GetSection("AppRating:EmailsTo").Get<string[]>() ?? Array.Empty<string>();
     }
+#endif
 
     private static string GetString(this IConfiguration configuration, string key)
     {
@@ -114,11 +116,6 @@ public static class Config
         services.AddSingleton(new LeanCode.Kratos.KratosWebHookHandlerConfig(Kratos.WebhookApiKey(config)));
 #if Example
         services.AddSingleton(FirebaseConfiguration.Prepare(Google.ApiKey(config), Guid.NewGuid().ToString()));
-        services.Configure<MetabaseConfiguration>(config.GetSection("Metabase"));
-#endif
-
-        services.Configure<LeanCode.ConfigCat.ConfigCatOptions>(config.GetSection("ConfigCat"));
-
         services.AddSingleton(
             new AppRatingReportsConfiguration(
                 2.0,
@@ -128,5 +125,9 @@ public static class Config
                 AppRating.EmailsTo(config)
             )
         );
+        services.Configure<MetabaseConfiguration>(config.GetSection("Metabase"));
+#endif
+
+        services.Configure<LeanCode.ConfigCat.ConfigCatOptions>(config.GetSection("ConfigCat"));
     }
 }
