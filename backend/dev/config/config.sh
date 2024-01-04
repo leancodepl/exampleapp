@@ -8,7 +8,7 @@ export Kratos__PublicEndpoint='http://exampleapp-kratos-svc.kratos.svc.cluster.l
 export Kratos__AdminEndpoint='http://exampleapp-kratos-svc.kratos.svc.cluster.local:4434'
 export Kratos__WebhookApiKey='Passw12#'
 
-export PostgreSQL__ConnectionString='Host=postgresql-svc.shared.svc.cluster.local;Database=app;Username=app;Password=Passw12#'
+export PostgreSQL__ConnectionString='Host=postgresql-svc.shared.svc.cluster.local;Database=examples;Username=examples;Password=Passw12#'
 export BlobStorage__ConnectionString='DefaultEndpointsProtocol=http;AccountName=blobstorage;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://blobstorage.blob.svc.cluster.local/;'
 
 export MassTransit__RabbitMq__Url='rabbitmq://user:user@rabbit-rabbitmq.shared.svc.cluster.local/'
