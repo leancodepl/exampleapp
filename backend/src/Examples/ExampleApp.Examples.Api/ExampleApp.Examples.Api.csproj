@@ -24,13 +24,16 @@
     <PackageReference Include="LeanCode.CQRS.AspNetCore" />
     <PackageReference Include="LeanCode.CQRS.MassTransitRelay" />
     <PackageReference Include="LeanCode.CQRS.Validation.Fluent" />
+    <!--#if Example -->
     <PackageReference Include="LeanCode.Firebase" />
     <PackageReference Include="LeanCode.Firebase.FCM" />
+    <!--#endif -->
     <PackageReference Include="LeanCode.ForceUpdate" />
     <PackageReference Include="LeanCode.Kratos" />
     <PackageReference Include="LeanCode.Localization" />
     <PackageReference Include="LeanCode.Logging" />
     <PackageReference Include="LeanCode.OpenTelemetry" />
+    <PackageReference Include="LeanCode.SendGrid" />
     <PackageReference Include="LeanCode.Startup.MicrosoftDI" />
     <PackageReference Include="LeanCode.UrlHelper" />
     <PackageReference Include="LeanCode.ViewRenderer.Razor" />

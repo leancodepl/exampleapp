@@ -3,7 +3,6 @@ using ExampleApp.Examples.Contracts;
 using ExampleApp.Examples.Services;
 using ExampleApp.Examples.Services.DataAccess;
 using ExampleApp.Examples.Services.DataAccess.Serialization;
-using LeanCode.AppRating;
 using LeanCode.AuditLogs;
 using LeanCode.AzureIdentity;
 using LeanCode.Components;
@@ -11,7 +10,6 @@ using LeanCode.CQRS.AspNetCore;
 using LeanCode.CQRS.MassTransitRelay;
 using LeanCode.CQRS.MassTransitRelay.Middleware;
 using LeanCode.CQRS.Validation.Fluent;
-using LeanCode.Firebase.FCM;
 using LeanCode.ForceUpdate;
 using LeanCode.Localization;
 using LeanCode.OpenTelemetry;
@@ -29,6 +27,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders.Physical;
 using Microsoft.Extensions.Hosting;
 using SendGrid;
+#if Example
+using LeanCode.AppRating;
+using LeanCode.Firebase.FCM;
+#endif
 
 namespace ExampleApp.Examples.Api;
 
@@ -49,7 +51,9 @@ public class Startup : LeanStartup
     {
         services
             .AddCQRS(Api, AllHandlers)
+#if Example
             .AddAppRating<Guid, ExamplesDbContext, UserIdExtractor>()
+#endif
             .AddForceUpdate(
                 new AndroidVersionsConfiguration(new Version(1, 0), new Version(1, 1)),
                 new IOSVersionsConfiguration(new Version(1, 0), new Version(1, 1))
@@ -92,8 +96,9 @@ public class Startup : LeanStartup
             });
 
             cfg.AddAuditLogsConsumer();
-
+#if Example
             cfg.AddAppRatingConsumers<Guid>();
+#endif
 
             if (leanPipeFunnelEnabled)
             {
@@ -247,7 +252,9 @@ public class DefaultConsumerDefinition<TConsumer> : ConsumerDefinition<TConsumer
     }
 }
 
+#if Example
 public sealed class UserIdExtractor : IUserIdExtractor<Guid>
 {
     public Guid Extract(HttpContext httpContext) => httpContext.GetUserId();
 }
+#endif

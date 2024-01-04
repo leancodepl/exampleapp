@@ -23,6 +23,7 @@
         "**/out/**",
         "**/*secrets.sh",
         "**/Migrations/*.cs",
+        "**/src/*/*.Api/Templates/Email/LowRateSubmittedEmail.*",
         "**/src/*/*.Contracts/Dashboards/*.cs",
         "**/src/*/*.Contracts/Employees/*.cs",
         "**/src/*/*.Contracts/Firebase/*.cs",

@@ -7,8 +7,8 @@
   <data name="notifications.meeting-started.body" xml:space="preserve">
     <value>{0}</value>
   </data>
-<!--#endif -->
   <data name="emails.low-rate-submitted.subject" xml:space="preserve">
     <value>Your app got a low rate</value>
   </data>
+<!--#endif -->
 </root>

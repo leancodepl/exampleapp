@@ -1,32 +1,32 @@
 using System.Text.Json;
 using ExampleApp.Examples.Services.DataAccess.Entities;
-using LeanCode.AppRating.DataAccess;
 using LeanCode.DomainModels.EF;
 using LeanCode.DomainModels.Ids;
-using LeanCode.Firebase.FCM;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 #if Example
 using ExampleApp.Examples.Domain.Employees;
 using ExampleApp.Examples.Domain.Projects;
+using LeanCode.AppRating.DataAccess;
+using LeanCode.Firebase.FCM;
 #endif
 
 namespace ExampleApp.Examples.Services.DataAccess;
 
-public class ExamplesDbContext : DbContext, IAppRatingStore<Guid>
-{
+public class ExamplesDbContext : DbContext
 #if Example
-    public DbSet<PushNotificationTokenEntity<Guid>> PushNotificationTokens => Set<PushNotificationTokenEntity<Guid>>();
+        , IAppRatingStore<Guid>
 #endif
+{
     public DbSet<KratosIdentity> KratosIdentities => Set<KratosIdentity>();
-
 #if Example
     public DbSet<Employee> Employees => Set<Employee>();
     public DbSet<Project> Projects => Set<Project>();
-#endif
 
+    public DbSet<PushNotificationTokenEntity<Guid>> PushNotificationTokens => Set<PushNotificationTokenEntity<Guid>>();
     public DbSet<AppRating<Guid>> AppRatings => Set<AppRating<Guid>>();
+#endif
 
     public ExamplesDbContext(DbContextOptions<ExamplesDbContext> options)
         : base(options) { }
@@ -77,10 +77,11 @@ public class ExamplesDbContext : DbContext, IAppRatingStore<Guid>
         builder.HasPostgresExtension("citext");
 
         builder.AddTransactionalOutboxEntities();
-
+#if Example
         builder.ConfigurePushNotificationTokenEntity<Guid>(false);
 
         builder.ConfigureAppRatingEntity<Guid>(SqlDbType.PostgreSql);
+#endif
 
         builder.Entity<KratosIdentity>(e =>
         {

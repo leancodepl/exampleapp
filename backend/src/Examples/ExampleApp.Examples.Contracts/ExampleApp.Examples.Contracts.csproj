@@ -7,7 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <!--#if Example -->
     <PackageReference Include="LeanCode.AppRating.Contracts" />
+    <!--#endif -->
     <PackageReference Include="LeanCode.Contracts" />
     <PackageReference Include="LeanCode.Contracts.Admin" />
     <PackageReference Include="LeanCode.ForceUpdate.Contracts" />
