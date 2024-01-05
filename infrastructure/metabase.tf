@@ -135,15 +135,12 @@ output "metabase_roles_script" {
       on tables
       to "${module.postgresql.roles["metabase"].name}";
 
-
       grant select on all tables in schema public to "${module.postgresql.roles["metabase"].name}";
 
       alter default privileges for role "${local.databases["examples"].ad_roles.migrations_role}"
       grant usage
       on schemas
       to "${module.postgresql.roles["metabase"].name}";
-
-      grant usage on all schemas to "${module.postgresql.roles["metabase"].name}";
 
       revoke "${local.databases["examples"].ad_roles.migrations_role}" from "${module.postgresql.administrator_login}";
     EOT
