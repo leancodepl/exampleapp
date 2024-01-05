@@ -20,6 +20,7 @@
       "exclude": [
         "**/[Bb]in/**",
         "**/[Oo]bj/**",
+        "**/TestResults/**",
         "**/out/**",
         "**/*secrets.sh",
         "**/Migrations/*.cs",
