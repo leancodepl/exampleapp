@@ -24,7 +24,7 @@ local_resource(
 
 local_resource(
   'build-examples-migrations',
-  'dotnet publish -o dev/out/migrations src/Examples/ExampleApp.Examples.Migrations',
+  './dev/config/build_migrations_bundle.sh',
   dir='.',
   deps=['src/Examples', 'Directory.Build.props', 'Directory.Packages.props'],
   ignore=['**/obj', '**/bin'],

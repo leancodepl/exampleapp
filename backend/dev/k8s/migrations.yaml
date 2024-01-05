@@ -6,6 +6,7 @@ metadata:
   labels:
     app: exampleapp-examples-migrations
 spec:
+  ttlSecondsAfterFinished: 0
   backoffLimit: 3
   template:
     metadata:

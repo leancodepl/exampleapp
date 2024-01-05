@@ -15,7 +15,7 @@ ENV APP_VERSION=${APP_VERSION}
 ENV ASPNETCORE_ENVIRONMENT=Development
 
 COPY --chown=$APP_UID config /home/app/config
-COPY --chown=$APP_UID out/migrations /home/app/bin
+COPY --chown=$APP_UID out/migrations /home/app/bin/migrations
 
 WORKDIR /home/app/bin
 ENTRYPOINT /home/app/config/migrate.sh
