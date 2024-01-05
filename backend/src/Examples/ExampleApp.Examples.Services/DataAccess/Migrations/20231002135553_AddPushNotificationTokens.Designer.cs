@@ -10,11 +10,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace ExampleApp.Examples.Migrations.Migrations
+namespace ExampleApp.Examples.Services.DataAccess.Migrations
 {
     [DbContext(typeof(ExamplesDbContext))]
-    [Migration("20230926131658_UpdateOutboxForMT81")]
-    partial class UpdateOutboxForMT81
+    [Migration("20231002135553_AddPushNotificationTokens")]
+    partial class AddPushNotificationTokens
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -117,6 +117,25 @@ namespace ExampleApp.Examples.Migrations.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("KratosIdentities");
+                });
+
+            modelBuilder.Entity("LeanCode.Firebase.FCM.PushNotificationTokenEntity<System.Guid>", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Token")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("UserId", "Token");
+
+                    b.HasIndex("Token")
+                        .IsUnique();
+
+                    b.ToTable("PushNotificationTokens");
                 });
 
             modelBuilder.Entity("MassTransit.EntityFrameworkCoreIntegration.InboxState", b =>

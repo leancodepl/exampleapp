@@ -10,74 +10,21 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace ExampleApp.Examples.Migrations.Migrations
+namespace ExampleApp.Examples.Services.DataAccess.Migrations
 {
     [DbContext(typeof(ExamplesDbContext))]
-    [Migration("20231002135553_AddPushNotificationTokens")]
-    partial class AddPushNotificationTokens
+    [Migration("20230725113911_AddKratosIdentities")]
+    partial class AddKratosIdentities
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.0-rc.1.23419.6")
+                .HasAnnotation("ProductVersion", "8.0.0-preview.5.23280.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            NpgsqlModelBuilderExtensions.HasPostgresExtension(modelBuilder, "citext");
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
-
-            modelBuilder.Entity("ExampleApp.Examples.Domain.Employees.Employee", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("citext");
-
-                    b.Property<DateTime>("DateModified")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("DateModified");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<uint>("xmin")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("xid")
-                        .HasColumnName("xmin");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Employees");
-                });
-
-            modelBuilder.Entity("ExampleApp.Examples.Domain.Projects.Project", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("citext");
-
-                    b.Property<DateTime>("DateModified")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("DateModified");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<uint>("xmin")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("xid")
-                        .HasColumnName("xmin");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Projects");
-                });
 
             modelBuilder.Entity("ExampleApp.Examples.Services.DataAccess.Entities.KratosIdentity", b =>
                 {
@@ -117,25 +64,6 @@ namespace ExampleApp.Examples.Migrations.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("KratosIdentities");
-                });
-
-            modelBuilder.Entity("LeanCode.Firebase.FCM.PushNotificationTokenEntity<System.Guid>", b =>
-                {
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Token")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.HasKey("UserId", "Token");
-
-                    b.HasIndex("Token")
-                        .IsUnique();
-
-                    b.ToTable("PushNotificationTokens");
                 });
 
             modelBuilder.Entity("MassTransit.EntityFrameworkCoreIntegration.InboxState", b =>
@@ -239,10 +167,6 @@ namespace ExampleApp.Examples.Migrations.Migrations
                     b.Property<Guid>("MessageId")
                         .HasColumnType("uuid");
 
-                    b.Property<string>("MessageType")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<Guid?>("OutboxId")
                         .HasColumnType("uuid");
 
@@ -306,39 +230,6 @@ namespace ExampleApp.Examples.Migrations.Migrations
                     b.HasIndex("Created");
 
                     b.ToTable("OutboxState");
-                });
-
-            modelBuilder.Entity("ExampleApp.Examples.Domain.Projects.Project", b =>
-                {
-                    b.OwnsMany("ExampleApp.Examples.Domain.Projects.Assignment", "Assignments", b1 =>
-                        {
-                            b1.Property<string>("ParentProjectId")
-                                .HasColumnType("citext");
-
-                            b1.Property<string>("Id")
-                                .HasColumnType("citext");
-
-                            b1.Property<string>("AssignedEmployeeId")
-                                .HasColumnType("citext");
-
-                            b1.Property<string>("Name")
-                                .IsRequired()
-                                .HasColumnType("text");
-
-                            b1.Property<int>("Status")
-                                .HasColumnType("integer");
-
-                            b1.HasKey("ParentProjectId", "Id");
-
-                            b1.ToTable("Assignments", (string)null);
-
-                            b1.WithOwner("ParentProject")
-                                .HasForeignKey("ParentProjectId");
-
-                            b1.Navigation("ParentProject");
-                        });
-
-                    b.Navigation("Assignments");
                 });
 
             modelBuilder.Entity("ExampleApp.Examples.Services.DataAccess.Entities.KratosIdentity", b =>
