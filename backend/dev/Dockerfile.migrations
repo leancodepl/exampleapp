@@ -1,11 +1,4 @@
-FROM mcr.microsoft.com/dotnet/sdk:8.0
-
-USER root
-
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends unzip procps \
-    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-RUN curl -sSL https://aka.ms/getvsdbgsh | bash /dev/stdin -v latest -l /vsdbg
+FROM mcr.microsoft.com/dotnet/aspnet:8.0
 
 USER $APP_UID
 
