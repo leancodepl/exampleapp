@@ -117,7 +117,7 @@ leancode.builder('exampleapp-backend')
 
             stage('Build migrations bundle') {
                 dir('src/Examples/ExampleApp.Examples.Api') {
-                    env.PostgreSQL__ConnectionStringBase = "Host=localhost;Username=postgres;Password=$dbPassword"
+                    env.PostgreSQL__ConnectionString = "Host=localhost;Username=postgres;Password=$dbPassword"
 
                     sh '''
                         dotnet ef migrations bundle -o deploy/migrations -r linux-x64 --force --no-build --configuration Release
