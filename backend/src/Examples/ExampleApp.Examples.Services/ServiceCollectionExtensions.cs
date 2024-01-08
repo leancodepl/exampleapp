@@ -42,7 +42,7 @@ public static class ServiceCollectionExtensions
                     //+:cnd:noEmit
                     .UseNpgsql(
                         sp.GetRequiredService<NpgsqlDataSource>(),
-                        cfg => cfg.MigrationsAssembly("ExampleApp.Examples.Services").SetPostgresVersion(15, 0)
+                        cfg => cfg.MigrationsAssembly(typeof(ExamplesDbContext).Assembly.FullName).SetPostgresVersion(15, 0)
                     )
         );
 

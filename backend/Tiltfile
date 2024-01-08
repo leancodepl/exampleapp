@@ -24,10 +24,7 @@ local_resource(
 
 local_resource(
   'build-examples-migrations',
-  '''bash -c "
-  source dev/config/config.sh
-  dotnet ef migrations bundle -o dev/out/migrations --project src/Examples/ExampleApp.Examples.Api -r linux-x64 --force
-  "''',
+  ["/bin/bash", "-c", "source dev/config/config.sh && dotnet ef migrations bundle -o dev/out/migrations --project src/Examples/ExampleApp.Examples.Api -r linux-x64 --force"],
   dir='.',
   deps=['src/Examples', 'Directory.Build.props', 'Directory.Packages.props'],
   ignore=['**/obj', '**/bin'],
@@ -82,7 +79,7 @@ docker_build_with_restart(
 docker_build_with_restart(
   'exampleapp-examples-migrations',
   context='dev',
-  entrypoint='/home/app/config/migrate.sh',
+  entrypoint=["/bin/bash", "-c", "source /home/app/config/config.sh && ./migrations"],
   dockerfile='dev/Dockerfile.migrations',
   only=['out/migrations', 'config'],
   live_update=[
