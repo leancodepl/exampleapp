@@ -120,7 +120,7 @@ leancode.builder('exampleapp-backend')
                     env.PostgreSQL__ConnectionStringBase = "Host=localhost;Username=postgres;Password=$dbPassword"
 
                     sh '''
-                        dotnet ef migrations bundle -o migrations --force
+                        dotnet ef migrations bundle -o migrations -r linux-x64 --force --no-build
                     '''
                 }
             }

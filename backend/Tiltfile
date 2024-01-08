@@ -26,7 +26,7 @@ local_resource(
   'build-examples-migrations',
   '''bash -c "
   source dev/config/config.sh
-  dotnet ef migrations bundle -o dev/out/migrations --project src/Examples/ExampleApp.Examples.Api --force
+  dotnet ef migrations bundle -o dev/out/migrations --project src/Examples/ExampleApp.Examples.Api -r linux-x64 --force
   "''',
   dir='.',
   deps=['src/Examples', 'Directory.Build.props', 'Directory.Packages.props'],
