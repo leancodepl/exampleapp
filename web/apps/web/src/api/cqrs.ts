@@ -206,6 +206,21 @@ export namespace CreateProject {
     } as const;
     export type ErrorCodes = typeof ErrorCodes;
 }
+/**
+ * @attribute LeanCode.Contracts.Security.AuthorizeWhenHasAnyOfAttribute
+ */
+export interface ElectProjectLeader extends Command {
+    ProjectId: string;
+    EmployeeId: string;
+}
+export namespace ElectProjectLeader {
+    export const ErrorCodes = {
+        ProjectDoesNotExist: 1,
+        EmployeeDoesNotExist: 2,
+        EmployeeMustBeAssignedToAnyAssignment: 3
+    } as const;
+    export type ErrorCodes = typeof ErrorCodes;
+}
 export interface EmployeeAssignedToAssignmentDTO {
     AssignmentId: string;
     EmployeeId: string;
@@ -230,6 +245,8 @@ export interface EmployeeUnassignedFromProjectAssignmentDTO {
 export interface ProjectDTO {
     Id: string;
     Name: string;
+    ProjectLeaderId?: string | null;
+    ProjectLeaderName?: string | null;
 }
 /**
  * @attribute LeanCode.Contracts.Security.AllowUnauthorizedAttribute
@@ -354,6 +371,7 @@ export default function (cqrsClient: CQRS) {
         AllProjectsAdmin: cqrsClient.createQuery<AllProjectsAdmin, AdminQueryResult<AdminProjectDTO>>("ExampleApp.Examples.Contracts.Projects.AllProjectsAdmin"),
         AssignEmployeeToAssignment: cqrsClient.createCommand<AssignEmployeeToAssignment, AssignEmployeeToAssignment.ErrorCodes>("ExampleApp.Examples.Contracts.Projects.AssignEmployeeToAssignment", AssignEmployeeToAssignment.ErrorCodes),
         CreateProject: cqrsClient.createCommand<CreateProject, CreateProject.ErrorCodes>("ExampleApp.Examples.Contracts.Projects.CreateProject", CreateProject.ErrorCodes),
+        ElectProjectLeader: cqrsClient.createCommand<ElectProjectLeader, ElectProjectLeader.ErrorCodes>("ExampleApp.Examples.Contracts.Projects.ElectProjectLeader", ElectProjectLeader.ErrorCodes),
         EmployeeAssignmentsTopic: cqrsClient.createTopic<EmployeeAssignmentsTopic, {
             "ExampleApp.Examples.Contracts.Projects.EmployeeAssignedToProjectAssignmentDTO": EmployeeAssignedToProjectAssignmentDTO;
             "ExampleApp.Examples.Contracts.Projects.EmployeeUnassignedFromProjectAssignmentDTO": EmployeeUnassignedFromProjectAssignmentDTO;
