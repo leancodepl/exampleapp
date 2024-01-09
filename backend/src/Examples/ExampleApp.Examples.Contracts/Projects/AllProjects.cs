@@ -13,4 +13,6 @@ public class ProjectDTO
 {
     public string Id { get; set; }
     public string Name { get; set; }
+    public string? ProjectLeaderId { get; set; }
+    public string? ProjectLeaderName { get; set; }
 }
