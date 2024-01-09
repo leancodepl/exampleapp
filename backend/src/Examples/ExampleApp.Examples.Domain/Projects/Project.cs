@@ -14,6 +14,7 @@ public class Project : IAggregateRoot<ProjectId>
 
     public ProjectId Id { get; private init; }
     public string Name { get; private set; } = default!;
+    public EmployeeId? ProjectLeaderId { get; private set; }
 
     public IReadOnlyList<Assignment> Assignments => assignments;
 
@@ -52,6 +53,16 @@ public class Project : IAggregateRoot<ProjectId>
 
         assignment.UnassignEmployee();
         DomainEvents.Raise(new EmployeeUnassignedFromAssignment(assignment, previousEmployeeId));
+    }
+
+    public void ElectProjectLeader(EmployeeId projectLeaderId)
+    {
+        if (!Assignments.Any(a => a.AssignedEmployeeId == projectLeaderId))
+        {
+            throw new InvalidOperationException("Employee with no assignments cannot be the project leader.");
+        }
+
+        ProjectLeaderId = projectLeaderId;
     }
 
     public void ChangeAssignmentStatus(AssignmentId assignmentId, Assignment.AssignmentStatus status)
