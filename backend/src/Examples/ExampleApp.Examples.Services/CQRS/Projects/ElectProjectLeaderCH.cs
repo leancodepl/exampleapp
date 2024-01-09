@@ -71,3 +71,33 @@ public class ElectProjectLeaderCV : AbstractValidator<ElectProjectLeader>
                 .AnyAsync(a => a.AssignedEmployeeId == employeeId, ct);
     }
 }
+
+public class ElectProjectLeaderCH : ICommandHandler<ElectProjectLeader>
+{
+    private readonly Serilog.ILogger logger = Serilog.Log.ForContext<ElectProjectLeaderCH>();
+
+    private readonly IRepository<Project, ProjectId> projects;
+
+    public ElectProjectLeaderCH(IRepository<Project, ProjectId> projects)
+    {
+        this.projects = projects;
+    }
+
+    public async Task ExecuteAsync(HttpContext context, ElectProjectLeader command)
+    {
+        var project = await projects.FindAndEnsureExistsAsync(
+            ProjectId.Parse(command.ProjectId),
+            context.RequestAborted
+        );
+
+        project.ElectProjectLeader(EmployeeId.Parse(command.EmployeeId));
+
+        projects.Update(project);
+
+        logger.Information(
+            "Employee {EmployeeId} elected as project {ProjectId} leader",
+            command.EmployeeId,
+            command.ProjectId
+        );
+    }
+}
