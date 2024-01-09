@@ -21,7 +21,19 @@ public class AllProjectsQH : IQueryHandler<AllProjects, List<ProjectDTO>>
         return dbContext
             .Projects
             .OrderBy(p => p.Name, query.SortByNameDescending)
-            .Select(p => new ProjectDTO { Id = p.Id, Name = p.Name, })
+            .LeftJoin(
+                dbContext.Employees,
+                p => p.ProjectLeaderId,
+                e => e.Id,
+                (p, e) =>
+                    new ProjectDTO
+                    {
+                        Id = p.Id,
+                        Name = p.Name,
+                        ProjectLeaderId = p.ProjectLeaderId,
+                        ProjectLeaderName = e!.Name,
+                    }
+            )
             .ToListAsync(context.RequestAborted);
     }
 }

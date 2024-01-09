@@ -2,6 +2,7 @@ using ExampleApp.Examples.Contracts.Projects;
 using ExampleApp.Examples.Domain.Projects;
 using ExampleApp.Examples.Services.DataAccess;
 using LeanCode.CQRS.Execution;
+using LeanCode.QueryableExtensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
@@ -26,12 +27,17 @@ public class ProjectDetailsQH : IQueryHandler<ProjectDetails, ProjectDetailsDTO?
         return dbContext
             .Projects
             .Where(p => p.Id == projectId)
-            .Select(
-                p =>
+            .LeftJoin(
+                dbContext.Employees,
+                p => p.ProjectLeaderId,
+                e => e.Id,
+                (p, e) =>
                     new ProjectDetailsDTO
                     {
                         Id = p.Id,
                         Name = p.Name,
+                        ProjectLeaderId = p.ProjectLeaderId,
+                        ProjectLeaderName = e!.Name,
                         Assignments = p.Assignments
                             .Select(a => new AssignmentDTO { Id = a.Id, Name = a.Name })
                             .ToList(),
