@@ -63,6 +63,7 @@ public class Project : IAggregateRoot<ProjectId>
         }
 
         ProjectLeaderId = projectLeaderId;
+        DomainEvents.Raise(new ProjectLeaderElected(this));
     }
 
     public void ChangeAssignmentStatus(AssignmentId assignmentId, Assignment.AssignmentStatus status)
