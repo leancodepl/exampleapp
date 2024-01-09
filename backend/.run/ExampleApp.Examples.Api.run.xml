@@ -1,0 +1,37 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="ExampleApp.Examples.Api" type="DotNetProject" factoryName=".NET Project">
+    <option name="EXE_PATH" value="$PROJECT_DIR$/src/Examples/ExampleApp.Examples.Api/bin/Debug/net8.0/ExampleApp.Examples.Api" />
+    <option name="PROGRAM_PARAMETERS" value="" />
+    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+    <option name="PASS_PARENT_ENVS" value="1" />
+    <envs>
+      <env name="ASPNETCORE_ENVIRONMENT" value="Development" />
+      <env name="ASPNETCORE_FORWARDEDHEADERS_ENABLED" value="true" />
+      <env name="BlobStorage__ConnectionString" value="DefaultEndpointsProtocol=http;AccountName=blobstorage;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=blobstorage.local.lncd.pl/;" />
+      <env name="ConfigCat__FlagOverridesFilePath" value="dev/config/ConfigCatFlagOverrides.json" />
+      <env name="CORS__AllowedOrigins__0" value="https://local.lncd.pl" />
+      <env name="Kratos__AdminEndpoint" value="https://auth.exampleapp.test.lncd.pl:4434" />
+      <env name="Kratos__PublicEndpoint" value="https://auth.exampleapp.test.lncd.pl" />
+      <env name="Kratos__WebhookApiKey" value="Passw12#" />
+      <env name="Logging__EnableDetailedInternalLogs" value="true" />
+      <env name="Logging__MinimumLevel" value="Verbose" />
+      <env name="Logging__SeqEndpoint" value="https://seq.local.lncd.pl" />
+      <env name="Metabase__AssignmentEmployerEmbedQuestion" value="1" />
+      <env name="Metabase__SecretKey" value="embedding_secret_key_that_needs_to_have_256_bits" />
+      <env name="Metabase__Url" value="https://metabase.local.lncd.pl" />
+      <env name="PostgreSQL__ConnectionString" value="Host=localhost:5432;Database=examples;Username=examples;Password=Passw12#" />
+    </envs>
+    <option name="USE_EXTERNAL_CONSOLE" value="0" />
+    <option name="USE_MONO" value="0" />
+    <option name="RUNTIME_ARGUMENTS" value="" />
+    <option name="PROJECT_PATH" value="$PROJECT_DIR$/src/Examples/ExampleApp.Examples.Api/ExampleApp.Examples.Api.csproj" />
+    <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+    <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+    <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="0" />
+    <option name="PROJECT_KIND" value="DotNetCore" />
+    <option name="PROJECT_TFM" value="net8.0" />
+    <method v="2">
+      <option name="Build" />
+    </method>
+  </configuration>
+</component>
