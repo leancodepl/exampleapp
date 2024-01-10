@@ -24,7 +24,7 @@ local_resource(
 
 local_resource(
   'build-examples-migrations',
-  ["/bin/bash", "-c", "source dev/config/config.sh && dotnet ef migrations bundle -o dev/out/migrations --project src/Examples/ExampleApp.Examples.Api -r linux-x64 --force"],
+  ["/bin/bash", "-c", "source dev/config/config.sh && dotnet ef migrations bundle -o dev/out/migrations --project src/Examples/ExampleApp.Examples.Api --force"],
   dir='.',
   deps=['src/Examples', 'Directory.Build.props', 'Directory.Packages.props'],
   ignore=['**/obj', '**/bin'],
