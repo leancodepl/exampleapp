@@ -32,7 +32,7 @@ public class ExamplesDbContextFactory : IDesignTimeDbContextFactory<ExamplesDbCo
     {
         var optionsBuilder = new DbContextOptionsBuilder<ExamplesDbContext>();
 
-        optionsBuilder.UseNpgsql(DataSource.CreateConnection());
+        optionsBuilder.UseNpgsql(DataSource, cfg => cfg.SetPostgresVersion(15, 0));
 
         return new ExamplesDbContext(optionsBuilder.Options);
     }
