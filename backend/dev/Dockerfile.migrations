@@ -1,11 +1,4 @@
-FROM mcr.microsoft.com/dotnet/sdk:8.0
-
-USER root
-
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends unzip procps \
-    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-RUN curl -sSL https://aka.ms/getvsdbgsh | bash /dev/stdin -v latest -l /vsdbg
+FROM mcr.microsoft.com/dotnet/aspnet:8.0
 
 USER $APP_UID
 
@@ -15,7 +8,7 @@ ENV APP_VERSION=${APP_VERSION}
 ENV ASPNETCORE_ENVIRONMENT=Development
 
 COPY --chown=$APP_UID config /home/app/config
-COPY --chown=$APP_UID out/migrations /home/app/bin
+COPY --chown=$APP_UID out/migrations /home/app/bin/migrations
 
 WORKDIR /home/app/bin
-ENTRYPOINT /home/app/config/migrate.sh
+ENTRYPOINT ["/bin/bash", "-c", "source /home/app/config/config.sh && ./migrations"]

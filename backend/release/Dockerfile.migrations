@@ -4,6 +4,6 @@ USER $APP_UID
 
 WORKDIR /home/app
 
-COPY src/Examples/ExampleApp.Examples.Migrations/deploy .
+COPY src/Examples/ExampleApp.Examples.Api/deploy/migrations .
 
-ENTRYPOINT ["dotnet", "ExampleApp.Examples.Migrations.dll", "migrate"]
+ENTRYPOINT ["./migrations"]

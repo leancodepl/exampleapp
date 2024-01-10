@@ -113,8 +113,15 @@ leancode.builder('exampleapp-backend')
                 dir('src/Examples/ExampleApp.Examples.Api') {
                     sh 'dotnet publish -c Release -o deploy --no-build'
                 }
-                dir('src/Examples/ExampleApp.Examples.Migrations') {
-                    sh 'dotnet publish -c Release -o deploy --no-build'
+            }
+
+            stage('Build migrations bundle') {
+                dir('src/Examples/ExampleApp.Examples.Api') {
+                    env.PostgreSQL__ConnectionString = "Host=localhost;Username=postgres;Password=$dbPassword"
+
+                    sh '''
+                        dotnet ef migrations bundle -o deploy/migrations --force --no-build --configuration Release
+                    '''
                 }
             }
         }
