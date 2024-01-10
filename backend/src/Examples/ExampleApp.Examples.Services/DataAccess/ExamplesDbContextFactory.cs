@@ -10,29 +10,33 @@ namespace ExampleApp.Examples.Services.DataAccess;
 public class ExamplesDbContextFactory : IDesignTimeDbContextFactory<ExamplesDbContext>
 {
     private const string ConnectionStringKey = "PostgreSQL__ConnectionString";
-    private static readonly NpgsqlDataSource DataSource = CreateDataSource();
+    private readonly NpgsqlDataSource dataSource;
 
-    private static NpgsqlDataSource CreateDataSource()
+    public ExamplesDbContextFactory(NpgsqlDataSource dataSource)
     {
-        var connectionString =
-            Environment.GetEnvironmentVariable(ConnectionStringKey)
-            ?? throw new InvalidOperationException("Failed to find connection string.");
+        this.dataSource = dataSource;
+    }
 
-        var dataSourceBuilder = new NpgsqlDataSourceBuilder(connectionString);
+    public ExamplesDbContextFactory()
+    {
+        var dataSourceBuilder = new NpgsqlDataSourceBuilder(Environment.GetEnvironmentVariable(ConnectionStringKey));
+        var connectionStringBuilder = dataSourceBuilder.ConnectionStringBuilder;
 
-        if (dataSourceBuilder.ConnectionStringBuilder.Password is null)
+        connectionStringBuilder.Host ??= Environment.GetEnvironmentVariable("PGHOST") ?? "localhost";
+
+        if (connectionStringBuilder.Host.EndsWith(".azure.com") && connectionStringBuilder.Password is null)
         {
             dataSourceBuilder.UseAzureActiveDirectoryAuthentication(DefaultLeanCodeCredential.CreateFromEnvironment());
         }
 
-        return dataSourceBuilder.Build();
+        dataSource = dataSourceBuilder.Build();
     }
 
     public ExamplesDbContext CreateDbContext(string[] args)
     {
         var optionsBuilder = new DbContextOptionsBuilder<ExamplesDbContext>();
 
-        optionsBuilder.UseNpgsql(DataSource, cfg => cfg.SetPostgresVersion(15, 0));
+        optionsBuilder.UseNpgsql(dataSource, cfg => cfg.SetPostgresVersion(15, 0));
 
         return new ExamplesDbContext(optionsBuilder.Options);
     }
