@@ -37,11 +37,35 @@ module "app_config" {
   k8s_secrets = {
     "exampleapp-examples-api-secret" = {
       labels = merge(local.tags, { component = "api" })
-      data = local.k8s_secret_data
+      data = merge(local.backend_cors_allowed_origins, {
+        "ASPNETCORE_ENVIRONMENT" = title(var.environment)
+
+        "Logging__MinimumLevel"               = "Information"
+        "Logging__EnableDetailedInternalLogs" = "true"
+
+        "Azure__UseAzureWorkloadIdentity" = "true"
+        "KeyVault__VaultUrl"              = module.key_vault.vault_url
+
+        "Kratos__PublicEndpoint" = module.kratos.internal_service_url.public
+        "Kratos__AdminEndpoint"  = module.kratos.internal_service_url.admin
+
+        "AuditLogs__ContainerName" = module.storage.storage_containers["audit-logs"].name
+        "AuditLogs__TableName"     = azurerm_storage_table.audit_logs.name
+
+        "Metabase__Url"       = "https://${kubernetes_ingress_v1.metabase_ingress.spec[0].rule[0].host}"
+        "Metabase__SecretKey" = random_password.metabase_embedding_key.result
+        //#if Example
+        "Metabase__AssignmentEmployerEmbedQuestion" = 1
+        //#endif
+      })
     }
     "exampleapp-examples-migrations-secret" = {
       labels = merge(local.tags, { component = "migrations" })
-      data = local.k8s_secret_data
+      data = {
+        "Azure__UseAzureWorkloadIdentity" = "true"
+
+        "PostgreSQL__ConnectionString" = module.postgresql.ad_roles[module.managed_identity_examples_migrations.managed_identity.name].npg_connection_string
+      }
     }
   }
 }
@@ -50,26 +74,4 @@ locals {
   backend_cors_allowed_origins = {
     for idx, element in concat(["https://${var.domain}"], var.backend_dev_allowed_origins) : "CORS__AllowedOrigins__${idx}" => element
   }
-
-  k8s_secret_data = merge(local.backend_cors_allowed_origins, {
-    "ASPNETCORE_ENVIRONMENT" = title(var.environment)
-
-    "Logging__MinimumLevel"               = "Information"
-    "Logging__EnableDetailedInternalLogs" = "true"
-
-    "Azure__UseAzureWorkloadIdentity" = "true"
-    "KeyVault__VaultUrl"              = module.key_vault.vault_url
-
-    "Kratos__PublicEndpoint" = module.kratos.internal_service_url.public
-    "Kratos__AdminEndpoint"  = module.kratos.internal_service_url.admin
-
-    "AuditLogs__ContainerName" = module.storage.storage_containers["audit-logs"].name
-    "AuditLogs__TableName"     = azurerm_storage_table.audit_logs.name
-
-    "Metabase__Url"       = "https://${kubernetes_ingress_v1.metabase_ingress.spec[0].rule[0].host}"
-    "Metabase__SecretKey" = random_password.metabase_embedding_key.result
-    //#if Example
-    "Metabase__AssignmentEmployerEmbedQuestion" = 1
-    //#endif
-  })
 }

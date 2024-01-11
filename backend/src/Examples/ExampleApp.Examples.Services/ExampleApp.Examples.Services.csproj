@@ -21,6 +21,7 @@
     <!--#if Example -->
     <PackageReference Include="LeanCode.AppRating" />
     <!--#endif -->
+    <PackageReference Include="LeanCode.AzureIdentity" />
     <PackageReference Include="LeanCode.Components" />
     <PackageReference Include="LeanCode.CQRS.Execution" />
     <PackageReference Include="LeanCode.CQRS.MassTransitRelay" />
