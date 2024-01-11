@@ -119,7 +119,8 @@ public class ExamplesDbContext : DbContext
 
         builder.Entity<Project>(e =>
         {
-            e.HasKey(t => t.Id);
+            e.HasKey(p => p.Id);
+            e.Property(p => p.ProjectLeaderId);
 
             e.OwnsMany(
                 p => p.Assignments,
