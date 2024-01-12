@@ -3,7 +3,8 @@ using LeanCode.Contracts.Security;
 
 namespace ExampleApp.Examples.Contracts.Projects;
 
-[AuthorizeWhenHasAnyOf(Auth.Roles.Admin)]
+// [AuthorizeWhenHasAnyOf(Auth.Roles.Admin)]
+[AllowUnauthorized]
 public class ElectProjectLeader : ICommand
 {
     public string ProjectId { get; set; }

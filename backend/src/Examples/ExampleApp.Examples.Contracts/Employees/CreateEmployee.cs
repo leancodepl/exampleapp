@@ -3,7 +3,8 @@ using LeanCode.Contracts.Security;
 
 namespace ExampleApp.Examples.Contracts.Employees;
 
-[AuthorizeWhenHasAnyOf(Auth.Roles.Admin)]
+// [AuthorizeWhenHasAnyOf(Auth.Roles.Admin)]
+[AllowUnauthorized]
 public class CreateEmployee : ICommand
 {
     public string Name { get; set; }
