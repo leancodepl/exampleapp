@@ -9,11 +9,11 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace ExampleApp.Examples.Services.CQRS.Dashboards;
 
-public class AllEmployeesQH : IQueryHandler<AssignmentEmployerEmbed, Uri>
+public class AssignmentEmployerEmbedQH : IQueryHandler<AssignmentEmployerEmbed, Uri>
 {
     private readonly MetabaseConfiguration config;
 
-    public AllEmployeesQH(MetabaseConfiguration config)
+    public AssignmentEmployerEmbedQH(MetabaseConfiguration config)
     {
         this.config = config;
     }

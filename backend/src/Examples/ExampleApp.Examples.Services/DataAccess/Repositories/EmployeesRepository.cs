@@ -11,6 +11,6 @@ public class EmployeesRepository : EFRepository<Employee, EmployeeId, ExamplesDb
 
     public override Task<Employee?> FindAsync(EmployeeId id, CancellationToken cancellationToken = default)
     {
-        return DbSet.AsTracking().FirstOrDefaultAsync(e => e.Id == id, cancellationToken)!;
+        return DbSet.AsTracking().FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
     }
 }
