@@ -34,12 +34,12 @@ public class AddAssignmentsToProjectCV : AbstractValidator<AddAssignmentsToProje
     private async Task CheckProjectExistsAsync(
         string pid,
         ValidationContext<AddAssignmentsToProject> ctx,
-        CancellationToken ct
+        CancellationToken cancellationToken
     )
     {
         if (
             ProjectId.TryParse(pid, out var projectId)
-            && !await ctx.GetService<ExamplesDbContext>().Projects.AnyAsync(p => p.Id == projectId, ct)
+            && !await ctx.GetService<ExamplesDbContext>().Projects.AnyAsync(p => p.Id == projectId, cancellationToken)
         )
         {
             ctx.AddValidationError(

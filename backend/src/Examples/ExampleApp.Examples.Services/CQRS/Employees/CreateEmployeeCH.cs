@@ -29,7 +29,7 @@ public class CreateEmployeeCV : AbstractValidator<CreateEmployee>
     private static async Task CheckEmployeeExistsAsync(
         string email,
         ValidationContext<CreateEmployee> ctx,
-        CancellationToken ct
+        CancellationToken cancellationToken
     )
     {
         if (email is null)
@@ -39,7 +39,11 @@ public class CreateEmployeeCV : AbstractValidator<CreateEmployee>
 
         email = email.ToLowerInvariant();
 
-        if (await ctx.GetService<ExamplesDbContext>().Employees.AnyAsync(e => e.Email.ToLower() == email, ct))
+        if (
+            await ctx.GetService<ExamplesDbContext>()
+                .Employees
+                .AnyAsync(e => e.Email.ToLower() == email, cancellationToken)
+        )
         {
             ctx.AddValidationError(
                 "An employee with such email already exists.",

@@ -33,7 +33,7 @@ public class AssignEmployeeToAssignmentCV : AbstractValidator<AssignEmployeeToAs
     private static async Task CheckProjectWithAssignmentExistsAsync(
         string aid,
         ValidationContext<AssignEmployeeToAssignment> ctx,
-        CancellationToken ct
+        CancellationToken cancellationToken
     )
     {
         if (
@@ -41,7 +41,7 @@ public class AssignEmployeeToAssignmentCV : AbstractValidator<AssignEmployeeToAs
             && !await ctx.GetService<ExamplesDbContext>()
                 .Projects
                 .SelectMany(p => p.Assignments)
-                .AnyAsync(a => a.Id == assignmentId, ct)
+                .AnyAsync(a => a.Id == assignmentId, cancellationToken)
         )
         {
             ctx.AddValidationError(
@@ -54,12 +54,12 @@ public class AssignEmployeeToAssignmentCV : AbstractValidator<AssignEmployeeToAs
     private static async Task CheckEmployeeExistsAsync(
         string pid,
         ValidationContext<AssignEmployeeToAssignment> ctx,
-        CancellationToken ct
+        CancellationToken cancellationToken
     )
     {
         if (
             EmployeeId.TryParse(pid, out var employeeId)
-            && !await ctx.GetService<ExamplesDbContext>().Employees.AnyAsync(p => p.Id == employeeId, ct)
+            && !await ctx.GetService<ExamplesDbContext>().Employees.AnyAsync(p => p.Id == employeeId, cancellationToken)
         )
         {
             ctx.AddValidationError(

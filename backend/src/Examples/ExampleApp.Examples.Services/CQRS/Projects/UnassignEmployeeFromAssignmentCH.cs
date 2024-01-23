@@ -25,7 +25,7 @@ public class UnassignEmployeeFromAssignmentCV : AbstractValidator<UnassignEmploy
     private static async Task CheckProjectWithAssignmentExistsAsync(
         string aid,
         ValidationContext<UnassignEmployeeFromAssignment> ctx,
-        CancellationToken ct
+        CancellationToken cancellationToken
     )
     {
         if (
@@ -33,7 +33,7 @@ public class UnassignEmployeeFromAssignmentCV : AbstractValidator<UnassignEmploy
             && !await ctx.GetService<ExamplesDbContext>()
                 .Projects
                 .SelectMany(p => p.Assignments)
-                .AnyAsync(a => a.Id == assignmentId, ct)
+                .AnyAsync(a => a.Id == assignmentId, cancellationToken)
         )
         {
             ctx.AddValidationError(
