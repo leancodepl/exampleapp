@@ -33,7 +33,8 @@ public class AssignEmployeeToAssignmentCV : AbstractValidator<AssignEmployeeToAs
     private static async Task CheckProjectWithAssignmentExistsAsync(
         string aid,
         ValidationContext<AssignEmployeeToAssignment> ctx,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken
+    )
     {
         if (
             AssignmentId.TryParse(aid, out var assignmentId)
@@ -53,7 +54,8 @@ public class AssignEmployeeToAssignmentCV : AbstractValidator<AssignEmployeeToAs
     private static async Task CheckEmployeeExistsAsync(
         string pid,
         ValidationContext<AssignEmployeeToAssignment> ctx,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken
+    )
     {
         if (
             EmployeeId.TryParse(pid, out var employeeId)

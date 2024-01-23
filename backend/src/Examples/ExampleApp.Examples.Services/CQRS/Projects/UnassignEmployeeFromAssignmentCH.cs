@@ -25,7 +25,8 @@ public class UnassignEmployeeFromAssignmentCV : AbstractValidator<UnassignEmploy
     private static async Task CheckProjectWithAssignmentExistsAsync(
         string aid,
         ValidationContext<UnassignEmployeeFromAssignment> ctx,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken
+    )
     {
         if (
             AssignmentId.TryParse(aid, out var assignmentId)
