@@ -14,6 +14,8 @@ serve:
 cookies:
   domain: "${domain}"
   same_site: Lax
+session:
+  lifespan: 8760h # 1y
 selfservice:
   default_browser_return_url: https://${domain}/
   allowed_return_urls:
