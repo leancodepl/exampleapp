@@ -5,7 +5,7 @@ module "kratos" {
   namespace    = kubernetes_namespace_v1.kratos.metadata[0].name
   project      = "exampleapp"
   ingress_host = "auth.local.lncd.pl"
-  image        = "leancodepublic.azurecr.io/kratos:v1.0.0-192-g020090f37"
+  image        = "leancodepublic.azurecr.io/kratos:v1.1.0-41-gd4959e792"
   replicas     = 1
 
   resources = {
@@ -74,7 +74,7 @@ resource "kubernetes_deployment_v1" "kratos_ui" {
       spec {
         container {
           name  = "kratos-ui"
-          image = "docker.io/oryd/kratos-selfservice-ui-node:v1.0.0"
+          image = "docker.io/oryd/kratos-selfservice-ui-node:v1.1.0"
           env {
             name  = "KRATOS_PUBLIC_URL"
             value = module.kratos.internal_service_url.public
