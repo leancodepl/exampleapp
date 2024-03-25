@@ -225,7 +225,7 @@ tracing:
     otlp:
       insecure: true
       sampling:
-        sampling_ratio: 1.0
+        sampling_ratio: 0.4
 ciphers:
   algorithm: xchacha20-poly1305
 hashers:
