@@ -63,6 +63,10 @@ module "kratos" {
           field_path  = "status.hostIP"
         }
       }
+    },
+    {
+      name  = "TRACING_PROVIDERS_OTLP_SERVER_URL"
+      value = "$(AGENT_HOST_IP):55681"
     }
   ]
 }
