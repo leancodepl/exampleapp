@@ -4,7 +4,7 @@ resource "random_password" "kratos_web_hook_api_key" {
 }
 
 module "kratos" {
-  source     = "git::https://github.com/leancodepl/terraform-kratos-module.git//kratos?ref=v0.1.0"
+  source     = "git::https://github.com/leancodepl/terraform-kratos-module.git//kratos?ref=feature/additional-env"
   depends_on = [postgresql_grant.public["kratos"]]
 
   namespace    = data.kubernetes_namespace_v1.main.metadata[0].name
@@ -53,4 +53,16 @@ module "kratos" {
   dsn = module.postgresql.roles["kratos"].libpg_uri_connection_string
 
   courier_smtp_connection_uri = "smtps://apikey:${var.kratos_sendgrid_api_key}@smtp.sendgrid.net:465"
+
+  env = [
+    {
+      name = "AGENT_HOST_IP"
+      value_from = {
+        field_ref = {
+          api_version = "v1"
+          field_path  = "status.hostIP"
+        }
+      }
+    }
+  ]
 }
