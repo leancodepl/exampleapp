@@ -4,7 +4,7 @@ resource "random_password" "kratos_web_hook_api_key" {
 }
 
 module "kratos" {
-  source     = "git::https://github.com/leancodepl/terraform-kratos-module.git//kratos?ref=feature/additional-env"
+  source     = "git::https://github.com/leancodepl/terraform-kratos-module.git//kratos?ref=v0.2.0"
   depends_on = [postgresql_grant.public["kratos"]]
 
   namespace    = data.kubernetes_namespace_v1.main.metadata[0].name
