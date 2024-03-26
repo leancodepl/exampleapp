@@ -218,6 +218,14 @@ selfservice:
 log:
   level: info
   format: json
+tracing:
+  service_name: Ory Kratos
+  provider: otel
+  providers:
+    otlp:
+      insecure: true
+      sampling:
+        sampling_ratio: 0.4
 ciphers:
   algorithm: xchacha20-poly1305
 hashers:
