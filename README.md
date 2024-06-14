@@ -1,3 +1,3 @@
 ### ExampleApp
 
-Looking for a quick start guide? You can find it [here](https://leancode-corelibrary--582.org.readthedocs.build/quick_start/).
+Looking for a quick start guide? You can find it [here](https://leancode-corelibrary.readthedocs.io/quick_start/).
