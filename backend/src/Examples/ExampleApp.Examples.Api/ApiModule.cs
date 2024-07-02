@@ -46,14 +46,11 @@ internal static class ApiModule
                     c.Add(new(o.RoleClaimType, Roles.User)); // every identity is a valid User
 #if Example
                     if (
-                        s.Identity
-                            .VerifiableAddresses
-                            .Any(
-                                kvia =>
-                                    kvia.Via == "email"
-                                    && kvia.Value.EndsWith("@leancode.pl", false, CultureInfo.InvariantCulture)
-                                    && kvia.Verified
-                            )
+                        s.Identity.VerifiableAddresses.Any(kvia =>
+                            kvia.Via == "email"
+                            && kvia.Value.EndsWith("@leancode.pl", false, CultureInfo.InvariantCulture)
+                            && kvia.Verified
+                        )
                     )
                     {
                         c.Add(new(o.RoleClaimType, Roles.Admin));
@@ -81,15 +78,15 @@ internal static class ApiModule
         {
             services
                 .AddOpenTelemetry()
-                .ConfigureResource(
-                    r => r.AddService("ExampleApp.Examples.Api", serviceInstanceId: Environment.MachineName)
+                .ConfigureResource(r =>
+                    r.AddService("ExampleApp.Examples.Api", serviceInstanceId: Environment.MachineName)
                 )
                 .WithTracing(builder =>
                 {
                     builder
                         .AddProcessor<IdentityTraceAttributesFromBaggageProcessor>()
-                        .AddAspNetCoreInstrumentation(
-                            opts => opts.Filter = ctx => !ctx.Request.Path.StartsWithSegments("/live")
+                        .AddAspNetCoreInstrumentation(opts =>
+                            opts.Filter = ctx => !ctx.Request.Path.StartsWithSegments("/live")
                         )
                         .AddHttpClientInstrumentation()
                         .AddNpgsql()

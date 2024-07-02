@@ -49,8 +49,7 @@ public class SyncKratosIdentity : IConsumer<KratosIdentityUpdated>, IConsumer<Kr
         var identityId = context.Message.IdentityId;
 
         var deleted = await dbContext
-            .KratosIdentities
-            .Where(ki => ki.Id == identityId)
+            .KratosIdentities.Where(ki => ki.Id == identityId)
             .ExecuteDeleteAsync(context.CancellationToken);
 
         if (deleted == 0)
