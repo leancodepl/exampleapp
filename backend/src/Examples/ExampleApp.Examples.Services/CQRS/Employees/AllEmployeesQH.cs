@@ -18,17 +18,13 @@ public class AllEmployeesQH : IQueryHandler<AllEmployees, List<EmployeeDTO>>
     public Task<List<EmployeeDTO>> ExecuteAsync(HttpContext context, AllEmployees query)
     {
         return dbContext
-            .Employees
-            .OrderBy(e => e.Name)
-            .Select(
-                e =>
-                    new EmployeeDTO
-                    {
-                        Id = e.Id,
-                        Name = e.Name,
-                        Email = e.Email,
-                    }
-            )
+            .Employees.OrderBy(e => e.Name)
+            .Select(e => new EmployeeDTO
+            {
+                Id = e.Id,
+                Name = e.Name,
+                Email = e.Email,
+            })
             .ToListAsync(context.RequestAborted);
     }
 }

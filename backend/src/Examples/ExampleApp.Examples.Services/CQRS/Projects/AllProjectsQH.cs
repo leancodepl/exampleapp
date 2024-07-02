@@ -19,8 +19,7 @@ public class AllProjectsQH : IQueryHandler<AllProjects, List<ProjectDTO>>
     public Task<List<ProjectDTO>> ExecuteAsync(HttpContext context, AllProjects query)
     {
         return dbContext
-            .Projects
-            .OrderBy(p => p.Name, query.SortByNameDescending)
+            .Projects.OrderBy(p => p.Name, query.SortByNameDescending)
             .Select(p => new ProjectDTO { Id = p.Id, Name = p.Name, })
             .ToListAsync(context.RequestAborted);
     }

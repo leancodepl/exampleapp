@@ -46,14 +46,11 @@ services
             c.Add(new(o.RoleClaimType, Auth.Roles.User)); // every identity is a valid User
 #if Example
             if (
-                s.Identity
-                    .VerifiableAddresses
-                    .Any(
-                        kvia =>
-                            kvia.Via == "email"
-                            && kvia.Value.EndsWith("@leancode.pl", false, CultureInfo.InvariantCulture)
-                            && kvia.Verified
-                    )
+                s.Identity.VerifiableAddresses.Any(kvia =>
+                    kvia.Via == "email"
+                    && kvia.Value.EndsWith("@leancode.pl", false, CultureInfo.InvariantCulture)
+                    && kvia.Verified
+                )
             )
             {
                 c.Add(new(o.RoleClaimType, Auth.Roles.Admin));
@@ -134,8 +131,8 @@ if (!string.IsNullOrWhiteSpace(otlp))
         {
             builder
                 .AddProcessor<IdentityTraceAttributesFromBaggageProcessor>()
-                .AddAspNetCoreInstrumentation(
-                    opts => opts.Filter = ctx => !ctx.Request.Path.StartsWithSegments("/live")
+                .AddAspNetCoreInstrumentation(opts =>
+                    opts.Filter = ctx => !ctx.Request.Path.StartsWithSegments("/live")
                 )
                 .AddHttpClientInstrumentation()
                 .AddSource(MassTransit.Logging.DiagnosticHeaders.DefaultListenerName)

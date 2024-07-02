@@ -13,13 +13,12 @@ public partial class AddPushNotificationTokens : Migration
     {
         migrationBuilder.CreateTable(
             name: "PushNotificationTokens",
-            columns: table =>
-                new
-                {
-                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Token = table.Column<string>(type: "text", nullable: false),
-                    DateCreated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
-                },
+            columns: table => new
+            {
+                UserId = table.Column<Guid>(type: "uuid", nullable: false),
+                Token = table.Column<string>(type: "text", nullable: false),
+                DateCreated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+            },
             constraints: table =>
             {
                 table.PrimaryKey("PK_PushNotificationTokens", x => new { x.UserId, x.Token });

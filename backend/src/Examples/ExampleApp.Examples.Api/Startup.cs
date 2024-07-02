@@ -243,8 +243,8 @@ public class DefaultConsumerDefinition<TConsumer> : ConsumerDefinition<TConsumer
         IRegistrationContext context
     )
     {
-        endpointConfigurator.UseMessageRetry(
-            r => r.Immediate(1).Incremental(3, TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(5))
+        endpointConfigurator.UseMessageRetry(r =>
+            r.Immediate(1).Incremental(3, TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(5))
         );
         endpointConfigurator.UseEntityFrameworkOutbox<ExamplesDbContext>(context);
         endpointConfigurator.UseDomainEventsPublishing(context);

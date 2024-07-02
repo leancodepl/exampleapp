@@ -15,15 +15,14 @@ public partial class AddEmployeesAndProjects : Migration
 
         migrationBuilder.CreateTable(
             name: "Employees",
-            columns: table =>
-                new
-                {
-                    Id = table.Column<string>(type: "citext", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    Email = table.Column<string>(type: "text", nullable: false),
-                    DateModified = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    xmin = table.Column<uint>(type: "xid", rowVersion: true, nullable: false)
-                },
+            columns: table => new
+            {
+                Id = table.Column<string>(type: "citext", nullable: false),
+                Name = table.Column<string>(type: "text", nullable: false),
+                Email = table.Column<string>(type: "text", nullable: false),
+                DateModified = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                xmin = table.Column<uint>(type: "xid", rowVersion: true, nullable: false)
+            },
             constraints: table =>
             {
                 table.PrimaryKey("PK_Employees", x => x.Id);
@@ -32,14 +31,13 @@ public partial class AddEmployeesAndProjects : Migration
 
         migrationBuilder.CreateTable(
             name: "Projects",
-            columns: table =>
-                new
-                {
-                    Id = table.Column<string>(type: "citext", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    DateModified = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    xmin = table.Column<uint>(type: "xid", rowVersion: true, nullable: false)
-                },
+            columns: table => new
+            {
+                Id = table.Column<string>(type: "citext", nullable: false),
+                Name = table.Column<string>(type: "text", nullable: false),
+                DateModified = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                xmin = table.Column<uint>(type: "xid", rowVersion: true, nullable: false)
+            },
             constraints: table =>
             {
                 table.PrimaryKey("PK_Projects", x => x.Id);
@@ -48,15 +46,14 @@ public partial class AddEmployeesAndProjects : Migration
 
         migrationBuilder.CreateTable(
             name: "Assignments",
-            columns: table =>
-                new
-                {
-                    Id = table.Column<string>(type: "citext", nullable: false),
-                    ParentProjectId = table.Column<string>(type: "citext", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    Status = table.Column<int>(type: "integer", nullable: false),
-                    AssignedEmployeeId = table.Column<string>(type: "citext", nullable: true)
-                },
+            columns: table => new
+            {
+                Id = table.Column<string>(type: "citext", nullable: false),
+                ParentProjectId = table.Column<string>(type: "citext", nullable: false),
+                Name = table.Column<string>(type: "text", nullable: false),
+                Status = table.Column<int>(type: "integer", nullable: false),
+                AssignedEmployeeId = table.Column<string>(type: "citext", nullable: true)
+            },
             constraints: table =>
             {
                 table.PrimaryKey("PK_Assignments", x => new { x.ParentProjectId, x.Id });

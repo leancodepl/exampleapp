@@ -24,19 +24,13 @@ public class ProjectDetailsQH : IQueryHandler<ProjectDetails, ProjectDetailsDTO?
         }
 
         return dbContext
-            .Projects
-            .Where(p => p.Id == projectId)
-            .Select(
-                p =>
-                    new ProjectDetailsDTO
-                    {
-                        Id = p.Id,
-                        Name = p.Name,
-                        Assignments = p.Assignments
-                            .Select(a => new AssignmentDTO { Id = a.Id, Name = a.Name })
-                            .ToList(),
-                    }
-            )
+            .Projects.Where(p => p.Id == projectId)
+            .Select(p => new ProjectDetailsDTO
+            {
+                Id = p.Id,
+                Name = p.Name,
+                Assignments = p.Assignments.Select(a => new AssignmentDTO { Id = a.Id, Name = a.Name }).ToList(),
+            })
             .FirstOrDefaultAsync(context.RequestAborted);
     }
 }

@@ -20,8 +20,7 @@ public class SearchIdentitiesQH : IQueryHandler<SearchIdentities, PaginatedResul
     public Task<PaginatedResult<KratosIdentityDTO>> ExecuteAsync(HttpContext context, SearchIdentities query)
     {
         return dbContext
-            .KratosIdentities
-            .ConditionalWhere(ki => ki.SchemaId == query.SchemaId, query.SchemaId is not null)
+            .KratosIdentities.ConditionalWhere(ki => ki.SchemaId == query.SchemaId, query.SchemaId is not null)
             .ConditionalWhere(
                 ki => Regex.IsMatch(ki.Traits.GetProperty("email").GetString()!, query.EmailPattern!),
                 query.EmailPattern is not null
@@ -35,18 +34,15 @@ public class SearchIdentitiesQH : IQueryHandler<SearchIdentities, PaginatedResul
                 query.FamilyNamePattern is not null
             )
             .OrderBy(ki => ki.Traits.GetProperty("email").GetString())
-            .Select(
-                ki =>
-                    new KratosIdentityDTO
-                    {
-                        Id = ki.Id,
-                        CreatedAt = ki.CreatedAt,
-                        UpdatedAt = ki.UpdatedAt,
-                        SchemaId = ki.SchemaId,
-                        Email = ki.Email,
-                        Traits = ki.Traits,
-                    }
-            )
+            .Select(ki => new KratosIdentityDTO
+            {
+                Id = ki.Id,
+                CreatedAt = ki.CreatedAt,
+                UpdatedAt = ki.UpdatedAt,
+                SchemaId = ki.SchemaId,
+                Email = ki.Email,
+                Traits = ki.Traits,
+            })
             .ToPaginatedResultAsync(query, context.RequestAborted);
     }
 }

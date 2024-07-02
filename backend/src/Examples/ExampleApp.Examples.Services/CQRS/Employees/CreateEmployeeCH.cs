@@ -41,8 +41,7 @@ public class CreateEmployeeCV : AbstractValidator<CreateEmployee>
 
         if (
             await ctx.GetService<ExamplesDbContext>()
-                .Employees
-                .AnyAsync(e => e.Email.ToLower() == email, cancellationToken)
+                .Employees.AnyAsync(e => e.Email.ToLower() == email, cancellationToken)
         )
         {
             ctx.AddValidationError(

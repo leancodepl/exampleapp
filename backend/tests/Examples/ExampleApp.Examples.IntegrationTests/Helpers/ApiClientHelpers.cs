@@ -23,8 +23,7 @@ public static class ApiClientHelpers
         var result = await executor.RunAsync(command);
         result.WasSuccessful.Should().BeFalse("command {0} is invalid", command.GetType().Name);
         result
-            .ValidationErrors
-            .Should()
+            .ValidationErrors.Should()
             .Satisfy(errorCodes.Select<int, Expression<Func<ValidationError, bool>>>(e => r => r.ErrorCode == e));
     }
 }

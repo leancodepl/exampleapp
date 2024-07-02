@@ -77,18 +77,15 @@ public class KratosIdentity : IIdentifiable<Guid>
         }
 
         recoveryAddresses.AddRange(
-            addresses.Select(
-                kria =>
-                    new KratosIdentityRecoveryAddress
-                    {
-                        IdentityId = Id,
-                        Id = kria.Id,
-                        CreatedAt = kria.CreatedAt,
-                        UpdatedAt = kria.UpdatedAt,
-                        Via = kria.Via.ToString().ToLowerInvariant(),
-                        Value = kria.Value,
-                    }
-            )
+            addresses.Select(kria => new KratosIdentityRecoveryAddress
+            {
+                IdentityId = Id,
+                Id = kria.Id,
+                CreatedAt = kria.CreatedAt,
+                UpdatedAt = kria.UpdatedAt,
+                Via = kria.Via.ToString().ToLowerInvariant(),
+                Value = kria.Value,
+            })
         );
     }
 
@@ -100,19 +97,16 @@ public class KratosIdentity : IIdentifiable<Guid>
         }
 
         verifiableAddresses.AddRange(
-            addresses.Select(
-                kvia =>
-                    new KratosIdentityVerifiableAddress
-                    {
-                        IdentityId = Id,
-                        Id = kvia.Id,
-                        CreatedAt = kvia.CreatedAt,
-                        UpdatedAt = kvia.UpdatedAt,
-                        Via = kvia.Via.ToString().ToLowerInvariant(),
-                        Value = kvia.Value,
-                        VerifiedAt = kvia.Verified ? kvia.VerifiedAt : null,
-                    }
-            )
+            addresses.Select(kvia => new KratosIdentityVerifiableAddress
+            {
+                IdentityId = Id,
+                Id = kvia.Id,
+                CreatedAt = kvia.CreatedAt,
+                UpdatedAt = kvia.UpdatedAt,
+                Via = kvia.Via.ToString().ToLowerInvariant(),
+                Value = kvia.Value,
+                VerifiedAt = kvia.Verified ? kvia.VerifiedAt : null,
+            })
         );
     }
 
