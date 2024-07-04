@@ -24,7 +24,11 @@ local_resource(
 
 local_resource(
   'build-examples-migrations',
-  'dotnet ef migrations bundle -o dev/out/migrations --project src/Examples/ExampleApp.Examples.Services --force',
+  'dotnet ef migrations bundle \
+    --output dev/out/migrations \
+    --project src/Examples/ExampleApp.Examples.Services \
+    --target-runtime linux-x64 \
+    --force',
   dir='.',
   deps=['src/Examples', 'Directory.Build.props', 'Directory.Packages.props'],
   ignore=['**/obj', '**/bin'],
