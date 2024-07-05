@@ -16,10 +16,8 @@ cd dev/proxy
 ### 2. Generate initial migrations
 
 ```sh
-cd src/Examples/ExampleApp.Examples.Migrations
-# This is required for now, but it does not need to point to a real database
-export PostgreSQL__ConnectionString='Host=localhost;Database=app;Username=app;Password=Passw12#'
-dotnet ef migrations add --context ExamplesDbContext -o Migrations InitialMigration # Our context
+cd src/Examples/ExampleApp.Examples.Services
+dotnet ef migrations add --context ExamplesDbContext --output-dir DataAccess/Migrations InitialMigration # Our context
 ```
 
 ### 3. Trust the certificate (Ubuntu)
@@ -41,14 +39,19 @@ Chrome uses a separate certificate store. To add certificate in Chrome:
 
 Related instructions are in the [dev-cluster](../dev-cluster/README.md).
 
-### 5. Migrate the database and start the app
+### 6. Migrate the database and start the app
 
 ```sh
-tilt up migrations api
+tilt up examples-migrations examples-api
 ```
 
 Or run the integration tests:
 
 ```sh
-tilt up integration_tests
+tilt up examples-integration_tests
 ```
+
+> :warning: The migrations bundler is invoked with explicit specification of `linux-x64` as the target architecture.
+> This is to allow bundling on other systems than the container we run the migrations in.
+> Be aware that it still might not be possible to bundle migrations or run them with some combinations
+> of the bundling host and the running target systems.
