@@ -1,4 +1,4 @@
-version: v1.0.0
+version: v1.2.0
 serve:
   public:
     base_url: https://auth.${domain}/
