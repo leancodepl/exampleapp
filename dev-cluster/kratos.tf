@@ -56,6 +56,24 @@ locals {
   }
 }
 
+resource "random_password" "kratos_ui_csrf_cookie_secret" {
+  length  = 32
+  special = false
+}
+
+resource "kubernetes_secret_v1" "kratos_ui_secret" {
+  metadata {
+    name      = "exampleapp-kratos-ui-secret"
+    namespace = kubernetes_namespace_v1.kratos.metadata[0].name
+    labels    = local.labels_ui
+  }
+
+  data = {
+    "CSRF_COOKIE_NAME"   = "__HOST-local.lncd.pl-x-csrf-token"
+    "CSRF_COOKIE_SECRET" = random_password.kratos_ui_csrf_cookie_secret.result
+  }
+}
+
 resource "kubernetes_deployment_v1" "kratos_ui" {
   metadata {
     name      = "exampleapp-kratos-ui"
@@ -74,7 +92,12 @@ resource "kubernetes_deployment_v1" "kratos_ui" {
       spec {
         container {
           name  = "kratos-ui"
-          image = "docker.io/oryd/kratos-selfservice-ui-node:v1.1.0"
+          image = "docker.io/oryd/kratos-selfservice-ui-node:v1.2.0"
+          env_from {
+            secret_ref {
+              name = kubernetes_secret_v1.kratos_ui_secret.metadata[0].name
+            }
+          }
           env {
             name  = "KRATOS_PUBLIC_URL"
             value = module.kratos.internal_service_url.public
