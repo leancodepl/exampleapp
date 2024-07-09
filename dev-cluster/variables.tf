@@ -37,7 +37,7 @@ variable "oidc_config" {
   default = null
 }
 
-variable "webauthn_origins" {
+variable "passkey_origins" {
   type    = list(string)
   default = []
 }

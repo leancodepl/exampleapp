@@ -66,7 +66,7 @@ variable "well_known" {
   type = map(string)
 }
 
-variable "kratos_webauthn_origins" {
+variable "kratos_passkey_origins" {
   type = list(string)
 }
 
