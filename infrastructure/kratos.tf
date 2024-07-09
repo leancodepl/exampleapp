@@ -11,7 +11,7 @@ module "kratos" {
   labels       = merge(local.tags, { component = "kratos" })
   project      = local.project
   ingress_host = null
-  image        = "leancodepublic.azurecr.io/kratos:v1.2.0-2-g212702a8c"
+  image        = "leancodepublic.azurecr.io/kratos:v1.2.0-3-g5d54d3c46"
   replicas     = 1
 
   resources = {
@@ -46,7 +46,7 @@ module "kratos" {
     oidc_config         = var.oidc_config
     authority_name      = "ExampleApp"
     web_hook_api_key    = random_password.kratos_web_hook_api_key.result
-    webauthn_origins    = var.kratos_webauthn_origins
+    passkey_origins     = var.kratos_passkey_origins
     dev_allowed_origins = var.kratos_dev_allowed_origins
   })
 

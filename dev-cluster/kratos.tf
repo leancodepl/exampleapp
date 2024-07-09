@@ -5,7 +5,7 @@ module "kratos" {
   namespace    = kubernetes_namespace_v1.kratos.metadata[0].name
   project      = "exampleapp"
   ingress_host = "auth.local.lncd.pl"
-  image        = "leancodepublic.azurecr.io/kratos:v1.2.0-2-g212702a8c"
+  image        = "leancodepublic.azurecr.io/kratos:v1.2.0-3-g5d54d3c46"
   replicas     = 1
 
   resources = {
@@ -40,7 +40,7 @@ module "kratos" {
     oidc_config         = var.oidc_config
     authority_name      = "ExampleApp (dev)"
     web_hook_api_key    = "Passw12#"
-    webauthn_origins    = var.webauthn_origins
+    passkey_origins     = var.passkey_origins
     dev_allowed_origins = []
   })
 

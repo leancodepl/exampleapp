@@ -38,16 +38,15 @@ selfservice:
       enabled: true
       config:
         issuer: "${authority_name}"
-    webauthn:
+    passkey:
       enabled: true
       config:
-        passwordless: true
         rp:
           display_name: "${authority_name}"
           id: "${domain}"
           origins:
             - "https://${domain}"
-%{ for origin in webauthn_origins ~}
+%{ for origin in passkey_origins ~}
             - "${origin}"
 %{ endfor ~}
     profile:
