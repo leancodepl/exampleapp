@@ -4,7 +4,7 @@ using LeanCode.DomainModels.Model;
 
 namespace ExampleApp.Examples.Services.DataAccess.Entities;
 
-public class KratosIdentity : IIdentifiable<Guid>
+public class KratosIdentity : IEntity<Guid>
 {
     private readonly List<KratosIdentityRecoveryAddress> recoveryAddresses = new();
     private readonly List<KratosIdentityVerifiableAddress> verifiableAddresses = new();
@@ -119,7 +119,7 @@ public class KratosIdentity : IIdentifiable<Guid>
     }
 }
 
-public class KratosIdentityRecoveryAddress : IIdentifiable<Guid>
+public class KratosIdentityRecoveryAddress : IEntity<Guid>
 {
     public Guid IdentityId { get; init; }
     public Guid Id { get; init; }
@@ -129,7 +129,7 @@ public class KratosIdentityRecoveryAddress : IIdentifiable<Guid>
     public string Value { get; init; } = null!;
 }
 
-public class KratosIdentityVerifiableAddress : IIdentifiable<Guid>
+public class KratosIdentityVerifiableAddress : IEntity<Guid>
 {
     public Guid IdentityId { get; init; }
     public Guid Id { get; init; }

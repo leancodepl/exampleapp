@@ -1,10 +1,10 @@
 using ExampleApp.Examples.Contracts.Users;
 using ExampleApp.Examples.Services.Processes.Kratos;
 using LeanCode.CQRS.Execution;
+using LeanCode.Kratos.Client.Api;
 using LeanCode.TimeProvider;
 using MassTransit;
 using Microsoft.AspNetCore.Http;
-using Ory.Kratos.Client.Api;
 
 namespace ExampleApp.Examples.Services.CQRS.Users;
 
@@ -25,7 +25,13 @@ public class DeleteOwnAccountCH : ICommandHandler<DeleteOwnAccount>
     {
         var userId = context.GetUserId();
 
-        await identityApi.DeleteIdentityAsync(userId.ToString(), context.RequestAborted);
+        var deleted = await identityApi.DeleteIdentityAsync(userId.ToString(), context.RequestAborted);
+
+        if (!deleted.IsSuccessStatusCode)
+        {
+            throw new InvalidOperationException("Failed to delete Kratos identity.");
+        }
+
         await bus.Publish(new KratosIdentityDeleted(Guid.NewGuid(), Time.UtcNow, userId), context.RequestAborted);
 
         logger.Information("User account {UserId} has been deleted", userId);

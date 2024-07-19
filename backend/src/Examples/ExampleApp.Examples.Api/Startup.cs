@@ -205,7 +205,7 @@ public class Startup : LeanStartup
                     ctx => ctx.RequestServices.GetRequiredService<KratosIdentitySyncHandler>().HandleAsync(ctx)
                 );
 
-                endpoints.MapRemoteCqrs(
+                endpoints.MapRemoteCQRS(
                     "/api",
                     cqrs =>
                     {

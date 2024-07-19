@@ -3,6 +3,10 @@ using ExampleApp.Examples.Api.Handlers;
 using ExampleApp.Examples.Services.DataAccess;
 using LeanCode.AuditLogs;
 using LeanCode.AzureIdentity;
+using LeanCode.Kratos.Client.Api;
+using LeanCode.Kratos.Client.Client;
+using LeanCode.Kratos.Client.Extensions;
+using LeanCode.Kratos.Client.Model;
 using LeanCode.OpenTelemetry;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors.Infrastructure;
@@ -46,11 +50,11 @@ internal static class ApiModule
                     c.Add(new(o.RoleClaimType, Roles.User)); // every identity is a valid User
 #if Example
                     if (
-                        s.Identity.VerifiableAddresses.Any(kvia =>
-                            kvia.Via == "email"
+                        s.Identity?.VerifiableAddresses?.Any(kvia =>
+                            kvia.Via == KratosVerifiableIdentityAddress.ViaEnum.Email
                             && kvia.Value.EndsWith("@leancode.pl", false, CultureInfo.InvariantCulture)
                             && kvia.Verified
-                        )
+                        ) ?? false
                     )
                     {
                         c.Add(new(o.RoleClaimType, Roles.Admin));
@@ -59,10 +63,21 @@ internal static class ApiModule
                 };
             });
 
-        services.AddKratosClients(builder =>
+        services.AddKratos(builder =>
         {
-            builder.AddFrontendApiClient(Config.Kratos.PublicEndpoint(config));
-            builder.AddIdentityApiClient(Config.Kratos.AdminEndpoint(config));
+            builder.UseProvider<NullTokenProvider, ApiKeyToken>();
+            builder.AddKratosHttpClients(builder: hcb =>
+                _ = hcb.Name switch
+                {
+                    nameof(ICourierApi)
+                    or nameof(IIdentityApi)
+                        => hcb.ConfigureHttpClient(hc => hc.BaseAddress = new(Config.Kratos.AdminEndpoint(config))),
+                    nameof(IFrontendApi)
+                    or nameof(IMetadataApi)
+                        => hcb.ConfigureHttpClient(hc => hc.BaseAddress = new(Config.Kratos.PublicEndpoint(config))),
+                    _ => throw new NotSupportedException($"Unexpected client name: '{hcb.Name}'.")
+                }
+            );
         });
 
         services.Configure<ForwardedHeadersOptions>(options =>

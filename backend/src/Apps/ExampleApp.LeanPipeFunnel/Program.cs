@@ -2,6 +2,9 @@ using System.Globalization;
 using ExampleApp.LeanPipeFunnel;
 using ExampleApp.LeanPipeFunnel.Handlers;
 using LeanCode.AzureIdentity;
+using LeanCode.Kratos.Client.Client;
+using LeanCode.Kratos.Client.Extensions;
+using LeanCode.Kratos.Client.Model;
 using LeanCode.Logging;
 using LeanCode.OpenTelemetry;
 using LeanCode.Pipe;
@@ -46,11 +49,11 @@ services
             c.Add(new(o.RoleClaimType, Auth.Roles.User)); // every identity is a valid User
 #if Example
             if (
-                s.Identity.VerifiableAddresses.Any(kvia =>
-                    kvia.Via == "email"
+                s.Identity?.VerifiableAddresses?.Any(kvia =>
+                    kvia.Via == KratosVerifiableIdentityAddress.ViaEnum.Email
                     && kvia.Value.EndsWith("@leancode.pl", false, CultureInfo.InvariantCulture)
                     && kvia.Verified
-                )
+                ) ?? false
             )
             {
                 c.Add(new(o.RoleClaimType, Auth.Roles.Admin));
@@ -59,9 +62,10 @@ services
         };
     });
 
-services.AddKratosClients(builder =>
+services.AddKratos(builder =>
 {
-    builder.AddFrontendApiClient(Config.Kratos.PublicEndpoint(config));
+    builder.UseProvider<NullTokenProvider, ApiKeyToken>();
+    builder.AddKratosHttpClients(hc => hc.BaseAddress = new(Config.Kratos.PublicEndpoint(config)));
 });
 
 services.AddOptions<MassTransitHostOptions>().Configure(opts => opts.WaitUntilStarted = true);

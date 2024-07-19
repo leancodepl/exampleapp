@@ -7,7 +7,7 @@ namespace ExampleApp.Examples.Domain.Projects;
 [TypedId(TypedIdFormat.PrefixedUlid, CustomPrefix = "assignment")]
 public readonly partial record struct AssignmentId;
 
-public class Assignment : IIdentifiable<AssignmentId>
+public class Assignment : IEntity<AssignmentId>
 {
     public AssignmentId Id { get; private init; }
     public string Name { get; private set; } = default!;
