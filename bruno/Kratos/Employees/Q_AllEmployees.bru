@@ -1,0 +1,15 @@
+meta {
+  name: Q_AllEmployees
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{api_base}}/query/ExampleApp.Examples.Contracts.Employees.AllEmployees
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {}
+}

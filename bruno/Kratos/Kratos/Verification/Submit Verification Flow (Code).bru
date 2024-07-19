@@ -1,0 +1,23 @@
+meta {
+  name: Submit Verification Flow (Code)
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{kratos_verification_flow}}
+  body: json
+  auth: inherit
+}
+
+headers {
+  Accept: application/json
+}
+
+body:json {
+  {
+    "csrf_token": "{{kratos_verification_csrf_token}}",
+    "method": "code",
+    "code": "000000"
+  }
+}

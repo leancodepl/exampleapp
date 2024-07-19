@@ -1,0 +1,47 @@
+meta {
+  name: Registration
+}
+
+script:post-response {
+  if (res.getStatus() === 200) {
+    const response = res.getBody();
+    
+    if (response) {
+      if (response.session_token) {
+        bru.setEnvVar("kratos_session_token", response.session_token);
+      }
+  
+      const token = response.continue_with?.find(a => a?.action === "set_ory_session_token");
+      
+      if (token) {
+        bru.setEnvVar("kratos_session_token", token.ory_session_token);
+      }
+  
+      const verification = response.continue_with?.find(a => a?.action === "show_verification_ui");
+      
+      if (verification) {
+        bru.setEnvVar("kratos_verification_flow_id", verification.flow.id);
+        bru.setEnvVar("kratos_verification_flow", verification.flow.url);
+      }
+  
+      const nodes = response.ui.nodes;
+  
+      bru.setEnvVar("kratos_registration_flow", response.ui.action);
+      bru.setEnvVar("kratos_registration_session_token_exchange_code", response.session_token_exchange_code);
+  
+      const csrf = nodes.find(n => n?.attributes?.name === "csrf_token");
+  
+      if (csrf && csrf.attributes.value) {
+        bru.setEnvVar("kratos_registration_csrf_token", csrf.attributes.value);
+      }
+  
+      const passkey = nodes.find(n => n?.attributes?.name === "passkey_create_data");
+  
+      if (passkey) {
+        const data = JSON.parse(passkey.attributes.value);
+        const request = JSON.stringify(data.publicKey);
+        bru.setEnvVar("kratos_passkey_registration_request", request);
+      }
+    }
+  }
+}

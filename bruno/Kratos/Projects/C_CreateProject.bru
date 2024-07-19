@@ -1,0 +1,17 @@
+meta {
+  name: C_CreateProject
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{api_base}}/command/ExampleApp.Examples.Contracts.Projects.CreateProject
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "Name": "project 1"
+  }
+}

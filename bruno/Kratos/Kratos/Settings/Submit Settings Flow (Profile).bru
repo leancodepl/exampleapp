@@ -1,0 +1,28 @@
+meta {
+  name: Submit Settings Flow (Profile)
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{kratos_settings_flow}}
+  body: json
+  auth: inherit
+}
+
+headers {
+  Accept: application/json
+}
+
+body:json {
+  {
+    "csrf_token": "{{kratos_settings_csrf_token}}",
+    "method": "profile",
+    "traits": {
+      "email": "{{identifier}}",
+      "given_name": "Krzysztof",
+      "family_name": "Bogacki",
+      "regulations_accepted": true
+    }
+  }
+}

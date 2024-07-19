@@ -1,0 +1,20 @@
+meta {
+  name: Exchange Session Token
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{kratos_public}}/sessions/token-exchange?init_code={{kratos_login_session_token_exchange_code}}&return_to_code=
+  body: none
+  auth: none
+}
+
+params:query {
+  init_code: {{kratos_login_session_token_exchange_code}}
+  return_to_code: 
+}
+
+headers {
+  Accept: application/json
+}

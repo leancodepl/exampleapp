@@ -1,0 +1,23 @@
+meta {
+  name: Submit Settings Flow (RemovePasskey)
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{kratos_settings_flow}}
+  body: json
+  auth: inherit
+}
+
+headers {
+  Accept: application/json
+}
+
+body:json {
+  {
+    "csrf_token": "{{kratos_settings_csrf_token}}",
+    "method": "passkey",
+    "passkey_remove": "{{kratos_passkey_id}}"
+  }
+}

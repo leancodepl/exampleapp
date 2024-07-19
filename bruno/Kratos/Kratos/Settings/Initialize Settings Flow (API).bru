@@ -1,0 +1,15 @@
+meta {
+  name: Initialize Settings Flow (API)
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{kratos_public}}/self-service/settings/api
+  body: none
+  auth: inherit
+}
+
+headers {
+  Accept: application/json
+}

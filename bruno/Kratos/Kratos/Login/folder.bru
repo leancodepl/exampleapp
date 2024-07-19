@@ -1,0 +1,34 @@
+meta {
+  name: Login
+}
+
+script:post-response {
+  if (res.getStatus() === 200) {
+    const response = res.getBody();
+    
+    if (response) {
+      if (response.session_token) {
+        bru.setEnvVar("kratos_session_token", response.session_token);
+      }
+  
+      const nodes = response.ui.nodes;
+  
+      bru.setEnvVar("kratos_login_flow", response.ui.action);
+      bru.setEnvVar("kratos_login_session_token_exchange_code", response.session_token_exchange_code);
+  
+      const csrf = nodes.find(n => n?.attributes?.name === "csrf_token");
+  
+      if (csrf && csrf.attributes.value) {
+        bru.setEnvVar("kratos_login_csrf_token", csrf.attributes.value);
+      }
+  
+      const passkey = nodes.find(n => n?.attributes?.name === "passkey_challenge");
+  
+      if (passkey) {
+        const data = JSON.parse(passkey.attributes.value);
+        const request = JSON.stringify(data.publicKey);
+        bru.setEnvVar("kratos_passkey_login_request", request);
+      }
+    }
+  }
+}

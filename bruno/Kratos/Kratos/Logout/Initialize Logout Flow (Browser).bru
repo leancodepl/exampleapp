@@ -1,0 +1,22 @@
+meta {
+  name: Initialize Logout Flow (Browser)
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{kratos_public}}/self-service/logout/browser
+  body: none
+  auth: inherit
+}
+
+headers {
+  Accept: application/json
+}
+
+script:post-response {
+  if (res.getStatus() === 200) {
+    const response = res.getBody();
+    bru.setEnvVar("kratos_logout_uri", response?.logout_url);
+  }
+}

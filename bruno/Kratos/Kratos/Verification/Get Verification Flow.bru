@@ -1,0 +1,37 @@
+meta {
+  name: Get Verification Flow
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{kratos_public}}/self-service/verification?flow={{kratos_verification_flow_id}}
+  body: none
+  auth: none
+}
+
+params:query {
+  flow: {{kratos_verification_flow_id}}
+}
+
+headers {
+  Accept: application/json
+}
+
+script:post-response {
+  if (res.getStatus() === 200) {
+    const response = res.getBody();
+  
+    if (response) {
+      const nodes = response.ui.nodes;
+  
+      bru.setEnvVar("kratos_verification_flow", response.ui.action);
+  
+      const csrf = nodes.find(n => n?.attributes?.name === "csrf_token");
+  
+      if (csrf && csrf.attributes.value) {
+        bru.setEnvVar("kratos_verification_csrf_token", csrf.attributes.value);
+      }
+    }
+  }
+}
