@@ -1,0 +1,18 @@
+meta {
+  name: C_SendCustomNotification
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{api_base}}/command/ExampleApp.Examples.Contracts.Firebase.SendCustomNotification
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "Content": "CoreLibrary Review (14:15)",
+    "ImageUrl": "https://emoji.slack-edge.com/T03T56Y8R/pepelove/4ff831d928be04b2.png"
+  }
+}

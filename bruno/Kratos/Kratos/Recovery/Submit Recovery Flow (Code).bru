@@ -1,0 +1,44 @@
+meta {
+  name: Submit Recovery Flow (Code)
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{kratos_recovery_flow}}
+  body: json
+  auth: none
+}
+
+headers {
+  Accept: application/json
+}
+
+body:json {
+  {
+    "csrf_token": "{{kratos_recovery_csrf_token}}",
+    "method": "code",
+    "code": "000000"
+  }
+}
+
+script:post-response {
+  if (res.getStatus() === 200) {
+    const response = res.getBody();
+    const cw = response?.continue_with;
+    
+    if (cw) {
+      const token = cw.find(a => a?.action === "set_ory_session_token");
+      
+      if (token) {
+        bru.setEnvVar("kratos_session_token", token.ory_session_token);
+      }
+  
+      const settings = cw.find(a => a?.action === "show_settings_ui");
+      
+      if (settings) {
+        bru.setEnvVar("kratos_settings_flow_id", settings.flow.id);
+      }
+    }
+  }
+}

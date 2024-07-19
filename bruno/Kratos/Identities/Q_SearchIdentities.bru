@@ -1,0 +1,19 @@
+meta {
+  name: Q_SearchIdentities
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{api_base}}/query/ExampleApp.Examples.Contracts.Identities.SearchIdentities
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "PageSize": 10,
+    "EmailPattern": "@leancode\\.pl$",
+    "GivenNamePattern": "^K.+f$"
+  }
+}

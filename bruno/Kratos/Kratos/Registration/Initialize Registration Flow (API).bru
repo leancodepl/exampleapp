@@ -1,0 +1,20 @@
+meta {
+  name: Initialize Registration Flow (API)
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{kratos_public}}/self-service/registration/api
+  body: none
+  auth: none
+}
+
+params:query {
+  ~return_to: pl.leancode.template.tst://app
+  ~return_session_token_exchange_code: true
+}
+
+headers {
+  Accept: application/json
+}

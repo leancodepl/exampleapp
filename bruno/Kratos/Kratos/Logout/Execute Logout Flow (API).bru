@@ -1,0 +1,29 @@
+meta {
+  name: Execute Logout Flow (API)
+  type: http
+  seq: 1
+}
+
+delete {
+  url: {{kratos_public}}/self-service/logout/api
+  body: json
+  auth: inherit
+}
+
+headers {
+  Accept: application/json
+}
+
+body:json {
+  {
+    "session_token": "{{kratos_session_token}}"
+  }
+}
+
+script:post-response {
+  const status = res.getStatus();
+  
+  if (status === 200 || status === 201 || status === 204) {
+    bru.setEnvVar("kratos_session_token", null);
+  }
+}

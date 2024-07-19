@@ -1,0 +1,25 @@
+meta {
+  name: SubmitAppRating
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{api_base}}/command/LeanCode.AppRating.Contracts.SubmitAppRating
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "Rating": 1,
+    "AdditionalComment": "bababa",
+    "Platform": 0,
+    "SystemVersion": "14.0",
+    "AppVersion": "1.2.3",
+    "Metadata": {
+      "Foo": "meta",
+      "Bar": 123
+    }
+  }
+}

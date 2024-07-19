@@ -1,0 +1,23 @@
+meta {
+  name: Submit Recovery Flow (Email)
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{kratos_recovery_flow}}
+  body: json
+  auth: none
+}
+
+headers {
+  Accept: application/json
+}
+
+body:json {
+  {
+    "csrf_token": "{{kratos_recovery_csrf_token}}",
+    "method": "code",
+    "email": "{{identifier}}"
+  }
+}

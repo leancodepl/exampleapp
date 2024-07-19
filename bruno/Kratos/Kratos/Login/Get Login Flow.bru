@@ -1,0 +1,15 @@
+meta {
+  name: Get Login Flow
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{kratos_login_flow}}
+  body: none
+  auth: none
+}
+
+headers {
+  Accept: application/json
+}

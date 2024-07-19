@@ -1,0 +1,29 @@
+meta {
+  name: Submit Registration Flow (Passkey)
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{kratos_registration_flow}}
+  body: json
+  auth: none
+}
+
+headers {
+  Accept: application/json
+}
+
+body:json {
+  {
+    "csrf_token": "{{kratos_registration_csrf_token}}",
+    "method": "passkey",
+    "traits": {
+      "email": "{{identifier}}",
+      "given_name": "Krzysztof",
+      "family_name": "Bogacki",
+      "regulations_accepted": true
+    },
+    "passkey_register": "{{kratos_passkey_registration_response}}"
+  }
+}

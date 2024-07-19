@@ -1,0 +1,15 @@
+meta {
+  name: Execute Logout Flow (Browser)
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{kratos_logout_uri}}
+  body: none
+  auth: inherit
+}
+
+headers {
+  Accept: application/json
+}

@@ -1,0 +1,19 @@
+meta {
+  name: Get Settings Flow
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{kratos_public}}/self-service/settings?flow={{kratos_settings_flow_id}}
+  body: none
+  auth: inherit
+}
+
+params:query {
+  flow: {{kratos_settings_flow_id}}
+}
+
+headers {
+  Accept: application/json
+}

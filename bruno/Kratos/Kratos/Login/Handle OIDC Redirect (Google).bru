@@ -1,0 +1,15 @@
+meta {
+  name: Handle OIDC Redirect (Google)
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{kratos_google_callback_uri}}
+  body: none
+  auth: none
+}
+
+headers {
+  Accept: application/json
+}

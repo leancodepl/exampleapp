@@ -1,0 +1,27 @@
+meta {
+  name: Submit Registration Flow (Google, id_token)
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{kratos_registration_flow}}
+  body: json
+  auth: none
+}
+
+headers {
+  Accept: application/json
+}
+
+body:json {
+  {
+    "csrf_token": "{{kratos_registration_csrf_token}}",
+    "method": "oidc",
+    "provider": "google",
+    "id_token": "{{google_id_token}}",
+    "traits": {
+      "regulations_accepted": true
+    }
+  }
+}

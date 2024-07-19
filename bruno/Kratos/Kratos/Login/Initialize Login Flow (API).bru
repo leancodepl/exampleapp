@@ -1,0 +1,21 @@
+meta {
+  name: Initialize Login Flow (API)
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{kratos_public}}/self-service/login/api
+  body: none
+  auth: none
+}
+
+params:query {
+  ~return_to: pl.leancode.template.tst://app
+  ~return_session_token_exchange_code: true
+  ~refresh: true
+}
+
+headers {
+  Accept: application/json
+}

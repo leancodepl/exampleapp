@@ -1,0 +1,18 @@
+meta {
+  name: Q_VersionSupport
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{api_base}}/query/LeanCode.ForceUpdate.Contracts.VersionSupport
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "Platform": 0,
+    "Version": "1.0"
+  }
+}

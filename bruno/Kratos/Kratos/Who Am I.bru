@@ -1,0 +1,15 @@
+meta {
+  name: Who Am I
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{kratos_public}}/sessions/whoami
+  body: none
+  auth: inherit
+}
+
+headers {
+  Accept: application/json
+}

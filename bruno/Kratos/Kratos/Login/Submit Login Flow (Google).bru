@@ -1,0 +1,23 @@
+meta {
+  name: Submit Login Flow (Google)
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{kratos_login_flow}}
+  body: json
+  auth: none
+}
+
+headers {
+  Accept: application/json
+}
+
+body:json {
+  {
+    "csrf_token": "{{kratos_login_csrf_token}}",
+    "method": "oidc",
+    "provider": "google"
+  }
+}

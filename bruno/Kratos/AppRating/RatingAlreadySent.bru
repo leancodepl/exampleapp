@@ -1,0 +1,15 @@
+meta {
+  name: RatingAlreadySent
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{api_base}}/query/LeanCode.AppRating.Contracts.RatingAlreadySent
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {}
+}

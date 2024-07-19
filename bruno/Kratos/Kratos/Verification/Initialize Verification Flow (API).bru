@@ -1,0 +1,33 @@
+meta {
+  name: Initialize Verification Flow (API)
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{kratos_public}}/self-service/verification/api
+  body: none
+  auth: none
+}
+
+headers {
+  Accept: application/json
+}
+
+script:post-response {
+  if (res.getStatus() === 200) {
+    const response = res.getBody();
+  
+    if (response) {
+      const nodes = response.ui.nodes;
+  
+      bru.setEnvVar("kratos_verification_flow", response.ui.action);
+  
+      const csrf = nodes.find(n => n?.attributes?.name === "csrf_token");
+  
+      if (csrf && csrf.attributes.value) {
+        bru.setEnvVar("kratos_verification_csrf_token", csrf.attributes.value);
+      }
+    }
+  }
+}
