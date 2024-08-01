@@ -1,4 +1,4 @@
-FROM traefik
+FROM traefik:mimolette
 
 COPY --chmod=0644 local.lncd.pl.cert local.lncd.pl.key /certs/
 COPY config.toml /config/config.toml
