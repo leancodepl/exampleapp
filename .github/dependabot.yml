@@ -1,0 +1,15 @@
+version: 2
+updates:
+  - package-ecosystem: "nuget"
+    directory: "/backend"
+    schedule:
+      interval: "weekly"
+    groups:
+      microsoft:
+        patterns:
+          - "Microsoft.*"
+      other:
+        patterns:
+          - "*"
+        exclude-patterns:
+          - "Microsoft.*"
