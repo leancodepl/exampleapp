@@ -81,6 +81,10 @@ leancode.builder('exampleapp-backend')
                 sh 'dotnet build -c Release --no-restore'
             }
 
+            stage('Check contracts') {
+                sh 'dotnet tool run --allow-roll-forward -- dotnet-contracts-generate project -p src/Examples/ExampleApp.Examples.Contracts/ExampleApp.Examples.Contracts.csproj --check-only'
+            }
+
             stage('Test') {
                 try {
                     dir('tests') {
