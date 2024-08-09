@@ -8,8 +8,24 @@ updates:
       microsoft:
         patterns:
           - "Microsoft.*"
+      corelib:
+        patterns:
+          - "LeanCode.*"
+      mass-transit:
+        patterns:
+          - "MassTransit.*"
+      open-telemetry:
+        patterns:
+          - "OpenTelemetry.*"
+      npgsql:
+        patterns:
+          - "Npgsql.*"
       other:
         patterns:
           - "*"
         exclude-patterns:
           - "Microsoft.*"
+          - "LeanCode.*"
+          - "MassTransit.*"
+          - "OpenTelemetry.*"
+          - "Npgsql.*"
