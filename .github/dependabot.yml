@@ -13,12 +13,15 @@ updates:
           - "LeanCode.*"
       mass-transit:
         patterns:
+          - "MassTransit"
           - "MassTransit.*"
       open-telemetry:
         patterns:
+          - "OpenTelemetry"
           - "OpenTelemetry.*"
       npgsql:
         patterns:
+          - "Npgsql"
           - "Npgsql.*"
       other:
         patterns:
@@ -26,6 +29,9 @@ updates:
         exclude-patterns:
           - "Microsoft.*"
           - "LeanCode.*"
+          - "MassTransit"
           - "MassTransit.*"
+          - "OpenTelemetry"
           - "OpenTelemetry.*"
+          - "Npgsql"
           - "Npgsql.*"
