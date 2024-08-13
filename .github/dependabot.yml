@@ -11,6 +11,10 @@ updates:
       corelib:
         patterns:
           - "LeanCode.*"
+        update-types:
+          - "major"
+          - "minor"
+          - "patch"
       mass-transit:
         patterns:
           - "MassTransit"
