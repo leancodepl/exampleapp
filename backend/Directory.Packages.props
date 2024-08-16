@@ -4,8 +4,8 @@
 
     <CoreLibVersion>8.1.2464</CoreLibVersion>
     <ExtensionsVersion>8.0.1</ExtensionsVersion>
-    <EFCoreVersion>8.0.7</EFCoreVersion>
-    <AspNetCoreVersion>8.0.7</AspNetCoreVersion>
+    <EFCoreVersion>8.0.8</EFCoreVersion>
+    <AspNetCoreVersion>8.0.8</AspNetCoreVersion>
     <MassTransitVersion>8.2.4</MassTransitVersion>
     <NpgsqlVersion>8.0.3</NpgsqlVersion>
     <NpgsqlEFCoreVersion>8.0.4</NpgsqlEFCoreVersion>
@@ -67,7 +67,7 @@
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="$(EFCoreVersion)" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.InMemory" Version="$(EFCoreVersion)" />
 
-    <PackageVersion Include="Microsoft.Extensions.Azure" Version="1.7.4" />
+    <PackageVersion Include="Microsoft.Extensions.Azure" Version="1.7.5" />
 
     <PackageVersion Include="Microsoft.Extensions.Configuration" Version="$(ExtensionsVersion)" />
     <PackageVersion Include="Microsoft.Extensions.Configuration.AzureKeyVault" Version="$(ExtensionsVersion)" />
