@@ -14,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="LeanCode.Contracts" />
     <ProjectReference Include="../ExampleApp.Examples.Services/ExampleApp.Examples.Services.csproj" />
 
     <PackageReference Include="Azure.Storage.Blobs" />
