@@ -42,6 +42,8 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" />
 
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
+
+    <PackageReference Include="OpenTelemetry" />
   </ItemGroup>
 
 </Project>
