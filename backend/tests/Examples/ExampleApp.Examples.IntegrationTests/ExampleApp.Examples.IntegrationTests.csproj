@@ -5,6 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" />
+    <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" />
     <ProjectReference Include="../../../src/Examples/ExampleApp.Examples.Api/ExampleApp.Examples.Api.csproj" />
     <ProjectReference Include="../../../src/Examples/ExampleApp.Examples.Services/ExampleApp.Examples.Services.csproj" />
 
@@ -17,12 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <WebApplicationFactoryContentRootAttribute
-      Include="ExampleApp.Examples.IntegrationTests"
-      AssemblyName="ExampleApp.Examples.IntegrationTests"
-      ContentRootPath="$(MSBuildProjectDirectory)"
-      ContentRootTest="ExampleApp.Examples.IntegrationTests.csproj"
-      Priority="-1" />
+    <WebApplicationFactoryContentRootAttribute Include="ExampleApp.Examples.IntegrationTests" AssemblyName="ExampleApp.Examples.IntegrationTests" ContentRootPath="$(MSBuildProjectDirectory)" ContentRootTest="ExampleApp.Examples.IntegrationTests.csproj" Priority="-1" />
   </ItemGroup>
 
 
