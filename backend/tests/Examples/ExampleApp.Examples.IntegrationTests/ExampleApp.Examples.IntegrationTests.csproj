@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Polly" />
+    <PackageReference Include="Serilog" />
+    <PackageReference Include="Serilog.Formatting.Compact" />
+    <PackageReference Include="Serilog.Sinks.Console" />
+    <PackageReference Include="Serilog.Sinks.Seq" />
     <ProjectReference Include="../../../src/Examples/ExampleApp.Examples.Api/ExampleApp.Examples.Api.csproj" />
     <ProjectReference Include="../../../src/Examples/ExampleApp.Examples.Services/ExampleApp.Examples.Services.csproj" />
 
@@ -17,12 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <WebApplicationFactoryContentRootAttribute
-      Include="ExampleApp.Examples.IntegrationTests"
-      AssemblyName="ExampleApp.Examples.IntegrationTests"
-      ContentRootPath="$(MSBuildProjectDirectory)"
-      ContentRootTest="ExampleApp.Examples.IntegrationTests.csproj"
-      Priority="-1" />
+    <WebApplicationFactoryContentRootAttribute Include="ExampleApp.Examples.IntegrationTests" AssemblyName="ExampleApp.Examples.IntegrationTests" ContentRootPath="$(MSBuildProjectDirectory)" ContentRootTest="ExampleApp.Examples.IntegrationTests.csproj" Priority="-1" />
   </ItemGroup>
 
 
