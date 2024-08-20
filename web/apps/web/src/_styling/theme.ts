@@ -1,4 +1,4 @@
-import { px2rem } from "./px2rem";
+import { px2rem } from "./px2rem"
 
 export const theme = {
     color: {
@@ -20,10 +20,10 @@ export const theme = {
     borderRadius: {
         default: "6px",
     },
-} as const;
+} as const
 
-export type Theme = typeof theme;
-export type Spacing = keyof Theme["spacing"];
+export type Theme = typeof theme
+export type Spacing = keyof Theme["spacing"]
 
 declare module "styled-components" {
     // eslint-disable-next-line @typescript-eslint/no-empty-interface

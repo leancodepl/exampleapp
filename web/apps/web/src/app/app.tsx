@@ -1,14 +1,14 @@
-import { Suspense, lazy } from "react";
-import { Route, Routes } from "react-router";
-import { LoggedInGuard } from "../components/auth/LoggedInGuard";
-import { NotLoggedInGuard } from "../components/auth/NotLoggedInGuard";
-import { SplashScreen } from "../components/common/SplashScreen";
-import { UnauthenticatedLayout } from "../components/common/UnauthenticatedLayout";
-import { loginRoute, recoveryRoute, registerRoute, verificationRoute } from "../kratosRoutes";
-import { LoginPage } from "../pages/login";
-import { RecoveryPage } from "../pages/recovery";
-import { RegisterPage } from "../pages/register";
-import { VerificationPage } from "../pages/verification";
+import { Suspense, lazy } from "react"
+import { Route, Routes } from "react-router"
+import { LoggedInGuard } from "../components/auth/LoggedInGuard"
+import { NotLoggedInGuard } from "../components/auth/NotLoggedInGuard"
+import { SplashScreen } from "../components/common/SplashScreen"
+import { UnauthenticatedLayout } from "../components/common/UnauthenticatedLayout"
+import { loginRoute, recoveryRoute, registerRoute, verificationRoute } from "../kratosRoutes"
+import { LoginPage } from "../pages/login"
+import { RecoveryPage } from "../pages/recovery"
+import { RegisterPage } from "../pages/register"
+import { VerificationPage } from "../pages/verification"
 
 export function App() {
     return (
@@ -35,7 +35,7 @@ export function App() {
                 />
             </Route>
         </Routes>
-    );
+    )
 }
 
-const AuthenticatedApp = lazy(() => import("./authenticatedApp").then(m => ({ default: m.AuthenticatedApp })));
+const AuthenticatedApp = lazy(() => import("./authenticatedApp").then(m => ({ default: m.AuthenticatedApp })))

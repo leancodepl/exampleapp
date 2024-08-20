@@ -1,13 +1,13 @@
-import { ReactNode } from "react";
-import { Layout } from "antd";
-import { NavMenu } from "./NavMenu";
-import { ContentWrapper, LayoutWrapper } from "./styles";
+import { ReactNode } from "react"
+import { Layout } from "antd"
+import { NavMenu } from "./NavMenu"
+import { ContentWrapper, LayoutWrapper } from "./styles"
 
-const { Sider } = Layout;
+const { Sider } = Layout
 
 type AppLayoutProps = {
-    children?: ReactNode;
-};
+    children?: ReactNode
+}
 
 export function AppLayout({ children }: AppLayoutProps) {
     return (
@@ -17,5 +17,5 @@ export function AppLayout({ children }: AppLayoutProps) {
             </Sider>
             <ContentWrapper>{children}</ContentWrapper>
         </LayoutWrapper>
-    );
+    )
 }

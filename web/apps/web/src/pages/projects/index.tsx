@@ -1,6 +1,6 @@
-import { Card } from "antd";
-import { apiComponents } from "../../api";
-import { Page } from "../../components/common/Page";
+import { Card } from "antd"
+import { apiComponents } from "../../api"
+import { Page } from "../../components/common/Page"
 
 export function ProjectsPage() {
     return (
@@ -9,5 +9,5 @@ export function ProjectsPage() {
                 <apiComponents.AllProjectsAdminApiTable />
             </Card>
         </Page>
-    );
+    )
 }

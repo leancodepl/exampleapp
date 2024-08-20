@@ -1,10 +1,10 @@
-import { MutableDeep } from "@leancodepl/utils";
-import { FormattedMessage } from "react-intl";
-import { mkPath } from "./_utils/mkPath";
-import { Redirect } from "./components/common/Redirect";
-import { settingsRoute } from "./kratosRoutes";
-import { ProjectsPage } from "./pages/projects";
-import { SettingsPage } from "./pages/settings";
+import { FormattedMessage } from "react-intl"
+import { MutableDeep } from "@leancodepl/utils"
+import { mkPath } from "./_utils/mkPath"
+import { Redirect } from "./components/common/Redirect"
+import { settingsRoute } from "./kratosRoutes"
+import { ProjectsPage } from "./pages/projects"
+import { SettingsPage } from "./pages/settings"
 
 const internalRoutes = [
     {
@@ -39,8 +39,8 @@ const internalRoutes = [
         path: "*",
         element: <FormattedMessage defaultMessage="Page not found" />,
     },
-] as const;
+] as const
 
-export const routes = internalRoutes as unknown as MutableDeep<typeof internalRoutes>;
+export const routes = internalRoutes as unknown as MutableDeep<typeof internalRoutes>
 
-export const path = mkPath(internalRoutes);
+export const path = mkPath(internalRoutes)

@@ -1,29 +1,29 @@
-import { useCallback } from "react";
-import { LoginCard, returnToParameterName, useLoginFlow, useLogoutFlow } from "@leancodepl/kratos";
-import { AuthenticatorAssuranceLevel } from "@ory/client";
-import { Spin, Divider, Button } from "antd";
-import { FormattedMessage } from "react-intl";
-import { useNavigate } from "react-router";
-import { Link, useSearchParams } from "react-router-dom";
-import { kratosClient } from "../../../auth";
-import { sessionManager } from "../../../auth/sessionManager";
-import { loginRoute, recoveryRoute, registerRoute } from "../../../kratosRoutes";
-import { Box } from "../../common/Box";
-import { CardTitle } from "../_common/MarginlessTitle";
+import { useCallback } from "react"
+import { FormattedMessage } from "react-intl"
+import { useNavigate } from "react-router"
+import { Link, useSearchParams } from "react-router-dom"
+import { AuthenticatorAssuranceLevel } from "@ory/client"
+import { Button, Divider, Spin } from "antd"
+import { LoginCard, returnToParameterName, useLoginFlow, useLogoutFlow } from "@leancodepl/kratos"
+import { kratosClient } from "../../../auth"
+import { sessionManager } from "../../../auth/sessionManager"
+import { loginRoute, recoveryRoute, registerRoute } from "../../../kratosRoutes"
+import { Box } from "../../common/Box"
+import { CardTitle } from "../_common/MarginlessTitle"
 
 export function Login() {
-    const handleLogin = useHandleLogin();
-    const nav = useNavigate();
-    const { logout } = useLogoutFlow({ kratosClient, onLoggedOut: () => nav(loginRoute) });
+    const handleLogin = useHandleLogin()
+    const nav = useNavigate()
+    const { logout } = useLogoutFlow({ kratosClient, onLoggedOut: () => nav(loginRoute) })
     const { flow, submit } = useLoginFlow({
         kratosClient,
         loginRoute,
         onLoggedIn: handleLogin,
         onSessionAlreadyAvailable: useCallback(() => nav("/"), [nav]),
-    });
+    })
 
-    const isRefresh = flow?.refresh;
-    const is2FA = flow?.requested_aal === AuthenticatorAssuranceLevel.Aal2;
+    const isRefresh = flow?.refresh
+    const is2FA = flow?.requested_aal === AuthenticatorAssuranceLevel.Aal2
 
     return (
         <Box direction="column" gap="large">
@@ -68,21 +68,21 @@ export function Login() {
                 </Box>
             )}
         </Box>
-    );
+    )
 }
 
 function useHandleLogin() {
-    const nav = useNavigate();
-    const [search] = useSearchParams();
-    const returnTo = search.get(returnToParameterName);
+    const nav = useNavigate()
+    const [search] = useSearchParams()
+    const returnTo = search.get(returnToParameterName)
 
     return useCallback(async () => {
-        const session = (await kratosClient.toSession()).data;
-        sessionManager.setSession(session);
+        const session = (await kratosClient.toSession()).data
+        sessionManager.setSession(session)
 
         if (returnTo) {
-            nav(returnTo);
-            return;
+            nav(returnTo)
+            return
         }
-    }, [nav, returnTo]);
+    }, [nav, returnTo])
 }

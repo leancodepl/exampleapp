@@ -1,7 +1,7 @@
-import { Layout } from "antd";
-import styled from "styled-components";
+import { Layout } from "antd"
+import styled from "styled-components"
 
-const { Content } = Layout;
+const { Content } = Layout
 
 export const LayoutWrapper = styled(Layout)`
     height: 100%;
@@ -12,7 +12,7 @@ export const LayoutWrapper = styled(Layout)`
         justify-content: space-between;
         height: 100%;
     }
-`;
+`
 
 export const LogoContainer = styled.div`
     display: flex;
@@ -20,9 +20,9 @@ export const LogoContainer = styled.div`
     height: 80px;
 
     padding: ${({ theme }) => theme.spacing.small};
-`;
+`
 
 export const ContentWrapper = styled(Content)`
     height: 100%;
     overflow: auto;
-`;
+`

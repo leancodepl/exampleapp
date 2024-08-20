@@ -1,5 +1,5 @@
-const { withReact } = require("@nx/react");
-const { composePlugins, withNx } = require("@nx/webpack");
+const { withReact } = require("@nx/react")
+const { composePlugins, withNx } = require("@nx/webpack")
 
 module.exports = composePlugins(withNx(), withReact(), config => {
     config.devServer = {
@@ -14,7 +14,7 @@ module.exports = composePlugins(withNx(), withReact(), config => {
                 protocol: "wss",
             },
         },
-    };
+    }
 
-    return config;
-});
+    return config
+})

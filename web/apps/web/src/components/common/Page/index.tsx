@@ -1,14 +1,14 @@
-import { ReactNode } from "react";
-import { Box } from "../Box";
+import { ReactNode } from "react"
+import { Box } from "../Box"
 
 type PageProps = {
-    children?: ReactNode;
-};
+    children?: ReactNode
+}
 
 export function Page({ children }: PageProps) {
     return (
         <Box direction="column" padding="large">
             {children}
         </Box>
-    );
+    )
 }
