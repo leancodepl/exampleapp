@@ -1,21 +1,21 @@
-import { DatabaseOutlined, LogoutOutlined, SettingOutlined } from "@ant-design/icons";
-import { useLogoutFlow } from "@leancodepl/kratos";
-import type { ItemType, MenuItemType } from "antd/es/menu/hooks/useItems";
-import { FormattedMessage } from "react-intl";
-import { Link, useMatch } from "react-router-dom";
-import { MenuContainer, MenuWithoutBorder } from "./styles";
-import { useKeyByRoute } from "../../../_hooks/useKeyByRoute";
-import { kratosClient } from "../../../auth";
-import { sessionManager } from "../../../auth/sessionManager";
-import { path } from "../../../routes";
+import { FormattedMessage } from "react-intl"
+import { Link, useMatch } from "react-router-dom"
+import { DatabaseOutlined, LogoutOutlined, SettingOutlined } from "@ant-design/icons"
+import { ItemType, MenuItemType } from "antd/es/menu/interface"
+import { useLogoutFlow } from "@leancodepl/kratos"
+import { useKeyByRoute } from "../../../_hooks/useKeyByRoute"
+import { kratosClient } from "../../../auth"
+import { sessionManager } from "../../../auth/sessionManager"
+import { path } from "../../../routes"
+import { MenuContainer, MenuWithoutBorder } from "./styles"
 
 export function NavMenu() {
-    const { logout } = useLogoutFlow({ kratosClient, onLoggedOut: () => sessionManager.checkIfLoggedIn() });
+    const { logout } = useLogoutFlow({ kratosClient, onLoggedOut: () => sessionManager.checkIfLoggedIn() })
 
     const [activeKey] = useKeyByRoute({
         [MenuKeys.Projects]: useMatch(path("projects", "index")),
         [MenuKeys.Settings]: useMatch(path("settings")),
-    });
+    })
 
     return (
         <MenuContainer>
@@ -32,7 +32,7 @@ export function NavMenu() {
                 ]}
             />
         </MenuContainer>
-    );
+    )
 }
 
 enum MenuKeys {
@@ -59,4 +59,4 @@ const items: ItemType<MenuItemType>[] = [
             </Link>
         ),
     },
-];
+]
