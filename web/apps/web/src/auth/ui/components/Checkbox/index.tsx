@@ -1,5 +1,5 @@
-import { CheckboxComponentProps } from "@leancodepl/kratos";
-import { Checkbox, Form } from "antd";
+import { Checkbox, Form } from "antd"
+import { CheckboxComponentProps } from "@leancodepl/kratos"
 
 export function CheckboxComponent({
     label,
@@ -12,5 +12,5 @@ export function CheckboxComponent({
         <Form.Item help={helperMessage} validateStatus={isError ? "error" : undefined}>
             <Checkbox {...props}>{label}</Checkbox>
         </Form.Item>
-    );
+    )
 }

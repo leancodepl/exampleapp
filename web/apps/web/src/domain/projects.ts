@@ -1,4 +1,4 @@
-import { UncapitalizeDeep } from "@leancodepl/utils";
-import { ProjectDTO } from "../api/cqrs";
+import { UncapitalizeDeep } from "@leancodepl/utils"
+import { ProjectDTO } from "../api/cqrs"
 
-export type Project = UncapitalizeDeep<ProjectDTO>;
+export type Project = UncapitalizeDeep<ProjectDTO>

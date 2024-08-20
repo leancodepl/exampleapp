@@ -1,29 +1,29 @@
-import { useCallback } from "react";
-import { RegistrationCard, flowIdParameterName, useRegisterFlow } from "@leancodepl/kratos";
-import { Typography, Spin, Space, Divider } from "antd";
-import { FormattedMessage } from "react-intl";
-import { Link } from "react-router-dom";
-import { kratosClient } from "../../../auth";
-import { sessionManager } from "../../../auth/sessionManager";
-import { loginRoute, registerRoute, verificationRoute } from "../../../kratosRoutes";
-import { Box } from "../../common/Box";
-import { CardTitle } from "../_common/MarginlessTitle";
+import { useCallback } from "react"
+import { FormattedMessage } from "react-intl"
+import { Link } from "react-router-dom"
+import { Divider, Space, Spin, Typography } from "antd"
+import { RegistrationCard, flowIdParameterName, useRegisterFlow } from "@leancodepl/kratos"
+import { kratosClient } from "../../../auth"
+import { sessionManager } from "../../../auth/sessionManager"
+import { loginRoute, registerRoute, verificationRoute } from "../../../kratosRoutes"
+import { Box } from "../../common/Box"
+import { CardTitle } from "../_common/MarginlessTitle"
 
 export function Register() {
     const { flow, submit, isRegistered } = useRegisterFlow({
         kratosClient,
         registrationRoute: registerRoute,
         onSessionAlreadyAvailable: useCallback(() => {
-            sessionManager.checkIfLoggedIn();
+            sessionManager.checkIfLoggedIn()
         }, []),
         onContinueWith: continueWith => {
             if (continueWith[0]?.action === "show_verification_ui") {
-                const url = new URL(verificationRoute, window.location.origin);
-                url.searchParams.set(flowIdParameterName, continueWith[0].flow.id);
-                window.location.href = url.toString();
+                const url = new URL(verificationRoute, window.location.origin)
+                url.searchParams.set(flowIdParameterName, continueWith[0].flow.id)
+                window.location.href = url.toString()
             }
         },
-    });
+    })
 
     if (isRegistered) {
         return (
@@ -34,7 +34,7 @@ export function Register() {
                     </Typography.Text>
                 </Space>
             </Box>
-        );
+        )
     }
 
     return (
@@ -51,5 +51,5 @@ export function Register() {
                 </Link>
             </Box>
         </Box>
-    );
+    )
 }

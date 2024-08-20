@@ -1,26 +1,26 @@
 {
-  "presets": [
-    [
-      "@nx/react/babel",
-      {
-        "runtime": "automatic"
-      }
+    "presets": [
+        [
+            "@nx/react/babel",
+            {
+                "runtime": "automatic"
+            }
+        ]
+    ],
+    "plugins": [
+        [
+            "formatjs",
+            {
+                "idInterpolationPattern": "[sha512:contenthash:base64:6]",
+                "ast": true
+            }
+        ],
+        [
+            "styled-components",
+            {
+                "pure": true,
+                "ssr": true
+            }
+        ]
     ]
-  ],
-  "plugins": [
-    [
-      "formatjs",
-      {
-          "idInterpolationPattern": "[sha512:contenthash:base64:6]",
-          "ast": true
-      }
-  ],
-    [
-      "styled-components",
-      {
-        "pure": true,
-        "ssr": true
-      }
-    ]
-  ]
 }

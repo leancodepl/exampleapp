@@ -1,5 +1,5 @@
-import { Verification } from "../../components/auth/Verification";
+import { Verification } from "../../components/auth/Verification"
 
 export function VerificationPage() {
-    return <Verification />;
+    return <Verification />
 }

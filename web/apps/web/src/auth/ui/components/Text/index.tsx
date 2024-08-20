@@ -1,11 +1,11 @@
-import { TextComponentProps, useKratosContext } from "@leancodepl/kratos";
-import { Typography } from "antd";
-import { Box } from "../../../../components/common/Box";
+import { Typography } from "antd"
+import { TextComponentProps, useKratosContext } from "@leancodepl/kratos"
+import { Box } from "../../../../components/common/Box"
 
 export function TextComponent({ label, codes }: TextComponentProps) {
     const {
         components: { MessageFormat },
-    } = useKratosContext();
+    } = useKratosContext()
 
     return (
         <div>
@@ -18,5 +18,5 @@ export function TextComponent({ label, codes }: TextComponentProps) {
                 ))}
             </Box>
         </div>
-    );
+    )
 }

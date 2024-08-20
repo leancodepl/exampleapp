@@ -1,17 +1,17 @@
-import { Outlet } from "react-router";
-import { useIsLoggedIn } from "../../../_hooks/useIsLoggedIn";
-import { Redirect } from "../../common/Redirect";
+import { Outlet } from "react-router"
+import { useIsLoggedIn } from "../../../_hooks/useIsLoggedIn"
+import { Redirect } from "../../common/Redirect"
 
 export function NotLoggedInGuard() {
-    const isLoggedIn = useIsLoggedIn();
+    const isLoggedIn = useIsLoggedIn()
 
     if (isLoggedIn === true) {
-        return <Redirect path="/" />;
+        return <Redirect path="/" />
     }
 
     if (isLoggedIn === undefined) {
-        return null;
+        return null
     }
 
-    return <Outlet />;
+    return <Outlet />
 }

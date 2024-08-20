@@ -1,16 +1,16 @@
-import { KratosContextProvider, UserSettingsCard, useSettingsFlow } from "@leancodepl/kratos";
-import { Typography, Spin, Card } from "antd";
-import { FormattedMessage } from "react-intl";
-import { kratosClient } from "../../../auth";
-import { UiMessages } from "../../../auth/ui/components/UiMessages";
-import { path } from "../../../routes";
-import { Box } from "../../common/Box";
+import { FormattedMessage } from "react-intl"
+import { Card, Spin, Typography } from "antd"
+import { KratosContextProvider, UserSettingsCard, useSettingsFlow } from "@leancodepl/kratos"
+import { kratosClient } from "../../../auth"
+import { UiMessages } from "../../../auth/ui/components/UiMessages"
+import { path } from "../../../routes"
+import { Box } from "../../common/Box"
 
 export function Settings() {
     const { flow, submit } = useSettingsFlow({
         kratosClient,
         settingsRoute: path("settings"),
-    });
+    })
 
     return (
         <Box direction="column" gap="large">
@@ -68,5 +68,5 @@ export function Settings() {
                 </KratosContextProvider>
             </Card>
         </Box>
-    );
+    )
 }

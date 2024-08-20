@@ -1,6 +1,6 @@
-import { Layout } from "antd";
-import { Outlet } from "react-router-dom";
-import { CardWrapper, CenteredContent } from "./styles";
+import { Outlet } from "react-router-dom"
+import { Layout } from "antd"
+import { CardWrapper, CenteredContent } from "./styles"
 
 export function UnauthenticatedLayout() {
     return (
@@ -11,5 +11,5 @@ export function UnauthenticatedLayout() {
                 </CardWrapper>
             </CenteredContent>
         </Layout>
-    );
+    )
 }

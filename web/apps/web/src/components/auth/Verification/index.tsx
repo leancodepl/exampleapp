@@ -1,20 +1,20 @@
-import { VerificationCard, useVerificationFlow } from "@leancodepl/kratos";
-import { Spin, Divider } from "antd";
-import { FormattedMessage } from "react-intl";
-import { Link, useNavigate } from "react-router-dom";
-import { kratosClient } from "../../../auth";
-import { loginRoute } from "../../../kratosRoutes";
-import { Box } from "../../common/Box";
-import { CardTitle } from "../_common/MarginlessTitle";
+import { FormattedMessage } from "react-intl"
+import { Link, useNavigate } from "react-router-dom"
+import { Divider, Spin } from "antd"
+import { VerificationCard, useVerificationFlow } from "@leancodepl/kratos"
+import { kratosClient } from "../../../auth"
+import { loginRoute } from "../../../kratosRoutes"
+import { Box } from "../../common/Box"
+import { CardTitle } from "../_common/MarginlessTitle"
 
 export function Verification() {
-    const nav = useNavigate();
+    const nav = useNavigate()
     const { flow, submit } = useVerificationFlow({
         kratosClient,
         onVerified: () => {
-            nav(loginRoute);
+            nav(loginRoute)
         },
-    });
+    })
 
     return (
         <Box direction="column" gap="small">
@@ -30,5 +30,5 @@ export function Verification() {
                 </Link>
             </Box>
         </Box>
-    );
+    )
 }
