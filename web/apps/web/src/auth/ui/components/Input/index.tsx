@@ -1,5 +1,5 @@
-import { InputComponentProps } from "@leancodepl/kratos";
-import { Input, Form } from "antd";
+import { Form, Input } from "antd"
+import { InputComponentProps } from "@leancodepl/kratos"
 
 export function InputComponent({ header, helperMessage, size: _size, isError, ...props }: InputComponentProps) {
     return (
@@ -13,5 +13,5 @@ export function InputComponent({ header, helperMessage, size: _size, isError, ..
             wrapperCol={{ span: 24 }}>
             {props.type === "password" ? <Input.Password {...props} /> : <Input {...props} />}
         </Form.Item>
-    );
+    )
 }

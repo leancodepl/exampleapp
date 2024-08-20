@@ -1,18 +1,18 @@
-import { BaseSessionManager } from "@leancodepl/kratos";
-import { map } from "rxjs";
-import { environment } from "../environments/environment";
-import { loginRoute } from "../kratosRoutes";
+import { map } from "rxjs"
+import { BaseSessionManager } from "@leancodepl/kratos"
+import { environment } from "../environments/environment"
+import { loginRoute } from "../kratosRoutes"
 
 class SessionManager extends BaseSessionManager {
     email$ = this.identity$.pipe(
         map(identity => {
-            const traits: unknown = identity?.traits;
+            const traits: unknown = identity?.traits
 
             return traits && typeof traits === "object" && "email" in traits && typeof traits.email === "string"
                 ? traits.email
-                : undefined;
+                : undefined
         }),
-    );
+    )
 }
 
-export const sessionManager = new SessionManager(environment.authUrl, loginRoute);
+export const sessionManager = new SessionManager(environment.authUrl, loginRoute)

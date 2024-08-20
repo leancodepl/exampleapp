@@ -8,7 +8,7 @@ export type Command = {}
 export type Operation<TResult> = {}
 export type Topic = {}
 
-`.trimStart();
+`.trimStart()
 
 module.exports = {
     generates: {
@@ -28,12 +28,12 @@ module.exports = {
             project: ["Examples/ExampleApp.Examples.Contracts/ExampleApp.Examples.Contracts.csproj"],
         },
         nameTransform: nameWithNamespace => {
-            const nameParts = nameWithNamespace.split(".");
-            let name = nameParts.at(-1);
+            const nameParts = nameWithNamespace.split(".")
+            let name = nameParts.at(-1)
 
-            if (nameParts.at(1) === "ForceUpdate") name = `ForceUpdate${name}`;
+            if (nameParts.at(1) === "ForceUpdate") name = `ForceUpdate${name}`
 
-            return name;
+            return name
         },
     },
-};
+}

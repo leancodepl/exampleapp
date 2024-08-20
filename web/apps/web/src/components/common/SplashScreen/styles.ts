@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "styled-components"
 
 export const FullscreenWrapper = styled.div`
     display: flex;
@@ -9,4 +9,4 @@ export const FullscreenWrapper = styled.div`
     position: fixed;
     top: 0;
     left: 0;
-`;
+`
