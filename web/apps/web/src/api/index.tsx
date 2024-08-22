@@ -1,6 +1,8 @@
 import { QueryClient } from "@tanstack/react-query"
 import { createApiComponents } from "@leancodepl/admin"
 import { TokenProvider } from "@leancodepl/cqrs-client-base"
+import { mkPipeClient } from "@leancodepl/hook-pipe-client"
+import { Pipe } from "@leancodepl/pipe"
 import { mkCqrsClient } from "@leancodepl/react-query-cqrs-client"
 import { sessionManager } from "../auth/sessionManager"
 import { environment } from "../environments/environment"
@@ -28,10 +30,11 @@ const cqrsClientConfig = {
     tokenProvider,
 }
 
-const mkApiClient = { ...mkCqrsClient(cqrsClientConfig), createTopic: () => void 0 } as {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars, unused-imports/no-unused-vars
-    createTopic: <TTopic, TNotifications extends Record<string, unknown>>(endpoint: string) => unknown
-} & ReturnType<typeof mkCqrsClient>
+const pipe = new Pipe({
+    url: `${environment.apiUrl}/leanpipe`,
+})
+
+const mkApiClient = { ...mkCqrsClient(cqrsClientConfig), ...mkPipeClient({ pipe }) }
 
 export type ReactQueryCqrs = typeof mkApiClient
 
