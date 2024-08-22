@@ -22,7 +22,7 @@ public class AllProjectsAdminQH : IQueryHandler<AllProjectsAdmin, AdminQueryResu
     {
         var projects = ApplyFilters(query, dbContext.Projects);
         projects = ApplySort(query, projects);
-        var pageSize = Math.Min(query.PageSize, 10000);
+        var pageSize = Math.Clamp(query.PageSize, 1, 100);
 
         return new()
         {
@@ -37,26 +37,15 @@ public class AllProjectsAdminQH : IQueryHandler<AllProjectsAdmin, AdminQueryResu
 
     private static IQueryable<Project> ApplyFilters(AllProjectsAdmin query, IQueryable<Project> q)
     {
-        if (!string.IsNullOrEmpty(query.NameFilter))
-        {
-            q = q.Where(r => r.Name.Contains(query.NameFilter));
-        }
-
-        return q;
+        return q.ConditionalWhere(r => r.Name.Contains(query.NameFilter!), !string.IsNullOrEmpty(query.NameFilter));
     }
 
     private static IQueryable<Project> ApplySort(AllProjectsAdmin query, IQueryable<Project> q)
     {
-        switch (query.SortBy)
+        return query.SortBy switch
         {
-            case nameof(AdminProjectDTO.Name):
-                q = q.OrderBy(t => t.Name, query.SortDescending == true).ThenBy(t => t.Id);
-                break;
-            default:
-                q = q.OrderBy(t => t.Id);
-                break;
-        }
-
-        return q;
+            nameof(AdminProjectDTO.Name) => q.OrderBy(t => t.Name, query.SortDescending == true).ThenBy(t => t.Id),
+            _ => q.OrderBy(t => t.Id),
+        };
     }
 }
