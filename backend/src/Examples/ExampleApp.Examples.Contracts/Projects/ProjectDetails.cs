@@ -17,4 +17,5 @@ public class ProjectDetailsDTO : ProjectDTO
 public class AssignmentDTO : AssignmentWriteDTO
 {
     public string Id { get; set; }
+    public string? AssignedEmployeeId { get; set; }
 }
