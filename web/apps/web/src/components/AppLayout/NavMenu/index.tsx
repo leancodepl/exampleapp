@@ -1,6 +1,6 @@
 import { FormattedMessage } from "react-intl"
 import { Link, useMatch } from "react-router-dom"
-import { DatabaseOutlined, LogoutOutlined, SettingOutlined } from "@ant-design/icons"
+import { DatabaseOutlined, LogoutOutlined, SettingOutlined, TeamOutlined } from "@ant-design/icons"
 import { ItemType, MenuItemType } from "antd/es/menu/interface"
 import { useLogoutFlow } from "@leancodepl/kratos"
 import { useKeyByRoute } from "../../../_hooks/useKeyByRoute"
@@ -15,6 +15,7 @@ export function NavMenu() {
     const [activeKey] = useKeyByRoute({
         [MenuKeys.Projects]: useMatch(path("projects", "index")),
         [MenuKeys.Settings]: useMatch(path("settings")),
+        [MenuKeys.Employees]: useMatch(path("employees", "index")),
     })
 
     return (
@@ -38,6 +39,7 @@ export function NavMenu() {
 enum MenuKeys {
     Projects = "projects",
     Settings = "settings",
+    Employees = "employees",
 }
 
 const items: ItemType<MenuItemType>[] = [
@@ -47,6 +49,15 @@ const items: ItemType<MenuItemType>[] = [
         label: (
             <Link to={path("projects", "index")}>
                 <FormattedMessage defaultMessage="Projects" />
+            </Link>
+        ),
+    },
+    {
+        key: MenuKeys.Employees,
+        icon: <TeamOutlined />,
+        label: (
+            <Link to={path("employees", "index")}>
+                <FormattedMessage defaultMessage="Employees" />
             </Link>
         ),
     },

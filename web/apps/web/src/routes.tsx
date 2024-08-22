@@ -1,4 +1,6 @@
 import { FormattedMessage } from "react-intl"
+import { EmployeesPage } from "pages/employees"
+import { ProjectPage } from "pages/projects/project"
 import { MutableDeep } from "@leancodepl/utils"
 import { mkPath } from "./_utils/mkPath"
 import { Redirect } from "./components/common/Redirect"
@@ -25,12 +27,23 @@ const internalRoutes = [
             {
                 name: "project",
                 path: ":projectId",
-                element: <>Project</>,
+                element: <ProjectPage />,
             },
             {
                 name: "create",
                 path: "create/",
                 element: <>Create</>,
+            },
+        ],
+    },
+    {
+        name: "employees",
+        path: "employees/",
+        children: [
+            {
+                name: "index",
+                path: "",
+                element: <EmployeesPage />,
             },
         ],
     },
