@@ -37,10 +37,27 @@ export namespace Scopes {
  */
 export interface AssignmentEmployerEmbed extends Query<string> {
 }
+export interface AdminEmployeeDTO {
+    Id: string;
+    /**
+     * @attribute LeanCode.Contracts.Admin.AdminColumn
+     * @attribute LeanCode.Contracts.Admin.AdminSortable
+     */
+    Name: string;
+}
 /**
  * @attribute LeanCode.Contracts.Security.AuthorizeWhenHasAnyOfAttribute
  */
 export interface AllEmployees extends Query<EmployeeDTO[]> {
+}
+/**
+ * @attribute LeanCode.Contracts.Security.AuthorizeWhenHasAnyOfAttribute
+ */
+export interface AllEmployeesAdmin extends AdminQuery<AdminEmployeeDTO> {
+    /**
+     * @attribute LeanCode.Contracts.Admin.AdminFilterFor
+     */
+    NameFilter?: string | null;
 }
 /**
  * @attribute LeanCode.Contracts.Security.AuthorizeWhenHasAnyOfAttribute
@@ -189,6 +206,7 @@ export namespace AssignEmployeeToAssignment {
 }
 export interface AssignmentDTO extends AssignmentWriteDTO {
     Id: string;
+    AssignedEmployeeId?: string | null;
 }
 export interface AssignmentWriteDTO {
     Name: string;
@@ -344,6 +362,7 @@ export default function (cqrsClient: CQRS) {
     return {
         AssignmentEmployerEmbed: cqrsClient.createQuery<AssignmentEmployerEmbed, string>("ExampleApp.Examples.Contracts.Dashboards.AssignmentEmployerEmbed"),
         AllEmployees: cqrsClient.createQuery<AllEmployees, EmployeeDTO[]>("ExampleApp.Examples.Contracts.Employees.AllEmployees"),
+        AllEmployeesAdmin: cqrsClient.createQuery<AllEmployeesAdmin, AdminQueryResult<AdminEmployeeDTO>>("ExampleApp.Examples.Contracts.Employees.AllEmployeesAdmin"),
         CreateEmployee: cqrsClient.createCommand<CreateEmployee, CreateEmployee.ErrorCodes>("ExampleApp.Examples.Contracts.Employees.CreateEmployee", CreateEmployee.ErrorCodes),
         AddNotificationToken: cqrsClient.createCommand<AddNotificationToken, AddNotificationToken.ErrorCodes>("ExampleApp.Examples.Contracts.Firebase.AddNotificationToken", AddNotificationToken.ErrorCodes),
         RemoveNotificationToken: cqrsClient.createCommand<RemoveNotificationToken, RemoveNotificationToken.ErrorCodes>("ExampleApp.Examples.Contracts.Firebase.RemoveNotificationToken", RemoveNotificationToken.ErrorCodes),

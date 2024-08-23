@@ -1,18 +1,16 @@
 import { FormattedMessage } from "react-intl"
-import { Link } from "react-router-dom"
 import { Button, Card } from "antd"
 import { AddByNameModal } from "components/common/AddByNameModal"
 import { Box } from "components/common/Box"
-import { path } from "routes"
 import { useDialog } from "@leancodepl/utils"
 import { api, apiComponents } from "../../api"
 import { Page } from "../../components/common/Page"
 
-export function ProjectsPage() {
+export function EmployeesPage() {
     const { isDialogOpen, openDialog, closeDialog } = useDialog()
 
-    const { mutate, isPending } = api.useCreateProject({
-        invalidateQueries: [api.useAllProjectsAdmin.key({})],
+    const { mutate, isPending } = api.useCreateEmployee({
+        invalidateQueries: [api.useAllEmployeesAdmin.key({})],
     })
 
     return (
@@ -24,27 +22,22 @@ export function ProjectsPage() {
                         bottom: "small",
                     }}>
                     <Button onClick={openDialog}>
-                        <FormattedMessage defaultMessage="Add project" />
+                        <FormattedMessage defaultMessage="Add employee" />
                     </Button>
                 </Box>
-                <apiComponents.AllProjectsAdminApiTable
-                    NameRender={(_, { id, name }) => (
-                        <Link
-                            to={path("projects", "project", {
-                                projectId: id,
-                            })}>
-                            {name}
-                        </Link>
-                    )}
-                />
+                <apiComponents.AllEmployeesAdminApiTable />
             </Card>
             <AddByNameModal
                 isAdding={isPending}
                 isOpen={isDialogOpen}
-                title={<FormattedMessage defaultMessage="Add project" />}
+                title={<FormattedMessage defaultMessage="Add employee" />}
                 onAdd={name => {
+                    const trimmedName = name.trim()
+                    const emailName = trimmedName.replace(/\s/g, ".").toLowerCase()
+
                     mutate({
-                        Name: name,
+                        Email: emailName + "@leancode.pl",
+                        Name: trimmedName,
                     })
                 }}
                 onClose={closeDialog}
