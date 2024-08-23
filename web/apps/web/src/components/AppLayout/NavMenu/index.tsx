@@ -3,7 +3,7 @@ import { Link, useMatch } from "react-router-dom"
 import { DatabaseOutlined, LogoutOutlined, SettingOutlined, TeamOutlined } from "@ant-design/icons"
 import { ItemType, MenuItemType } from "antd/es/menu/interface"
 import { useLogoutFlow } from "@leancodepl/kratos"
-import { useKeyByRoute } from "../../../_hooks/useKeyByRoute"
+import { useKeyByRoute } from "@leancodepl/utils"
 import { kratosClient } from "../../../auth"
 import { sessionManager } from "../../../auth/sessionManager"
 import { path } from "../../../routes"
@@ -13,10 +13,7 @@ export function NavMenu() {
     const { logout } = useLogoutFlow({ kratosClient, onLoggedOut: () => sessionManager.checkIfLoggedIn() })
 
     const [activeKey] = useKeyByRoute({
-        [MenuKeys.Projects]: [
-            useMatch(path("projects", "index")),
-            useMatch(path("projects", "project", { projectId: "*" })),
-        ],
+        [MenuKeys.Projects]: useMatch(path("projects", "project", { projectId: "*" })),
         [MenuKeys.Settings]: useMatch(path("settings")),
         [MenuKeys.Employees]: useMatch(path("employees", "index")),
     })
