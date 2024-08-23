@@ -32,9 +32,12 @@ export function EmployeesPage() {
                 isOpen={isDialogOpen}
                 title={<FormattedMessage defaultMessage="Add employee" />}
                 onAdd={name => {
+                    const trimmedName = name.trim()
+                    const emailName = trimmedName.replace(/\s/g, ".").toLowerCase()
+
                     mutate({
-                        Email: name + "@leancode.pl",
-                        Name: name,
+                        Email: emailName + "@leancode.pl",
+                        Name: trimmedName,
                     })
                 }}
                 onClose={closeDialog}

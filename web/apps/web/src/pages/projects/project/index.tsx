@@ -13,8 +13,6 @@ import { path } from "routes"
 import { UncapitalizeDeep, useDialog } from "@leancodepl/utils"
 import { ProjectName } from "./styles"
 
-const notAssignedId = "-"
-
 export function ProjectPage() {
     const { projectId } = useParams()
 
@@ -139,5 +137,7 @@ export function ProjectPage() {
         </Page>
     )
 }
+
+const notAssignedId = "-"
 
 type Assignment = UncapitalizeDeep<ProjectDetailsDTO["Assignments"][number]>
