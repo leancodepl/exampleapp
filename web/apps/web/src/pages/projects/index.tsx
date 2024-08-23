@@ -1,7 +1,8 @@
 import { FormattedMessage } from "react-intl"
 import { Link } from "react-router-dom"
-import { Button, Card, Flex, Space } from "antd"
+import { Button, Card } from "antd"
 import { AddByNameModal } from "components/common/AddByNameModal"
+import { Box } from "components/common/Box"
 import { path } from "routes"
 import { useDialog } from "@leancodepl/utils"
 import { api, apiComponents } from "../../api"
@@ -17,28 +18,25 @@ export function ProjectsPage() {
     return (
         <Page>
             <Card>
-                <Space
-                    direction="vertical"
-                    size="small"
-                    style={{
-                        width: "100%",
+                <Box
+                    justify="flex-end"
+                    padding={{
+                        bottom: "small",
                     }}>
-                    <Flex justify="flex-end">
-                        <Button onClick={openDialog}>
-                            <FormattedMessage defaultMessage="Add project" />
-                        </Button>
-                    </Flex>
-                    <apiComponents.AllProjectsAdminApiTable
-                        NameRender={(_, { id, name }) => (
-                            <Link
-                                to={path("projects", "project", {
-                                    projectId: id,
-                                })}>
-                                {name}
-                            </Link>
-                        )}
-                    />
-                </Space>
+                    <Button onClick={openDialog}>
+                        <FormattedMessage defaultMessage="Add project" />
+                    </Button>
+                </Box>
+                <apiComponents.AllProjectsAdminApiTable
+                    NameRender={(_, { id, name }) => (
+                        <Link
+                            to={path("projects", "project", {
+                                projectId: id,
+                            })}>
+                            {name}
+                        </Link>
+                    )}
+                />
             </Card>
             <AddByNameModal
                 isAdding={isPending}

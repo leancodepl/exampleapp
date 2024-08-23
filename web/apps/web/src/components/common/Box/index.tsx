@@ -59,7 +59,7 @@ const cssPadding = (padding?: Padding) => {
     const paddings = [top || 0, right || 0, bottom || 0, left || 0]
 
     return css`
-        padding: ${({ theme }) =>
+        ${({ theme }) =>
             paddings.map(padding => (typeof padding === "number" ? padding : theme.spacing[padding])).join(" ")};
     `
 }
