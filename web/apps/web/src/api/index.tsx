@@ -4,6 +4,7 @@ import { TokenProvider } from "@leancodepl/cqrs-client-base"
 import { mkPipeClient } from "@leancodepl/hook-pipe-client"
 import { Pipe } from "@leancodepl/pipe"
 import { mkCqrsClient } from "@leancodepl/react-query-cqrs-client"
+import { addPrefix } from "@leancodepl/utils"
 import { sessionManager } from "../auth/sessionManager"
 import { environment } from "../environments/environment"
 import schema from "./api-components-schema"
@@ -39,17 +40,6 @@ const mkApiClient = { ...mkCqrsClient(cqrsClientConfig), ...mkPipeClient({ pipe 
 export type ReactQueryCqrs = typeof mkApiClient
 
 const rawApi = cqrs(mkApiClient)
-
-type PrefixWith<T, TPrefix extends string> = {
-    [K in keyof T as K extends string ? `${TPrefix}${K}` : never]: T[K]
-}
-
-function addPrefix<T extends object, TPrefix extends string>(object: T, prefix: TPrefix) {
-    return Object.fromEntries(Object.entries(object).map(([key, value]) => [`${prefix}${key}`, value])) as PrefixWith<
-        T,
-        TPrefix
-    >
-}
 
 export const api = addPrefix(rawApi, "use")
 export const apiComponents = createApiComponents(schema, { cqrsClientConfig, cqrs })
