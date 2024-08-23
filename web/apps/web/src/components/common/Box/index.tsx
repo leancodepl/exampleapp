@@ -47,7 +47,7 @@ const cssPadding = (padding?: Padding) => {
 
     if (typeof padding === "string") {
         return css`
-            padding: ${({ theme }) => theme.spacing[padding]};
+            ${({ theme }) => theme.spacing[padding]};
         `
     } else {
         top = padding.top ?? padding.y
