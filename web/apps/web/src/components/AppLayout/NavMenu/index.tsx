@@ -13,7 +13,10 @@ export function NavMenu() {
     const { logout } = useLogoutFlow({ kratosClient, onLoggedOut: () => sessionManager.checkIfLoggedIn() })
 
     const [activeKey] = useKeyByRoute({
-        [MenuKeys.Projects]: useMatch(path("projects", "index")),
+        [MenuKeys.Projects]: [
+            useMatch(path("projects", "index")),
+            useMatch(path("projects", "project", { projectId: "*" })),
+        ],
         [MenuKeys.Settings]: useMatch(path("settings")),
         [MenuKeys.Employees]: useMatch(path("employees", "index")),
     })
