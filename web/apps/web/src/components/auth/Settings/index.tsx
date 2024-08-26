@@ -27,7 +27,7 @@ export function Settings() {
                                 <Typography.Title level={4}>
                                     <FormattedMessage defaultMessage="Lookup secret" />
                                 </Typography.Title>
-                                <UserSettingsCard flow={flow} flowType="lookupSecret" onSubmit={submit} />
+                                <UserSettingsCard flow={flow} flowType="lookup_secret" onSubmit={submit} />
                             </div>
                             <div>
                                 <Typography.Title level={4}>
@@ -55,9 +55,9 @@ export function Settings() {
                             </div>
                             <div>
                                 <Typography.Title level={4}>
-                                    <FormattedMessage defaultMessage="Webauthn" />
+                                    <FormattedMessage defaultMessage="Passkey" />
                                 </Typography.Title>
-                                <UserSettingsCard flow={flow} flowType="webauthn" onSubmit={submit} />
+                                <UserSettingsCard flow={flow} flowType="passkey" onSubmit={submit} />
                             </div>
                         </>
                     ) : (
