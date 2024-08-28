@@ -6,6 +6,7 @@ export function CheckboxComponent({
     helperMessage,
     onChange: _onChange,
     isError,
+    node: _node,
     ...props
 }: CheckboxComponentProps) {
     return (

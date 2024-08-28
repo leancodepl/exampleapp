@@ -1,7 +1,14 @@
 import { Form, Input } from "antd"
 import { InputComponentProps } from "@leancodepl/kratos"
 
-export function InputComponent({ header, helperMessage, size: _size, isError, ...props }: InputComponentProps) {
+export function InputComponent({
+    header,
+    helperMessage,
+    size: _size,
+    isError,
+    node: _node,
+    ...props
+}: InputComponentProps) {
     return (
         <Form.Item
             help={helperMessage}

@@ -25,7 +25,9 @@ export type BoxProps = {
     wrap?: Wrap
 }
 
-export const Box = styled.div<BoxProps>`
+export const Box = styled.div.withConfig({
+    shouldForwardProp: prop => !["align", "direction", "gap", "justify", "padding", "wrap"].includes(prop),
+})<BoxProps>`
     display: flex;
     flex-direction: ${({ direction }) => direction};
     flex-wrap: ${({ wrap }) => wrap};
