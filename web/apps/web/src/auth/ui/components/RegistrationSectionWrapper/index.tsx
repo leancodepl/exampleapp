@@ -1,17 +1,16 @@
 import { ReactNode } from "react"
 import { Box } from "../../../../components/common/Box"
 
-type OidcSectionWrapperProps = {
+type RegistrationSectionWrapperProps = {
     children?: ReactNode
 }
 
-export function OidcSectionWrapper({ children }: OidcSectionWrapperProps) {
+export function RegistrationSectionWrapper({ children }: RegistrationSectionWrapperProps) {
     return (
         <Box
             direction="column"
-            gap="small"
             padding={{
-                bottom: "medium",
+                bottom: "small",
             }}>
             {children}
         </Box>

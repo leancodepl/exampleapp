@@ -39,9 +39,14 @@ export function Register() {
 
     return (
         <Box direction="column">
-            <CardTitle>
-                <FormattedMessage defaultMessage="Sign up" />
-            </CardTitle>
+            <Box
+                padding={{
+                    bottom: "medium",
+                }}>
+                <CardTitle>
+                    <FormattedMessage defaultMessage="Sign up" />
+                </CardTitle>
+            </Box>
             {flow ? <RegistrationCard flow={flow} onSubmit={submit} /> : <Spin size="large" />}
             <Divider />
             <Box gap="small" justify="center">

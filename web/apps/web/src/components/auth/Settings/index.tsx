@@ -20,7 +20,10 @@ export function Settings() {
                 </Typography.Title>
                 <UiMessages uiMessages={flow?.ui?.messages} />
 
-                <KratosContextProvider components={{ UiMessages: () => null }}>
+                <KratosContextProvider
+                    components={{
+                        UiMessages: () => null,
+                    }}>
                     {flow ? (
                         <>
                             <div>

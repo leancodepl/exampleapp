@@ -1,15 +1,14 @@
 import { ReactNode } from "react"
 import { Box } from "../../../../components/common/Box"
 
-type OidcSectionWrapperProps = {
+type PasswordlessSectionWrapperProps = {
     children?: ReactNode
 }
 
-export function OidcSectionWrapper({ children }: OidcSectionWrapperProps) {
+export function PasswordlessSectionWrapper({ children }: PasswordlessSectionWrapperProps) {
     return (
         <Box
             direction="column"
-            gap="small"
             padding={{
                 bottom: "medium",
             }}>

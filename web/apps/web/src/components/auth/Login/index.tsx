@@ -26,14 +26,19 @@ export function Login() {
     const is2FA = flow?.requested_aal === AuthenticatorAssuranceLevel.Aal2
 
     return (
-        <Box direction="column" gap="large">
-            <CardTitle>
-                {is2FA ? (
-                    <FormattedMessage defaultMessage="Two-factor authentication" />
-                ) : (
-                    <FormattedMessage defaultMessage="Sign In" />
-                )}
-            </CardTitle>
+        <Box direction="column">
+            <Box
+                padding={{
+                    bottom: "medium",
+                }}>
+                <CardTitle>
+                    {is2FA ? (
+                        <FormattedMessage defaultMessage="Two-factor authentication" />
+                    ) : (
+                        <FormattedMessage defaultMessage="Sign In" />
+                    )}
+                </CardTitle>
+            </Box>
             {flow ? (
                 <Box direction="column">
                     <LoginCard flow={flow} onSubmit={submit} />
