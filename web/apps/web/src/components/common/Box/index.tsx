@@ -17,22 +17,24 @@ type Padding =
 type Wrap = "wrap" | "wrap-reverse"
 
 export type BoxProps = {
-    $justify?: Justify
-    $align?: Alignment
-    $gap?: Spacing
-    $direction?: Direction
-    $padding?: Padding
-    $wrap?: Wrap
+    justify?: Justify
+    align?: Alignment
+    gap?: Spacing
+    direction?: Direction
+    padding?: Padding
+    wrap?: Wrap
 }
 
-export const Box = styled.div<BoxProps>`
+export const Box = styled.div.withConfig({
+    shouldForwardProp: prop => !["align", "direction", "gap", "justify", "padding", "wrap"].includes(prop),
+})<BoxProps>`
     display: flex;
-    flex-direction: ${({ $direction: direction }) => direction};
-    flex-wrap: ${({ $wrap: wrap }) => wrap};
-    gap: ${({ $gap: gap, theme }) => gap && theme.spacing[gap]};
-    align-items: ${({ $align: align }) => align};
-    justify-content: ${({ $justify: justify }) => justify};
-    padding: ${({ $padding: padding }) => padding && cssPadding(padding)};
+    flex-direction: ${({ direction }) => direction};
+    flex-wrap: ${({ wrap }) => wrap};
+    gap: ${({ gap, theme }) => gap && theme.spacing[gap]};
+    align-items: ${({ align }) => align};
+    justify-content: ${({ justify }) => justify};
+    padding: ${({ padding }) => padding && cssPadding(padding)};
 `
 
 const cssPadding = (padding?: Padding) => {

@@ -1,11 +1,11 @@
 import { ReactNode } from "react"
 import { Box } from "../../../../components/common/Box"
 
-type OidcSectionWrapperProps = {
+type OidcSettingsSectionWrapperProps = {
     children?: ReactNode
 }
 
-export function OidcSectionWrapper({ children }: OidcSectionWrapperProps) {
+export function OidcSettingsSectionWrapper({ children }: OidcSettingsSectionWrapperProps) {
     return (
         <Box direction="column" gap="small">
             {children}

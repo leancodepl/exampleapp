@@ -13,7 +13,7 @@ export function Settings() {
     })
 
     return (
-        <Box $direction="column" $gap="large">
+        <Box direction="column" gap="large">
             <Card>
                 <Typography.Title level={2} style={{ margin: 0 }}>
                     <FormattedMessage defaultMessage="Settings" />
@@ -61,7 +61,7 @@ export function Settings() {
                             </div>
                         </>
                     ) : (
-                        <Box $align="center" $justify="center">
+                        <Box align="center" justify="center">
                             <Spin size="large" />
                         </Box>
                     )}

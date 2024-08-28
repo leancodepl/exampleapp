@@ -27,7 +27,7 @@ export function Register() {
 
     if (isRegistered) {
         return (
-            <Box $direction="column">
+            <Box direction="column">
                 <Space direction="vertical" size="middle">
                     <Typography.Text strong>
                         <FormattedMessage defaultMessage="E-mail sent. Check your mailbox" />
@@ -38,13 +38,13 @@ export function Register() {
     }
 
     return (
-        <Box $direction="column">
+        <Box direction="column">
             <CardTitle>
                 <FormattedMessage defaultMessage="Sign up" />
             </CardTitle>
             {flow ? <RegistrationCard flow={flow} onSubmit={submit} /> : <Spin size="large" />}
             <Divider />
-            <Box $gap="small" $justify="center">
+            <Box gap="small" justify="center">
                 <FormattedMessage defaultMessage="Already have an account?" />
                 <Link to={loginRoute}>
                     <FormattedMessage defaultMessage="Sign in" />

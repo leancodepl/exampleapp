@@ -19,8 +19,8 @@ export function ProjectsPage() {
         <Page>
             <Card>
                 <Box
-                    $justify="flex-end"
-                    $padding={{
+                    justify="flex-end"
+                    padding={{
                         bottom: "small",
                     }}>
                     <Button onClick={openDialog}>

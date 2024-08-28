@@ -25,13 +25,13 @@ export function Recovery() {
     })
 
     return (
-        <Box $direction="column" $gap="small">
+        <Box direction="column" gap="small">
             <CardTitle>
                 <FormattedMessage defaultMessage="Recovery" />
             </CardTitle>
             {flow ? <RecoveryCard flow={flow} onSubmit={submit} /> : <Spin size="large" />}
             <Divider />
-            <Box $gap="small" $justify="center">
+            <Box gap="small" justify="center">
                 <Link to={loginRoute}>
                     <FormattedMessage defaultMessage="Go back to sign in page" />
                 </Link>
