@@ -10,7 +10,7 @@ export function TextComponent({ label, codes }: TextComponentProps) {
     return (
         <div>
             <Typography.Title level={5}>{label}</Typography.Title>
-            <Box gap="small" wrap="wrap">
+            <Box $gap="small" $wrap="wrap">
                 {codes?.map(code => (
                     <code key={code.text}>
                         <MessageFormat {...code} />

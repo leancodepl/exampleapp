@@ -7,7 +7,7 @@ type PageProps = {
 
 export function Page({ children }: PageProps) {
     return (
-        <Box direction="column" padding="large">
+        <Box $direction="column" $padding="large">
             {children}
         </Box>
     )

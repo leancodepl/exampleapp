@@ -26,7 +26,7 @@ export function Login() {
     const is2FA = flow?.requested_aal === AuthenticatorAssuranceLevel.Aal2
 
     return (
-        <Box direction="column" gap="large">
+        <Box $direction="column" $gap="large">
             <CardTitle>
                 {is2FA ? (
                     <FormattedMessage defaultMessage="Two-factor authentication" />
@@ -35,10 +35,10 @@ export function Login() {
                 )}
             </CardTitle>
             {flow ? (
-                <Box direction="column">
+                <Box $direction="column">
                     <LoginCard flow={flow} onSubmit={submit} />
                     {!is2FA && !isRefresh && (
-                        <Box justify="center" padding={{ top: "medium" }}>
+                        <Box $justify="center" $padding={{ top: "medium" }}>
                             <Link to={recoveryRoute}>
                                 <FormattedMessage defaultMessage="Forgot password?" />
                             </Link>
@@ -52,7 +52,7 @@ export function Login() {
                                     <FormattedMessage defaultMessage="Sign out" />
                                 </Button>
                             ) : (
-                                <Box gap="small" justify="center">
+                                <Box $gap="small" $justify="center">
                                     <FormattedMessage defaultMessage="Don't have an account?" />
                                     <Link to={registerRoute}>
                                         <FormattedMessage defaultMessage="Sign up" />
@@ -63,7 +63,7 @@ export function Login() {
                     )}
                 </Box>
             ) : (
-                <Box align="center" justify="center">
+                <Box $align="center" $justify="center">
                     <Spin size="large" />
                 </Box>
             )}
