@@ -1,5 +1,5 @@
 module "kratos" {
-  source     = "git::https://github.com/leancodepl/terraform-kratos-module.git//kratos?ref=5f5d2a06cd9d8d314b1f7b75ea1fa0c323e7b5fd"
+  source     = "git::https://github.com/leancodepl/terraform-kratos-module.git//kratos?ref=v0.2.0"
   depends_on = [kubernetes_namespace_v1.kratos, postgresql_grant.kratos, postgresql_grant.kratos_public]
 
   namespace    = kubernetes_namespace_v1.kratos.metadata[0].name
