@@ -14,7 +14,8 @@ variable "rabbit" {
 }
 
 variable "sendgrid_api_key" {
-  type = string
+  type    = string
+  default = "UNSET"
 }
 
 variable "oidc_config" {
