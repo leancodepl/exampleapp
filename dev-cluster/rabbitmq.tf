@@ -1,5 +1,5 @@
 resource "helm_release" "rabbit" {
-  count = var.rabbit ? 1 : 0
+  count = var.optional_features.rabbit ? 1 : 0
 
   name      = "rabbit"
   namespace = local.k8s_shared_namespace
@@ -29,7 +29,7 @@ resource "helm_release" "rabbit" {
 }
 
 resource "kubernetes_manifest" "rabbit_ingress" {
-  count = var.rabbit ? 1 : 0
+  count = var.optional_features.rabbit ? 1 : 0
 
   manifest = {
     "apiVersion" = "networking.k8s.io/v1"

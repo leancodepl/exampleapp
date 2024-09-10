@@ -15,6 +15,8 @@ resource "docker_image" "alpine" {
 }
 
 resource "docker_container" "certificates" {
+  count = var.optional_features.self_signed_cert ? 1 : 0
+
   image = docker_image.alpine.image_id
   name  = "exampleapp-certificates"
 
@@ -37,7 +39,7 @@ resource "docker_image" "traefik" {
 
   build {
     context    = "./apps"
-    dockerfile = var.traefik_self_signed ? "Dockerfile.traefik-self-signed" : "Dockerfile.traefik"
+    dockerfile = var.optional_features.self_signed_cert ? "Dockerfile.traefik-self-signed" : "Dockerfile.traefik"
   }
 
   triggers = local.traefik_triggers

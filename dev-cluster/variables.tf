@@ -1,18 +1,3 @@
-variable "traefik_self_signed" {
-  type    = bool
-  default = true
-}
-
-variable "metabase" {
-  type    = bool
-  default = false
-}
-
-variable "rabbit" {
-  type    = bool
-  default = true
-}
-
 variable "sendgrid_api_key" {
   type    = string
   default = "UNSET"
@@ -41,4 +26,14 @@ variable "oidc_config" {
 variable "passkey_origins" {
   type    = list(string)
   default = []
+}
+
+variable "optional_features" {
+  type = object({
+    rabbit           = optional(bool, true),
+    metabase         = optional(bool, false),
+    kratos_ui        = optional(bool, false),
+    self_signed_cert = optional(bool, false),
+  })
+  default = {}
 }
