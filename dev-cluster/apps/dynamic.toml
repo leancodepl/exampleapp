@@ -6,10 +6,6 @@
       rule = "Host(`local.lncd.pl`)"
       priority = 99
       [http.routers.local.tls]
-    [http.routers.traefik]
-      rule = "Host(`traefik.local.lncd.pl`)"
-      service = "api@internal"
-      [http.routers.traefik.tls]
 [http.services]
   [http.services.local.loadBalancer]
     [[http.services.local.loadBalancer.servers]]
@@ -18,12 +14,8 @@
 [http.middlewares]
   [http.middlewares.redirecthttps.redirectScheme]
     scheme = "https"
-[tls]
-  [[tls.certificates]]
-    certFile = "/certs/local.lncd.pl.cert"
-    keyFile = "/certs/local.lncd.pl.key"
-  [tls.stores]
-    [tls.stores.default]
-    [tls.stores.default.defaultCertificate]
-        certFile = "/certs/local.lncd.pl.cert"
-        keyFile = "/certs/local.lncd.pl.key"
+
+[[tls.certificates]]
+  certFile = "/certs/local.lncd.pl.cert"
+  keyFile = "/certs/local.lncd.pl.key"
+  stores = ["default"]
