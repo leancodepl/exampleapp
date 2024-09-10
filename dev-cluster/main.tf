@@ -6,15 +6,15 @@ terraform {
     }
     helm = {
       source  = "hashicorp/helm"
-      version = "2.10.1"
+      version = "2.15.0"
     }
     kubernetes = {
       source  = "hashicorp/kubernetes"
-      version = "2.21.1"
+      version = "2.32.0"
     }
     postgresql = {
       source  = "cyrilgdn/postgresql"
-      version = "1.19.0"
+      version = "1.23.0"
     }
   }
 }
@@ -25,10 +25,6 @@ provider "kubernetes" {
   client_certificate     = local.credentials.client_certificate
   client_key             = local.credentials.client_key
   cluster_ca_certificate = local.credentials.cluster_ca_certificate
-
-  experiments {
-    manifest_resource = true
-  }
 }
 
 provider "helm" {
