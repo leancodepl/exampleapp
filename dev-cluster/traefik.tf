@@ -1,10 +1,9 @@
 locals {
-  traefik_image_name    = "${local.registry_address}/traefik"
-  traefik_image_version = "2.6.0"
-  traefik_image         = "${local.traefik_image_name}:${local.traefik_image_version}"
+  traefik_image_version = "3.1.0"
+  traefik_image         = "${local.registry_address}/traefik:${local.traefik_image_version}"
 
   traefik_triggers = {
-    dockerfile_trigger   = filemd5(var.traefik_self_signed ? "./apps/Dockerfile.traefik-self-signed" : "./apps/Dockerfile.traefik")
+    dockerfile_trigger   = filemd5(var.optional_features.self_signed_cert ? "./apps/Dockerfile.traefik-self-signed" : "./apps/Dockerfile.traefik")
     dynamic_toml_trigger = filemd5("./apps/dynamic.toml")
   }
 }
@@ -15,6 +14,8 @@ resource "docker_image" "alpine" {
 }
 
 resource "docker_container" "certificates" {
+  count = var.optional_features.self_signed_cert ? 1 : 0
+
   image = docker_image.alpine.image_id
   name  = "exampleapp-certificates"
 
@@ -37,7 +38,7 @@ resource "docker_image" "traefik" {
 
   build {
     context    = "./apps"
-    dockerfile = var.traefik_self_signed ? "Dockerfile.traefik-self-signed" : "Dockerfile.traefik"
+    dockerfile = var.optional_features.self_signed_cert ? "Dockerfile.traefik-self-signed" : "Dockerfile.traefik"
   }
 
   triggers = local.traefik_triggers
@@ -58,14 +59,14 @@ resource "docker_registry_image" "traefik" {
 resource "helm_release" "traefik" {
   chart      = "traefik/traefik"
   repository = "helm.traefik.io/traefik"
-  version    = "10.13.0"
+  version    = "31.0.0"
 
   name      = "traefik"
   namespace = local.k8s_shared_namespace
 
   set {
-    name  = "image.name"
-    value = local.traefik_image_name
+    name  = "image.registry"
+    value = local.registry_address
   }
 
   set {
@@ -79,32 +80,44 @@ resource "helm_release" "traefik" {
   }
 
   set {
-    name  = "providers.kubernetesIngress.publishedService.enabled"
+    name  = "logs.general.level"
+    value = "DEBUG"
+  }
+
+  set {
+    name  = "ingressRoute.dashboard.enabled"
     value = true
   }
 
   set {
-    name  = "ports.web.redirectTo"
+    name  = "ingressRoute.dashboard.matchRule"
+    value = "Host(`traefik.local.lncd.pl`) && (PathPrefix(`/dashboard`) || PathPrefix(`/api`))"
+  }
+
+  set {
+    name  = "ingressRoute.dashboard.entryPoints[0]"
+    value = "web"
+  }
+
+  set {
+    name  = "ingressRoute.dashboard.entryPoints[1]"
     value = "websecure"
   }
-  set {
 
-    name  = "ports.websecure.tls.enabled"
+  set {
+    name  = "metrics.prometheus"
+    value = "null"
+  }
+
+  set {
+    name  = "providers.file.enabled"
     value = true
   }
 
   values = [yamlencode({
-    globalArguments = [
-      "--global.checkNewVersion=true",
-      "--global.sendAnonymousUsage=false",
-    ],
-
     additionalArguments = [
       "--providers.file.directory=/config/dynamic",
-      "--log.level=DEBUG",
-      "--api.insecure=true",
-      "--api.debug=true",
-      "--accesslog=true",
+      "--entryPoints.web.http.redirections.entryPoint.to=:443"
     ],
   })]
 

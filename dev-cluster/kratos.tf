@@ -1,5 +1,5 @@
 module "kratos" {
-  source     = "git::https://github.com/leancodepl/terraform-kratos-module.git//kratos?ref=5f5d2a06cd9d8d314b1f7b75ea1fa0c323e7b5fd"
+  source     = "git::https://github.com/leancodepl/terraform-kratos-module.git//kratos?ref=v0.2.0"
   depends_on = [kubernetes_namespace_v1.kratos, postgresql_grant.kratos, postgresql_grant.kratos_public]
 
   namespace    = kubernetes_namespace_v1.kratos.metadata[0].name
@@ -57,11 +57,15 @@ locals {
 }
 
 resource "random_password" "kratos_ui_csrf_cookie_secret" {
+  count = var.optional_features.kratos_ui ? 1 : 0
+
   length  = 32
   special = false
 }
 
 resource "kubernetes_secret_v1" "kratos_ui_secret" {
+  count = var.optional_features.kratos_ui ? 1 : 0
+
   metadata {
     name      = "exampleapp-kratos-ui-secret"
     namespace = kubernetes_namespace_v1.kratos.metadata[0].name
@@ -70,11 +74,13 @@ resource "kubernetes_secret_v1" "kratos_ui_secret" {
 
   data = {
     "CSRF_COOKIE_NAME"   = "__HOST-local.lncd.pl-x-csrf-token"
-    "CSRF_COOKIE_SECRET" = random_password.kratos_ui_csrf_cookie_secret.result
+    "CSRF_COOKIE_SECRET" = random_password.kratos_ui_csrf_cookie_secret[0].result
   }
 }
 
 resource "kubernetes_deployment_v1" "kratos_ui" {
+  count = var.optional_features.kratos_ui ? 1 : 0
+
   metadata {
     name      = "exampleapp-kratos-ui"
     namespace = kubernetes_namespace_v1.kratos.metadata[0].name
@@ -95,7 +101,7 @@ resource "kubernetes_deployment_v1" "kratos_ui" {
           image = "docker.io/oryd/kratos-selfservice-ui-node:v1.2.0"
           env_from {
             secret_ref {
-              name = kubernetes_secret_v1.kratos_ui_secret.metadata[0].name
+              name = kubernetes_secret_v1.kratos_ui_secret[0].metadata[0].name
             }
           }
           env {
@@ -127,6 +133,8 @@ resource "kubernetes_deployment_v1" "kratos_ui" {
 }
 
 resource "kubernetes_service_v1" "kratos_ui_service" {
+  count = var.optional_features.kratos_ui ? 1 : 0
+
   metadata {
     name      = "exampleapp-kratos-ui-svc"
     namespace = kubernetes_namespace_v1.kratos.metadata[0].name
@@ -144,6 +152,8 @@ resource "kubernetes_service_v1" "kratos_ui_service" {
 }
 
 resource "kubernetes_ingress_v1" "kratos_ui_ingress" {
+  count = var.optional_features.kratos_ui ? 1 : 0
+
   metadata {
     name      = "exampleapp-kratos-ui-ingress"
     namespace = kubernetes_namespace_v1.kratos.metadata[0].name
@@ -156,7 +166,7 @@ resource "kubernetes_ingress_v1" "kratos_ui_ingress" {
         path {
           backend {
             service {
-              name = kubernetes_service_v1.kratos_ui_service.metadata[0].name
+              name = kubernetes_service_v1.kratos_ui_service[0].metadata[0].name
               port {
                 number = 80
               }

@@ -8,7 +8,7 @@ Install:
 -   [Tilt](https://docs.tilt.dev/install.html)
 -   [Terraform](https://www.terraform.io/)
 
-Set `sendgrid_api_key` in `terraform.tfvars`.
+Set `sendgrid_api_key` in `terraform.tfvars` if you want to enable e-mails.
 
 ```
 ./deploy.sh

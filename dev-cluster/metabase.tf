@@ -1,5 +1,5 @@
 resource "kubernetes_deployment_v1" "metabase" {
-  count = var.metabase ? 1 : 0
+  count = var.optional_features.metabase ? 1 : 0
 
   metadata {
     name      = "exampleapp-metabase"
@@ -70,7 +70,7 @@ resource "kubernetes_deployment_v1" "metabase" {
 }
 
 resource "kubernetes_service_v1" "metabase_service" {
-  count = var.metabase ? 1 : 0
+  count = var.optional_features.metabase ? 1 : 0
 
   metadata {
     name      = "exampleapp-metabase-svc"
@@ -89,7 +89,7 @@ resource "kubernetes_service_v1" "metabase_service" {
 }
 
 resource "kubernetes_ingress_v1" "metabase_ingress" {
-  count = var.metabase ? 1 : 0
+  count = var.optional_features.metabase ? 1 : 0
 
   metadata {
     name      = "exampleapp-metabase-ingress"

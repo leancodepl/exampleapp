@@ -2,8 +2,8 @@ apiVersion: k3d.io/v1alpha5
 kind: Simple
 metadata:
   name: exampleapp
-image: docker.io/rancher/k3s:v1.27.3-k3s1
-# image: leancode.azurecr.io/rancher/k3s:v1.27.3-k3s1-fuseoverlayfs
+image: docker.io/rancher/k3s:v1.31.0-k3s1
+# image: leancode.azurecr.io/rancher/k3s:v1.31.0-k3s1-fuseoverlayfs
 # Check apps/Dockerfile.k3s to see how to build this image
 servers: 1
 agents: 0
