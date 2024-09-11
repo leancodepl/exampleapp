@@ -19,6 +19,7 @@ session:
 selfservice:
   default_browser_return_url: https://kratos-ui.${domain}/
   allowed_return_urls:
+    - https://${domain}/
     - https://kratos-ui.${domain}/
     - pl.leancode.template.tst://app
 %{ for origin in dev_allowed_origins ~}
