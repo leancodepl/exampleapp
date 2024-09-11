@@ -53,7 +53,6 @@ internal static class ApiModule
                         s.Identity?.VerifiableAddresses?.Any(kvia =>
                             kvia.Via == KratosVerifiableIdentityAddress.ViaEnum.Email
                             && kvia.Value.EndsWith("@leancode.pl", false, CultureInfo.InvariantCulture)
-                            && kvia.Verified
                         ) ?? false
                     )
                     {

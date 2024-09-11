@@ -17,9 +17,9 @@ cookies:
 session:
   lifespan: 8760h # 1y
 selfservice:
-  default_browser_return_url: https://${domain}/
+  default_browser_return_url: https://kratos-ui.${domain}/
   allowed_return_urls:
-    - https://${domain}/
+    - https://kratos-ui.${domain}/
     - pl.leancode.template.tst://app
 %{ for origin in dev_allowed_origins ~}
     - https://${origin}
@@ -107,21 +107,19 @@ selfservice:
 %{ endif ~}
   flows:
     login:
-      ui_url: https://${domain}/login
+      ui_url: https://kratos-ui.${domain}/login
       lifespan: 1h
       after:
         password:
-          hooks:
-            - hook: require_verified_address # ensures that user has confirmed email when signing in with a password
+          hooks: []
     registration:
-      ui_url: https://${domain}/registration
+      ui_url: https://kratos-ui.${domain}/registration
       lifespan: 1h
       enabled: true
       enable_legacy_one_step: true
       after:
         password:
           hooks:
-            - hook: show_verification_ui
             - hook: web_hook
               config:
                 url: "${api}/kratos/sync-identity"
@@ -154,7 +152,7 @@ selfservice:
                   ignore: true
                   parse: false
     verification:
-      ui_url: https://${domain}/verification
+      ui_url: https://kratos-ui.${domain}/verification
       enabled: true
       use: code
       after:
@@ -174,7 +172,7 @@ selfservice:
                 ignore: true
                 parse: false
     recovery:
-      ui_url: https://${domain}/recovery
+      ui_url: https://kratos-ui.${domain}/recovery
       enabled: true
       use: code
       after:
@@ -194,7 +192,7 @@ selfservice:
                 ignore: true
                 parse: false
     settings:
-      ui_url: https://${domain}/settings
+      ui_url: https://kratos-ui.${domain}/settings
       privileged_session_max_age: 15m
       after:
         hooks:
@@ -213,7 +211,7 @@ selfservice:
                 ignore: true
                 parse: false
     error:
-      ui_url: https://${domain}/error
+      ui_url: https://kratos-ui.${domain}/error
 log:
   level: info
   format: json
