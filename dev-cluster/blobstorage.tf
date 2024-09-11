@@ -26,13 +26,11 @@ resource "kubernetes_deployment_v1" "blobstorage_deployment" {
             "--skipApiVersionCheck",
             "--blobHost",
             "0.0.0.0",
+            "--tableHost",
+            "0.0.0.0",
             "-d",
             "/var/debug.log"
           ]
-          env {
-            name  = "executable"
-            value = "blob"
-          }
           env {
             name  = "AZURITE_ACCOUNTS"
             value = "blobstorage:Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw=="
@@ -41,6 +39,9 @@ resource "kubernetes_deployment_v1" "blobstorage_deployment" {
           name  = "blobstorage"
           port {
             container_port = 10000
+          }
+          port {
+            container_port = 10002
           }
           volume_mount {
             name       = "data"
@@ -97,6 +98,12 @@ resource "kubernetes_service_v1" "blobstorage_service" {
     port {
       port        = 80
       target_port = 10000
+      name        = "blob"
+    }
+    port {
+      port        = 82
+      target_port = 10002
+      name        = "table"
     }
     selector = {
       app = "blobstorage"
@@ -121,7 +128,7 @@ resource "kubernetes_ingress_v1" "blobstorage_ingress" {
             service {
               name = kubernetes_service_v1.blobstorage_service.metadata[0].name
               port {
-                number = 80
+                name = "blob"
               }
             }
           }
