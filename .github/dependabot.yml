@@ -35,3 +35,4 @@ updates:
           - "OpenTelemetry.*"
           - "Npgsql"
           - "Npgsql.*"
+          - "csharpier" # we don't want to automate that as with every update we would need to manually update formatting in the whole codebase
