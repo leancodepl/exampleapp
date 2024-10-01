@@ -20,7 +20,7 @@ public class AllProjectsQH : IQueryHandler<AllProjects, List<ProjectDTO>>
     {
         return dbContext
             .Projects.OrderBy(p => p.Name, query.SortByNameDescending)
-            .Select(p => new ProjectDTO { Id = p.Id, Name = p.Name, })
+            .Select(p => new ProjectDTO { Id = p.Id, Name = p.Name })
             .ToListAsync(context.RequestAborted);
     }
 }

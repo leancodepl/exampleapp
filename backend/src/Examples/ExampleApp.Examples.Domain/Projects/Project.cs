@@ -23,7 +23,7 @@ public class Project : IAggregateRoot<ProjectId>
 
     public static Project Create(string name)
     {
-        return new Project { Id = ProjectId.New(), Name = name, };
+        return new Project { Id = ProjectId.New(), Name = name };
     }
 
     public void AddAssignments(IEnumerable<string> assignmentNames)

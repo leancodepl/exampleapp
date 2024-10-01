@@ -21,7 +21,7 @@ public class PublishEmployeeUnassignedFromAssignmentNotification : IConsumer<Emp
         var msg = context.Message;
 
         var topic = new ProjectEmployeesAssignmentsTopic { ProjectId = msg.ProjectId };
-        var notification = new EmployeeUnassignedFromAssignmentDTO { AssignmentId = msg.AssignmentId, };
+        var notification = new EmployeeUnassignedFromAssignmentDTO { AssignmentId = msg.AssignmentId };
 
         return topicPublisher.PublishAsync(topic, notification, context.CancellationToken);
     }

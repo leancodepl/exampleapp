@@ -68,13 +68,13 @@ internal static class ApiModule
             builder.AddKratosHttpClients(builder: hcb =>
                 _ = hcb.Name switch
                 {
-                    nameof(ICourierApi)
-                    or nameof(IIdentityApi)
-                        => hcb.ConfigureHttpClient(hc => hc.BaseAddress = new(Config.Kratos.AdminEndpoint(config))),
-                    nameof(IFrontendApi)
-                    or nameof(IMetadataApi)
-                        => hcb.ConfigureHttpClient(hc => hc.BaseAddress = new(Config.Kratos.PublicEndpoint(config))),
-                    _ => throw new NotSupportedException($"Unexpected client name: '{hcb.Name}'.")
+                    nameof(ICourierApi) or nameof(IIdentityApi) => hcb.ConfigureHttpClient(hc =>
+                        hc.BaseAddress = new(Config.Kratos.AdminEndpoint(config))
+                    ),
+                    nameof(IFrontendApi) or nameof(IMetadataApi) => hcb.ConfigureHttpClient(hc =>
+                        hc.BaseAddress = new(Config.Kratos.PublicEndpoint(config))
+                    ),
+                    _ => throw new NotSupportedException($"Unexpected client name: '{hcb.Name}'."),
                 }
             );
         });

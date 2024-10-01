@@ -34,7 +34,7 @@ public class ProjectDetailsQH : IQueryHandler<ProjectDetails, ProjectDetailsDTO?
                     {
                         Id = a.Id,
                         Name = a.Name,
-                        AssignedEmployeeId = a.AssignedEmployeeId
+                        AssignedEmployeeId = a.AssignedEmployeeId,
                     })
                     .ToList(),
             })

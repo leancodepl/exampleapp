@@ -17,7 +17,7 @@ public partial class AddPushNotificationTokens : Migration
             {
                 UserId = table.Column<Guid>(type: "uuid", nullable: false),
                 Token = table.Column<string>(type: "text", nullable: false),
-                DateCreated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                DateCreated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
             },
             constraints: table =>
             {

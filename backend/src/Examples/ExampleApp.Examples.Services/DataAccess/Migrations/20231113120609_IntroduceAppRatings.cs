@@ -23,7 +23,7 @@ public partial class IntroduceAppRatings : Migration
                 Platform = table.Column<int>(type: "integer", nullable: false),
                 SystemVersion = table.Column<string>(type: "text", nullable: false),
                 AppVersion = table.Column<string>(type: "text", nullable: false),
-                Metadata = table.Column<Dictionary<string, object>>(type: "jsonb", nullable: true)
+                Metadata = table.Column<Dictionary<string, object>>(type: "jsonb", nullable: true),
             },
             constraints: table =>
             {
