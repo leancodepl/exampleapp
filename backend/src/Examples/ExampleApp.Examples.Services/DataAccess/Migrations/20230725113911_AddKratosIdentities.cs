@@ -24,7 +24,7 @@ public partial class AddKratosIdentities : Migration
                 Traits = table.Column<JsonElement>(type: "jsonb", nullable: false),
                 MetadataPublic = table.Column<JsonElement>(type: "jsonb", nullable: true),
                 MetadataAdmin = table.Column<JsonElement>(type: "jsonb", nullable: true),
-                xmin = table.Column<uint>(type: "xid", rowVersion: true, nullable: false)
+                xmin = table.Column<uint>(type: "xid", rowVersion: true, nullable: false),
             },
             constraints: table =>
             {
@@ -41,7 +41,7 @@ public partial class AddKratosIdentities : Migration
                 CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                 UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                 Via = table.Column<string>(type: "text", nullable: false),
-                Value = table.Column<string>(type: "text", nullable: false)
+                Value = table.Column<string>(type: "text", nullable: false),
             },
             constraints: table =>
             {
@@ -66,7 +66,7 @@ public partial class AddKratosIdentities : Migration
                 CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                 UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                 Via = table.Column<string>(type: "text", nullable: false),
-                Value = table.Column<string>(type: "text", nullable: false)
+                Value = table.Column<string>(type: "text", nullable: false),
             },
             constraints: table =>
             {

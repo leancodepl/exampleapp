@@ -21,7 +21,7 @@ public partial class AddEmployeesAndProjects : Migration
                 Name = table.Column<string>(type: "text", nullable: false),
                 Email = table.Column<string>(type: "text", nullable: false),
                 DateModified = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                xmin = table.Column<uint>(type: "xid", rowVersion: true, nullable: false)
+                xmin = table.Column<uint>(type: "xid", rowVersion: true, nullable: false),
             },
             constraints: table =>
             {
@@ -36,7 +36,7 @@ public partial class AddEmployeesAndProjects : Migration
                 Id = table.Column<string>(type: "citext", nullable: false),
                 Name = table.Column<string>(type: "text", nullable: false),
                 DateModified = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                xmin = table.Column<uint>(type: "xid", rowVersion: true, nullable: false)
+                xmin = table.Column<uint>(type: "xid", rowVersion: true, nullable: false),
             },
             constraints: table =>
             {
@@ -52,7 +52,7 @@ public partial class AddEmployeesAndProjects : Migration
                 ParentProjectId = table.Column<string>(type: "citext", nullable: false),
                 Name = table.Column<string>(type: "text", nullable: false),
                 Status = table.Column<int>(type: "integer", nullable: false),
-                AssignedEmployeeId = table.Column<string>(type: "citext", nullable: true)
+                AssignedEmployeeId = table.Column<string>(type: "citext", nullable: true),
             },
             constraints: table =>
             {

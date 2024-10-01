@@ -36,7 +36,7 @@ public partial class EventSerializationTests
                     UpdatedAt = DateTime,
                     Value = "test@leancode.pl",
                     Via = AddressType.Email,
-                }
+                },
             ],
             SchemaId = "user",
             SchemaUrl = new("https://auth.exampleapp.test.lncd.pl/schemas/dXNlcg"),
@@ -54,7 +54,7 @@ public partial class EventSerializationTests
                     Verified = true,
                     VerifiedAt = DateTime,
                     Via = AddressType.Email,
-                }
+                },
             ],
             MetadataAdmin = JsonSerializer.Deserialize<JsonElement>(@"{""foo"":""bar""}"),
             MetadataPublic = JsonSerializer.Deserialize<JsonElement>(@"{""roles"":[""user""]}"),
