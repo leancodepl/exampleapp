@@ -14,13 +14,12 @@ public class AddTimeslot : ICommand
 
     public static class ErrorCodes
     {
-        public const int ServiceProviderIdIsNullOrEmpty = 1;
-        public const int DateIsInvalid = 2;
-        public const int StartTimeIsInvalid = 3;
-        public const int EndTimeIsInvalid = 4;
-        public const int EndTimeMustBeAfterStartTime = 5;
-        public const int PriceIsNull = 6;
-        public const int PriceCurrencyIsInvalid = 7;
-        public const int TimeslotOverlapsWithExisting = 8;
+        public const int ServiceProviderIdIsInvalid = 1;
+        public const int ServiceProviderDoesNotExist = 2;
+        public const int CannotDefineSlotsInThePast = 3;
+        public const int EndTimeMustBeAfterStartTime = 4;
+        public const int PriceIsNull = 5;
+        public const int PriceCurrencyIsInvalid = 6;
+        public const int TimeslotOverlapsWithExisting = 7;
     }
 }

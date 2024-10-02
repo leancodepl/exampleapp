@@ -7,9 +7,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Npgsql;
 #if Example
+using ExampleApp.Examples.Domain.Booking;
 using ExampleApp.Examples.Domain.Employees;
 using ExampleApp.Examples.Domain.Projects;
 using ExampleApp.Examples.Services.DataAccess.Repositories;
+using ServiceProvider = ExampleApp.Examples.Domain.Booking.ServiceProvider;
 #endif
 
 namespace ExampleApp.Examples.Services;
@@ -54,6 +56,9 @@ public static class ServiceCollectionExtensions
 
         services.AddScoped<EmployeesRepository>();
         services.AddScoped<IRepository<Employee, EmployeeId>, EmployeesRepository>();
+
+        services.AddScoped<ServiceProvidersRepository>();
+        services.AddScoped<IRepository<ServiceProvider, ServiceProviderId>, ServiceProvidersRepository>();
 #endif
     }
 }

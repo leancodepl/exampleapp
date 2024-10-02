@@ -91,6 +91,24 @@ public class ServiceProviderTests
         @event.Raised.Should().BeTrue();
     }
 
+    [Theory]
+    [InlineData("2024-10-02", "09:00", "10:00", false)]
+    [InlineData("2024-10-02", "08:30", "09:30", false)]
+    [InlineData("2024-10-02", "10:30", "11:30", true)]
+    [InlineData("2024-10-02", "10:00", "11:00", true)]
+    public void CanAddTimeslotAt_tests(string dateStr, string startTimeStr, string endTimeStr, bool expectedResult)
+    {
+        var provider = TestProvider();
+
+        provider.AddTimeslot(new(2024, 10, 2), new(9, 0), new(10, 0), new(10m, "PLN"));
+
+        var date = DateOnly.Parse(dateStr);
+        var startTime = TimeOnly.Parse(startTimeStr);
+        var endTime = TimeOnly.Parse(endTimeStr);
+
+        provider.CanAddTimeslotAt(date, startTime, endTime).Should().Be(expectedResult);
+    }
+
     private ServiceProvider TestProvider()
     {
         return ServiceProvider.Create(

@@ -60,9 +60,12 @@ public class ServiceProvider : IAggregateRoot<ServiceProviderId>
         };
     }
 
+    public bool CanAddTimeslotAt(DateOnly date, TimeOnly startTime, TimeOnly endTime) =>
+        !timeslots.Any(ts => ts.Date == date && (ts.StartTime < endTime && ts.EndTime > startTime));
+
     public void AddTimeslot(DateOnly date, TimeOnly startTime, TimeOnly endTime, Money price)
     {
-        if (timeslots.Any(ts => ts.Date == date && (ts.StartTime < endTime && ts.EndTime > startTime)))
+        if (!CanAddTimeslotAt(date, startTime, endTime))
         {
             throw new InvalidOperationException("The new timeslot overlaps with an existing timeslot.");
         }

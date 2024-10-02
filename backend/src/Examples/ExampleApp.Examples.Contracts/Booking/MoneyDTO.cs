@@ -1,3 +1,3 @@
 namespace ExampleApp.Examples.Contracts.Booking;
 
-public record MoneyDTO(int Amount, string Currency);
+public record MoneyDTO(int Value, string Currency);
