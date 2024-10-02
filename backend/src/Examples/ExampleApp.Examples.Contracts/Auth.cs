@@ -13,15 +13,4 @@ public static class Auth
         public const string UserId = "sub";
         public const string Role = "role";
     }
-
-    public static class Clients
-    {
-        public const string AdminApp = "admin_app";
-        public const string ClientApp = "client_app";
-    }
-
-    public static class Scopes
-    {
-        public const string InternalApi = "internal_api";
-    }
 }
