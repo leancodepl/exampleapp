@@ -36,6 +36,7 @@
         "**/src/*/*.Services/CQRS/Firebase/*.cs",
         "**/src/*/*.Services/CQRS/Projects/*.cs",
         "**/src/*/*.Services/DataAccess/Repositories/*.cs",
+        "**/src/*/*.Services/DataAccess/*.ExamplesDomain.cs",
         "**/src/*/*.Services/Processes/Firebase/*.cs",
         "**/src/*/*.Services/Processes/Projects/*.cs",
         "**/tests/*/*.Domain.Tests/*.cs",
