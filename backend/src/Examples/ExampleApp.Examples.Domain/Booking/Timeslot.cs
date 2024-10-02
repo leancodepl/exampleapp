@@ -21,6 +21,7 @@ public class Timeslot : IEntity<TimeslotId>
     private Timeslot()
     {
         ServiceProvider = null!;
+        Price = null!;
     }
 
     internal static Timeslot Create(

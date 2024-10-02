@@ -1,3 +1,4 @@
+using ExampleApp.Examples.Domain.Booking;
 using ExampleApp.Examples.Domain.Employees;
 using ExampleApp.Examples.Domain.Projects;
 using LeanCode.AppRating.DataAccess;
@@ -14,6 +15,9 @@ public partial class ExamplesDbContext : IAppRatingStore<Guid>
     public DbSet<Employee> Employees => Set<Employee>();
     public DbSet<Project> Projects => Set<Project>();
 
+    public DbSet<ServiceProvider> ServiceProviders => Set<ServiceProvider>();
+    public DbSet<Timeslot> Timeslots => Set<Timeslot>();
+
     public DbSet<PushNotificationTokenEntity<Guid>> PushNotificationTokens => Set<PushNotificationTokenEntity<Guid>>();
     public DbSet<AppRating<Guid>> AppRatings => Set<AppRating<Guid>>();
 
@@ -22,6 +26,8 @@ public partial class ExamplesDbContext : IAppRatingStore<Guid>
         ConfigureId<EmployeeId>(configurationBuilder);
         ConfigureId<ProjectId>(configurationBuilder);
         ConfigureId<AssignmentId>(configurationBuilder);
+        ConfigureId<ServiceProviderId>(configurationBuilder);
+        ConfigureId<TimeslotId>(configurationBuilder);
     }
 
     private void OnExampleModelCreating(ModelBuilder modelBuilder)
@@ -53,6 +59,26 @@ public partial class ExamplesDbContext : IAppRatingStore<Guid>
 
             e.IsOptimisticConcurrent(addRowVersion: false);
             e.Property<uint>("xmin").IsRowVersion();
+        });
+
+        modelBuilder.Entity<ServiceProvider>(e =>
+        {
+            e.HasKey(t => t.Id);
+
+            e.HasMany(t => t.Timeslots).WithOne(t => t.ServiceProvider);
+
+            e.OwnsOne(t => t.Location);
+
+            e.IsOptimisticConcurrent(addRowVersion: false);
+            e.Property<uint>("xmin").IsRowVersion();
+        });
+
+        modelBuilder.Entity<Timeslot>(e =>
+        {
+            e.HasKey(t => t.Id);
+            e.HasOne(t => t.ServiceProvider).WithMany(t => t.Timeslots);
+
+            e.OwnsOne(t => t.Price);
         });
     }
 

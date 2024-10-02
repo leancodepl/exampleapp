@@ -1,3 +1,5 @@
+using LeanCode.DomainModels.Model;
+
 namespace ExampleApp.Examples.Domain.Booking;
 
-public record struct Money(decimal Value, string Currency);
+public record Money(decimal Value, string Currency) : ValueObject;

@@ -34,6 +34,7 @@ public class ServiceProvider : IAggregateRoot<ServiceProviderId>
         PromotionalBanner = null!;
         ListItemPicture = null!;
         Address = null!;
+        Location = null!;
     }
 
     public static ServiceProvider Create(

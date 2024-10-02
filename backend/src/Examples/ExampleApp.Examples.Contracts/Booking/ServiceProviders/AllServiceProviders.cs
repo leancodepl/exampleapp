@@ -26,4 +26,3 @@ public class ServiceProviderSummaryDTO
     public string Address { get; set; }
     public LocationDTO Location { get; set; }
 }
-
