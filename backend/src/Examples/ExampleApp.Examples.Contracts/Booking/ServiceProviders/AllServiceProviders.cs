@@ -1,6 +1,6 @@
 using LeanCode.Contracts.Security;
 
-namespace ExampleApp.Examples.Contracts.Booking.Client;
+namespace ExampleApp.Examples.Contracts.Booking.ServiceProviders;
 
 [AuthorizeWhenHasAnyOf(Auth.Roles.User)]
 public class AllServiceProviders : SortedQuery<ServiceProviderSummaryDTO, ServiceProviderSortFieldsDTO>

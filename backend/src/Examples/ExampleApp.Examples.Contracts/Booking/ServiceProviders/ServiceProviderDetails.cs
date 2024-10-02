@@ -1,7 +1,7 @@
 using LeanCode.Contracts;
 using LeanCode.Contracts.Security;
 
-namespace ExampleApp.Examples.Contracts.Booking.Client;
+namespace ExampleApp.Examples.Contracts.Booking.ServiceProviders;
 
 /// <summary>
 /// The query will return details about service provider and all available timeslots from <see cref="CurrentTime"/> to

@@ -1,7 +1,7 @@
 using LeanCode.Contracts;
 using LeanCode.Contracts.Security;
 
-namespace ExampleApp.Examples.Contracts.Booking.Admin;
+namespace ExampleApp.Examples.Contracts.Booking.Management;
 
 [AuthorizeWhenHasAnyOf(Auth.Roles.Admin)]
 public class CreateServiceProvider : ICommand
