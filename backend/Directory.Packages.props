@@ -33,6 +33,7 @@
     <PackageVersion Include="LeanCode.DomainModels" Version="$(CoreLibVersion)" />
     <PackageVersion Include="LeanCode.DomainModels.EF" Version="$(CoreLibVersion)" />
     <PackageVersion Include="LeanCode.DomainModels.Generators" Version="$(CoreLibVersion)" />
+    <PackageVersion Include="LeanCode.DomainModels.EventsExecution.TestHelpers" Version="$(CoreLibVersion)" />
     <PackageVersion Include="LeanCode.EFMigrator" Version="$(CoreLibVersion)" />
     <PackageVersion Include="LeanCode.Firebase" Version="$(CoreLibVersion)" />
     <PackageVersion Include="LeanCode.Firebase.FCM" Version="$(CoreLibVersion)" />
