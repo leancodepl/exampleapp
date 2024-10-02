@@ -7,19 +7,19 @@ insert_final_newline = true
 indent_style = space
 trim_trailing_whitespace = true
 
-[*.{json, yml}]
+[*.{json,yml}]
 indent_size = 2
 
-[*.{xml, targets, csproj, props}]
+[*.{xml,targets,csproj,props}]
 indent_size = 2
 
 [*.tf]
 indent_size = 2
 
-[*.{cshtml, cstxt}]
+[*.{cshtml,cstxt}]
 insert_final_newline = false
 
-[*.{cs}]
+[*.cs]
 indent_size = 4
 
 dotnet_style_qualification_for_field                                     = false : suggestion
