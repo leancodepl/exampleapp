@@ -8,7 +8,7 @@ namespace ExampleApp.Examples.Contracts.Booking.ServiceProviders;
 /// +X days (configurable on query level).
 /// </summary>
 [AuthorizeWhenHasAnyOf(Auth.Roles.User)]
-public class ServiceProviderDetails : IQuery<ServiceProviderDetailsDTO>
+public class ServiceProviderDetails : IQuery<ServiceProviderDetailsDTO?>
 {
     public string ServiceProviderId { get; set; }
     public DateTimeOffset CurrentTime { get; set; }
@@ -33,7 +33,7 @@ public class ServiceProviderDetailsDTO
 public class AvailableTimeslotDTO
 {
     public string Id { get; set; }
-    public DateTime Start { get; set; }
-    public DateTime End { get; set; }
+    public TimeOnly StartTime { get; set; }
+    public TimeOnly EndTime { get; set; }
     public MoneyDTO Price { get; set; }
 }
