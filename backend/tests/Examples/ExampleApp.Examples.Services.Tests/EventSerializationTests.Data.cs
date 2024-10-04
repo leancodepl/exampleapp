@@ -1,6 +1,8 @@
 using System.Collections.Immutable;
 using System.Reflection;
 using System.Text.Json;
+using ExampleApp.Examples.Domain.Booking;
+using ExampleApp.Examples.Domain.Booking.Events;
 using ExampleApp.Examples.Services.DataAccess.Serialization;
 using ExampleApp.Examples.Services.Processes.Kratos;
 using LeanCode.Kratos.Model;
@@ -66,6 +68,8 @@ public partial class EventSerializationTests
 #if Example
         new EmployeeAssignedToAssignment(Guid, DateTime, ProjectId, AssignmentId, EmployeeId, null),
         new EmployeeUnassignedFromAssignment(Guid, DateTime, ProjectId, AssignmentId, null),
+        new TimeslotReserved(Guid, DateTime, ServiceProviderId.New(), TimeslotId.New()),
+        new TimeslotUnavailable(Guid, DateTime, ServiceProviderId.New(), TimeslotId.New()),
 #endif
         new KratosIdentityUpdated(Guid, DateTime, KratosIdentity),
         new KratosIdentityDeleted(Guid, DateTime, Guid),
