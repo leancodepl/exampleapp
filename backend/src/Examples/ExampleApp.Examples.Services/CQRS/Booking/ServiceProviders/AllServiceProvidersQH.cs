@@ -53,7 +53,7 @@ public class AllServiceProvidersQH : IQueryHandler<AllServiceProviders, Paginate
         return query.SortBy switch
         {
             ServiceProviderSortFieldsDTO.Name => q.OrderBy(sp => sp.Name, query.SortByDescending),
-            ServiceProviderSortFieldsDTO.Type => q.OrderBy(sp => sp.Type, query.SortByDescending),
+            ServiceProviderSortFieldsDTO.Type => q.OrderBy(sp => sp.Type, query.SortByDescending).ThenBy(sp => sp.Name),
             _ => q.OrderBy(sp => sp.Id),
         };
     }

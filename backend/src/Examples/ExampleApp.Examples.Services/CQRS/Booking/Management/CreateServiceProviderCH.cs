@@ -5,6 +5,7 @@ using LeanCode.CQRS.Execution;
 using LeanCode.CQRS.Validation.Fluent;
 using LeanCode.DomainModels.DataAccess;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Hosting;
 
 namespace ExampleApp.Examples.Services.CQRS.Booking.Management;
 
@@ -27,12 +28,14 @@ public class CreateServiceProviderCV : AbstractValidator<CreateServiceProvider>
             .WithCode(CreateServiceProvider.ErrorCodes.DescriptionIsTooLong);
 
         RuleFor(cmd => cmd.PromotionalBanner)
+            .Cascade(CascadeMode.Stop)
             .NotNull()
             .WithCode(CreateServiceProvider.ErrorCodes.PromotionalBannerIsInvalid)
             .Must(uri => uri.IsAbsoluteUri)
             .WithCode(CreateServiceProvider.ErrorCodes.PromotionalBannerIsInvalid);
 
         RuleFor(cmd => cmd.ListItemPicture)
+            .Cascade(CascadeMode.Stop)
             .NotNull()
             .WithCode(CreateServiceProvider.ErrorCodes.ListItemPictureIsInvalid)
             .Must(uri => uri.IsAbsoluteUri)
