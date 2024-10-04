@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+export Logging__EnableDetailedInternalLogs=true
+export Logging__MinimumLevel=Verbose
+export Logging__SeqEndpoint='http://seq-svc.shared.svc.cluster.local'
+
 export Kratos__PublicEndpoint='http://localhost'
 export Kratos__AdminEndpoint='http://localhost'
 export Kratos__WebhookApiKey='Passw12#'
