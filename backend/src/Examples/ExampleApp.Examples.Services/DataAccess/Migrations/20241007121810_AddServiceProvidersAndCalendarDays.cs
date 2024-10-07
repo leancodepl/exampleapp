@@ -6,11 +6,31 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ExampleApp.Examples.Services.DataAccess.Migrations;
 
 /// <inheritdoc />
-public partial class AddServiceProviders : Migration
+public partial class AddServiceProvidersAndCalendarDays : Migration
 {
     /// <inheritdoc />
     protected override void Up(MigrationBuilder migrationBuilder)
     {
+        migrationBuilder.CreateTable(
+            name: "CalendarDays",
+            columns: table => new
+            {
+                Id = table.Column<string>(type: "citext", nullable: false),
+                Date = table.Column<DateOnly>(type: "date", nullable: false),
+                ServiceProviderId = table.Column<string>(type: "citext", nullable: false),
+                DateModified = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                xmin = table.Column<uint>(type: "xid", rowVersion: true, nullable: false),
+            },
+            constraints: table =>
+            {
+                table.PrimaryKey("PK_CalendarDays", x => x.Id);
+                table.UniqueConstraint(
+                    "AK_CalendarDays_ServiceProviderId_Date",
+                    x => new { x.ServiceProviderId, x.Date }
+                );
+            }
+        );
+
         migrationBuilder.CreateTable(
             name: "ServiceProviders",
             columns: table => new
@@ -40,6 +60,7 @@ public partial class AddServiceProviders : Migration
             {
                 Id = table.Column<string>(type: "citext", nullable: false),
                 ServiceProviderId = table.Column<string>(type: "citext", nullable: false),
+                CalendarDayId = table.Column<string>(type: "citext", nullable: false),
                 Date = table.Column<DateOnly>(type: "date", nullable: false),
                 StartTime = table.Column<TimeOnly>(type: "time without time zone", nullable: false),
                 EndTime = table.Column<TimeOnly>(type: "time without time zone", nullable: false),
@@ -50,27 +71,31 @@ public partial class AddServiceProviders : Migration
             {
                 table.PrimaryKey("PK_Timeslots", x => x.Id);
                 table.ForeignKey(
-                    name: "FK_Timeslots_ServiceProviders_ServiceProviderId",
-                    column: x => x.ServiceProviderId,
-                    principalTable: "ServiceProviders",
+                    name: "FK_Timeslots_CalendarDays_CalendarDayId",
+                    column: x => x.CalendarDayId,
+                    principalTable: "CalendarDays",
                     principalColumn: "Id",
                     onDelete: ReferentialAction.Cascade
                 );
             }
         );
 
+        migrationBuilder.CreateIndex(name: "IX_Timeslots_CalendarDayId", table: "Timeslots", column: "CalendarDayId");
+
         migrationBuilder.CreateIndex(
-            name: "IX_Timeslots_ServiceProviderId",
+            name: "IX_Timeslots_ServiceProviderId_CalendarDayId_Date_StartTime",
             table: "Timeslots",
-            column: "ServiceProviderId"
+            columns: new[] { "ServiceProviderId", "CalendarDayId", "Date", "StartTime" }
         );
     }
 
     /// <inheritdoc />
     protected override void Down(MigrationBuilder migrationBuilder)
     {
+        migrationBuilder.DropTable(name: "ServiceProviders");
+
         migrationBuilder.DropTable(name: "Timeslots");
 
-        migrationBuilder.DropTable(name: "ServiceProviders");
+        migrationBuilder.DropTable(name: "CalendarDays");
     }
 }

@@ -90,6 +90,14 @@ public partial class ExamplesDbContext : IAppRatingStore<Guid>
             e.HasOne(t => t.CalendarDay).WithMany(t => t.Timeslots);
 
             e.OwnsOne(t => t.Price);
+
+            e.HasIndex(t => new
+            {
+                t.ServiceProviderId,
+                t.CalendarDayId,
+                t.Date,
+                t.StartTime,
+            });
         });
     }
 

@@ -25,6 +25,35 @@ namespace ExampleApp.Examples.Services.DataAccess.Migrations
             NpgsqlModelBuilderExtensions.HasPostgresExtension(modelBuilder, "citext");
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("ExampleApp.Examples.Domain.Booking.CalendarDay", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("citext");
+
+                    b.Property<DateOnly>("Date")
+                        .HasColumnType("date");
+
+                    b.Property<DateTime>("DateModified")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("DateModified");
+
+                    b.Property<string>("ServiceProviderId")
+                        .IsRequired()
+                        .HasColumnType("citext");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id");
+
+                    b.HasAlternateKey("ServiceProviderId", "Date");
+
+                    b.ToTable("CalendarDays");
+                });
+
             modelBuilder.Entity("ExampleApp.Examples.Domain.Booking.ServiceProvider", b =>
                 {
                     b.Property<string>("Id")
@@ -76,6 +105,10 @@ namespace ExampleApp.Examples.Services.DataAccess.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("citext");
 
+                    b.Property<string>("CalendarDayId")
+                        .IsRequired()
+                        .HasColumnType("citext");
+
                     b.Property<DateOnly>("Date")
                         .HasColumnType("date");
 
@@ -91,7 +124,9 @@ namespace ExampleApp.Examples.Services.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ServiceProviderId");
+                    b.HasIndex("CalendarDayId");
+
+                    b.HasIndex("ServiceProviderId", "CalendarDayId", "Date", "StartTime");
 
                     b.ToTable("Timeslots");
                 });
@@ -437,9 +472,9 @@ namespace ExampleApp.Examples.Services.DataAccess.Migrations
 
             modelBuilder.Entity("ExampleApp.Examples.Domain.Booking.Timeslot", b =>
                 {
-                    b.HasOne("ExampleApp.Examples.Domain.Booking.ServiceProvider", "ServiceProvider")
+                    b.HasOne("ExampleApp.Examples.Domain.Booking.CalendarDay", "CalendarDay")
                         .WithMany("Timeslots")
-                        .HasForeignKey("ServiceProviderId")
+                        .HasForeignKey("CalendarDayId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -463,10 +498,10 @@ namespace ExampleApp.Examples.Services.DataAccess.Migrations
                                 .HasForeignKey("TimeslotId");
                         });
 
+                    b.Navigation("CalendarDay");
+
                     b.Navigation("Price")
                         .IsRequired();
-
-                    b.Navigation("ServiceProvider");
                 });
 
             modelBuilder.Entity("ExampleApp.Examples.Domain.Projects.Project", b =>
@@ -578,7 +613,7 @@ namespace ExampleApp.Examples.Services.DataAccess.Migrations
                     b.Navigation("VerifiableAddresses");
                 });
 
-            modelBuilder.Entity("ExampleApp.Examples.Domain.Booking.ServiceProvider", b =>
+            modelBuilder.Entity("ExampleApp.Examples.Domain.Booking.CalendarDay", b =>
                 {
                     b.Navigation("Timeslots");
                 });
