@@ -1,12 +1,12 @@
 using System.Collections.Immutable;
 using System.Reflection;
 using System.Text.Json;
-using ExampleApp.Examples.Domain.Booking;
-using ExampleApp.Examples.Domain.Booking.Events;
 using ExampleApp.Examples.Services.DataAccess.Serialization;
 using ExampleApp.Examples.Services.Processes.Kratos;
 using LeanCode.Kratos.Model;
 #if Example
+using ExampleApp.Examples.Domain.Booking.Events;
+using ExampleApp.Examples.Domain.Booking;
 using ExampleApp.Examples.Domain.Employees;
 using ExampleApp.Examples.Domain.Events;
 using ExampleApp.Examples.Domain.Projects;
