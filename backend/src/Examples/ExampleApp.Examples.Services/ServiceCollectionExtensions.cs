@@ -2,6 +2,7 @@ using Azure.Core;
 using ExampleApp.Examples.Services.DataAccess;
 using ExampleApp.Examples.Services.DataAccess.Serialization;
 using LeanCode.DomainModels.DataAccess;
+using LeanCode.DomainModels.Model;
 using LeanCode.Npgsql.ActiveDirectory;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -51,21 +52,19 @@ public static class ServiceCollectionExtensions
         );
 
 #if Example
-        services.AddScoped<ProjectsRepository>();
-        services.AddScoped<IRepository<Project, ProjectId>>(sp => sp.GetRequiredService<ProjectsRepository>());
-
-        services.AddScoped<EmployeesRepository>();
-        services.AddScoped<IRepository<Employee, EmployeeId>>(sp => sp.GetRequiredService<EmployeesRepository>());
-
-        services.AddScoped<ServiceProvidersRepository>();
-        services.AddScoped<IRepository<ServiceProvider, ServiceProviderId>>(sp =>
-            sp.GetRequiredService<ServiceProvidersRepository>()
-        );
-
-        services.AddScoped<CalendarDaysRepository>();
-        services.AddScoped<IRepository<CalendarDay, CalendarDayId>>(sp =>
-            sp.GetRequiredService<CalendarDaysRepository>()
-        );
+        services.AddRepository<ProjectId, Project, ProjectsRepository>();
+        services.AddRepository<EmployeeId, Employee, EmployeesRepository>();
+        services.AddRepository<ServiceProviderId, ServiceProvider, ServiceProvidersRepository>();
+        services.AddRepository<CalendarDayId, CalendarDay, CalendarDaysRepository>();
 #endif
+    }
+
+    private static void AddRepository<TId, TEntity, TImplementation>(this IServiceCollection services)
+        where TId : struct
+        where TEntity : class, IAggregateRootWithoutOptimisticConcurrency<TId>
+        where TImplementation : class, IRepository<TEntity, TId>
+    {
+        services.AddScoped<TImplementation>();
+        services.AddScoped<IRepository<TEntity, TId>>(sp => sp.GetRequiredService<TImplementation>());
     }
 }
