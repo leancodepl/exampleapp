@@ -14,8 +14,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ExampleApp.Examples.Services.DataAccess.Migrations
 {
     [DbContext(typeof(ExamplesDbContext))]
-    [Migration("20241007121810_AddServiceProvidersAndCalendarDays")]
-    partial class AddServiceProvidersAndCalendarDays
+    [Migration("20241007150234_AddServiceProvidersAndTheirCalendars")]
+    partial class AddServiceProvidersAndTheirCalendars
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -88,6 +88,9 @@ namespace ExampleApp.Examples.Services.DataAccess.Migrations
                     b.Property<string>("PromotionalBanner")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<double>("Ratings")
+                        .HasColumnType("double precision");
 
                     b.Property<int>("Type")
                         .HasColumnType("integer");

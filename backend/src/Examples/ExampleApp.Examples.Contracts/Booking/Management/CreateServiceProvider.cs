@@ -13,6 +13,7 @@ public class CreateServiceProvider : ICommand
     public Uri ListItemPicture { get; set; }
     public string Address { get; set; }
     public LocationDTO Location { get; set; }
+    public double Ratings { get; set; }
 
     public static class ErrorCodes
     {

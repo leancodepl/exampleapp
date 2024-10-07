@@ -149,7 +149,8 @@ public class AddTimeslotCVTests
             new Uri("http://example.com"),
             new Uri("http://example.com"),
             "Address",
-            new(10, 10)
+            new(10, 10),
+            5
         );
         serviceProviders.Add(sp);
         return sp.Id;

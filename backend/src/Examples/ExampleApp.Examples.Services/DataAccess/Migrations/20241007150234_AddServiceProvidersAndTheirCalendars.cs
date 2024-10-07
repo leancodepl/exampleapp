@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ExampleApp.Examples.Services.DataAccess.Migrations;
 
 /// <inheritdoc />
-public partial class AddServiceProvidersAndCalendarDays : Migration
+public partial class AddServiceProvidersAndTheirCalendars : Migration
 {
     /// <inheritdoc />
     protected override void Up(MigrationBuilder migrationBuilder)
@@ -42,6 +42,7 @@ public partial class AddServiceProvidersAndCalendarDays : Migration
                 PromotionalBanner = table.Column<string>(type: "text", nullable: false),
                 ListItemPicture = table.Column<string>(type: "text", nullable: false),
                 IsPromotionActive = table.Column<bool>(type: "boolean", nullable: false),
+                Ratings = table.Column<double>(type: "double precision", nullable: false),
                 Address = table.Column<string>(type: "text", nullable: false),
                 Location_Longitude = table.Column<double>(type: "double precision", nullable: false),
                 Location_Latitude = table.Column<double>(type: "double precision", nullable: false),

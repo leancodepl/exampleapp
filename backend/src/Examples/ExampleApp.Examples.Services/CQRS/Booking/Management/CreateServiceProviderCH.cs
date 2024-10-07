@@ -65,7 +65,8 @@ public class CreateServiceProviderCH(IRepository<ServiceProvider, ServiceProvide
             command.PromotionalBanner,
             command.ListItemPicture,
             command.Address,
-            new(command.Location.Longitude, command.Location.Latitude)
+            new(command.Location.Longitude, command.Location.Latitude),
+            command.Ratings
         );
         serviceProviders.Add(serviceProvider);
 

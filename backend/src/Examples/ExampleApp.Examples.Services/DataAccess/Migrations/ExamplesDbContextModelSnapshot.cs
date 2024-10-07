@@ -86,6 +86,9 @@ namespace ExampleApp.Examples.Services.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<double>("Ratings")
+                        .HasColumnType("double precision");
+
                     b.Property<int>("Type")
                         .HasColumnType("integer");
 
