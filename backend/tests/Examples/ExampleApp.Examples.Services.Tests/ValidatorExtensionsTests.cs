@@ -65,6 +65,30 @@ public class ValidatorExtensionsTests
             .BeEquivalentTo(new { ErrorCode = 2 });
     }
 
+    [Fact]
+    public async Task DoesNotExist_does_not_report_error_when_the_entity_is_not_in_the_repository()
+    {
+        var validator = new FakeDoesNotExistValidator();
+
+        var result = await validator.TestValidateAsync(Context(WithoutEntity(), FakeId.New()));
+        result.ShouldNotHaveValidationErrorFor(x => x);
+    }
+
+    [Fact]
+    public async Task DoesNotExist_reports_error_when_the_entity_is_in_the_repository()
+    {
+        var validator = new FakeDoesNotExistValidator();
+        var (repo, id) = WithEntity();
+
+        var result = await validator.TestValidateAsync(Context(repo, id));
+        result
+            .ShouldHaveValidationErrorFor(x => x)
+            .Should()
+            .ContainSingle()
+            .Which.CustomState.Should()
+            .BeEquivalentTo(new { ErrorCode = 2 });
+    }
+
     private (FakeRepository, FakeId) WithEntity()
     {
         var repo = new FakeRepository();
@@ -83,7 +107,7 @@ public class ValidatorExtensionsTests
             .BuildServiceProvider();
         return new ValidationContext<string>(instanceToValidate)
         {
-            RootContextData = { { ValidationContextExtensions.HttpContextKey, httpContext } },
+            RootContextData = { [ValidationContextExtensions.HttpContextKey] = httpContext },
         };
     }
 }
@@ -113,35 +137,4 @@ internal class FakeEntity : IAggregateRoot<FakeId>
     public DateTime DateModified { get; set; }
 }
 
-internal class FakeRepository : IRepository<FakeEntity, FakeId>
-{
-    private readonly Dictionary<FakeId, FakeEntity> storage = new();
-
-    public Task<FakeEntity?> FindAsync(FakeId id, CancellationToken cancellationToken = new CancellationToken())
-    {
-        return Task.FromResult(storage.TryGetValue(id, out var entity) ? entity : null);
-    }
-
-    public void Add(FakeEntity entity)
-    {
-        storage[entity.Id] = entity;
-    }
-
-    public void Delete(FakeEntity entity)
-    {
-        storage.Remove(entity.Id);
-    }
-
-    public void DeleteRange(IEnumerable<FakeEntity> entities)
-    {
-        foreach (var entity in entities)
-        {
-            storage.Remove(entity.Id);
-        }
-    }
-
-    public void Update(FakeEntity entity)
-    {
-        storage[entity.Id] = entity;
-    }
-}
+internal class FakeRepository : FakeRepositoryBase<FakeEntity, FakeId> { }

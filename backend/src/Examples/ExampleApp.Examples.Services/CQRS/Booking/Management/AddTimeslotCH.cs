@@ -5,6 +5,7 @@ using ExampleApp.Examples.Services.DataAccess.Repositories;
 using FluentValidation;
 using LeanCode.CQRS.Execution;
 using LeanCode.CQRS.Validation.Fluent;
+using LeanCode.DomainModels.DataAccess;
 using Microsoft.AspNetCore.Http;
 
 namespace ExampleApp.Examples.Services.CQRS.Booking.Management;
@@ -15,39 +16,42 @@ public class AddTimeslotCV : AbstractValidator<AddTimeslot>
     {
         this.RuleForId(cmd => cmd.ServiceProviderId)
             .IsValid<ServiceProviderId>(AddTimeslot.ErrorCodes.ServiceProviderIdIsInvalid)
-            .Exists<ServiceProvider>(AddTimeslot.ErrorCodes.ServiceProviderDoesNotExist);
+            .Exists<ServiceProvider>(AddTimeslot.ErrorCodes.ServiceProviderDoesNotExist)
+            .DependentRules(() =>
+            {
+                RuleFor(cmd => cmd)
+                    .CustomAsync(
+                        async (cmd, ctx, ct) =>
+                        {
+                            var spId = ServiceProviderId.Parse(cmd.ServiceProviderId);
+                            var day = await calendarDays.FindAsync(spId, cmd.Date, ct);
+
+                            if (day is not null && !day.CanAddTimeslotAt(cmd.StartTime, cmd.EndTime))
+                            {
+                                ctx.AddValidationError(
+                                    "The timeslot overlaps with existing timeslot.",
+                                    AddTimeslot.ErrorCodes.TimeslotOverlapsWithExisting
+                                );
+                            }
+                        }
+                    );
+            });
 
         RuleFor(cmd => cmd.EndTime)
             .GreaterThan(cmd => cmd.StartTime)
             .WithCode(AddTimeslot.ErrorCodes.EndTimeMustBeAfterStartTime);
 
         RuleFor(cmd => cmd.Price)
+            .Cascade(CascadeMode.Stop)
             .NotNull()
             .WithCode(AddTimeslot.ErrorCodes.PriceIsNull)
             .Must(e => Money.IsValidCurrency(e.Currency))
             .WithCode(AddTimeslot.ErrorCodes.PriceCurrencyIsInvalid)
             .WithMessage("The currency is unsupported.");
-
-        RuleFor(cmd => cmd)
-            .CustomAsync(
-                async (cmd, ctx, ct) =>
-                {
-                    var spId = ServiceProviderId.Parse(cmd.ServiceProviderId);
-                    var day = await calendarDays.FindAsync(spId, cmd.Date, ct);
-
-                    if (day is not null && !day.CanAddTimeslotAt(cmd.StartTime, cmd.EndTime))
-                    {
-                        ctx.AddValidationError(
-                            "The timeslot overlaps with existing timeslot.",
-                            AddTimeslot.ErrorCodes.TimeslotOverlapsWithExisting
-                        );
-                    }
-                }
-            );
     }
 }
 
-public class AddTimeslotCH(CalendarDaysRepository calendarDays, ICalendarDayByDate calendarByDate)
+public class AddTimeslotCH(IRepository<CalendarDay, CalendarDayId> calendarDays, ICalendarDayByDate calendarByDate)
     : ICommandHandler<AddTimeslot>
 {
     private readonly Serilog.ILogger logger = Serilog.Log.ForContext<AddTimeslotCH>();
