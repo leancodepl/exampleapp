@@ -52,16 +52,20 @@ public static class ServiceCollectionExtensions
 
 #if Example
         services.AddScoped<ProjectsRepository>();
-        services.AddScoped<IRepository<Project, ProjectId>, ProjectsRepository>();
+        services.AddScoped<IRepository<Project, ProjectId>>(sp => sp.GetRequiredService<ProjectsRepository>());
 
         services.AddScoped<EmployeesRepository>();
-        services.AddScoped<IRepository<Employee, EmployeeId>, EmployeesRepository>();
+        services.AddScoped<IRepository<Employee, EmployeeId>>(sp => sp.GetRequiredService<EmployeesRepository>());
 
         services.AddScoped<ServiceProvidersRepository>();
-        services.AddScoped<IRepository<ServiceProvider, ServiceProviderId>, ServiceProvidersRepository>();
+        services.AddScoped<IRepository<ServiceProvider, ServiceProviderId>>(sp =>
+            sp.GetRequiredService<ServiceProvidersRepository>()
+        );
 
         services.AddScoped<CalendarDaysRepository>();
-        services.AddScoped<IRepository<CalendarDay, CalendarDayId>, CalendarDaysRepository>();
+        services.AddScoped<IRepository<CalendarDay, CalendarDayId>>(sp =>
+            sp.GetRequiredService<CalendarDaysRepository>()
+        );
 #endif
     }
 }
