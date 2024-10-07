@@ -11,6 +11,7 @@ using Npgsql;
 using ExampleApp.Examples.Domain.Booking;
 using ExampleApp.Examples.Domain.Employees;
 using ExampleApp.Examples.Domain.Projects;
+using ExampleApp.Examples.Services.DataAccess.Queries;
 using ExampleApp.Examples.Services.DataAccess.Repositories;
 using ServiceProvider = ExampleApp.Examples.Domain.Booking.ServiceProvider;
 #endif
@@ -56,6 +57,7 @@ public static class ServiceCollectionExtensions
         services.AddRepository<EmployeeId, Employee, EmployeesRepository>();
         services.AddRepository<ServiceProviderId, ServiceProvider, ServiceProvidersRepository>();
         services.AddRepository<CalendarDayId, CalendarDay, CalendarDaysRepository>();
+        services.AliasScoped<ICalendarDayByDate, CalendarDaysRepository>();
 #endif
     }
 
@@ -66,5 +68,12 @@ public static class ServiceCollectionExtensions
     {
         services.AddScoped<TImplementation>();
         services.AddScoped<IRepository<TEntity, TId>>(sp => sp.GetRequiredService<TImplementation>());
+    }
+
+    private static void AliasScoped<TService, TImplementation>(this IServiceCollection services)
+        where TService : class
+        where TImplementation : TService
+    {
+        services.AddScoped<TService>(sp => sp.GetRequiredService<TImplementation>());
     }
 }

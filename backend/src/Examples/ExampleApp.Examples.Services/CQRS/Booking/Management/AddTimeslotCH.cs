@@ -1,17 +1,17 @@
 using ExampleApp.Examples.Contracts.Booking.Management;
 using ExampleApp.Examples.Domain.Booking;
+using ExampleApp.Examples.Services.DataAccess.Queries;
 using ExampleApp.Examples.Services.DataAccess.Repositories;
 using FluentValidation;
 using LeanCode.CQRS.Execution;
 using LeanCode.CQRS.Validation.Fluent;
-using LeanCode.TimeProvider;
 using Microsoft.AspNetCore.Http;
 
 namespace ExampleApp.Examples.Services.CQRS.Booking.Management;
 
 public class AddTimeslotCV : AbstractValidator<AddTimeslot>
 {
-    public AddTimeslotCV(CalendarDaysRepository calendarDays)
+    public AddTimeslotCV(ICalendarDayByDate calendarDays)
     {
         this.RuleForId(cmd => cmd.ServiceProviderId)
             .IsValid<ServiceProviderId>(AddTimeslot.ErrorCodes.ServiceProviderIdIsInvalid)
@@ -33,7 +33,7 @@ public class AddTimeslotCV : AbstractValidator<AddTimeslot>
                 async (cmd, ctx, ct) =>
                 {
                     var spId = ServiceProviderId.Parse(cmd.ServiceProviderId);
-                    var day = await calendarDays.FindByDateAsync(spId, cmd.Date, ct);
+                    var day = await calendarDays.FindAsync(spId, cmd.Date, ct);
 
                     if (day is not null && !day.CanAddTimeslotAt(cmd.StartTime, cmd.EndTime))
                     {
@@ -47,14 +47,15 @@ public class AddTimeslotCV : AbstractValidator<AddTimeslot>
     }
 }
 
-public class AddTimeslotCH(CalendarDaysRepository calendarDays) : ICommandHandler<AddTimeslot>
+public class AddTimeslotCH(CalendarDaysRepository calendarDays, ICalendarDayByDate calendarByDate)
+    : ICommandHandler<AddTimeslot>
 {
     private readonly Serilog.ILogger logger = Serilog.Log.ForContext<AddTimeslotCH>();
 
     public async Task ExecuteAsync(HttpContext context, AddTimeslot command)
     {
         var spId = ServiceProviderId.Parse(command.ServiceProviderId);
-        var day = await calendarDays.FindByDateAsync(spId, command.Date, context.RequestAborted);
+        var day = await calendarByDate.FindAsync(spId, command.Date, context.RequestAborted);
         if (day is null)
         {
             day = CalendarDay.Create(spId, command.Date);
