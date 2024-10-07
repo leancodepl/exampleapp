@@ -16,10 +16,9 @@ public class AddTimeslot : ICommand
     {
         public const int ServiceProviderIdIsInvalid = 1;
         public const int ServiceProviderDoesNotExist = 2;
-        public const int CannotDefineSlotsInThePast = 3;
-        public const int EndTimeMustBeAfterStartTime = 4;
-        public const int PriceIsNull = 5;
-        public const int PriceCurrencyIsInvalid = 6;
-        public const int TimeslotOverlapsWithExisting = 7;
+        public const int EndTimeMustBeAfterStartTime = 3;
+        public const int PriceIsNull = 4;
+        public const int PriceCurrencyIsInvalid = 5;
+        public const int TimeslotOverlapsWithExisting = 6;
     }
 }

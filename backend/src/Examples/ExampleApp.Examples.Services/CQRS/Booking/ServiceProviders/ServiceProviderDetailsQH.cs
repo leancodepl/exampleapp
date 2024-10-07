@@ -40,6 +40,7 @@ public class ServiceProviderDetailsQH(ExamplesDbContext dbContext)
                             .Timeslots.Select(ts => new AvailableTimeslotDTO
                             {
                                 Id = ts.Id,
+                                CalendarDayId = cd.Id,
                                 StartTime = ts.StartTime,
                                 EndTime = ts.EndTime,
                                 Price = new((int)(ts.Price.Value * 100), ts.Price.Currency),

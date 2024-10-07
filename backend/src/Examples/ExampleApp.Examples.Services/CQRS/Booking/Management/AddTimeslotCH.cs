@@ -15,11 +15,7 @@ public class AddTimeslotCV : AbstractValidator<AddTimeslot>
     {
         this.RuleForId(cmd => cmd.ServiceProviderId)
             .IsValid<ServiceProviderId>(AddTimeslot.ErrorCodes.ServiceProviderIdIsInvalid)
-            .Exists<ServiceProvider>(AddTimeslot.ErrorCodes.ServiceProviderIdIsInvalid);
-
-        RuleFor(cmd => cmd.Date)
-            .GreaterThan(DateOnly.FromDateTime(Time.Now))
-            .WithCode(AddTimeslot.ErrorCodes.CannotDefineSlotsInThePast);
+            .Exists<ServiceProvider>(AddTimeslot.ErrorCodes.ServiceProviderDoesNotExist);
 
         RuleFor(cmd => cmd.EndTime)
             .GreaterThan(cmd => cmd.StartTime)
@@ -69,7 +65,11 @@ public class AddTimeslotCH(CalendarDaysRepository calendarDays) : ICommandHandle
             calendarDays.Update(day);
         }
 
-        day.AddTimeslot(command.StartTime, command.EndTime, new(command.Price.Value, command.Price.Currency));
+        day.AddTimeslot(
+            command.StartTime,
+            command.EndTime,
+            new((decimal)command.Price.Value / 100m, command.Price.Currency)
+        );
 
         logger.Information("New timeslot added to provider {ServiceProviderId}", spId);
     }

@@ -28,6 +28,7 @@ public partial class ExamplesDbContext : IAppRatingStore<Guid>
         ConfigureId<ProjectId>(configurationBuilder);
         ConfigureId<AssignmentId>(configurationBuilder);
         ConfigureId<ServiceProviderId>(configurationBuilder);
+        ConfigureId<CalendarDayId>(configurationBuilder);
         ConfigureId<TimeslotId>(configurationBuilder);
     }
 
