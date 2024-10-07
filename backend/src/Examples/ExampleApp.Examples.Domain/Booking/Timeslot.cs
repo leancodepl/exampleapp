@@ -11,7 +11,8 @@ public class Timeslot : IEntity<TimeslotId>
     public TimeslotId Id { get; private init; }
 
     public ServiceProviderId ServiceProviderId { get; private init; }
-    public ServiceProvider ServiceProvider { get; private init; }
+    public CalendarDayId CalendarDayId { get; private init; }
+    public CalendarDay CalendarDay { get; private init; }
 
     public DateOnly Date { get; private init; }
     public TimeOnly StartTime { get; private init; }
@@ -20,17 +21,11 @@ public class Timeslot : IEntity<TimeslotId>
 
     private Timeslot()
     {
-        ServiceProvider = null!;
+        CalendarDay = null!;
         Price = null!;
     }
 
-    internal static Timeslot Create(
-        ServiceProvider provider,
-        DateOnly date,
-        TimeOnly startTime,
-        TimeOnly endTime,
-        Money price
-    )
+    internal static Timeslot Create(CalendarDay day, TimeOnly startTime, TimeOnly endTime, Money price)
     {
         if (startTime >= endTime)
         {
@@ -40,9 +35,10 @@ public class Timeslot : IEntity<TimeslotId>
         return new Timeslot
         {
             Id = TimeslotId.New(),
-            ServiceProviderId = provider.Id,
-            ServiceProvider = provider,
-            Date = date,
+            ServiceProviderId = day.ServiceProviderId,
+            CalendarDayId = day.Id,
+            CalendarDay = day,
+            Date = day.Date,
             StartTime = startTime,
             EndTime = endTime,
             Price = price,

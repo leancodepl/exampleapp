@@ -59,6 +59,9 @@ public static class ServiceCollectionExtensions
 
         services.AddScoped<ServiceProvidersRepository>();
         services.AddScoped<IRepository<ServiceProvider, ServiceProviderId>, ServiceProvidersRepository>();
+
+        services.AddScoped<CalendarDaysRepository>();
+        services.AddScoped<IRepository<CalendarDay, CalendarDayId>, CalendarDaysRepository>();
 #endif
     }
 }

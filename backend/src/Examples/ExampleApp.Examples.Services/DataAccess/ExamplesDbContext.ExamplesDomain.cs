@@ -16,6 +16,7 @@ public partial class ExamplesDbContext : IAppRatingStore<Guid>
     public DbSet<Project> Projects => Set<Project>();
 
     public DbSet<ServiceProvider> ServiceProviders => Set<ServiceProvider>();
+    public DbSet<CalendarDay> CalendarDays => Set<CalendarDay>();
     public DbSet<Timeslot> Timeslots => Set<Timeslot>();
 
     public DbSet<PushNotificationTokenEntity<Guid>> PushNotificationTokens => Set<PushNotificationTokenEntity<Guid>>();
@@ -65,9 +66,18 @@ public partial class ExamplesDbContext : IAppRatingStore<Guid>
         {
             e.HasKey(t => t.Id);
 
-            e.HasMany(t => t.Timeslots).WithOne(t => t.ServiceProvider);
-
             e.OwnsOne(t => t.Location);
+
+            e.IsOptimisticConcurrent(addRowVersion: false);
+            e.Property<uint>("xmin").IsRowVersion();
+        });
+
+        modelBuilder.Entity<CalendarDay>(e =>
+        {
+            e.HasKey(t => t.Id);
+            e.HasAlternateKey(t => new { t.ServiceProviderId, t.Date });
+
+            e.HasMany(t => t.Timeslots).WithOne(t => t.CalendarDay);
 
             e.IsOptimisticConcurrent(addRowVersion: false);
             e.Property<uint>("xmin").IsRowVersion();
@@ -76,7 +86,7 @@ public partial class ExamplesDbContext : IAppRatingStore<Guid>
         modelBuilder.Entity<Timeslot>(e =>
         {
             e.HasKey(t => t.Id);
-            e.HasOne(t => t.ServiceProvider).WithMany(t => t.Timeslots);
+            e.HasOne(t => t.CalendarDay).WithMany(t => t.Timeslots);
 
             e.OwnsOne(t => t.Price);
         });

@@ -1,4 +1,3 @@
-using ExampleApp.Examples.Domain.Booking.Events;
 using LeanCode.DomainModels.Ids;
 using LeanCode.DomainModels.Model;
 
@@ -9,8 +8,6 @@ public readonly partial record struct ServiceProviderId;
 
 public class ServiceProvider : IAggregateRoot<ServiceProviderId>
 {
-    private readonly List<Timeslot> timeslots = new();
-
     public ServiceProviderId Id { get; private init; }
 
     public string Name { get; private set; }
@@ -22,8 +19,6 @@ public class ServiceProvider : IAggregateRoot<ServiceProviderId>
 
     public string Address { get; private set; }
     public Location Location { get; private set; }
-
-    public IReadOnlyList<Timeslot> Timeslots => timeslots;
 
     DateTime IOptimisticConcurrency.DateModified { get; set; }
 
@@ -58,33 +53,6 @@ public class ServiceProvider : IAggregateRoot<ServiceProviderId>
             Address = address,
             Location = location,
         };
-    }
-
-    public bool CanAddTimeslotAt(DateOnly date, TimeOnly startTime, TimeOnly endTime) =>
-        !timeslots.Any(ts => ts.Date == date && (ts.StartTime < endTime && ts.EndTime > startTime));
-
-    public void AddTimeslot(DateOnly date, TimeOnly startTime, TimeOnly endTime, Money price)
-    {
-        if (!CanAddTimeslotAt(date, startTime, endTime))
-        {
-            throw new InvalidOperationException("The new timeslot overlaps with an existing timeslot.");
-        }
-
-        var newTimeslot = Timeslot.Create(this, date, startTime, endTime, price);
-        timeslots.Add(newTimeslot);
-    }
-
-    public void ReserveTimeslot(TimeslotId timeslotId)
-    {
-        var removedSlots = timeslots.RemoveAll(t => t.Id == timeslotId);
-        if (removedSlots == 1)
-        {
-            DomainEvents.Raise(new TimeslotReserved(Id, timeslotId));
-        }
-        else
-        {
-            DomainEvents.Raise(new TimeslotUnavailable(Id, timeslotId));
-        }
     }
 }
 

@@ -4,7 +4,6 @@ using ExampleApp.Examples.Services.DataAccess.Repositories;
 using FluentValidation;
 using LeanCode.CQRS.Execution;
 using LeanCode.CQRS.Validation.Fluent;
-using LeanCode.DomainModels.DataAccess;
 using LeanCode.TimeProvider;
 using Microsoft.AspNetCore.Http;
 
@@ -12,7 +11,7 @@ namespace ExampleApp.Examples.Services.CQRS.Booking.Management;
 
 public class AddTimeslotCV : AbstractValidator<AddTimeslot>
 {
-    public AddTimeslotCV(ServiceProvidersRepository serviceProviders)
+    public AddTimeslotCV(CalendarDaysRepository calendarDays)
     {
         this.RuleForId(cmd => cmd.ServiceProviderId)
             .IsValid<ServiceProviderId>(AddTimeslot.ErrorCodes.ServiceProviderIdIsInvalid)
@@ -38,9 +37,9 @@ public class AddTimeslotCV : AbstractValidator<AddTimeslot>
                 async (cmd, ctx, ct) =>
                 {
                     var spId = ServiceProviderId.Parse(cmd.ServiceProviderId);
-                    var sp = await serviceProviders.FindAndEnsureExistsAsync(spId, ct);
+                    var day = await calendarDays.FindByDateAsync(spId, cmd.Date, ct);
 
-                    if (!sp.CanAddTimeslotAt(cmd.Date, cmd.StartTime, cmd.EndTime))
+                    if (day is not null && !day.CanAddTimeslotAt(cmd.StartTime, cmd.EndTime))
                     {
                         ctx.AddValidationError(
                             "The timeslot overlaps with existing timeslot.",
@@ -52,21 +51,25 @@ public class AddTimeslotCV : AbstractValidator<AddTimeslot>
     }
 }
 
-public class AddTimeslotCH(IRepository<ServiceProvider, ServiceProviderId> serviceProviders)
-    : ICommandHandler<AddTimeslot>
+public class AddTimeslotCH(CalendarDaysRepository calendarDays) : ICommandHandler<AddTimeslot>
 {
     private readonly Serilog.ILogger logger = Serilog.Log.ForContext<AddTimeslotCH>();
 
     public async Task ExecuteAsync(HttpContext context, AddTimeslot command)
     {
         var spId = ServiceProviderId.Parse(command.ServiceProviderId);
-        var sp = await serviceProviders.FindAndEnsureExistsAsync(spId, context.RequestAborted);
-        sp.AddTimeslot(
-            command.Date,
-            command.StartTime,
-            command.EndTime,
-            new(command.Price.Value, command.Price.Currency)
-        );
+        var day = await calendarDays.FindByDateAsync(spId, command.Date, context.RequestAborted);
+        if (day is null)
+        {
+            day = CalendarDay.Create(spId, command.Date);
+            calendarDays.Add(day);
+        }
+        else
+        {
+            calendarDays.Update(day);
+        }
+
+        day.AddTimeslot(command.StartTime, command.EndTime, new(command.Price.Value, command.Price.Currency));
 
         logger.Information("New timeslot added to provider {ServiceProviderId}", spId);
     }

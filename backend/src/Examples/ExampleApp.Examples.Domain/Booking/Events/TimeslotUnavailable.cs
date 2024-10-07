@@ -9,29 +9,24 @@ public class TimeslotUnavailable : IDomainEvent
     public Guid Id { get; }
     public DateTime DateOccurred { get; }
 
-    public ServiceProviderId ServiceProviderId { get; }
+    public CalendarDayId CalendarDayId { get; }
     public TimeslotId TimeslotId { get; }
 
-    public TimeslotUnavailable(ServiceProviderId serviceProviderId, TimeslotId timeslotId)
+    public TimeslotUnavailable(CalendarDayId calendarDayId, TimeslotId timeslotId)
     {
         Id = Guid.NewGuid();
         DateOccurred = Time.UtcNow;
 
-        ServiceProviderId = serviceProviderId;
+        CalendarDayId = calendarDayId;
         TimeslotId = timeslotId;
     }
 
     [JsonConstructor]
-    public TimeslotUnavailable(
-        Guid id,
-        DateTime dateOccurred,
-        ServiceProviderId serviceProviderId,
-        TimeslotId timeslotId
-    )
+    public TimeslotUnavailable(Guid id, DateTime dateOccurred, CalendarDayId calendarDayId, TimeslotId timeslotId)
     {
         Id = id;
         DateOccurred = dateOccurred;
-        ServiceProviderId = serviceProviderId;
+        CalendarDayId = calendarDayId;
         TimeslotId = timeslotId;
     }
 }

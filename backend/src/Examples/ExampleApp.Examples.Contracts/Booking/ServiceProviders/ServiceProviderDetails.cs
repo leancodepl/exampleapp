@@ -4,14 +4,14 @@ using LeanCode.Contracts.Security;
 namespace ExampleApp.Examples.Contracts.Booking.ServiceProviders;
 
 /// <summary>
-/// The query will return details about service provider and all available timeslots from <see cref="CurrentTime"/> to
+/// The query will return details about service provider and all available timeslots from <see cref="CalendarDate"/> to
 /// +X days (configurable on query level).
 /// </summary>
 [AuthorizeWhenHasAnyOf(Auth.Roles.User)]
 public class ServiceProviderDetails : IQuery<ServiceProviderDetailsDTO?>
 {
     public string ServiceProviderId { get; set; }
-    public DateTimeOffset CurrentTime { get; set; }
+    public DateOnly CalendarDate { get; set; }
 }
 
 public class ServiceProviderDetailsDTO
@@ -33,6 +33,7 @@ public class ServiceProviderDetailsDTO
 public class AvailableTimeslotDTO
 {
     public string Id { get; set; }
+    public string CalendarDayId { get; set; }
     public TimeOnly StartTime { get; set; }
     public TimeOnly EndTime { get; set; }
     public MoneyDTO Price { get; set; }
