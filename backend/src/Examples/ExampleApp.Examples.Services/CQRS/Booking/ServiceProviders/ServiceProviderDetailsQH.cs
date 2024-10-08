@@ -18,36 +18,35 @@ public class ServiceProviderDetailsQH(ExamplesDbContext dbContext)
             return null;
         }
 
-        return await dbContext
-            .ServiceProviders.Where(sp => sp.Id == serviceProviderId)
-            .Join(
-                dbContext.CalendarDays,
-                sp => new { sp.Id, Date = query.CalendarDate },
-                cd => new { Id = cd.ServiceProviderId, cd.Date },
-                (sp, cd) =>
-                    new ServiceProviderDetailsDTO
+        var q =
+            from sp in dbContext.ServiceProviders
+            join cd in dbContext.CalendarDays
+                on new { sp.Id, Date = query.CalendarDate } equals new { Id = cd.ServiceProviderId, cd.Date }
+                into calendarDays
+            from cd in calendarDays.DefaultIfEmpty()
+            select new ServiceProviderDetailsDTO
+            {
+                Id = sp.Id,
+                Name = sp.Name,
+                Description = sp.Description,
+                Type = (ServiceProviderTypeDTO)sp.Type,
+                Address = sp.Address,
+                Location = new(sp.Location.Latitude, sp.Location.Longitude),
+                IsPromotionActive = sp.IsPromotionActive,
+                PromotionalBanner = sp.PromotionalBanner,
+                ListItemPicture = sp.ListItemPicture,
+                AvailableTimeslots = cd
+                    .Timeslots.OrderBy(ts => ts.StartTime)
+                    .Select(ts => new AvailableTimeslotDTO
                     {
-                        Id = sp.Id,
-                        Name = sp.Name,
-                        Description = sp.Description,
-                        Type = (ServiceProviderTypeDTO)sp.Type,
-                        Address = sp.Address,
-                        Location = new(sp.Location.Latitude, sp.Location.Longitude),
-                        IsPromotionActive = sp.IsPromotionActive,
-                        PromotionalBanner = sp.PromotionalBanner,
-                        ListItemPicture = sp.ListItemPicture,
-                        AvailableTimeslots = cd
-                            .Timeslots.Select(ts => new AvailableTimeslotDTO
-                            {
-                                Id = ts.Id,
-                                CalendarDayId = cd.Id,
-                                StartTime = ts.StartTime,
-                                EndTime = ts.EndTime,
-                                Price = ts.Price.ToDTO(),
-                            })
-                            .ToList(),
-                    }
-            )
-            .FirstOrDefaultAsync(context.RequestAborted);
+                        Id = ts.Id,
+                        CalendarDayId = cd.Id,
+                        StartTime = ts.StartTime,
+                        EndTime = ts.EndTime,
+                        Price = ts.Price.ToDTO(),
+                    })
+                    .ToList(),
+            };
+        return await q.FirstOrDefaultAsync(context.RequestAborted);
     }
 }

@@ -16,6 +16,13 @@ public class CalendarIntegrationTests : TestsBase<AuthenticatedExampleAppTestApp
     {
         var sp = await CreateServiceProviderAsync();
 
+        // Ensure that details work even without any timeslots
+        var details = await App.Query.GetAsync(
+            new ServiceProviderDetails { ServiceProviderId = sp, CalendarDate = new(2024, 10, 6) }
+        );
+        details.Should().NotBeNull();
+
+        // Test different combination of timeslot
         await AddTimeslotAsync(sp, new(2024, 10, 6), new(10, 0), new(11, 0), 10.5m);
         await AddTimeslotAsync(sp, new(2024, 10, 7), new(11, 0), new(12, 0), 11);
         await AddTimeslotAsync(sp, new(2024, 10, 7), new(12, 0), new(13, 0), 12);
