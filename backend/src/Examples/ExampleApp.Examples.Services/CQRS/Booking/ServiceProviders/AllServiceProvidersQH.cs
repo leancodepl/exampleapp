@@ -9,15 +9,9 @@ using Microsoft.AspNetCore.Http;
 
 namespace ExampleApp.Examples.Services.CQRS.Booking.ServiceProviders;
 
-public class AllServiceProvidersQH : IQueryHandler<AllServiceProviders, PaginatedResult<ServiceProviderSummaryDTO>>
+public class AllServiceProvidersQH(ExamplesDbContext dbContext)
+    : IQueryHandler<AllServiceProviders, PaginatedResult<ServiceProviderSummaryDTO>>
 {
-    private readonly ExamplesDbContext dbContext;
-
-    public AllServiceProvidersQH(ExamplesDbContext dbContext)
-    {
-        this.dbContext = dbContext;
-    }
-
     public async Task<PaginatedResult<ServiceProviderSummaryDTO>> ExecuteAsync(
         HttpContext context,
         AllServiceProviders query
