@@ -1,8 +1,8 @@
+using ExampleApp.Examples.Contracts.Booking;
 using ExampleApp.Examples.Contracts.Booking.Management;
 using ExampleApp.Examples.Domain.Booking;
 using ExampleApp.Examples.Services.CQRS.Booking.Management;
 using ExampleApp.Examples.Services.DataAccess.Queries;
-using ExampleApp.Examples.Services.DataAccess.Repositories;
 using FluentAssertions;
 using FluentAssertions.Collections;
 using FluentValidation;
@@ -13,7 +13,6 @@ using LeanCode.DomainModels.DataAccess;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
-using Xunit.Sdk;
 using ServiceProvider = ExampleApp.Examples.Domain.Booking.ServiceProvider;
 
 namespace ExampleApp.Examples.Services.Tests.CQRS.Booking;
@@ -47,7 +46,7 @@ public class AddTimeslotCVTests
     }
 
     [Fact]
-    public async Task Validates_Price_is_not_null()
+    public async Task Validates_Price()
     {
         var result = await ValidateAsync(new());
 
@@ -68,9 +67,9 @@ public class AddTimeslotCVTests
         var validCurrency = await ValidateAsync(new() { Price = new(100, "PLN") });
 
         invalidCurrency
-            .ShouldHaveValidationErrorFor(x => x.Price)
+            .ShouldHaveValidationErrorFor(x => x.Price.Currency)
             .Should()
-            .HaveErrorCode(AddTimeslot.ErrorCodes.PriceCurrencyIsInvalid);
+            .HaveErrorCode(MoneyDTO.ErrorCodes.CurrencyIsInvalid);
 
         validCurrency.ShouldNotHaveValidationErrorFor(x => x.Price);
     }

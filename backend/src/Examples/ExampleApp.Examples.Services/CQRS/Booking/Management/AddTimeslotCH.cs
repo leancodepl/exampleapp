@@ -45,9 +45,7 @@ public class AddTimeslotCV : AbstractValidator<AddTimeslot>
             .Cascade(CascadeMode.Stop)
             .NotNull()
             .WithCode(AddTimeslot.ErrorCodes.PriceIsNull)
-            .Must(e => Money.IsValidCurrency(e.Currency))
-            .WithCode(AddTimeslot.ErrorCodes.PriceCurrencyIsInvalid)
-            .WithMessage("The currency is unsupported.");
+            .SetValidator(new MoneyDTOValidator());
     }
 }
 

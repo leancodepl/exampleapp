@@ -18,7 +18,8 @@ public class AddTimeslot : ICommand
         public const int ServiceProviderDoesNotExist = 2;
         public const int EndTimeMustBeAfterStartTime = 3;
         public const int PriceIsNull = 4;
-        public const int PriceCurrencyIsInvalid = 5;
-        public const int TimeslotOverlapsWithExisting = 6;
+        public const int TimeslotOverlapsWithExisting = 5;
+
+        public class Price : MoneyDTO.ErrorCodes { }
     }
 }
