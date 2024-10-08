@@ -43,7 +43,7 @@ public class ServiceProviderDetailsQH(ExamplesDbContext dbContext)
                                 CalendarDayId = cd.Id,
                                 StartTime = ts.StartTime,
                                 EndTime = ts.EndTime,
-                                Price = new((int)(ts.Price.Value * 100), ts.Price.Currency),
+                                Price = ts.Price.ToDTO(),
                             })
                             .ToList(),
                     }

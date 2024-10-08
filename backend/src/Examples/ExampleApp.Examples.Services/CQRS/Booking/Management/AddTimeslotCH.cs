@@ -68,11 +68,7 @@ public class AddTimeslotCH(IRepository<CalendarDay, CalendarDayId> calendarDays,
             calendarDays.Update(day);
         }
 
-        day.AddTimeslot(
-            command.StartTime,
-            command.EndTime,
-            new((decimal)command.Price.Value / 100m, command.Price.Currency)
-        );
+        day.AddTimeslot(command.StartTime, command.EndTime, command.Price.ToDomain());
 
         logger.Information("New timeslot added to provider {ServiceProviderId}", spId);
     }
