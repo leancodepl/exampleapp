@@ -67,7 +67,7 @@ public partial class ExamplesDbContext : IAppRatingStore<Guid>
         {
             e.HasKey(t => t.Id);
 
-            e.OwnsOne(t => t.Location);
+            e.ComplexProperty(t => t.Location);
 
             e.IsOptimisticConcurrent(addRowVersion: false);
             e.Property<uint>("xmin").IsRowVersion();
@@ -89,7 +89,7 @@ public partial class ExamplesDbContext : IAppRatingStore<Guid>
             e.HasKey(t => t.Id);
             e.HasOne(t => t.CalendarDay).WithMany(t => t.Timeslots);
 
-            e.OwnsOne(t => t.Price);
+            e.ComplexProperty(t => t.Price);
 
             e.HasIndex(t => new
             {

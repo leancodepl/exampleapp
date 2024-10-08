@@ -44,10 +44,10 @@ public partial class AddServiceProvidersAndTheirCalendars : Migration
                 IsPromotionActive = table.Column<bool>(type: "boolean", nullable: false),
                 Ratings = table.Column<double>(type: "double precision", nullable: false),
                 Address = table.Column<string>(type: "text", nullable: false),
-                Location_Longitude = table.Column<double>(type: "double precision", nullable: false),
-                Location_Latitude = table.Column<double>(type: "double precision", nullable: false),
                 DateModified = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                 xmin = table.Column<uint>(type: "xid", rowVersion: true, nullable: false),
+                Location_Latitude = table.Column<double>(type: "double precision", nullable: false),
+                Location_Longitude = table.Column<double>(type: "double precision", nullable: false),
             },
             constraints: table =>
             {
@@ -65,8 +65,8 @@ public partial class AddServiceProvidersAndTheirCalendars : Migration
                 Date = table.Column<DateOnly>(type: "date", nullable: false),
                 StartTime = table.Column<TimeOnly>(type: "time without time zone", nullable: false),
                 EndTime = table.Column<TimeOnly>(type: "time without time zone", nullable: false),
-                Price_Value = table.Column<decimal>(type: "numeric", nullable: false),
                 Price_Currency = table.Column<string>(type: "text", nullable: false),
+                Price_Value = table.Column<decimal>(type: "numeric", nullable: false),
             },
             constraints: table =>
             {
