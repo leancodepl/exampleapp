@@ -5,7 +5,9 @@ namespace ExampleApp.Examples.Domain.Booking;
 
 public record Money : ValueObject
 {
-    public static FrozenSet<string> SupportedCurrencies = new[] { "PLN", "USD" }.ToFrozenSet();
+    private static readonly FrozenSet<string> SupportedCurrencies = new[] { "PLN", "USD" }.ToFrozenSet(
+        StringComparer.InvariantCultureIgnoreCase
+    );
 
     public decimal Value { get; init; }
     public string Currency { get; init; }
@@ -18,7 +20,7 @@ public record Money : ValueObject
         }
 
         Value = value;
-        Currency = currency;
+        Currency = currency.ToUpperInvariant();
     }
 
     public static bool IsValidCurrency(string currency) => SupportedCurrencies.Contains(currency);
