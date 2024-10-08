@@ -3,6 +3,6 @@ namespace ExampleApp.Examples.Contracts.Booking;
 public enum ServiceProviderTypeDTO
 {
     Hairdresser = 0,
-    BarberShop,
-    Groomer,
+    BarberShop = 1,
+    Groomer = 2,
 }

@@ -62,6 +62,6 @@ public class ServiceProvider : IAggregateRoot<ServiceProviderId>
 public enum ServiceProviderType
 {
     Hairdresser = 0,
-    BarberShop,
-    Groomer,
+    BarberShop = 1,
+    Groomer = 2,
 }
