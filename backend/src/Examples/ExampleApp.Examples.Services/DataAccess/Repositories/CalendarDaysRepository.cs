@@ -9,8 +9,6 @@ public class CalendarDaysRepository(ExamplesDbContext dbContext)
     : CachingEFRepository<CalendarDay, CalendarDayId, ExamplesDbContext>(dbContext),
         ICalendarDayByDate
 {
-    protected override IQueryable<CalendarDay> BaseQuery() => DbContext.CalendarDays.Include(e => e.Timeslots);
-
     Task<CalendarDay?> ICalendarDayByDate.FindAsync(
         ServiceProviderId id,
         DateOnly date,

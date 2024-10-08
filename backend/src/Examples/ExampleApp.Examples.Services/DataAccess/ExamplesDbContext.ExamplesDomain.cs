@@ -79,6 +79,7 @@ public partial class ExamplesDbContext : IAppRatingStore<Guid>
             e.HasAlternateKey(t => new { t.ServiceProviderId, t.Date });
 
             e.HasMany(t => t.Timeslots).WithOne(t => t.CalendarDay);
+            e.Navigation(t => t.Timeslots).AutoInclude();
 
             e.IsOptimisticConcurrent(addRowVersion: false);
             e.Property<uint>("xmin").IsRowVersion();
