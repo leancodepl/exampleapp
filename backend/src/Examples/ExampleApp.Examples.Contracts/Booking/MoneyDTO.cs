@@ -9,7 +9,7 @@ public record MoneyDTO(int Value, string Currency)
 {
     public class ErrorCodes
     {
-        public const int ValueCannotBeNegative = 1;
-        public const int CurrencyIsInvalid = 2;
+        public const int ValueCannotBeNegative = 10001;
+        public const int CurrencyIsInvalid = 10002;
     }
 }
