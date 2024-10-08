@@ -31,7 +31,7 @@ public class ServiceProviderDetailsQH(ExamplesDbContext dbContext)
                 Description = sp.Description,
                 Type = (ServiceProviderTypeDTO)sp.Type,
                 Address = sp.Address,
-                Location = new(sp.Location.Latitude, sp.Location.Longitude),
+                Location = sp.Location.ToDTO(),
                 IsPromotionActive = sp.IsPromotionActive,
                 PromotionalBanner = sp.PromotionalBanner,
                 ListItemPicture = sp.ListItemPicture,

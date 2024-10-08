@@ -26,6 +26,8 @@ public class CreateServiceProvider : ICommand
         public const int ListItemPictureIsInvalid = 7;
         public const int AddressIsNullOrEmpty = 8;
         public const int AddressIsTooLong = 9;
-        public const int LocationIsInvalid = 10;
+        public const int LocationIsNull = 10;
+
+        public class Location : LocationDTO.ErrorCodes { }
     }
 }

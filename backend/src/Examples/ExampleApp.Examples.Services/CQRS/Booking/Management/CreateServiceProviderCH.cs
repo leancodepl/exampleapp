@@ -47,7 +47,11 @@ public class CreateServiceProviderCV : AbstractValidator<CreateServiceProvider>
             .MaximumLength(1000)
             .WithCode(CreateServiceProvider.ErrorCodes.AddressIsTooLong);
 
-        RuleFor(cmd => cmd.Location).NotNull().WithCode(CreateServiceProvider.ErrorCodes.LocationIsInvalid);
+        RuleFor(cmd => cmd.Location)
+            .Cascade(CascadeMode.Stop)
+            .NotNull()
+            .WithCode(CreateServiceProvider.ErrorCodes.LocationIsNull)
+            .SetValidator(new LocationDTOValidator());
     }
 }
 
@@ -65,7 +69,7 @@ public class CreateServiceProviderCH(IRepository<ServiceProvider, ServiceProvide
             command.PromotionalBanner,
             command.ListItemPicture,
             command.Address,
-            new(command.Location.Longitude, command.Location.Latitude),
+            command.Location.ToDomain(),
             command.Ratings
         );
         serviceProviders.Add(serviceProvider);
