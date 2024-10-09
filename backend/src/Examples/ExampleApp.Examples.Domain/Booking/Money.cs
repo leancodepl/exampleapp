@@ -14,9 +14,10 @@ public record Money : ValueObject
 
     public Money(decimal value, string currency)
     {
+        ArgumentOutOfRangeException.ThrowIfNegative(value);
         if (!IsValidCurrency(currency))
         {
-            throw new ArgumentException($"Currency {currency} is not supported.");
+            throw new ArgumentException($"Currency {currency} is not supported.", nameof(currency));
         }
 
         Value = value;
