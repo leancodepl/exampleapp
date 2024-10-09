@@ -1,0 +1,27 @@
+meta {
+  name: C_CreateServiceProvider
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{api_base}}/command/ExampleApp.Examples.Contracts.Booking.Management.CreateServiceProvider
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "Name": "Funky service provider",
+    "Type": 0,
+    "Description": "The best service provider in the city.",
+    "PromotionalBanner": "https://picsum.photos/seed/funky/400/200",
+    "ListItemPicture": "https://picsum.photos/seed/funky/200/200",
+    "Address": "Wróbla 8a, Warsaw",
+    "Location": {
+      "Longitude": 21.0319994,
+      "Latitude": 52.1744475
+    },
+    "Ratings": 5
+  }
+}

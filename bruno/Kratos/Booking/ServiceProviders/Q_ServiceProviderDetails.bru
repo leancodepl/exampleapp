@@ -1,0 +1,24 @@
+meta {
+  name: Q_ServiceProviderDetails
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{api_base}}/query/ExampleApp.Examples.Contracts.Booking.ServiceProviders.ServiceProviderDetails
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "ServiceProviderId": "{{service_provider_id}}",
+    "CalendarDate": "{{current_date}}"
+  }
+}
+
+script:pre-request {
+  const moment = require("moment");
+
+  bru.setVar("current_date",moment().format("YYYY-MM-DD"))
+}
