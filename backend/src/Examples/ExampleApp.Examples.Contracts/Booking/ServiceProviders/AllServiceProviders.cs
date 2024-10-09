@@ -13,7 +13,7 @@ public class AllServiceProviders : SortedQuery<ServiceProviderSummaryDTO, Servic
 public enum ServiceProviderSortFieldsDTO
 {
     Name = 0,
-    Type,
+    Type = 1,
 }
 
 public class ServiceProviderSummaryDTO
