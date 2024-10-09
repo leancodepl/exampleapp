@@ -5,6 +5,8 @@ using ExampleApp.Examples.Services.DataAccess.Serialization;
 using ExampleApp.Examples.Services.Processes.Kratos;
 using LeanCode.Kratos.Model;
 #if Example
+using ExampleApp.Examples.Domain.Booking.Events;
+using ExampleApp.Examples.Domain.Booking;
 using ExampleApp.Examples.Domain.Employees;
 using ExampleApp.Examples.Domain.Events;
 using ExampleApp.Examples.Domain.Projects;
@@ -66,6 +68,8 @@ public partial class EventSerializationTests
 #if Example
         new EmployeeAssignedToAssignment(Guid, DateTime, ProjectId, AssignmentId, EmployeeId, null),
         new EmployeeUnassignedFromAssignment(Guid, DateTime, ProjectId, AssignmentId, null),
+        new TimeslotReserved(Guid, DateTime, CalendarDayId.New(), TimeslotId.New()),
+        new TimeslotUnavailable(Guid, DateTime, CalendarDayId.New(), TimeslotId.New()),
 #endif
         new KratosIdentityUpdated(Guid, DateTime, KratosIdentity),
         new KratosIdentityDeleted(Guid, DateTime, Guid),

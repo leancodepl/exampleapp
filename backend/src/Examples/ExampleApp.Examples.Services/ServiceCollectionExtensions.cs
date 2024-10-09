@@ -2,14 +2,18 @@ using Azure.Core;
 using ExampleApp.Examples.Services.DataAccess;
 using ExampleApp.Examples.Services.DataAccess.Serialization;
 using LeanCode.DomainModels.DataAccess;
+using LeanCode.DomainModels.Model;
 using LeanCode.Npgsql.ActiveDirectory;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Npgsql;
 #if Example
+using ExampleApp.Examples.Domain.Booking;
 using ExampleApp.Examples.Domain.Employees;
 using ExampleApp.Examples.Domain.Projects;
+using ExampleApp.Examples.Services.DataAccess.Queries;
 using ExampleApp.Examples.Services.DataAccess.Repositories;
+using ServiceProvider = ExampleApp.Examples.Domain.Booking.ServiceProvider;
 #endif
 
 namespace ExampleApp.Examples.Services;
@@ -49,11 +53,27 @@ public static class ServiceCollectionExtensions
         );
 
 #if Example
-        services.AddScoped<ProjectsRepository>();
-        services.AddScoped<IRepository<Project, ProjectId>, ProjectsRepository>();
-
-        services.AddScoped<EmployeesRepository>();
-        services.AddScoped<IRepository<Employee, EmployeeId>, EmployeesRepository>();
+        services.AddRepository<ProjectId, Project, ProjectsRepository>();
+        services.AddRepository<EmployeeId, Employee, EmployeesRepository>();
+        services.AddRepository<ServiceProviderId, ServiceProvider, ServiceProvidersRepository>();
+        services.AddRepository<CalendarDayId, CalendarDay, CalendarDaysRepository>();
+        services.AliasScoped<ICalendarDayByDate, CalendarDaysRepository>();
 #endif
+    }
+
+    private static void AddRepository<TId, TEntity, TImplementation>(this IServiceCollection services)
+        where TId : struct
+        where TEntity : class, IAggregateRootWithoutOptimisticConcurrency<TId>
+        where TImplementation : class, IRepository<TEntity, TId>
+    {
+        services.AddScoped<TImplementation>();
+        services.AddScoped<IRepository<TEntity, TId>>(sp => sp.GetRequiredService<TImplementation>());
+    }
+
+    private static void AliasScoped<TService, TImplementation>(this IServiceCollection services)
+        where TService : class
+        where TImplementation : TService
+    {
+        services.AddScoped<TService>(sp => sp.GetRequiredService<TImplementation>());
     }
 }

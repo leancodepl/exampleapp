@@ -1,42 +1,16 @@
 using System.Text.Json;
 using ExampleApp.Examples.Services.DataAccess.Entities;
-using LeanCode.DomainModels.EF;
-using LeanCode.DomainModels.Ids;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-#if Example
-using ExampleApp.Examples.Domain.Employees;
-using ExampleApp.Examples.Domain.Projects;
-using LeanCode.AppRating.DataAccess;
-using LeanCode.Firebase.FCM;
-#endif
 
 namespace ExampleApp.Examples.Services.DataAccess;
 
-public class ExamplesDbContext : DbContext
-#if Example
-        , IAppRatingStore<Guid>
-#endif
+public partial class ExamplesDbContext : DbContext
 {
     public DbSet<KratosIdentity> KratosIdentities => Set<KratosIdentity>();
-#if Example
-    public DbSet<Employee> Employees => Set<Employee>();
-    public DbSet<Project> Projects => Set<Project>();
-
-    public DbSet<PushNotificationTokenEntity<Guid>> PushNotificationTokens => Set<PushNotificationTokenEntity<Guid>>();
-    public DbSet<AppRating<Guid>> AppRatings => Set<AppRating<Guid>>();
-#endif
 
     public ExamplesDbContext(DbContextOptions<ExamplesDbContext> options)
         : base(options) { }
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        base.OnConfiguring(optionsBuilder);
-
-        // optionsBuilder.AddTimestampTzExpressionInterceptor();
-    }
 
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
     {
@@ -50,40 +24,18 @@ public class ExamplesDbContext : DbContext
         //+:cnd:noEmit
 
 #if Example
-        ConfigureId<EmployeeId>(configurationBuilder);
-        ConfigureId<ProjectId>(configurationBuilder);
-        ConfigureId<AssignmentId>(configurationBuilder);
-#endif
-
-#if !Example
-        /*
-#endif
-        static PropertiesConfigurationBuilder<TId> ConfigureId<TId>(ModelConfigurationBuilder configurationBuilder)
-            where TId : struct, IPrefixedTypedId<TId>
-        {
-            return configurationBuilder
-                .Properties<TId>()
-                .HaveColumnType("citext")
-                .HaveConversion<PrefixedTypedIdConverter<TId>, PrefixedTypedIdComparer<TId>>();
-        }
-#if !Example
-    */
+        ConfigureExampleAppConventions(configurationBuilder);
 #endif
     }
 
-    protected override void OnModelCreating(ModelBuilder builder)
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        base.OnModelCreating(builder);
-        builder.HasPostgresExtension("citext");
+        base.OnModelCreating(modelBuilder);
+        modelBuilder.HasPostgresExtension("citext");
 
-        builder.AddTransactionalOutboxEntities();
-#if Example
-        builder.ConfigurePushNotificationTokenEntity<Guid>(false);
+        modelBuilder.AddTransactionalOutboxEntities();
 
-        builder.ConfigureAppRatingEntity<Guid>(SqlDbType.PostgreSql);
-#endif
-
-        builder.Entity<KratosIdentity>(e =>
+        modelBuilder.Entity<KratosIdentity>(e =>
         {
             e.OwnsMany(
                 ki => ki.RecoveryAddresses,
@@ -109,31 +61,7 @@ public class ExamplesDbContext : DbContext
         });
 
 #if Example
-        builder.Entity<Employee>(e =>
-        {
-            e.HasKey(t => t.Id);
-
-            e.IsOptimisticConcurrent(addRowVersion: false);
-            e.Property<uint>("xmin").IsRowVersion();
-        });
-
-        builder.Entity<Project>(e =>
-        {
-            e.HasKey(t => t.Id);
-
-            e.OwnsMany(
-                p => p.Assignments,
-                inner =>
-                {
-                    inner.WithOwner(a => a.ParentProject).HasForeignKey(a => a.ParentProjectId);
-
-                    inner.ToTable("Assignments");
-                }
-            );
-
-            e.IsOptimisticConcurrent(addRowVersion: false);
-            e.Property<uint>("xmin").IsRowVersion();
-        });
+        OnExampleModelCreating(modelBuilder);
 #endif
     }
 }

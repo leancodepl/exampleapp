@@ -2,7 +2,7 @@
   <PropertyGroup>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
 
-    <CoreLibVersion>8.1.2499</CoreLibVersion>
+    <CoreLibVersion>8.1.2515</CoreLibVersion>
     <ExtensionsVersion>8.0.1</ExtensionsVersion>
     <EFCoreVersion>8.0.8</EFCoreVersion>
     <AspNetCoreVersion>8.0.8</AspNetCoreVersion>
@@ -33,6 +33,7 @@
     <PackageVersion Include="LeanCode.DomainModels" Version="$(CoreLibVersion)" />
     <PackageVersion Include="LeanCode.DomainModels.EF" Version="$(CoreLibVersion)" />
     <PackageVersion Include="LeanCode.DomainModels.Generators" Version="$(CoreLibVersion)" />
+    <PackageVersion Include="LeanCode.DomainModels.EventsExecution.TestHelpers" Version="$(CoreLibVersion)" />
     <PackageVersion Include="LeanCode.EFMigrator" Version="$(CoreLibVersion)" />
     <PackageVersion Include="LeanCode.Firebase" Version="$(CoreLibVersion)" />
     <PackageVersion Include="LeanCode.Firebase.FCM" Version="$(CoreLibVersion)" />

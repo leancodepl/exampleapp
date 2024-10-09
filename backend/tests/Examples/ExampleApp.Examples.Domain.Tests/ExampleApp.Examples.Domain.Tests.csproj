@@ -2,4 +2,8 @@
   <ItemGroup>
     <ProjectReference Include="../../../src/Examples/ExampleApp.Examples.Domain/ExampleApp.Examples.Domain.csproj" />
   </ItemGroup>
+    
+  <ItemGroup>
+    <PackageReference Include="LeanCode.DomainModels.EventsExecution.TestHelpers" />
+  </ItemGroup>
 </Project>

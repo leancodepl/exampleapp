@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RunSettings>
+  <RunConfiguration>
+    <EnvironmentVariables>
+      <Logging__EnableDetailedInternalLogs>true</Logging__EnableDetailedInternalLogs>
+      <Logging__MinimumLevel>Verbose</Logging__MinimumLevel>
+      <Logging__SeqEndpoint>https://seq.local.lncd.pl</Logging__SeqEndpoint>
+      <Kratos__PublicEndpoint>http://localhost</Kratos__PublicEndpoint>
+      <Kratos__AdminEndpoint>http://localhost</Kratos__AdminEndpoint>
+      <Kratos__WebhookApiKey>Passw12#</Kratos__WebhookApiKey>
+      <PostgreSQL__ConnectionStringBase>Host=localhost;Port=5432;Username=postgres;Password=Passw12#</PostgreSQL__ConnectionStringBase>
+      <BlobStorage__ConnectionString>DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://storage.local.lncd.pl:10000/devstoreaccount1;</BlobStorage__ConnectionString>
+      <ConfigCat__FlagOverridesJsonObject>{}</ConfigCat__FlagOverridesJsonObject>
+    </EnvironmentVariables>
+  </RunConfiguration>
+</RunSettings>

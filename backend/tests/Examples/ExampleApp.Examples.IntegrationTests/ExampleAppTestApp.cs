@@ -13,6 +13,7 @@ using LeanCode.Pipe.TestClient;
 using LeanCode.Startup.MicrosoftDI;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Serilog.Events;
 
@@ -66,7 +67,13 @@ public class ExampleAppTestApp : LeanCodeTestFactory<Startup>
         {
             if (!SkipDbContextInitialization)
             {
-                services.AddHostedService<DbContextInitializer<ExamplesDbContext>>();
+                // This needs to be `Insert`ed because we expect the initializer to be run  anything else,
+                // especially before MassTransit outbox process, and this method is executed after
+                // the `Startup.ConfigureServices`.
+                services.Insert(
+                    0,
+                    ServiceDescriptor.Singleton<IHostedService, DbContextInitializer<ExamplesDbContext>>()
+                );
             }
 
             services.AddBusActivityMonitor();

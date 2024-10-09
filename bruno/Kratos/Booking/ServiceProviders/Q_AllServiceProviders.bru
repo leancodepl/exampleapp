@@ -1,0 +1,22 @@
+meta {
+  name: Q_AllServiceProviders
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{api_base}}/query/ExampleApp.Examples.Contracts.Booking.ServiceProviders.AllServiceProviders
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "NameFilter": null,
+    "TypeFilter": null,
+    "PromotedOnly": false,
+    "SortBy": 0,
+    "PageNumber": 0,
+    "PageSize": 100
+  }
+}

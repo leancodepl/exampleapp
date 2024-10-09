@@ -52,6 +52,7 @@ public class DbContextInitializer<T> : IHostedService
     public async Task StopAsync(CancellationToken cancellationToken)
     {
         logger.Information("Dropping database for context {ContextType}", context.GetType());
-        await context.Database.EnsureDeletedAsync(cancellationToken);
+        // We skip the cancellation token to properly delete the database even if test fails
+        await context.Database.EnsureDeletedAsync(CancellationToken.None);
     }
 }
