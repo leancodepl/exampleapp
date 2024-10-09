@@ -9,7 +9,7 @@ public abstract class FakeRepositoryBase<TEntity, TId> : IRepository<TEntity, TI
 {
     protected Dictionary<TId, TEntity> Storage { get; } = [];
 
-    public Task<TEntity?> FindAsync(TId id, CancellationToken cancellationToken = new CancellationToken())
+    public Task<TEntity?> FindAsync(TId id, CancellationToken cancellationToken = default)
     {
         return Task.FromResult(Storage.TryGetValue(id, out var entity) ? entity : null);
     }
