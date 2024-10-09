@@ -13,8 +13,8 @@ public class ServiceProviderIntegrationTests : TestsBase<AuthenticatedExampleApp
     [Fact]
     public async Task Creating_and_listing_ServiceProviders_works()
     {
-        await CreateAsync("ServiceProvider 1", ServiceProviderTypeDTO.Hairdresser);
-        await CreateAsync("ServiceProvider 2", ServiceProviderTypeDTO.Groomer);
+        var sp1Id = await CreateAsync("ServiceProvider 1", ServiceProviderTypeDTO.Hairdresser);
+        var sp2Id = await CreateAsync("ServiceProvider 2", ServiceProviderTypeDTO.Groomer);
         await CreateAsync("ServiceProvider 3", ServiceProviderTypeDTO.Hairdresser);
 
         var serviceProviders = await App.Query.GetAsync(new AllServiceProviders { PageSize = 100 });
@@ -47,9 +47,33 @@ public class ServiceProviderIntegrationTests : TestsBase<AuthenticatedExampleApp
             new AllServiceProviders { NameFilter = "2", PageSize = 100 }
         );
         filteredServiceProviders.Items.Should().BeEquivalentTo(new[] { new { Name = "ServiceProvider 2" } });
+
+        var sp1Details = await App.Query.GetAsync(new ServiceProviderDetails { ServiceProviderId = sp1Id });
+        sp1Details
+            .Should()
+            .BeEquivalentTo(
+                new
+                {
+                    Id = sp1Id,
+                    Name = "ServiceProvider 1",
+                    Type = ServiceProviderTypeDTO.Hairdresser,
+                }
+            );
+
+        var sp2Details = await App.Query.GetAsync(new ServiceProviderDetails { ServiceProviderId = sp2Id });
+        sp2Details
+            .Should()
+            .BeEquivalentTo(
+                new
+                {
+                    Id = sp2Id,
+                    Name = "ServiceProvider 2",
+                    Type = ServiceProviderTypeDTO.Groomer,
+                }
+            );
     }
 
-    private async Task CreateAsync(string name, ServiceProviderTypeDTO type)
+    private async Task<string> CreateAsync(string name, ServiceProviderTypeDTO type)
     {
         var createServiceProvider = new CreateServiceProvider
         {
@@ -63,5 +87,8 @@ public class ServiceProviderIntegrationTests : TestsBase<AuthenticatedExampleApp
         };
 
         await App.Command.RunSuccessAsync(createServiceProvider);
+
+        var serviceProvider = await App.Query.GetAsync(new AllServiceProviders { PageSize = 100 });
+        return serviceProvider.Items.Should().ContainSingle(e => e.Name == name).Which.Id;
     }
 }

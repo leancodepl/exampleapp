@@ -24,6 +24,7 @@ public class ServiceProviderDetailsQH(ExamplesDbContext dbContext)
                 on new { sp.Id, Date = query.CalendarDate } equals new { Id = cd.ServiceProviderId, cd.Date }
                 into calendarDays
             from cd in calendarDays.DefaultIfEmpty()
+            where sp.Id == serviceProviderId
             select new ServiceProviderDetailsDTO
             {
                 Id = sp.Id,
