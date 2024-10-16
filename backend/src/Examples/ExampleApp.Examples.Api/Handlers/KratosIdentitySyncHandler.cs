@@ -1,6 +1,6 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using ExampleApp.Examples.Services.Processes.Kratos;
+using ExampleApp.Examples.Services.Handlers.Identities;
 using LeanCode.Kratos;
 using LeanCode.Kratos.Model;
 using LeanCode.TimeProvider;

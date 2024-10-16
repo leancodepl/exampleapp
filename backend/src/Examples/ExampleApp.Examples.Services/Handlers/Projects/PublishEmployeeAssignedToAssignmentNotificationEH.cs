@@ -3,25 +3,29 @@ using ExampleApp.Examples.Domain.Projects.Events;
 using LeanCode.Pipe;
 using MassTransit;
 
-namespace ExampleApp.Examples.Services.Processes.Projects;
+namespace ExampleApp.Examples.Services.Handlers.Projects;
 
-public class PublishEmployeeUnassignedFromAssignmentNotification : IConsumer<EmployeeUnassignedFromAssignment>
+public class PublishEmployeeAssignedToAssignmentNotificationEH : IConsumer<EmployeeAssignedToAssignment>
 {
     private readonly ILeanPipePublisher<ProjectEmployeesAssignmentsTopic> topicPublisher;
 
-    public PublishEmployeeUnassignedFromAssignmentNotification(
+    public PublishEmployeeAssignedToAssignmentNotificationEH(
         ILeanPipePublisher<ProjectEmployeesAssignmentsTopic> topicPublisher
     )
     {
         this.topicPublisher = topicPublisher;
     }
 
-    public Task Consume(ConsumeContext<EmployeeUnassignedFromAssignment> context)
+    public Task Consume(ConsumeContext<EmployeeAssignedToAssignment> context)
     {
         var msg = context.Message;
 
         var topic = new ProjectEmployeesAssignmentsTopic { ProjectId = msg.ProjectId };
-        var notification = new EmployeeUnassignedFromAssignmentDTO { AssignmentId = msg.AssignmentId };
+        var notification = new EmployeeAssignedToAssignmentDTO
+        {
+            AssignmentId = msg.AssignmentId,
+            EmployeeId = msg.EmployeeId,
+        };
 
         return topicPublisher.PublishAsync(topic, notification, context.CancellationToken);
     }

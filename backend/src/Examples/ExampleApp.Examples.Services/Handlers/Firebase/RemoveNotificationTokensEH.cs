@@ -1,14 +1,14 @@
-using ExampleApp.Examples.Services.Processes.Kratos;
+using ExampleApp.Examples.Services.Handlers.Identities;
 using LeanCode.Firebase.FCM;
 using MassTransit;
 
-namespace ExampleApp.Examples.Services.Processes.Firebase;
+namespace ExampleApp.Examples.Services.Handlers.Firebase;
 
-public class RemoveNotificationTokens : IConsumer<KratosIdentityDeleted>
+public class RemoveNotificationTokensEH : IConsumer<KratosIdentityDeleted>
 {
     private readonly IPushNotificationTokenStore<Guid> pushNotificationTokenStore;
 
-    public RemoveNotificationTokens(IPushNotificationTokenStore<Guid> pushNotificationTokenStore)
+    public RemoveNotificationTokensEH(IPushNotificationTokenStore<Guid> pushNotificationTokenStore)
     {
         this.pushNotificationTokenStore = pushNotificationTokenStore;
     }

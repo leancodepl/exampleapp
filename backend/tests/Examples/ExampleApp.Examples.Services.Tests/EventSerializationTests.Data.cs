@@ -2,7 +2,7 @@ using System.Collections.Immutable;
 using System.Reflection;
 using System.Text.Json;
 using ExampleApp.Examples.Services.DataAccess.Serialization;
-using ExampleApp.Examples.Services.Processes.Kratos;
+using ExampleApp.Examples.Services.Handlers.Identities;
 using LeanCode.Kratos.Model;
 #if Example
 using ExampleApp.Examples.Domain.Booking.Events;

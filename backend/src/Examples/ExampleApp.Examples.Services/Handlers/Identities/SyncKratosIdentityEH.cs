@@ -4,19 +4,19 @@ using LeanCode.Kratos.Model;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 
-namespace ExampleApp.Examples.Services.Processes.Kratos;
+namespace ExampleApp.Examples.Services.Handlers.Identities;
 
 public sealed record class KratosIdentityUpdated(Guid Id, DateTime DateOccurred, Identity Identity) : IDomainEvent;
 
 public sealed record class KratosIdentityDeleted(Guid Id, DateTime DateOccurred, Guid IdentityId) : IDomainEvent;
 
-public class SyncKratosIdentity : IConsumer<KratosIdentityUpdated>, IConsumer<KratosIdentityDeleted>
+public class SyncKratosIdentityEH : IConsumer<KratosIdentityUpdated>, IConsumer<KratosIdentityDeleted>
 {
-    private readonly Serilog.ILogger logger = Serilog.Log.ForContext<SyncKratosIdentity>();
+    private readonly Serilog.ILogger logger = Serilog.Log.ForContext<SyncKratosIdentityEH>();
 
     private readonly ExamplesDbContext dbContext;
 
-    public SyncKratosIdentity(ExamplesDbContext dbContext)
+    public SyncKratosIdentityEH(ExamplesDbContext dbContext)
     {
         this.dbContext = dbContext;
     }

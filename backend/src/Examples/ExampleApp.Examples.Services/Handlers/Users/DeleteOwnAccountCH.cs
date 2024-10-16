@@ -1,5 +1,5 @@
 using ExampleApp.Examples.Contracts.Users;
-using ExampleApp.Examples.Services.Processes.Kratos;
+using ExampleApp.Examples.Services.Handlers.Identities;
 using LeanCode.CQRS.Execution;
 using LeanCode.Kratos.Client.Api;
 using LeanCode.TimeProvider;

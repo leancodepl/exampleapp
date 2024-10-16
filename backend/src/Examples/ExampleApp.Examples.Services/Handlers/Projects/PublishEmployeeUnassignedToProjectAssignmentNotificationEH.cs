@@ -3,13 +3,13 @@ using ExampleApp.Examples.Domain.Projects.Events;
 using LeanCode.Pipe;
 using MassTransit;
 
-namespace ExampleApp.Examples.Services.Processes.Projects;
+namespace ExampleApp.Examples.Services.Handlers.Projects;
 
-public class PublishEmployeeUnassignedToProjectAssignmentNotification : IConsumer<EmployeeUnassignedFromAssignment>
+public class PublishEmployeeUnassignedToProjectAssignmentNotificationEH : IConsumer<EmployeeUnassignedFromAssignment>
 {
     private readonly ILeanPipePublisher<EmployeeAssignmentsTopic> topicPublisher;
 
-    public PublishEmployeeUnassignedToProjectAssignmentNotification(
+    public PublishEmployeeUnassignedToProjectAssignmentNotificationEH(
         ILeanPipePublisher<EmployeeAssignmentsTopic> topicPublisher
     )
     {
