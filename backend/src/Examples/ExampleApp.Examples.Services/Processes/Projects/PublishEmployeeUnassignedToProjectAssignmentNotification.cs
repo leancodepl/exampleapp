@@ -1,5 +1,5 @@
 using ExampleApp.Examples.Contracts.Projects;
-using ExampleApp.Examples.Domain.Events;
+using ExampleApp.Examples.Domain.Projects.Events;
 using LeanCode.Pipe;
 using MassTransit;
 

@@ -8,8 +8,8 @@ using LeanCode.Kratos.Model;
 using ExampleApp.Examples.Domain.Booking.Events;
 using ExampleApp.Examples.Domain.Booking;
 using ExampleApp.Examples.Domain.Employees;
-using ExampleApp.Examples.Domain.Events;
 using ExampleApp.Examples.Domain.Projects;
+using ExampleApp.Examples.Domain.Projects.Events;
 #endif
 
 namespace ExampleApp.Examples.Services.Tests;

@@ -1,10 +1,9 @@
 using System.Text.Json.Serialization;
 using ExampleApp.Examples.Domain.Employees;
-using ExampleApp.Examples.Domain.Projects;
 using LeanCode.DomainModels.Model;
 using LeanCode.TimeProvider;
 
-namespace ExampleApp.Examples.Domain.Events;
+namespace ExampleApp.Examples.Domain.Projects.Events;
 
 public class EmployeeUnassignedFromAssignment : IDomainEvent
 {
