@@ -5,8 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../../src/Examples/ExampleApp.Examples.Api/ExampleApp.Examples.Api.csproj" />
-    <ProjectReference Include="../../../src/Examples/ExampleApp.Examples.Services/ExampleApp.Examples.Services.csproj" />
+    <ProjectReference Include="../../../src/Examples/ExampleApp.Examples/ExampleApp.Examples.csproj" />
 
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" />
