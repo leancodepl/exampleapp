@@ -46,7 +46,8 @@
         "**/tests/*/*.Services.Tests/CQRS/**",
         "**/tests/*/*.IntegrationTests/Booking/**",
         "**/tests/*/*.IntegrationTests/Example/**",
-        "**/Jenkinsfile"
+        "**/Jenkinsfile",
+        "**/docs"
       ]
     },
     {
