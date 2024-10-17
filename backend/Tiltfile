@@ -14,7 +14,7 @@ local_resource(
 
 local_resource(
   'build-examples-api',
-  'dotnet publish -o dev/out/api src/Examples/ExampleApp.Examples.Api',
+  'dotnet publish -o dev/out/api src/Examples/ExampleApp.Examples',
   dir='.',
   deps=['src/Examples', 'Directory.Build.props', 'Directory.Packages.props'],
   ignore=['**/obj', '**/bin'],
@@ -26,7 +26,7 @@ local_resource(
   'build-examples-migrations',
   'dotnet ef migrations bundle \
     --output dev/out/migrations \
-    --project src/Examples/ExampleApp.Examples.Services \
+    --project src/Examples/ExampleApp.Examples \
     --target-runtime linux-x64 \
     --force',
   dir='.',

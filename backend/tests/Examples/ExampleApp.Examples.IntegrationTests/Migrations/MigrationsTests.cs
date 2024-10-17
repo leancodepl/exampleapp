@@ -1,4 +1,4 @@
-using ExampleApp.Examples.Services.DataAccess;
+using ExampleApp.Examples.DataAccess;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
