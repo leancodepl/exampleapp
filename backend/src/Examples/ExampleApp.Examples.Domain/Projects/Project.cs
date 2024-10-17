@@ -1,5 +1,5 @@
 using ExampleApp.Examples.Domain.Employees;
-using ExampleApp.Examples.Domain.Events;
+using ExampleApp.Examples.Domain.Projects.Events;
 using LeanCode.DomainModels.Ids;
 using LeanCode.DomainModels.Model;
 
