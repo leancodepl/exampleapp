@@ -220,7 +220,7 @@ public class Startup(IWebHostEnvironment hostEnv, IConfiguration config) : LeanS
 
             if (builder.ConnectionStringBuilder.Password is null)
             {
-                builder.UseAzureActiveDirectoryAuthentication(sp.GetRequiredService<TokenCredential>());
+                builder.UseAzureActiveDirectoryAuthentication(DefaultLeanCodeCredential.Create(Configuration));
             }
 
             builder.EnableDynamicJson().ConfigureJsonOptions(KnownConverters.AddAll(new()));
