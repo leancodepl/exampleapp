@@ -82,8 +82,4 @@
     <PackageReference Include="OpenTelemetry.Instrumentation.Http" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Handlers\HealthCheck\" />
-  </ItemGroup>
-
 </Project>
