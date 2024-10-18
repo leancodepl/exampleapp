@@ -114,7 +114,7 @@ leancode.builder('exampleapp-backend')
             }
 
             stage('Publish') {
-                dir('src/Examples/ExampleApp.Examples.Api') {
+                dir('src/Examples/ExampleApp.Examples') {
                     sh 'dotnet publish -c Release -o deploy --no-build'
                 }
             }

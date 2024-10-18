@@ -108,7 +108,7 @@ public static class ServiceCollectionExtensions
             services
                 .AddOpenTelemetry()
                 .ConfigureResource(r =>
-                    r.AddService("ExampleApp.Examples.Api", serviceInstanceId: Environment.MachineName)
+                    r.AddService("ExampleApp.Examples", serviceInstanceId: Environment.MachineName)
                 )
                 .WithTracing(builder =>
                 {

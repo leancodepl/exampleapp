@@ -16,7 +16,7 @@ public class Program
             .BuildMinimalHost<Startup>()
             .AddAppConfigurationFromAzureKeyVaultOnNonDevelopmentEnvironment()
             .ConfigureDefaultLogging(
-                "ExampleApp.Examples.Api",
+                "ExampleApp.Examples",
                 [typeof(Program).Assembly],
                 additionalLoggingConfiguration: (context, config) =>
                 {
