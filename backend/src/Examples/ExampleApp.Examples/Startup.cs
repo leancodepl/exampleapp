@@ -218,6 +218,9 @@ public class Startup(IWebHostEnvironment hostEnv, IConfiguration config) : LeanS
         {
             var builder = new NpgsqlDataSourceBuilder(AppConfig.PostgreSQL.ConnectionString(Configuration));
 
+            // Default to localhost in case no connection string is provided to make the migrations bundle build
+            builder.ConnectionStringBuilder.Host ??= "localhost";
+
             if (builder.ConnectionStringBuilder.Password is null && !hostEnv.IsDevelopment())
             {
                 builder.UseAzureActiveDirectoryAuthentication(DefaultLeanCodeCredential.Create(Configuration));
