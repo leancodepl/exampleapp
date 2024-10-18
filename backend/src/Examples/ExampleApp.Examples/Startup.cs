@@ -4,7 +4,6 @@ using ExampleApp.Examples.DataAccess;
 using ExampleApp.Examples.DataAccess.Serialization;
 using ExampleApp.Examples.Handlers.HealthCheck;
 using ExampleApp.Examples.Handlers.Identities;
-using LeanCode.AppRating;
 using LeanCode.AuditLogs;
 using LeanCode.AzureIdentity;
 using LeanCode.Components;
@@ -12,7 +11,6 @@ using LeanCode.CQRS.AspNetCore;
 using LeanCode.CQRS.MassTransitRelay;
 using LeanCode.CQRS.MassTransitRelay.Middleware;
 using LeanCode.CQRS.Validation.Fluent;
-using LeanCode.Firebase.FCM;
 using LeanCode.ForceUpdate;
 using LeanCode.Localization;
 using LeanCode.OpenTelemetry;
@@ -30,6 +28,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders.Physical;
 using Microsoft.Extensions.Hosting;
 using SendGrid;
+#if Example
+using LeanCode.AppRating;
+using LeanCode.Firebase.FCM;
+#endif
 
 namespace ExampleApp.Examples;
 

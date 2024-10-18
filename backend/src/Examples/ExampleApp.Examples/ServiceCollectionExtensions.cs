@@ -2,8 +2,6 @@ using System.Globalization;
 using Azure.Core;
 using ExampleApp.Examples.Configuration;
 using ExampleApp.Examples.DataAccess;
-using ExampleApp.Examples.DataAccess.Queries;
-using ExampleApp.Examples.DataAccess.Repositories;
 using ExampleApp.Examples.DataAccess.Serialization;
 using ExampleApp.Examples.Handlers.Identities;
 using LeanCode.AuditLogs;
@@ -31,6 +29,8 @@ using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using static ExampleApp.Examples.Contracts.Auth;
 #if Example
+using ExampleApp.Examples.DataAccess.Queries;
+using ExampleApp.Examples.DataAccess.Repositories;
 using ExampleApp.Examples.Domain.Booking;
 using ExampleApp.Examples.Domain.Employees;
 using ExampleApp.Examples.Domain.Projects;
@@ -107,9 +107,7 @@ public static class ServiceCollectionExtensions
         {
             services
                 .AddOpenTelemetry()
-                .ConfigureResource(r =>
-                    r.AddService("ExampleApp.Examples", serviceInstanceId: Environment.MachineName)
-                )
+                .ConfigureResource(r => r.AddService("ExampleApp.Examples", serviceInstanceId: Environment.MachineName))
                 .WithTracing(builder =>
                 {
                     builder
