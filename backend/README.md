@@ -16,7 +16,7 @@ cd dev/proxy
 ### 2. Generate initial migrations
 
 ```sh
-cd src/Examples/ExampleApp.Examples.Services
+cd src/Examples/ExampleApp.Examples
 dotnet ef migrations add --context ExamplesDbContext --output-dir DataAccess/Migrations InitialMigration # Our context
 ```
 

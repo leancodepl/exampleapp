@@ -1,0 +1,27 @@
+using Microsoft.EntityFrameworkCore.Migrations;
+
+#nullable disable
+
+namespace ExampleApp.Examples.DataAccess.Migrations;
+
+/// <inheritdoc />
+public partial class UpdateOutboxForMT81 : Migration
+{
+    /// <inheritdoc />
+    protected override void Up(MigrationBuilder migrationBuilder)
+    {
+        migrationBuilder.AddColumn<string>(
+            name: "MessageType",
+            table: "OutboxMessage",
+            type: "text",
+            nullable: false,
+            defaultValue: ""
+        );
+    }
+
+    /// <inheritdoc />
+    protected override void Down(MigrationBuilder migrationBuilder)
+    {
+        migrationBuilder.DropColumn(name: "MessageType", table: "OutboxMessage");
+    }
+}

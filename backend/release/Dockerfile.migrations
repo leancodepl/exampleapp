@@ -4,6 +4,6 @@ USER $APP_UID
 
 WORKDIR /home/app
 
-COPY src/Examples/ExampleApp.Examples.Services/deploy/migrations .
+COPY src/Examples/ExampleApp.Examples/deploy/migrations .
 
 ENTRYPOINT ["./migrations"]

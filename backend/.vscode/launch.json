@@ -2,7 +2,7 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Attach to Examples.Api",
+      "name": "Attach to Examples",
       "type": "coreclr",
       "request": "attach",
       "processId": "${input:exampleapp_examples_api_pid}",
@@ -64,7 +64,7 @@
           "K8S_CONTEXT": "k3d-exampleapp",
           "K8S_NS": "exampleapp-dev",
           "WORKLOAD": "deployments/exampleapp-examples-api",
-          "FILTER": "ExampleApp.Examples.Api",
+          "FILTER": "ExampleApp.Examples",
           "HOME": "${env:HOME}",
           "PATH": "${env:PATH}"
         }

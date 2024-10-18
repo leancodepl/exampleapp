@@ -114,13 +114,13 @@ leancode.builder('exampleapp-backend')
             }
 
             stage('Publish') {
-                dir('src/Examples/ExampleApp.Examples.Api') {
+                dir('src/Examples/ExampleApp.Examples') {
                     sh 'dotnet publish -c Release -o deploy --no-build'
                 }
             }
 
             stage('Build migrations bundle') {
-                dir('src/Examples/ExampleApp.Examples.Services') {
+                dir('src/Examples/ExampleApp.Examples') {
                     sh '''
                         dotnet ef migrations bundle -o deploy/migrations --force --no-build
                     '''

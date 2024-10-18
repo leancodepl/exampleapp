@@ -11,13 +11,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleApp.LeanPipeFunnel",
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{1DFE4D0C-EB9C-4BF8-8FB0-2CE3697533E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleApp.Examples.Api", "src\Examples\ExampleApp.Examples.Api\ExampleApp.Examples.Api.csproj", "{DF1C20AA-635B-41D6-8458-C802D2BFADB7}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleApp.Examples.Contracts", "src\Examples\ExampleApp.Examples.Contracts\ExampleApp.Examples.Contracts.csproj", "{2B7BC56A-808B-4E75-8164-58BAF9772659}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleApp.Examples.Domain", "src\Examples\ExampleApp.Examples.Domain\ExampleApp.Examples.Domain.csproj", "{3539C395-E4D2-40C1-80B4-7A79F68E7ADB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleApp.Examples.Services", "src\Examples\ExampleApp.Examples.Services\ExampleApp.Examples.Services.csproj", "{42FE9225-F05A-4327-8558-E5FE308B4E2F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleApp.Examples", "src\Examples\ExampleApp.Examples\ExampleApp.Examples.csproj", "{42FE9225-F05A-4327-8558-E5FE308B4E2F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{8C684753-B5A3-4858-B5D1-C275C71E87F9}"
 EndProject
@@ -27,7 +25,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleApp.Examples.Domain.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleApp.Examples.IntegrationTests", "tests\Examples\ExampleApp.Examples.IntegrationTests\ExampleApp.Examples.IntegrationTests.csproj", "{FE7E738B-1495-42F9-824B-9DF4801DCDB9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleApp.Examples.Services.Tests", "tests\Examples\ExampleApp.Examples.Services.Tests\ExampleApp.Examples.Services.Tests.csproj", "{98D5CE9E-3A94-4FEB-A346-87F803CDA2FC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleApp.Examples.Tests", "tests\Examples\ExampleApp.Examples.Tests\ExampleApp.Examples.Tests.csproj", "{98D5CE9E-3A94-4FEB-A346-87F803CDA2FC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,10 +40,6 @@ Global
 		{3204B0D9-04C4-4553-AA63-F16D17429937}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3204B0D9-04C4-4553-AA63-F16D17429937}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3204B0D9-04C4-4553-AA63-F16D17429937}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DF1C20AA-635B-41D6-8458-C802D2BFADB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DF1C20AA-635B-41D6-8458-C802D2BFADB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DF1C20AA-635B-41D6-8458-C802D2BFADB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DF1C20AA-635B-41D6-8458-C802D2BFADB7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2B7BC56A-808B-4E75-8164-58BAF9772659}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2B7BC56A-808B-4E75-8164-58BAF9772659}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2B7BC56A-808B-4E75-8164-58BAF9772659}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -75,7 +69,6 @@ Global
 		{620186EF-737D-40EF-B25F-A8C665BFE2FA} = {05E122D9-07FE-4B13-A7D2-610324A79FF9}
 		{3204B0D9-04C4-4553-AA63-F16D17429937} = {620186EF-737D-40EF-B25F-A8C665BFE2FA}
 		{1DFE4D0C-EB9C-4BF8-8FB0-2CE3697533E8} = {05E122D9-07FE-4B13-A7D2-610324A79FF9}
-		{DF1C20AA-635B-41D6-8458-C802D2BFADB7} = {1DFE4D0C-EB9C-4BF8-8FB0-2CE3697533E8}
 		{2B7BC56A-808B-4E75-8164-58BAF9772659} = {1DFE4D0C-EB9C-4BF8-8FB0-2CE3697533E8}
 		{3539C395-E4D2-40C1-80B4-7A79F68E7ADB} = {1DFE4D0C-EB9C-4BF8-8FB0-2CE3697533E8}
 		{42FE9225-F05A-4327-8558-E5FE308B4E2F} = {1DFE4D0C-EB9C-4BF8-8FB0-2CE3697533E8}
