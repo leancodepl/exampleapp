@@ -182,6 +182,20 @@ public class Startup(IWebHostEnvironment hostEnv, IConfiguration config) : LeanS
             });
     }
 
+    private void AddAzureClients(IServiceCollection services)
+    {
+        services.AddAzureClients(cfg =>
+        {
+            cfg.AddBlobServiceClient(AppConfig.BlobStorage.ConnectionString(Configuration));
+            cfg.AddTableServiceClient(AppConfig.BlobStorage.ConnectionString(Configuration));
+
+            if (!hostEnv.IsDevelopment())
+            {
+                cfg.UseCredential(DefaultLeanCodeCredential.Create(Configuration));
+            }
+        });
+    }
+
     private void AddCors(IServiceCollection services)
     {
         services.AddCors(cors =>
@@ -232,20 +246,6 @@ public class Startup(IWebHostEnvironment hostEnv, IConfiguration config) : LeanS
         );
     }
 
-    private void AddAzureClients(IServiceCollection services)
-    {
-        services.AddAzureClients(cfg =>
-        {
-            cfg.AddBlobServiceClient(AppConfig.BlobStorage.ConnectionString(Configuration));
-            cfg.AddTableServiceClient(AppConfig.BlobStorage.ConnectionString(Configuration));
-
-            if (!hostEnv.IsDevelopment())
-            {
-                cfg.UseCredential(DefaultLeanCodeCredential.Create(Configuration));
-            }
-        });
-    }
-
     private void AddKratos(IServiceCollection services)
     {
         services
@@ -290,36 +290,17 @@ public class Startup(IWebHostEnvironment hostEnv, IConfiguration config) : LeanS
         });
     }
 
-    private void AddOpenTelemetry(IServiceCollection services)
+    private void AddLeanPipe(IServiceCollection services)
     {
-        var otlp = AppConfig.Telemetry.OtlpEndpoint(Configuration);
+        var leanPipeFunnelEnabled = AppConfig.LeanPipe.EnableLeanPipeFunnel(Configuration);
 
-        if (!string.IsNullOrWhiteSpace(otlp))
+        if (leanPipeFunnelEnabled)
         {
-            services
-                .AddOpenTelemetry()
-                .ConfigureResource(r => r.AddService("ExampleApp.Examples", serviceInstanceId: Environment.MachineName))
-                .WithTracing(builder =>
-                {
-                    builder
-                        .AddProcessor<IdentityTraceAttributesFromBaggageProcessor>()
-                        .AddAspNetCoreInstrumentation(opts =>
-                            opts.Filter = ctx => !ctx.Request.Path.StartsWithSegments("/live")
-                        )
-                        .AddHttpClientInstrumentation()
-                        .AddNpgsql()
-                        .AddSource(MassTransit.Logging.DiagnosticHeaders.DefaultListenerName)
-                        .AddLeanCodeTelemetry()
-                        .AddOtlpExporter(cfg => cfg.Endpoint = new(otlp));
-                })
-                .WithMetrics(builder =>
-                {
-                    builder
-                        .AddAspNetCoreInstrumentation()
-                        .AddHttpClientInstrumentation()
-                        .AddMeter(MassTransit.Monitoring.InstrumentationOptions.MeterName)
-                        .AddOtlpExporter(cfg => cfg.Endpoint = new(otlp));
-                });
+            services.AddFunnelledLeanPipe(Api, AllHandlers);
+        }
+        else
+        {
+            services.AddLeanPipe(Api, AllHandlers);
         }
     }
 
@@ -411,6 +392,39 @@ public class Startup(IWebHostEnvironment hostEnv, IConfiguration config) : LeanS
         });
     }
 
+    private void AddOpenTelemetry(IServiceCollection services)
+    {
+        var otlp = AppConfig.Telemetry.OtlpEndpoint(Configuration);
+
+        if (!string.IsNullOrWhiteSpace(otlp))
+        {
+            services
+                .AddOpenTelemetry()
+                .ConfigureResource(r => r.AddService("ExampleApp.Examples", serviceInstanceId: Environment.MachineName))
+                .WithTracing(builder =>
+                {
+                    builder
+                        .AddProcessor<IdentityTraceAttributesFromBaggageProcessor>()
+                        .AddAspNetCoreInstrumentation(opts =>
+                            opts.Filter = ctx => !ctx.Request.Path.StartsWithSegments("/live")
+                        )
+                        .AddHttpClientInstrumentation()
+                        .AddNpgsql()
+                        .AddSource(MassTransit.Logging.DiagnosticHeaders.DefaultListenerName)
+                        .AddLeanCodeTelemetry()
+                        .AddOtlpExporter(cfg => cfg.Endpoint = new(otlp));
+                })
+                .WithMetrics(builder =>
+                {
+                    builder
+                        .AddAspNetCoreInstrumentation()
+                        .AddHttpClientInstrumentation()
+                        .AddMeter(MassTransit.Monitoring.InstrumentationOptions.MeterName)
+                        .AddOtlpExporter(cfg => cfg.Endpoint = new(otlp));
+                });
+        }
+    }
+
     private void AddRepositories(IServiceCollection services)
     {
 #if Example
@@ -420,20 +434,6 @@ public class Startup(IWebHostEnvironment hostEnv, IConfiguration config) : LeanS
         services.AddRepository<CalendarDayId, CalendarDay, CalendarDaysRepository>();
         services.AliasScoped<ICalendarDayByDate, CalendarDaysRepository>();
 #endif
-    }
-
-    private void AddLeanPipe(IServiceCollection services)
-    {
-        var leanPipeFunnelEnabled = AppConfig.LeanPipe.EnableLeanPipeFunnel(Configuration);
-
-        if (leanPipeFunnelEnabled)
-        {
-            services.AddFunnelledLeanPipe(Api, AllHandlers);
-        }
-        else
-        {
-            services.AddLeanPipe(Api, AllHandlers);
-        }
     }
 }
 
