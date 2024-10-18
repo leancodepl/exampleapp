@@ -218,7 +218,7 @@ public class Startup(IWebHostEnvironment hostEnv, IConfiguration config) : LeanS
         {
             var builder = new NpgsqlDataSourceBuilder(AppConfig.PostgreSQL.ConnectionString(Configuration));
 
-            if (builder.ConnectionStringBuilder.Password is null)
+            if (builder.ConnectionStringBuilder.Password is null && !hostEnv.IsDevelopment())
             {
                 builder.UseAzureActiveDirectoryAuthentication(DefaultLeanCodeCredential.Create(Configuration));
             }
