@@ -120,7 +120,7 @@ leancode.builder('exampleapp-backend')
             }
 
             stage('Build migrations bundle') {
-                dir('src/Examples/ExampleApp.Examples.Services') {
+                dir('src/Examples/ExampleApp.Examples') {
                     sh '''
                         dotnet ef migrations bundle -o deploy/migrations --force --no-build
                     '''
