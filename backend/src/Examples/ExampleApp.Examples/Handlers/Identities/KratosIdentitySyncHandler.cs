@@ -46,7 +46,7 @@ public partial class KratosIdentitySyncHandler : KratosWebHookHandlerBase
         await bus.Publish(new KratosIdentityUpdated(Guid.NewGuid(), Time.UtcNow, identity), ctx.RequestAborted);
         ctx.Response.StatusCode = 200;
 
-        logger.Information<Guid>("Successfully processed sync webhook for identity {IdentityId}", identity.Id);
+        logger.Information("Successfully processed sync webhook for identity {IdentityId}", identity.Id);
     }
 
     public record struct RequestBody([property: JsonPropertyName("identity")] Identity? Identity);
