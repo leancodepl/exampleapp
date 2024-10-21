@@ -1,0 +1,85 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+<!--/-:msbuild-conditional:noEmit -->
+    <DefineConstants Condition="$([MSBuild]::VersionGreaterThan('$(NpgsqlEFCoreVersion)', '8.0.4'))">$(DefineConstants);CHECK_EFCORE_PG_2977</DefineConstants>
+<!--/+:msbuild-conditional:noEmit -->
+
+    <OutputType>Exe</OutputType>
+    <PackageId>ExampleApp.Examples</PackageId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="Templates/**">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <Content Remove="Templates/**" />
+    <Watch Include="Templates/**/*.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../ExampleApp.Examples.Contracts/ExampleApp.Examples.Contracts.csproj" />
+    <ProjectReference Include="../ExampleApp.Examples.Domain/ExampleApp.Examples.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+
+    <PackageReference Include="Azure.Storage.Blobs" />
+
+<!--#if Example -->
+    <PackageReference Include="LeanCode.AppRating" />
+<!--#endif -->
+    <PackageReference Include="LeanCode.AuditLogs" />
+    <PackageReference Include="LeanCode.AzureIdentity" />
+    <PackageReference Include="LeanCode.CQRS.AspNetCore" />
+    <PackageReference Include="LeanCode.CQRS.Execution" />
+    <PackageReference Include="LeanCode.CQRS.MassTransitRelay" />
+    <PackageReference Include="LeanCode.CQRS.Security" />
+    <PackageReference Include="LeanCode.CQRS.Validation.Fluent" />
+    <PackageReference Include="LeanCode.ClientCredentialsHandler" />
+    <PackageReference Include="LeanCode.Components" />
+    <PackageReference Include="LeanCode.ConfigCat" />
+    <PackageReference Include="LeanCode.DomainModels.EF" />
+<!--#if Example -->
+    <PackageReference Include="LeanCode.Firebase" />
+    <PackageReference Include="LeanCode.Firebase.FCM" />
+<!--#endif -->
+    <PackageReference Include="LeanCode.ForceUpdate" />
+    <PackageReference Include="LeanCode.Kratos" />
+    <PackageReference Include="LeanCode.Localization" />
+    <PackageReference Include="LeanCode.Logging" />
+    <PackageReference Include="LeanCode.Npgsql.ActiveDirectory" />
+    <PackageReference Include="LeanCode.OpenTelemetry" />
+    <PackageReference Include="LeanCode.Pipe" />
+    <PackageReference Include="LeanCode.SendGrid" />
+    <PackageReference Include="LeanCode.Startup.MicrosoftDI" />
+    <PackageReference Include="LeanCode.UrlHelper" />
+    <PackageReference Include="LeanCode.ViewRenderer.Razor" />
+
+    <PackageReference Include="MassTransit" />
+    <PackageReference Include="MassTransit.Azure.ServiceBus.Core" />
+    <PackageReference Include="MassTransit.EntityFrameworkCore" />
+    <PackageReference Include="MassTransit.RabbitMQ" />
+
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" />
+    <PackageReference Include="Microsoft.Extensions.Azure" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" />
+    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" />
+
+    <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" />
+    <PackageReference Include="Microsoft.IdentityModel.Tokens" />
+
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
+    <PackageReference Include="Npgsql.OpenTelemetry" />
+
+    <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" />
+    <PackageReference Include="OpenTelemetry.Extensions.Hosting" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.Http" />
+  </ItemGroup>
+
+</Project>
