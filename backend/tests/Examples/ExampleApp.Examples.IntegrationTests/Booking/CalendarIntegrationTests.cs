@@ -38,6 +38,7 @@ public class CalendarIntegrationTests : TestsBase<AuthenticatedExampleAppTestApp
                         StartTime = new TimeOnly(10, 0),
                         EndTime = new TimeOnly(11, 0),
                         Price = new MoneyDTO(1050, Currency),
+                        IsReserved = false,
                     },
                 }
             );
@@ -53,24 +54,26 @@ public class CalendarIntegrationTests : TestsBase<AuthenticatedExampleAppTestApp
                         StartTime = new TimeOnly(11, 0),
                         EndTime = new TimeOnly(12, 0),
                         Price = new MoneyDTO(1100, Currency),
+                        IsReserved = false,
                     },
                     new
                     {
                         StartTime = new TimeOnly(12, 0),
                         EndTime = new TimeOnly(13, 0),
                         Price = new MoneyDTO(1200, Currency),
+                        IsReserved = false,
                     },
                 }
             );
     }
 
-    private async Task<List<AvailableTimeslotDTO>> ListTimeslotsAsync(string spId, DateOnly date)
+    private async Task<List<TimeslotDTO>> ListTimeslotsAsync(string spId, DateOnly date)
     {
         var details = await App.Query.GetAsync(
             new ServiceProviderDetails { ServiceProviderId = spId, CalendarDate = date }
         );
         details.Should().NotBeNull();
-        return details!.AvailableTimeslots;
+        return details!.Timeslots;
     }
 
     private async Task AddTimeslotAsync(string spId, DateOnly date, TimeOnly from, TimeOnly to, decimal price)

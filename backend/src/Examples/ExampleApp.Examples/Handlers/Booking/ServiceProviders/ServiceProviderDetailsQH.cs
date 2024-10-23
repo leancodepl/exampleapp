@@ -36,15 +36,16 @@ public class ServiceProviderDetailsQH(ExamplesDbContext dbContext)
                 IsPromotionActive = sp.IsPromotionActive,
                 PromotionalBanner = sp.PromotionalBanner,
                 ListItemPicture = sp.ListItemPicture,
-                AvailableTimeslots = cd
+                Timeslots = cd
                     .Timeslots.OrderBy(ts => ts.StartTime)
-                    .Select(ts => new AvailableTimeslotDTO
+                    .Select(ts => new TimeslotDTO
                     {
                         Id = ts.Id,
                         CalendarDayId = cd.Id,
                         StartTime = ts.StartTime,
                         EndTime = ts.EndTime,
                         Price = ts.Price.ToDTO(),
+                        IsReserved = ts.IsReserved,
                     })
                     .ToList(),
             };

@@ -19,6 +19,8 @@ public class Timeslot : IEntity<TimeslotId>
     public TimeOnly EndTime { get; private init; }
     public Money Price { get; private init; }
 
+    public bool IsReserved { get; private set; }
+
     private Timeslot()
     {
         CalendarDay = null!;
@@ -43,5 +45,15 @@ public class Timeslot : IEntity<TimeslotId>
             EndTime = endTime,
             Price = price,
         };
+    }
+
+    internal void Reserve()
+    {
+        if (IsReserved)
+        {
+            throw new InvalidOperationException("Timeslot is already reserved.");
+        }
+
+        IsReserved = true;
     }
 }

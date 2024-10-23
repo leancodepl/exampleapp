@@ -68,11 +68,10 @@ public class CalendarDayTests
     {
         var @event = EventsInterceptor.Single<TimeslotReserved>();
 
-        var testDay = TestDay();
-        testDay.AddTimeslot(new(11, 0), new(12, 0), new(10m, "PLN"));
-        var timeslotId = testDay.Timeslots.First().Id;
+        var testDay = TestDayWithSlot();
+        var timeslot = testDay.Timeslots[0];
 
-        testDay.ReserveTimeslot(timeslotId);
+        testDay.ReserveTimeslot(timeslot.Id);
 
         @event.Raised.Should().BeTrue();
     }
@@ -107,8 +106,66 @@ public class CalendarDayTests
         testDay.CanAddTimeslotAt(startTime, endTime).Should().Be(expectedResult);
     }
 
+    [Fact]
+    public void Reserving_a_timeslot_changes_the_IsReserved_flag()
+    {
+        var day = TestDayWithSlot();
+        var timeslot = day.Timeslots[0];
+
+        day.ReserveTimeslot(timeslot.Id);
+
+        timeslot.IsReserved.Should().BeTrue();
+    }
+
+    [Fact]
+    public void Cannot_reserve_timeslot_twice()
+    {
+        var day = TestDayWithSlot();
+        var timeslot = day.Timeslots[0];
+
+        day.ReserveTimeslot(timeslot.Id);
+
+        var act = () => day.ReserveTimeslot(timeslot.Id);
+        act.Should().Throw<InvalidOperationException>();
+    }
+
+    [Fact]
+    public void Timeslot_can_be_reserved()
+    {
+        var day = TestDayWithSlot();
+        var timeslot = day.Timeslots[0];
+
+        day.CanReserveTimeslot(timeslot.Id).Should().BeTrue();
+    }
+
+    [Fact]
+    public void Non_existent_timeslot_cannot_be_reserve()
+    {
+        var day = TestDayWithSlot();
+
+        day.CanReserveTimeslot(TimeslotId.New()).Should().BeFalse();
+    }
+
+    [Fact]
+    public void Already_reserved_timeslot_cannot_be_reserved()
+    {
+        var day = TestDayWithSlot();
+        var timeslot = day.Timeslots[0];
+
+        day.ReserveTimeslot(timeslot.Id);
+
+        day.CanReserveTimeslot(timeslot.Id).Should().BeFalse();
+    }
+
     private CalendarDay TestDay()
     {
         return CalendarDay.Create(new ServiceProviderId(), new DateOnly(2024, 10, 2));
+    }
+
+    private CalendarDay TestDayWithSlot()
+    {
+        var day = CalendarDay.Create(new ServiceProviderId(), new DateOnly(2024, 10, 2));
+        day.AddTimeslot(new TimeOnly(11, 0), new TimeOnly(12, 0), new Money(10m, "PLN"));
+        return day;
     }
 }
