@@ -14,6 +14,7 @@ public enum ServiceProviderSortFieldsDTO
 {
     Name = 0,
     Type = 1,
+    Ratings = 2,
 }
 
 public class ServiceProviderSummaryDTO
@@ -25,4 +26,5 @@ public class ServiceProviderSummaryDTO
     public bool IsPromotionActive { get; set; }
     public string Address { get; set; }
     public LocationDTO Location { get; set; }
+    public double Ratings { get; set; }
 }

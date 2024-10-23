@@ -30,16 +30,16 @@ public class AllServiceProvidersQH(ExamplesDbContext dbContext)
                 IsPromotionActive = sp.IsPromotionActive,
                 Address = sp.Address,
                 Location = new(sp.Location.Latitude, sp.Location.Longitude),
+                Ratings = sp.Ratings,
             })
             .ToPaginatedResultAsync(query, context.RequestAborted);
     }
 
     private static IQueryable<ServiceProvider> ApplyFilters(AllServiceProviders query, IQueryable<ServiceProvider> q)
     {
-        q = q.ConditionalWhere(sp => sp.Name.Contains(query.NameFilter!), !string.IsNullOrEmpty(query.NameFilter));
-        q = q.ConditionalWhere(sp => sp.Type == (ServiceProviderType)query.TypeFilter!, query.TypeFilter != null);
-        q = q.ConditionalWhere(sp => sp.IsPromotionActive, query.PromotedOnly);
-        return q;
+        return q.ConditionalWhere(sp => sp.Name.Contains(query.NameFilter!), !string.IsNullOrEmpty(query.NameFilter))
+            .ConditionalWhere(sp => sp.Type == (ServiceProviderType)query.TypeFilter!, query.TypeFilter != null)
+            .ConditionalWhere(sp => sp.IsPromotionActive, query.PromotedOnly);
     }
 
     private static IQueryable<ServiceProvider> ApplySort(AllServiceProviders query, IQueryable<ServiceProvider> q)
@@ -48,6 +48,8 @@ public class AllServiceProvidersQH(ExamplesDbContext dbContext)
         {
             ServiceProviderSortFieldsDTO.Name => q.OrderBy(sp => sp.Name, query.SortByDescending),
             ServiceProviderSortFieldsDTO.Type => q.OrderBy(sp => sp.Type, query.SortByDescending).ThenBy(sp => sp.Name),
+            ServiceProviderSortFieldsDTO.Ratings => q.OrderBy(sp => sp.Ratings, query.SortByDescending)
+                .ThenBy(sp => sp.Name),
             _ => q.OrderBy(sp => sp.Id),
         };
     }
