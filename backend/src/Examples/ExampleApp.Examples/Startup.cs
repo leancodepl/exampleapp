@@ -221,7 +221,10 @@ public class Startup(IWebHostEnvironment hostEnv, IConfiguration config) : LeanS
             // Default to localhost in case no connection string is provided to make the migrations bundle build
             builder.ConnectionStringBuilder.Host ??= "localhost";
 
-            if (builder.ConnectionStringBuilder.Password is null && !hostEnv.IsDevelopment())
+            if (
+                builder.ConnectionStringBuilder.Host.EndsWith(".azure.com")
+                && builder.ConnectionStringBuilder.Password is null
+            )
             {
                 builder.UseAzureActiveDirectoryAuthentication(DefaultLeanCodeCredential.Create(Configuration));
             }
