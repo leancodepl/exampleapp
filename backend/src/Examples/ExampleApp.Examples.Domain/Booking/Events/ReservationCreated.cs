@@ -10,6 +10,8 @@ public class ReservationCreated : IDomainEvent
     public DateTime DateOccurred { get; }
 
     public ReservationId ReservationId { get; }
+    public CalendarDayId CalendarDayId { get; }
+    public TimeslotId TimeslotId { get; }
     public CustomerId CustomerId { get; }
 
     public ReservationCreated(Reservation reservation)
@@ -18,15 +20,26 @@ public class ReservationCreated : IDomainEvent
         DateOccurred = Time.UtcNow;
 
         ReservationId = reservation.Id;
+        CalendarDayId = reservation.CalendarDayId;
+        TimeslotId = reservation.TimeslotId;
         CustomerId = reservation.CustomerId;
     }
 
     [JsonConstructor]
-    public ReservationCreated(Guid id, DateTime dateOccurred, ReservationId reservationId, CustomerId customerId)
+    public ReservationCreated(
+        Guid id,
+        DateTime dateOccurred,
+        ReservationId reservationId,
+        CalendarDayId calendarDayId,
+        TimeslotId timeslotId,
+        CustomerId customerId
+    )
     {
         Id = id;
         DateOccurred = dateOccurred;
         ReservationId = reservationId;
+        CalendarDayId = calendarDayId;
+        TimeslotId = timeslotId;
         CustomerId = customerId;
     }
 }

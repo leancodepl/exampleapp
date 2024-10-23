@@ -36,6 +36,26 @@ public class Reservation : IAggregateRoot<ReservationId>
         DomainEvents.Raise(new ReservationCreated(r));
         return r;
     }
+
+    public void Confirm()
+    {
+        if (Status != ReservationStatus.Pending)
+        {
+            throw new InvalidOperationException("Cannot confirm reservation - it is not pending.");
+        }
+
+        Status = ReservationStatus.Confirmed;
+    }
+
+    public void Reject()
+    {
+        if (Status != ReservationStatus.Pending)
+        {
+            throw new InvalidOperationException("Cannot reject reservation - it is not pending.");
+        }
+
+        Status = ReservationStatus.Rejected;
+    }
 }
 
 public enum ReservationStatus

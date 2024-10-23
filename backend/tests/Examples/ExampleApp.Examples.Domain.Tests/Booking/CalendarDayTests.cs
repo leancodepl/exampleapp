@@ -71,7 +71,7 @@ public class CalendarDayTests
         var testDay = TestDayWithSlot();
         var timeslot = testDay.Timeslots[0];
 
-        testDay.ReserveTimeslot(timeslot.Id);
+        testDay.ReserveTimeslot(timeslot.Id, ReservationId.New());
 
         @event.Raised.Should().BeTrue();
     }
@@ -84,7 +84,21 @@ public class CalendarDayTests
         var testDay = TestDay();
         var nonExistingTimeslotId = TimeslotId.New();
 
-        testDay.ReserveTimeslot(nonExistingTimeslotId);
+        testDay.ReserveTimeslot(nonExistingTimeslotId, ReservationId.New());
+
+        @event.Raised.Should().BeTrue();
+    }
+
+    [Fact]
+    public void Raises_a_TimeslotUnavailable_event_when_reserving_an_already_reserved_timeslot()
+    {
+        var testDay = TestDayWithSlot();
+        var timeslot = testDay.Timeslots[0];
+        testDay.ReserveTimeslot(timeslot.Id, ReservationId.New());
+
+        var @event = EventsInterceptor.Single<TimeslotUnavailable>();
+
+        testDay.ReserveTimeslot(timeslot.Id, ReservationId.New());
 
         @event.Raised.Should().BeTrue();
     }
@@ -112,21 +126,19 @@ public class CalendarDayTests
         var day = TestDayWithSlot();
         var timeslot = day.Timeslots[0];
 
-        day.ReserveTimeslot(timeslot.Id);
+        day.ReserveTimeslot(timeslot.Id, ReservationId.New());
 
         timeslot.IsReserved.Should().BeTrue();
     }
 
     [Fact]
-    public void Cannot_reserve_timeslot_twice()
+    public void Can_reserve_timeslot_twice()
     {
         var day = TestDayWithSlot();
         var timeslot = day.Timeslots[0];
 
-        day.ReserveTimeslot(timeslot.Id);
-
-        var act = () => day.ReserveTimeslot(timeslot.Id);
-        act.Should().Throw<InvalidOperationException>();
+        day.ReserveTimeslot(timeslot.Id, ReservationId.New());
+        day.ReserveTimeslot(timeslot.Id, ReservationId.New());
     }
 
     [Fact]
@@ -152,7 +164,7 @@ public class CalendarDayTests
         var day = TestDayWithSlot();
         var timeslot = day.Timeslots[0];
 
-        day.ReserveTimeslot(timeslot.Id);
+        day.ReserveTimeslot(timeslot.Id, ReservationId.New());
 
         day.CanReserveTimeslot(timeslot.Id).Should().BeFalse();
     }

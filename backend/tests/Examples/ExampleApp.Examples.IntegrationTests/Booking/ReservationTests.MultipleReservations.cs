@@ -8,30 +8,30 @@ using Xunit;
 
 namespace ExampleApp.Examples.IntegrationTests.Booking;
 
-public class ReservationTests : TestsBase<AuthenticatedExampleAppTestApp>
+public class ReservationTests_MultipleReservations : TestsBase<MultiUserExampleAppTestApp>
 {
     [Fact]
-    public async Task Creating_reservation()
+    public async Task Double_reservation_of_the_same_timeslot()
     {
         var spId = await CreateServiceProviderAsync();
         var timeslot = await AddTimeslotAsync(spId);
 
-        await App.Command.RunSuccessAsync(
-            new ReserveTimeslot { TimeslotId = timeslot.Id, CalendarDayId = timeslot.CalendarDayId }
-        );
+        await App.Commands[0]
+            .RunSuccessAsync(new ReserveTimeslot { TimeslotId = timeslot.Id, CalendarDayId = timeslot.CalendarDayId });
+        await App.Commands[1]
+            .RunSuccessAsync(new ReserveTimeslot { TimeslotId = timeslot.Id, CalendarDayId = timeslot.CalendarDayId });
 
-        var detailsByTimeslot = await App.Query.GetAsync(new MyReservationByTimeslotId { TimeslotId = timeslot.Id });
-        detailsByTimeslot.Should().BeEquivalentTo(new { TimeslotId = timeslot.Id, ServiceProviderId = spId });
+        // This test relies on an event handler retry, thus the bus needs more time to stabilize.
+        await App.WaitForBusAsync(delay: TimeSpan.FromSeconds(30));
 
-        var detailsById = await App.Query.GetAsync(new MyReservationById { Id = detailsByTimeslot!.Id });
-        detailsById.Should().BeEquivalentTo(detailsByTimeslot);
+        var details0 = await App.Queries[0].GetAsync(new MyReservationByTimeslotId { TimeslotId = timeslot.Id });
+        var details1 = await App.Queries[1].GetAsync(new MyReservationByTimeslotId { TimeslotId = timeslot.Id });
 
-        await App.WaitForBusAsync();
-
-        var detailsByIdAfterConfirmation = await App.Query.GetAsync(
-            new MyReservationById { Id = detailsByTimeslot!.Id }
-        );
-        detailsByIdAfterConfirmation.Should().BeEquivalentTo(new { Status = ReservationStatusDTO.Confirmed });
+        details0.Should().NotBeNull();
+        details1.Should().NotBeNull();
+        new[] { details0!.Status, details1!.Status }
+            .Should()
+            .BeEquivalentTo([ReservationStatusDTO.Confirmed, ReservationStatusDTO.Rejected]);
     }
 
     private async Task<TimeslotDTO> AddTimeslotAsync(string spId)
@@ -47,11 +47,10 @@ public class ReservationTests : TestsBase<AuthenticatedExampleAppTestApp>
             Price = new MoneyDTO((int)(10m * 100), "PLN"),
         };
 
-        await App.Command.RunSuccessAsync(addTimeslot);
+        await App.Commands[0].RunSuccessAsync(addTimeslot);
 
-        var details = await App.Query.GetAsync(
-            new ServiceProviderDetails { ServiceProviderId = spId, CalendarDate = date }
-        );
+        var details = await App.Queries[0]
+            .GetAsync(new ServiceProviderDetails { ServiceProviderId = spId, CalendarDate = date });
         return details!.Timeslots.Should().ContainSingle(t => t.StartTime == from).Which;
     }
 
@@ -69,8 +68,8 @@ public class ReservationTests : TestsBase<AuthenticatedExampleAppTestApp>
             Location = new LocationDTO(10, 10),
         };
 
-        await App.Command.RunSuccessAsync(createServiceProvider);
-        var serviceProvider = await App.Query.GetAsync(new AllServiceProviders { PageSize = 100 });
+        await App.Commands[0].RunSuccessAsync(createServiceProvider);
+        var serviceProvider = await App.Queries[0].GetAsync(new AllServiceProviders { PageSize = 100 });
         return serviceProvider.Items.Should().ContainSingle(e => e.Name == fakeName).Which.Id;
     }
 }

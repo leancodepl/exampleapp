@@ -94,8 +94,6 @@ public class AuthenticatedExampleAppTestApp : ExampleAppTestApp
     public HttpOperationsExecutor Operation { get; private set; } = default!;
     public LeanPipeTestClient LeanPipe { get; private set; } = default!;
 
-    public AuthenticatedExampleAppTestApp() { }
-
     public override async Task InitializeAsync()
     {
         AuthenticateAsTestSuperUser();
@@ -151,6 +149,59 @@ public class AuthenticatedExampleAppTestApp : ExampleAppTestApp
         Operation = default!;
         await LeanPipe.DisposeAsync();
         await base.DisposeAsync();
+    }
+}
+
+public class MultiUserExampleAppTestApp : ExampleAppTestApp
+{
+    private readonly IReadOnlyList<ClaimsPrincipal> principals;
+
+    public IReadOnlyList<HttpQueriesExecutor> Queries { get; private set; } = [];
+    public IReadOnlyList<HttpCommandsExecutor> Commands { get; private set; } = [];
+    public IReadOnlyList<HttpOperationsExecutor> Operations { get; private set; } = [];
+
+    public MultiUserExampleAppTestApp()
+        : this(2) { }
+
+    public MultiUserExampleAppTestApp(int principalsCount)
+    {
+        principals = Enumerable.Range(0, principalsCount).Select(_ => TestPrincipal()).ToList();
+    }
+
+    public override async Task InitializeAsync()
+    {
+        TestPrincipal();
+
+        await base.InitializeAsync();
+        Queries = principals.Select(p => CreateQueriesExecutor(hc => hc.UseTestAuthorization(p))).ToList();
+        Commands = principals.Select(p => CreateCommandsExecutor(hc => hc.UseTestAuthorization(p))).ToList();
+        Operations = principals.Select(p => CreateOperationsExecutor(hc => hc.UseTestAuthorization(p))).ToList();
+
+        await WaitForBusAsync();
+    }
+
+    public override async ValueTask DisposeAsync()
+    {
+        Queries = [];
+        Commands = [];
+        Operations = [];
+        await base.DisposeAsync();
+    }
+
+    private static ClaimsPrincipal TestPrincipal()
+    {
+        return new(
+            new ClaimsIdentity(
+                [
+                    new(Auth.KnownClaims.UserId, Guid.NewGuid().ToString()),
+                    new(Auth.KnownClaims.Role, Auth.Roles.User),
+                    new(Auth.KnownClaims.Role, Auth.Roles.Admin),
+                ],
+                TestAuthenticationHandler.SchemeName,
+                Auth.KnownClaims.UserId,
+                Auth.KnownClaims.Role
+            )
+        );
     }
 }
 
