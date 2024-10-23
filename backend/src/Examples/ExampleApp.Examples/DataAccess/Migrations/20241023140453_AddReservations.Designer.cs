@@ -6,17 +6,20 @@ using System.Text.Json;
 using ExampleApp.Examples.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace ExampleApp.Examples.DataAccess.Migrations
+namespace ExampleApp.Examples.Migrations
 {
     [DbContext(typeof(ExamplesDbContext))]
-    partial class ExamplesDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241023140453_AddReservations")]
+    partial class AddReservations
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
