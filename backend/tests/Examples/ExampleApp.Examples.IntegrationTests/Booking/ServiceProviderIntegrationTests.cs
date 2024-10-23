@@ -3,7 +3,6 @@ using ExampleApp.Examples.Contracts.Booking.Management;
 using ExampleApp.Examples.Contracts.Booking.ServiceProviders;
 using ExampleApp.Examples.IntegrationTests.Helpers;
 using FluentAssertions;
-using Microsoft.Extensions.Hosting;
 using Xunit;
 
 namespace ExampleApp.Examples.IntegrationTests.Booking;
@@ -11,11 +10,11 @@ namespace ExampleApp.Examples.IntegrationTests.Booking;
 public class ServiceProviderIntegrationTests : TestsBase<AuthenticatedExampleAppTestApp>
 {
     [Fact]
-    public async Task Creating_and_listing_ServiceProviders_works()
+    public async Task Creating_and_listing_ServiceProviders()
     {
-        var sp1Id = await CreateAsync("ServiceProvider 1", ServiceProviderTypeDTO.Hairdresser);
-        var sp2Id = await CreateAsync("ServiceProvider 2", ServiceProviderTypeDTO.Groomer);
-        await CreateAsync("ServiceProvider 3", ServiceProviderTypeDTO.Hairdresser);
+        var sp1Id = await CreateAsync("ServiceProvider 1", ServiceProviderTypeDTO.Hairdresser, 2);
+        var sp2Id = await CreateAsync("ServiceProvider 2", ServiceProviderTypeDTO.Groomer, 5);
+        var sp3Id = await CreateAsync("ServiceProvider 3", ServiceProviderTypeDTO.Hairdresser, 3);
 
         var serviceProviders = await App.Query.GetAsync(new AllServiceProviders { PageSize = 100 });
         serviceProviders
@@ -35,18 +34,29 @@ public class ServiceProviderIntegrationTests : TestsBase<AuthenticatedExampleApp
         sorted
             .Items.Should()
             .BeEquivalentTo(
-                new[]
-                {
-                    new { Name = "ServiceProvider 1" },
-                    new { Name = "ServiceProvider 3" },
-                    new { Name = "ServiceProvider 2" },
-                }
+                [new { Id = sp1Id }, new { Id = sp3Id }, new { Id = sp2Id }],
+                opts => opts.WithStrictOrdering()
+            );
+
+        var sortedByRatings = await App.Query.GetAsync(
+            new AllServiceProviders
+            {
+                SortBy = ServiceProviderSortFieldsDTO.Ratings,
+                PageSize = 100,
+                SortByDescending = true,
+            }
+        );
+        sortedByRatings
+            .Items.Should()
+            .BeEquivalentTo(
+                new[] { new { Id = sp2Id }, new { Id = sp3Id }, new { Id = sp1Id } },
+                opts => opts.WithStrictOrdering()
             );
 
         var filteredServiceProviders = await App.Query.GetAsync(
             new AllServiceProviders { NameFilter = "2", PageSize = 100 }
         );
-        filteredServiceProviders.Items.Should().BeEquivalentTo(new[] { new { Name = "ServiceProvider 2" } });
+        filteredServiceProviders.Items.Should().BeEquivalentTo([new { Id = sp2Id }]);
 
         var sp1Details = await App.Query.GetAsync(new ServiceProviderDetails { ServiceProviderId = sp1Id });
         sp1Details
@@ -73,7 +83,7 @@ public class ServiceProviderIntegrationTests : TestsBase<AuthenticatedExampleApp
             );
     }
 
-    private async Task<string> CreateAsync(string name, ServiceProviderTypeDTO type)
+    private async Task<string> CreateAsync(string name, ServiceProviderTypeDTO type, double ratings)
     {
         var createServiceProvider = new CreateServiceProvider
         {
@@ -84,6 +94,7 @@ public class ServiceProviderIntegrationTests : TestsBase<AuthenticatedExampleApp
             ListItemPicture = new Uri("http://example.com"),
             Address = "Address",
             Location = new LocationDTO(10, 10),
+            Ratings = ratings,
         };
 
         await App.Command.RunSuccessAsync(createServiceProvider);
