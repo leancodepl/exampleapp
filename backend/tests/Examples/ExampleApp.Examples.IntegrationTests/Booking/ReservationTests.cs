@@ -23,13 +23,13 @@ public class ReservationTests : TestsBase<AuthenticatedExampleAppTestApp>
         var detailsByTimeslot = await App.Query.GetAsync(new MyReservationByTimeslotId { TimeslotId = timeslot.Id });
         detailsByTimeslot.Should().BeEquivalentTo(new { TimeslotId = timeslot.Id, ServiceProviderId = spId });
 
-        var detailsById = await App.Query.GetAsync(new MyReservationById { Id = detailsByTimeslot!.Id });
+        var detailsById = await App.Query.GetAsync(new MyReservationById { ReservationId = detailsByTimeslot!.Id });
         detailsById.Should().BeEquivalentTo(detailsByTimeslot);
 
         await App.WaitForBusAsync();
 
         var detailsByIdAfterConfirmation = await App.Query.GetAsync(
-            new MyReservationById { Id = detailsByTimeslot!.Id }
+            new MyReservationById { ReservationId = detailsByTimeslot!.Id }
         );
         detailsByIdAfterConfirmation.Should().BeEquivalentTo(new { Status = ReservationStatusDTO.Confirmed });
     }

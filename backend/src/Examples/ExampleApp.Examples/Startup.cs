@@ -1,5 +1,4 @@
 using System.Globalization;
-using Azure.Core;
 using ExampleApp.Examples.Configuration;
 using ExampleApp.Examples.Contracts;
 using ExampleApp.Examples.DataAccess;
@@ -45,11 +44,13 @@ using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using SendGrid;
 #if Example
+using ExampleApp.Examples.Contracts.Booking.Reservations.Authorization;
 using ExampleApp.Examples.DataAccess.Queries;
 using ExampleApp.Examples.DataAccess.Repositories;
 using ExampleApp.Examples.Domain.Booking;
 using ExampleApp.Examples.Domain.Employees;
 using ExampleApp.Examples.Domain.Projects;
+using ExampleApp.Examples.Handlers.Booking.Reservations.Authorization;
 using LeanCode.AppRating;
 using LeanCode.Firebase.FCM;
 using Booking = ExampleApp.Examples.Domain.Booking;
@@ -97,6 +98,7 @@ public class Startup(IWebHostEnvironment hostEnv, IConfiguration config) : LeanS
 #if Example
         services.AddFCM<Guid>(fcm => fcm.AddTokenStore<ExamplesDbContext>());
 #endif
+        AddAuthorizers(services);
         AddAzureClients(services);
         AddCors(services);
         AddDbContext(services);
@@ -179,6 +181,19 @@ public class Startup(IWebHostEnvironment hostEnv, IConfiguration config) : LeanS
                     endpoints.MapLeanPipe("/leanpipe");
                 }
             });
+    }
+
+    private void AddAuthorizers(IServiceCollection services)
+    {
+#if Example
+        services.AddScoped<WhenOwnsReservationAttribute.IWhenOwnsReservation, WhenOwnsReservationAuthorizer>();
+        services.AddRepository<ProjectId, Project, ProjectsRepository>();
+        services.AddRepository<EmployeeId, Employee, EmployeesRepository>();
+        services.AddRepository<ServiceProviderId, Booking.ServiceProvider, ServiceProvidersRepository>();
+        services.AddRepository<CalendarDayId, CalendarDay, CalendarDaysRepository>();
+        services.AddRepository<ReservationId, Reservation, ReservationsRepository>();
+        services.AliasScoped<ICalendarDayByDate, CalendarDaysRepository>();
+#endif
     }
 
     private void AddAzureClients(IServiceCollection services)

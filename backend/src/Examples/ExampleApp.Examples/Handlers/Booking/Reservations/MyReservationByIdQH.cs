@@ -13,7 +13,7 @@ public class MyReservationByIdQH(ExamplesDbContext dbContext)
 {
     public Task<MyReservationDTO?> ExecuteAsync(HttpContext context, MyReservationById query)
     {
-        if (!ReservationId.TryParse(query.Id, out var rId))
+        if (!ReservationId.TryParse(query.ReservationId, out var rId))
         {
             return Task.FromResult<MyReservationDTO?>(null);
         }
