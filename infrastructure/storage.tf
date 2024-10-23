@@ -25,7 +25,7 @@ module "storage_assets" {
   storage_account_name = module.storage.storage_account_name
   container_name       = module.storage.storage_containers["public"].name
 
-  base_dir = "./storage-assets"
+  base_dir = "${path.module}/storage-assets"
 }
 
 resource "azurerm_storage_table" "audit_logs" {
