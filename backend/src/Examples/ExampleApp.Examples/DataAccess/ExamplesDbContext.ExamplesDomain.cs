@@ -7,6 +7,7 @@ using LeanCode.DomainModels.Ids;
 using LeanCode.Firebase.FCM;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using CustomerId = ExampleApp.Examples.Domain.CustomerId;
 
 namespace ExampleApp.Examples.DataAccess;
 

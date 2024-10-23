@@ -5,6 +5,7 @@ using ExampleApp.Examples.Handlers.Booking.Reservations.Authorization;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Xunit;
+using CustomerId = ExampleApp.Examples.Domain.CustomerId;
 
 namespace ExampleApp.Examples.Tests.Handlers.Booking;
 

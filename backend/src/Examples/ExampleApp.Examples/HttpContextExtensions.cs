@@ -1,6 +1,6 @@
 using System.Security.Claims;
 using ExampleApp.Examples.Contracts;
-using ExampleApp.Examples.Domain.Booking;
+using ExampleApp.Examples.Domain;
 using Microsoft.AspNetCore.Http;
 
 namespace ExampleApp.Examples;

@@ -12,7 +12,7 @@ public class ReservationCreated : IDomainEvent
     public ReservationId ReservationId { get; }
     public CalendarDayId CalendarDayId { get; }
     public TimeslotId TimeslotId { get; }
-    public CustomerId CustomerId { get; }
+    public Domain.CustomerId CustomerId { get; }
 
     public ReservationCreated(Reservation reservation)
     {
@@ -32,7 +32,7 @@ public class ReservationCreated : IDomainEvent
         ReservationId reservationId,
         CalendarDayId calendarDayId,
         TimeslotId timeslotId,
-        CustomerId customerId
+        Domain.CustomerId customerId
     )
     {
         Id = id;
