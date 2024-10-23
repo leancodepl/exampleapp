@@ -110,6 +110,7 @@ public partial class ExamplesDbContext : IAppRatingStore<Guid>
             e.HasKey(t => t.Id);
 
             e.HasIndex(t => new { t.CustomerId, t.TimeslotId });
+            e.HasIndex(t => new { t.CustomerId, t.Status });
 
             e.IsOptimisticConcurrent(addRowVersion: false);
             e.HasRowVersion();

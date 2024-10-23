@@ -34,6 +34,22 @@ public class ReservationTests : TestsBase<AuthenticatedExampleAppTestApp>
         detailsByIdAfterConfirmation.Should().BeEquivalentTo(new { Status = ReservationStatusDTO.Confirmed });
     }
 
+    [Fact]
+    public async Task Non_confirmed_reservations_are_not_returned_on_the_list()
+    {
+        var spId = await CreateServiceProviderAsync();
+        var timeslot = await AddTimeslotAsync(spId);
+
+        await App.Command.RunSuccessAsync(
+            new ReserveTimeslot { TimeslotId = timeslot.Id, CalendarDayId = timeslot.CalendarDayId }
+        );
+
+        // This assumes that the bus will not stabilize between the command and the query.
+        // This might be a far-fetched assumption, thus if this breaks, consider removing it.
+        var reservations = await App.Query.GetAsync(new MyReservations());
+        reservations.Items.Should().BeEmpty();
+    }
+
     private async Task<TimeslotDTO> AddTimeslotAsync(string spId)
     {
         var date = new DateOnly(2024, 10, 23);
