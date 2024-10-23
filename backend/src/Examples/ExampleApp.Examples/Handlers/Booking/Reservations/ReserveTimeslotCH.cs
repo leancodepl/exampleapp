@@ -42,7 +42,6 @@ public class ReserveTimeslotCV : AbstractValidator<ReserveTimeslot>
 
 public class ReserveTimeslotCH(IRepository<Reservation, ReservationId> reservations) : ICommandHandler<ReserveTimeslot>
 {
-    // create logger variable
     private readonly ILogger logger = Serilog.Log.ForContext<ReserveTimeslotCH>();
 
     public Task ExecuteAsync(HttpContext context, ReserveTimeslot command)

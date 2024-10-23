@@ -437,6 +437,7 @@ public class Startup(IWebHostEnvironment hostEnv, IConfiguration config) : LeanS
         services.AddRepository<EmployeeId, Employee, EmployeesRepository>();
         services.AddRepository<ServiceProviderId, Booking.ServiceProvider, ServiceProvidersRepository>();
         services.AddRepository<CalendarDayId, CalendarDay, CalendarDaysRepository>();
+        services.AddRepository<ReservationId, Reservation, ReservationsRepository>();
         services.AliasScoped<ICalendarDayByDate, CalendarDaysRepository>();
 #endif
     }
