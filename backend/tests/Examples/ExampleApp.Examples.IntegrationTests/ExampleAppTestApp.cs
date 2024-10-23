@@ -4,6 +4,8 @@ using System.Reflection;
 using System.Security.Claims;
 using ExampleApp.Examples.Contracts;
 using ExampleApp.Examples.DataAccess;
+using ExampleApp.Examples.IntegrationTests.Helpers;
+using LeanCode.AuditLogs;
 using LeanCode.CQRS.MassTransitRelay;
 using LeanCode.CQRS.RemoteHttp.Client;
 using LeanCode.IntegrationTestHelpers;
@@ -78,6 +80,7 @@ public class ExampleAppTestApp : LeanCodeTestFactory<Startup>
             services.AddBusActivityMonitor();
 
             services.AddAuthentication(TestAuthenticationHandler.SchemeName).AddTestAuthenticationHandler();
+            services.Replace(ServiceDescriptor.Singleton<IAuditLogStorage>(new AuditLogStorageMock()));
         });
     }
 }
