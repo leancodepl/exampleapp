@@ -6,13 +6,13 @@ using Microsoft.AspNetCore.Http;
 
 namespace ExampleApp.Examples.Handlers.Booking.Reservations.Authorization;
 
-public class WhenOwnsReservationAuthorizer(IRepository<Reservation, ReservationId> reservations)
-    : HttpContextCustomAuthorizer<WhenOwnsReservationAttribute.IReservationRelated>,
-        WhenOwnsReservationAttribute.IWhenOwnsReservation
+public class AuthorizeWhenOwnsReservationAuthorizer(IRepository<Reservation, ReservationId> reservations)
+    : HttpContextCustomAuthorizer<AuthorizeWhenOwnsReservationAttribute.IReservationRelated>,
+        AuthorizeWhenOwnsReservationAttribute.IWhenOwnsReservation
 {
     protected override async Task<bool> CheckIfAuthorizedAsync(
         HttpContext context,
-        WhenOwnsReservationAttribute.IReservationRelated obj
+        AuthorizeWhenOwnsReservationAttribute.IReservationRelated obj
     )
     {
         if (ReservationId.TryParse(obj.ReservationId, out var rId))

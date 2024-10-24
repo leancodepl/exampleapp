@@ -5,8 +5,8 @@ using LeanCode.Contracts.Security;
 namespace ExampleApp.Examples.Contracts.Booking.Reservations;
 
 [AuthorizeWhenHasAnyOf(Auth.Roles.User)]
-[WhenOwnsReservation]
-public class MyReservationById : IQuery<MyReservationDTO?>, WhenOwnsReservationAttribute.IReservationRelated
+[AuthorizeWhenOwnsReservation]
+public class MyReservationById : IQuery<MyReservationDTO?>, AuthorizeWhenOwnsReservationAttribute.IReservationRelated
 {
     public string ReservationId { get; set; }
 }

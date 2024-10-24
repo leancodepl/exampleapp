@@ -186,13 +186,10 @@ public class Startup(IWebHostEnvironment hostEnv, IConfiguration config) : LeanS
     private void AddAuthorizers(IServiceCollection services)
     {
 #if Example
-        services.AddScoped<WhenOwnsReservationAttribute.IWhenOwnsReservation, WhenOwnsReservationAuthorizer>();
-        services.AddRepository<ProjectId, Project, ProjectsRepository>();
-        services.AddRepository<EmployeeId, Employee, EmployeesRepository>();
-        services.AddRepository<ServiceProviderId, Booking.ServiceProvider, ServiceProvidersRepository>();
-        services.AddRepository<CalendarDayId, CalendarDay, CalendarDaysRepository>();
-        services.AddRepository<ReservationId, Reservation, ReservationsRepository>();
-        services.AliasScoped<ICalendarDayByDate, CalendarDaysRepository>();
+        services.AddScoped<
+            AuthorizeWhenOwnsReservationAttribute.IWhenOwnsReservation,
+            AuthorizeWhenOwnsReservationAuthorizer
+        >();
 #endif
     }
 

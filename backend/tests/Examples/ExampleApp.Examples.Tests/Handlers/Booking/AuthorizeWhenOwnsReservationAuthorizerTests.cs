@@ -9,12 +9,12 @@ using CustomerId = ExampleApp.Examples.Domain.CustomerId;
 
 namespace ExampleApp.Examples.Tests.Handlers.Booking;
 
-public class WhenOwnsReservationAuthorizerTests
+public class AuthorizeWhenOwnsReservationAuthorizerTests
 {
     private readonly FakeReservationsRepository reservations = new();
-    private readonly WhenOwnsReservationAuthorizer authorizer;
+    private readonly AuthorizeWhenOwnsReservationAuthorizer authorizer;
 
-    public WhenOwnsReservationAuthorizerTests()
+    public AuthorizeWhenOwnsReservationAuthorizerTests()
     {
         authorizer = new(reservations);
     }
@@ -68,7 +68,7 @@ public class WhenOwnsReservationAuthorizerTests
     private HttpContext Context(CustomerId userId) =>
         new DefaultHttpContext { User = new ClaimsPrincipal(new ClaimsIdentity([new("sub", userId.ToString())])) };
 
-    private record Payload(string ReservationId) : WhenOwnsReservationAttribute.IReservationRelated
+    private record Payload(string ReservationId) : AuthorizeWhenOwnsReservationAttribute.IReservationRelated
     {
         public Payload(ReservationId id)
             : this(id.ToString()) { }
