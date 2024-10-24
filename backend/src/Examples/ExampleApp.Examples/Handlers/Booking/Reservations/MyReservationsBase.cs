@@ -1,17 +1,24 @@
+using System.Linq.Expressions;
 using ExampleApp.Examples.Contracts.Booking;
 using ExampleApp.Examples.Contracts.Booking.Reservations;
 using ExampleApp.Examples.DataAccess;
+using ExampleApp.Examples.Domain.Booking;
+using LeanCode.QueryableExtensions;
 using Microsoft.AspNetCore.Http;
 
 namespace ExampleApp.Examples.Handlers.Booking.Reservations;
 
 public class MyReservationsBase(ExamplesDbContext dbContext)
 {
-    protected IQueryable<MyReservationDTO> MyReservations(HttpContext context)
+    protected IQueryable<MyReservationDTO> MyReservations(
+        HttpContext context,
+        Expression<Func<Reservation, bool>>? predicate = null
+    )
     {
         var customerId = context.GetCustomerId();
         return dbContext
             .Reservations.Where(r => r.CustomerId == customerId)
+            .ConditionalWhere(predicate!, predicate is not null)
             .Join(
                 dbContext.Timeslots,
                 r => r.TimeslotId,
