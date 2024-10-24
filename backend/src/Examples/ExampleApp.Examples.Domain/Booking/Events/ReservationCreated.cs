@@ -4,38 +4,42 @@ using LeanCode.TimeProvider;
 
 namespace ExampleApp.Examples.Domain.Booking.Events;
 
-public class TimeslotReserved : IDomainEvent
+public class ReservationCreated : IDomainEvent
 {
     public Guid Id { get; }
     public DateTime DateOccurred { get; }
 
+    public ReservationId ReservationId { get; }
     public CalendarDayId CalendarDayId { get; }
     public TimeslotId TimeslotId { get; }
-    public ReservationId ReservationId { get; }
+    public CustomerId CustomerId { get; }
 
-    public TimeslotReserved(CalendarDayId calendarDayId, TimeslotId timeslotId, ReservationId reservationId)
+    public ReservationCreated(Reservation reservation)
     {
         Id = Guid.NewGuid();
         DateOccurred = Time.UtcNow;
 
-        CalendarDayId = calendarDayId;
-        TimeslotId = timeslotId;
-        ReservationId = reservationId;
+        ReservationId = reservation.Id;
+        CalendarDayId = reservation.CalendarDayId;
+        TimeslotId = reservation.TimeslotId;
+        CustomerId = reservation.CustomerId;
     }
 
     [JsonConstructor]
-    public TimeslotReserved(
+    public ReservationCreated(
         Guid id,
         DateTime dateOccurred,
+        ReservationId reservationId,
         CalendarDayId calendarDayId,
         TimeslotId timeslotId,
-        ReservationId reservationId
+        CustomerId customerId
     )
     {
         Id = id;
         DateOccurred = dateOccurred;
+        ReservationId = reservationId;
         CalendarDayId = calendarDayId;
         TimeslotId = timeslotId;
-        ReservationId = reservationId;
+        CustomerId = customerId;
     }
 }

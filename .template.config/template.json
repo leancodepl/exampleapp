@@ -39,7 +39,7 @@
         "**/*.Contracts/Employees/*.cs",
         "**/*.Contracts/Firebase/*.cs",
         "**/*.Contracts/Projects/*.cs",
-        "**/*.Domain/**/*.cs",
+        "**/*.Domain/*/**/*.cs",
         "**/*.Domain.Tests/**/*.cs",
         "**/*.IntegrationTests/Booking/**",
         "**/*.IntegrationTests/Example/**",

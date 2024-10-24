@@ -46,16 +46,22 @@ public class CalendarDay : IAggregateRoot<CalendarDayId>
         timeslots.Add(newTimeslot);
     }
 
-    public void ReserveTimeslot(TimeslotId timeslotId)
+    public void ReserveTimeslot(TimeslotId timeslotId, ReservationId reservationId)
     {
-        var removedSlots = timeslots.RemoveAll(t => t.Id == timeslotId);
-        if (removedSlots == 1)
+        var timeslot = timeslots.Find(t => t.Id == timeslotId);
+        if (timeslot is { ReservedBy: null })
         {
-            DomainEvents.Raise(new TimeslotReserved(Id, timeslotId));
+            timeslot.Reserve(reservationId);
+            DomainEvents.Raise(new TimeslotReserved(Id, timeslotId, reservationId));
         }
         else
         {
-            DomainEvents.Raise(new TimeslotUnavailable(Id, timeslotId));
+            DomainEvents.Raise(new TimeslotUnavailable(Id, timeslotId, reservationId));
         }
+    }
+
+    public bool CanReserveTimeslot(TimeslotId timeslotId)
+    {
+        return timeslots.Find(t => t.Id == timeslotId) is { ReservedBy: null };
     }
 }
