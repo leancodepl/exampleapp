@@ -2,9 +2,9 @@ using System.Collections.Immutable;
 using System.Reflection;
 using System.Text.Json;
 using ExampleApp.Examples.DataAccess.Serialization;
+using ExampleApp.Examples.Domain;
 using ExampleApp.Examples.Handlers.Identities;
 using LeanCode.Kratos.Model;
-using CustomerId = ExampleApp.Examples.Domain.CustomerId;
 #if Example
 using ExampleApp.Examples.Domain.Booking.Events;
 using ExampleApp.Examples.Domain.Booking;

@@ -13,7 +13,7 @@ public class Reservation : IAggregateRoot<ReservationId>
 
     public CalendarDayId CalendarDayId { get; private init; }
     public TimeslotId TimeslotId { get; private init; }
-    public Domain.CustomerId CustomerId { get; private init; }
+    public CustomerId CustomerId { get; private init; }
     public ReservationStatus Status { get; private set; }
 
     public DateTime DateCreated { get; private init; }
@@ -22,7 +22,7 @@ public class Reservation : IAggregateRoot<ReservationId>
 
     private Reservation() { }
 
-    public static Reservation Create(CalendarDayId calendarDayId, TimeslotId timeslotId, Domain.CustomerId customerId)
+    public static Reservation Create(CalendarDayId calendarDayId, TimeslotId timeslotId, CustomerId customerId)
     {
         var r = new Reservation
         {
