@@ -11,6 +11,7 @@ public class MyReservationDTO
     public string Address { get; set; }
     public LocationDTO Location { get; set; }
 
+    public DateOnly Date { get; set; }
     public TimeOnly StartTime { get; set; }
     public TimeOnly EndTime { get; set; }
     public MoneyDTO Price { get; set; }

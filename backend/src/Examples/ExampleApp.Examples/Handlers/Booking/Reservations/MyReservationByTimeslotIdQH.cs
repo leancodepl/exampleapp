@@ -18,6 +18,6 @@ public class MyReservationByTimeslotIdQH(ExamplesDbContext dbContext)
             return Task.FromResult<MyReservationDTO?>(null);
         }
 
-        return MyReservations(context).SingleOrDefaultAsync(r => r.TimeslotId == tId);
+        return MyReservations(context).FirstOrDefaultAsync(r => r.TimeslotId == tId);
     }
 }

@@ -14,6 +14,8 @@ public class MyReservationsQH(ExamplesDbContext dbContext)
     {
         return MyReservations(context)
             .Where(r => r.Status != ReservationStatusDTO.Pending && r.Status != ReservationStatusDTO.Rejected)
+            .OrderByDescending(r => r.Date)
+            .ThenByDescending(r => r.StartTime)
             .ToPaginatedResultAsync(query);
     }
 }

@@ -14,28 +14,29 @@ public class MyReservationsBase(ExamplesDbContext dbContext)
             .Reservations.Where(r => r.CustomerId == customerId)
             .Join(
                 dbContext.Timeslots,
-                reservation => reservation.TimeslotId,
-                timeslot => timeslot.Id,
+                r => r.TimeslotId,
+                t => t.Id,
                 (reservation, timeslot) => new { reservation, timeslot }
             )
             .Join(
                 dbContext.ServiceProviders,
-                combined => combined.timeslot.ServiceProviderId,
-                serviceProvider => serviceProvider.Id,
-                (combined, serviceProvider) =>
+                c => c.timeslot.ServiceProviderId,
+                sp => sp.Id,
+                (c, sp) =>
                     new MyReservationDTO
                     {
-                        Id = combined.reservation.Id,
-                        TimeslotId = combined.timeslot.Id,
-                        ServiceProviderId = serviceProvider.Id,
-                        ServiceProviderName = serviceProvider.Name,
-                        Type = (ServiceProviderTypeDTO)serviceProvider.Type,
-                        Address = serviceProvider.Address,
-                        Location = serviceProvider.Location.ToDTO(),
-                        StartTime = combined.timeslot.StartTime,
-                        EndTime = combined.timeslot.EndTime,
-                        Price = combined.timeslot.Price.ToDTO(),
-                        Status = (ReservationStatusDTO)combined.reservation.Status,
+                        Id = c.reservation.Id,
+                        TimeslotId = c.timeslot.Id,
+                        ServiceProviderId = sp.Id,
+                        ServiceProviderName = sp.Name,
+                        Type = (ServiceProviderTypeDTO)sp.Type,
+                        Address = sp.Address,
+                        Location = sp.Location.ToDTO(),
+                        Date = c.timeslot.Date,
+                        StartTime = c.timeslot.StartTime,
+                        EndTime = c.timeslot.EndTime,
+                        Price = c.timeslot.Price.ToDTO(),
+                        Status = (ReservationStatusDTO)c.reservation.Status,
                     }
             );
     }
