@@ -45,7 +45,7 @@ public class ServiceProviderDetailsQH(ExamplesDbContext dbContext)
                         StartTime = ts.StartTime,
                         EndTime = ts.EndTime,
                         Price = ts.Price.ToDTO(),
-                        IsReserved = ts.IsReserved,
+                        IsReserved = ts.ReservedBy != null,
                     })
                     .ToList(),
             };

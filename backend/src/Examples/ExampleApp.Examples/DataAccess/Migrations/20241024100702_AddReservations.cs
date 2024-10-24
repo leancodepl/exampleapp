@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace ExampleApp.Examples.Migrations;
+namespace ExampleApp.Examples.DataAccess.Migrations;
 
 /// <inheritdoc />
 public partial class AddReservations : Migration
@@ -11,13 +11,7 @@ public partial class AddReservations : Migration
     /// <inheritdoc />
     protected override void Up(MigrationBuilder migrationBuilder)
     {
-        migrationBuilder.AddColumn<bool>(
-            name: "IsReserved",
-            table: "Timeslots",
-            type: "boolean",
-            nullable: false,
-            defaultValue: false
-        );
+        migrationBuilder.AddColumn<string>(name: "ReservedBy", table: "Timeslots", type: "citext", nullable: true);
 
         migrationBuilder.CreateTable(
             name: "Reservations",
@@ -56,6 +50,6 @@ public partial class AddReservations : Migration
     {
         migrationBuilder.DropTable(name: "Reservations");
 
-        migrationBuilder.DropColumn(name: "IsReserved", table: "Timeslots");
+        migrationBuilder.DropColumn(name: "ReservedBy", table: "Timeslots");
     }
 }

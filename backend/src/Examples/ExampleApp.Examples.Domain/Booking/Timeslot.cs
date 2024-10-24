@@ -19,7 +19,7 @@ public class Timeslot : IEntity<TimeslotId>
     public TimeOnly EndTime { get; private init; }
     public Money Price { get; private init; }
 
-    public bool IsReserved { get; private set; }
+    public ReservationId? ReservedBy { get; private set; }
 
     private Timeslot()
     {
@@ -47,13 +47,13 @@ public class Timeslot : IEntity<TimeslotId>
         };
     }
 
-    internal void Reserve()
+    internal void Reserve(ReservationId reservationId)
     {
-        if (IsReserved)
+        if (ReservedBy is { } id && id != reservationId)
         {
-            throw new InvalidOperationException("Timeslot is already reserved.");
+            throw new InvalidOperationException("Timeslot is already reserved by a different reservation.");
         }
 
-        IsReserved = true;
+        ReservedBy = reservationId;
     }
 }

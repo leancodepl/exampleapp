@@ -125,10 +125,11 @@ public class CalendarDayTests
     {
         var day = TestDayWithSlot();
         var timeslot = day.Timeslots[0];
+        var reservationId = ReservationId.New();
 
-        day.ReserveTimeslot(timeslot.Id, ReservationId.New());
+        day.ReserveTimeslot(timeslot.Id, reservationId);
 
-        timeslot.IsReserved.Should().BeTrue();
+        timeslot.ReservedBy.Should().Be(reservationId);
     }
 
     [Fact]

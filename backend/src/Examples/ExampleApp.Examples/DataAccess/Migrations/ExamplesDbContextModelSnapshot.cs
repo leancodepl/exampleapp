@@ -211,8 +211,8 @@ namespace ExampleApp.Examples.DataAccess.Migrations
                     b.Property<TimeOnly>("EndTime")
                         .HasColumnType("time without time zone");
 
-                    b.Property<bool>("IsReserved")
-                        .HasColumnType("boolean");
+                    b.Property<string>("ReservedBy")
+                        .HasColumnType("citext");
 
                     b.Property<string>("ServiceProviderId")
                         .IsRequired()

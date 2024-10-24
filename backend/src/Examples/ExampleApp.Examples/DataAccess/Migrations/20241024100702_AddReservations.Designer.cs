@@ -12,10 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace ExampleApp.Examples.Migrations
+namespace ExampleApp.Examples.DataAccess.Migrations
 {
     [DbContext(typeof(ExamplesDbContext))]
-    [Migration("20241023140453_AddReservations")]
+    [Migration("20241024100702_AddReservations")]
     partial class AddReservations
     {
         /// <inheritdoc />
@@ -214,8 +214,8 @@ namespace ExampleApp.Examples.Migrations
                     b.Property<TimeOnly>("EndTime")
                         .HasColumnType("time without time zone");
 
-                    b.Property<bool>("IsReserved")
-                        .HasColumnType("boolean");
+                    b.Property<string>("ReservedBy")
+                        .HasColumnType("citext");
 
                     b.Property<string>("ServiceProviderId")
                         .IsRequired()
