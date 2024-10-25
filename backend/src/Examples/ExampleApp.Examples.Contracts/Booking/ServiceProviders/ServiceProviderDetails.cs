@@ -23,6 +23,7 @@ public class ServiceProviderDetailsDTO
     public string Address { get; set; }
     public LocationDTO Location { get; set; }
     public bool IsPromotionActive { get; set; }
+    public double Ratings { get; set; }
 
     public Uri PromotionalBanner { get; set; }
     public Uri ListItemPicture { get; set; }

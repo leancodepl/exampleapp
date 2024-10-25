@@ -36,6 +36,7 @@ public class ServiceProviderDetailsQH(ExamplesDbContext dbContext)
                 IsPromotionActive = sp.IsPromotionActive,
                 PromotionalBanner = sp.PromotionalBanner,
                 ListItemPicture = sp.ListItemPicture,
+                Ratings = sp.Ratings,
                 Timeslots = cd
                     .Timeslots.OrderBy(ts => ts.StartTime)
                     .Select(ts => new TimeslotDTO
