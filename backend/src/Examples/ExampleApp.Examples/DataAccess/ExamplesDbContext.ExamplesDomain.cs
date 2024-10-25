@@ -1,4 +1,3 @@
-using ExampleApp.Examples.Domain;
 using ExampleApp.Examples.Domain.Booking;
 using ExampleApp.Examples.Domain.Employees;
 using ExampleApp.Examples.Domain.Projects;

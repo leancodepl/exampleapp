@@ -1,6 +1,5 @@
 using System.Security.Claims;
 using ExampleApp.Examples.Contracts.Booking.Reservations.Authorization;
-using ExampleApp.Examples.Domain;
 using ExampleApp.Examples.Domain.Booking;
 using ExampleApp.Examples.Handlers.Booking.Reservations.Authorization;
 using FluentAssertions;

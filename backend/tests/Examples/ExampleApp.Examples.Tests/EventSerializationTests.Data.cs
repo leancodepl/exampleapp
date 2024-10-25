@@ -2,7 +2,6 @@ using System.Collections.Immutable;
 using System.Reflection;
 using System.Text.Json;
 using ExampleApp.Examples.DataAccess.Serialization;
-using ExampleApp.Examples.Domain;
 using ExampleApp.Examples.Handlers.Identities;
 using LeanCode.Kratos.Model;
 #if Example
