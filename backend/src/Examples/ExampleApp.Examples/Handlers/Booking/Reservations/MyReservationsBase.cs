@@ -19,31 +19,26 @@ public class MyReservationsBase(ExamplesDbContext dbContext)
         return dbContext
             .Reservations.Where(r => r.CustomerId == customerId)
             .ConditionalWhere(predicate!, predicate is not null)
-            .Join(
-                dbContext.Timeslots,
-                r => r.TimeslotId,
-                t => t.Id,
-                (reservation, timeslot) => new { reservation, timeslot }
-            )
+            .Join(dbContext.Timeslots, r => r.TimeslotId, t => t.Id, (r, t) => new { Reservation = r, Timeslot = t })
             .Join(
                 dbContext.ServiceProviders,
-                c => c.timeslot.ServiceProviderId,
+                c => c.Timeslot.ServiceProviderId,
                 sp => sp.Id,
                 (c, sp) =>
                     new MyReservationDTO
                     {
-                        Id = c.reservation.Id,
-                        TimeslotId = c.timeslot.Id,
+                        Id = c.Reservation.Id,
+                        TimeslotId = c.Timeslot.Id,
                         ServiceProviderId = sp.Id,
                         ServiceProviderName = sp.Name,
                         Type = (ServiceProviderTypeDTO)sp.Type,
                         Address = sp.Address,
                         Location = sp.Location.ToDTO(),
-                        Date = c.timeslot.Date,
-                        StartTime = c.timeslot.StartTime,
-                        EndTime = c.timeslot.EndTime,
-                        Price = c.timeslot.Price.ToDTO(),
-                        Status = (ReservationStatusDTO)c.reservation.Status,
+                        Date = c.Timeslot.Date,
+                        StartTime = c.Timeslot.StartTime,
+                        EndTime = c.Timeslot.EndTime,
+                        Price = c.Timeslot.Price.ToDTO(),
+                        Status = (ReservationStatusDTO)c.Reservation.Status,
                     }
             );
     }
