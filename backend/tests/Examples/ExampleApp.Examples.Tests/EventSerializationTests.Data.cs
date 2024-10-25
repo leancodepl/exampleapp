@@ -68,8 +68,16 @@ public partial class EventSerializationTests
 #if Example
         new EmployeeAssignedToAssignment(Guid, DateTime, ProjectId, AssignmentId, EmployeeId, null),
         new EmployeeUnassignedFromAssignment(Guid, DateTime, ProjectId, AssignmentId, null),
-        new TimeslotReserved(Guid, DateTime, CalendarDayId.New(), TimeslotId.New()),
-        new TimeslotUnavailable(Guid, DateTime, CalendarDayId.New(), TimeslotId.New()),
+        new TimeslotReserved(Guid, DateTime, CalendarDayId.New(), TimeslotId.New(), ReservationId.New()),
+        new TimeslotUnavailable(Guid, DateTime, CalendarDayId.New(), TimeslotId.New(), ReservationId.New()),
+        new ReservationCreated(
+            Guid,
+            DateTime,
+            ReservationId.New(),
+            CalendarDayId.New(),
+            TimeslotId.New(),
+            CustomerId.New()
+        ),
 #endif
         new KratosIdentityUpdated(Guid, DateTime, KratosIdentity),
         new KratosIdentityDeleted(Guid, DateTime, Guid),

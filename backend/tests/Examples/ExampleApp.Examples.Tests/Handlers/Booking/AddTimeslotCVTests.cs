@@ -4,9 +4,7 @@ using ExampleApp.Examples.DataAccess.Queries;
 using ExampleApp.Examples.Domain.Booking;
 using ExampleApp.Examples.Handlers.Booking.Management;
 using FluentAssertions;
-using FluentAssertions.Collections;
 using FluentValidation;
-using FluentValidation.Results;
 using FluentValidation.TestHelper;
 using LeanCode.CQRS.Validation.Fluent;
 using LeanCode.DomainModels.DataAccess;
@@ -164,27 +162,4 @@ public class AddTimeslotCVTests
     }
 }
 
-internal class FakeCalendarDaysRepository : FakeRepositoryBase<CalendarDay, CalendarDayId>, ICalendarDayByDate
-{
-    public Task<CalendarDay?> FindAsync(
-        ServiceProviderId id,
-        DateOnly date,
-        CancellationToken cancellationToken = default
-    ) => Task.FromResult(Storage.Values.FirstOrDefault(d => d.ServiceProviderId == id && d.Date == date));
-}
-
 internal class FakeServiceProvidersRepository : FakeRepositoryBase<ServiceProvider, ServiceProviderId> { }
-
-file static class ValidationExtensions
-{
-    public static AndWhichConstraint<GenericCollectionAssertions<ValidationFailure>, ValidationFailure> HaveErrorCode(
-        this GenericCollectionAssertions<ValidationFailure> result,
-        int errorCode
-    )
-    {
-        return result.ContainSingle(e =>
-            e.CustomState is FluentValidatorErrorState
-            && ((FluentValidatorErrorState)e.CustomState).ErrorCode == errorCode
-        );
-    }
-}

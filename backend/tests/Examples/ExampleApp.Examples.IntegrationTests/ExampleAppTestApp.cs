@@ -4,6 +4,8 @@ using System.Reflection;
 using System.Security.Claims;
 using ExampleApp.Examples.Contracts;
 using ExampleApp.Examples.DataAccess;
+using ExampleApp.Examples.IntegrationTests.Helpers;
+using LeanCode.AuditLogs;
 using LeanCode.CQRS.MassTransitRelay;
 using LeanCode.CQRS.RemoteHttp.Client;
 using LeanCode.IntegrationTestHelpers;
@@ -78,6 +80,7 @@ public class ExampleAppTestApp : LeanCodeTestFactory<Startup>
             services.AddBusActivityMonitor();
 
             services.AddAuthentication(TestAuthenticationHandler.SchemeName).AddTestAuthenticationHandler();
+            services.Replace(ServiceDescriptor.Singleton<IAuditLogStorage>(new AuditLogStorageMock()));
         });
     }
 }
@@ -90,8 +93,6 @@ public class AuthenticatedExampleAppTestApp : ExampleAppTestApp
     public HttpCommandsExecutor Command { get; private set; } = default!;
     public HttpOperationsExecutor Operation { get; private set; } = default!;
     public LeanPipeTestClient LeanPipe { get; private set; } = default!;
-
-    public AuthenticatedExampleAppTestApp() { }
 
     public override async Task InitializeAsync()
     {
@@ -148,6 +149,59 @@ public class AuthenticatedExampleAppTestApp : ExampleAppTestApp
         Operation = default!;
         await LeanPipe.DisposeAsync();
         await base.DisposeAsync();
+    }
+}
+
+public class MultiUserExampleAppTestApp : ExampleAppTestApp
+{
+    private readonly IReadOnlyList<ClaimsPrincipal> principals;
+
+    public IReadOnlyList<HttpQueriesExecutor> Queries { get; private set; } = [];
+    public IReadOnlyList<HttpCommandsExecutor> Commands { get; private set; } = [];
+    public IReadOnlyList<HttpOperationsExecutor> Operations { get; private set; } = [];
+
+    public MultiUserExampleAppTestApp()
+        : this(2) { }
+
+    public MultiUserExampleAppTestApp(int principalsCount)
+    {
+        principals = Enumerable.Range(0, principalsCount).Select(_ => TestPrincipal()).ToList();
+    }
+
+    public override async Task InitializeAsync()
+    {
+        TestPrincipal();
+
+        await base.InitializeAsync();
+        Queries = principals.Select(p => CreateQueriesExecutor(hc => hc.UseTestAuthorization(p))).ToList();
+        Commands = principals.Select(p => CreateCommandsExecutor(hc => hc.UseTestAuthorization(p))).ToList();
+        Operations = principals.Select(p => CreateOperationsExecutor(hc => hc.UseTestAuthorization(p))).ToList();
+
+        await WaitForBusAsync();
+    }
+
+    public override async ValueTask DisposeAsync()
+    {
+        Queries = [];
+        Commands = [];
+        Operations = [];
+        await base.DisposeAsync();
+    }
+
+    private static ClaimsPrincipal TestPrincipal()
+    {
+        return new(
+            new ClaimsIdentity(
+                [
+                    new(Auth.KnownClaims.UserId, Guid.NewGuid().ToString()),
+                    new(Auth.KnownClaims.Role, Auth.Roles.User),
+                    new(Auth.KnownClaims.Role, Auth.Roles.Admin),
+                ],
+                TestAuthenticationHandler.SchemeName,
+                Auth.KnownClaims.UserId,
+                Auth.KnownClaims.Role
+            )
+        );
     }
 }
 

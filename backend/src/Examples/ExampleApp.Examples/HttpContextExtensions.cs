@@ -1,6 +1,9 @@
 using System.Security.Claims;
 using ExampleApp.Examples.Contracts;
 using Microsoft.AspNetCore.Http;
+#if Example
+using ExampleApp.Examples.Domain.Booking;
+#endif
 
 namespace ExampleApp.Examples;
 
@@ -14,4 +17,11 @@ public static class HttpContextExtensions
 
         return Guid.Parse(claim);
     }
+
+#if Example
+    public static CustomerId GetCustomerId(this HttpContext context)
+    {
+        return CustomerId.Parse(context.GetUserId());
+    }
+#endif
 }

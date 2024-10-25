@@ -19,6 +19,8 @@ public partial class ExamplesDbContext : IAppRatingStore<Guid>
     public DbSet<CalendarDay> CalendarDays => Set<CalendarDay>();
     public DbSet<Timeslot> Timeslots => Set<Timeslot>();
 
+    public DbSet<Reservation> Reservations => Set<Reservation>();
+
     public DbSet<PushNotificationTokenEntity<Guid>> PushNotificationTokens => Set<PushNotificationTokenEntity<Guid>>();
     public DbSet<AppRating<Guid>> AppRatings => Set<AppRating<Guid>>();
 
@@ -30,6 +32,8 @@ public partial class ExamplesDbContext : IAppRatingStore<Guid>
         configurationBuilder.ConfigureId<ServiceProviderId>();
         configurationBuilder.ConfigureId<CalendarDayId>();
         configurationBuilder.ConfigureId<TimeslotId>();
+        configurationBuilder.ConfigureId<ReservationId>();
+        configurationBuilder.ConfigureGuidId<CustomerId>();
     }
 
     private void OnExampleModelCreating(ModelBuilder modelBuilder)
@@ -100,6 +104,17 @@ public partial class ExamplesDbContext : IAppRatingStore<Guid>
                 t.StartTime,
             });
         });
+
+        modelBuilder.Entity<Reservation>(e =>
+        {
+            e.HasKey(t => t.Id);
+
+            e.HasIndex(t => new { t.CustomerId, t.TimeslotId });
+            e.HasIndex(t => new { t.CustomerId, t.Status });
+
+            e.IsOptimisticConcurrent(addRowVersion: false);
+            e.HasRowVersion();
+        });
     }
 }
 
@@ -114,6 +129,17 @@ file static class ModelConfigurationBuilderExtensions
             .Properties<TId>()
             .HaveColumnType("citext")
             .HaveConversion<PrefixedTypedIdConverter<TId>, PrefixedTypedIdComparer<TId>>();
+    }
+
+    public static PropertiesConfigurationBuilder<TId> ConfigureGuidId<TId>(
+        this ModelConfigurationBuilder configurationBuilder
+    )
+        where TId : struct, IRawTypedId<Guid, TId>
+    {
+        return configurationBuilder
+            .Properties<TId>()
+            .HaveColumnType("uuid")
+            .HaveConversion<RawTypedIdConverter<Guid, TId>, RawTypedIdComparer<Guid, TId>>();
     }
 
     public static void HasRowVersion<TEntity>(this EntityTypeBuilder<TEntity> e)

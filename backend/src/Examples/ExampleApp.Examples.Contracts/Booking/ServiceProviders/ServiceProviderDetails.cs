@@ -23,18 +23,20 @@ public class ServiceProviderDetailsDTO
     public string Address { get; set; }
     public LocationDTO Location { get; set; }
     public bool IsPromotionActive { get; set; }
+    public double Ratings { get; set; }
 
     public Uri PromotionalBanner { get; set; }
     public Uri ListItemPicture { get; set; }
 
-    public List<AvailableTimeslotDTO> AvailableTimeslots { get; set; }
+    public List<TimeslotDTO> Timeslots { get; set; }
 }
 
-public class AvailableTimeslotDTO
+public class TimeslotDTO
 {
     public string Id { get; set; }
     public string CalendarDayId { get; set; }
     public TimeOnly StartTime { get; set; }
     public TimeOnly EndTime { get; set; }
     public MoneyDTO Price { get; set; }
+    public bool IsReserved { get; set; }
 }
