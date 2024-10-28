@@ -10,7 +10,7 @@
     <NpgsqlVersion>8.0.3</NpgsqlVersion>
     <NpgsqlEFCoreVersion>8.0.4</NpgsqlEFCoreVersion>
     <LeanPipeVersion>0.2.5</LeanPipeVersion>
-    <AppRatingVersion>1.0.46</AppRatingVersion>
+    <AppRatingVersion>1.0.50</AppRatingVersion>
   </PropertyGroup>
 
   <ItemGroup>
