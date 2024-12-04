@@ -1,10 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-<!--/-:msbuild-conditional:noEmit -->
-    <DefineConstants Condition="$([MSBuild]::VersionGreaterThan('$(NpgsqlEFCoreVersion)', '8.0.4'))">$(DefineConstants);CHECK_EFCORE_PG_2977</DefineConstants>
-<!--/+:msbuild-conditional:noEmit -->
-
     <OutputType>Exe</OutputType>
     <PackageId>ExampleApp.Examples</PackageId>
   </PropertyGroup>

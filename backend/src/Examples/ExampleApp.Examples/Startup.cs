@@ -496,5 +496,7 @@ file static class ServiceCollectionExtensions
 public sealed class UserIdExtractor : IUserIdExtractor<Guid>
 {
     public Guid Extract(HttpContext httpContext) => httpContext.GetUserId();
+
+    public bool TryExtract(HttpContext httpContext, out Guid userId) => httpContext.TryGetUserId(out userId);
 }
 #endif
