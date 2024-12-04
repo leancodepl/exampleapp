@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Npgsql;
 using Polly;
@@ -6,7 +7,7 @@ using Serilog;
 
 namespace ExampleApp.Examples.IntegrationTests;
 
-public class DbContextInitializer<T> : IHostedService
+public class DbContextInitializer<T>(IServiceProvider serviceProvider) : IHostedService
     where T : DbContext
 {
     private static readonly IAsyncPolicy CreatePolicy = Policy
@@ -15,15 +16,10 @@ public class DbContextInitializer<T> : IHostedService
 
     private readonly ILogger logger = Log.ForContext<DbContextInitializer<T>>();
 
-    private readonly T context;
-
-    public DbContextInitializer(T context)
-    {
-        this.context = context;
-    }
-
     public async Task StartAsync(CancellationToken cancellationToken)
     {
+        await using var scope = serviceProvider.CreateAsyncScope();
+        await using var context = scope.ServiceProvider.GetRequiredService<T>();
         logger.Information("Creating database for context {ContextType}", context.GetType());
         await CreatePolicy.ExecuteAsync(
             async (CancellationToken token) =>
@@ -51,6 +47,8 @@ public class DbContextInitializer<T> : IHostedService
 
     public async Task StopAsync(CancellationToken cancellationToken)
     {
+        using var scope = serviceProvider.CreateAsyncScope();
+        using var context = scope.ServiceProvider.GetRequiredService<T>();
         logger.Information("Dropping database for context {ContextType}", context.GetType());
         // We skip the cancellation token to properly delete the database even if test fails
         await context.Database.EnsureDeletedAsync(CancellationToken.None);

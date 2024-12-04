@@ -17,8 +17,8 @@ public class MigrationTests
         await using var app = new ExampleAppTestApp { SkipDbContextInitialization = true };
 
         await app.InitializeAsync();
-        using var scope = app.Services.CreateScope();
-        var dbContext = scope.ServiceProvider.GetRequiredService<ExamplesDbContext>();
+        await using var scope = app.Services.CreateAsyncScope();
+        await using var dbContext = scope.ServiceProvider.GetRequiredService<ExamplesDbContext>();
 
         try
         {
@@ -36,8 +36,8 @@ public class MigrationTests
         await using var app = new ExampleAppTestApp { SkipDbContextInitialization = true };
 
         await app.InitializeAsync();
-
-        var dbContext = app.Services.GetRequiredService<ExamplesDbContext>();
+        await using var scope = app.Services.CreateAsyncScope();
+        await using var dbContext = scope.ServiceProvider.GetRequiredService<ExamplesDbContext>();
 
         var migrationsAssembly = dbContext.GetService<IMigrationsAssembly>();
         var initializer = dbContext.GetService<IModelRuntimeInitializer>();
