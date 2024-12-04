@@ -5,7 +5,7 @@
 namespace ExampleApp.Examples.DataAccess.Migrations;
 
 /// <inheritdoc />
-public partial class UpdateAppRating : Migration
+public partial class UpdateAppRatingsAndOutbox : Migration
 {
     /// <inheritdoc />
     protected override void Up(MigrationBuilder migrationBuilder)
@@ -19,6 +19,8 @@ public partial class UpdateAppRating : Migration
             nullable: false,
             defaultValue: new Guid("00000000-0000-0000-0000-000000000000")
         );
+
+        migrationBuilder.Sql(@"update ""AppRatings"" set ""Id"" = gen_random_uuid();");
 
         migrationBuilder.AddPrimaryKey(name: "PK_AppRatings", table: "AppRatings", column: "Id");
 

@@ -15,8 +15,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ExampleApp.Examples.DataAccess.Migrations
 {
     [DbContext(typeof(ExamplesDbContext))]
-    [Migration("20241204125821_UpdateAppRating")]
-    partial class UpdateAppRating
+    [Migration("20241204145312_UpdateAppRatingsAndOutbox")]
+    partial class UpdateAppRatingsAndOutbox
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
