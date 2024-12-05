@@ -1,6 +1,6 @@
 leancode.builder('exampleapp-template')
     .withMonorepoTest(['backend', 'dev-cluster', 'infrastructure', '.template.config', 'FinalizeTemplate.proj', 'Jenkinsfile.template'])
-    .withDotnet([version: '8.0', image: 'mcr.microsoft.com/dotnet/sdk'])
+    .withDotnet([version: '9.0', image: 'mcr.microsoft.com/dotnet/sdk'])
     .runOnSpot()
     .run {
 

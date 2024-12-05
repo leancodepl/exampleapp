@@ -18,6 +18,12 @@ public static class HttpContextExtensions
         return Guid.Parse(claim);
     }
 
+    public static bool TryGetUserId(this HttpContext context, out Guid userId)
+    {
+        var claim = context.User.FindFirstValue(Auth.KnownClaims.UserId);
+        return Guid.TryParse(claim, out userId);
+    }
+
 #if Example
     public static CustomerId GetCustomerId(this HttpContext context)
     {

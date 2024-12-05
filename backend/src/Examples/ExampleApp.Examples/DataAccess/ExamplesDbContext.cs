@@ -14,15 +14,6 @@ public partial class ExamplesDbContext : DbContext
 
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
     {
-        //-:cnd:noEmit
-#if CHECK_EFCORE_PG_2977
-#error Check if this workaround is still required.
-#else
-        // workaround for https://github.com/npgsql/efcore.pg/issues/2977
-        configurationBuilder.Properties<JsonElement?>().HaveColumnType("jsonb");
-#endif
-        //+:cnd:noEmit
-
 #if Example
         ConfigureExampleAppConventions(configurationBuilder);
 #endif

@@ -3,7 +3,7 @@
 
   <Target Name="FormatBackendCode">
     <Exec Command="dotnet tool restore" WorkingDirectory="$(MSBuildThisFileDirectory)backend" />
-    <Exec Command="dotnet tool run dotnet-format ." WorkingDirectory="$(MSBuildThisFileDirectory)backend" />
+    <Exec Command="dotnet format ." WorkingDirectory="$(MSBuildThisFileDirectory)backend" />
     <Exec Command="dotnet tool run dotnet-csharpier ." WorkingDirectory="$(MSBuildThisFileDirectory)backend" />
   </Target>
 

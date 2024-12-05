@@ -4,6 +4,7 @@ using ExampleApp.Examples.Contracts.Dashboards;
 using LeanCode.CQRS.Execution;
 using LeanCode.TimeProvider;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
 
@@ -13,9 +14,9 @@ public class AssignmentEmployerEmbedQH : IQueryHandler<AssignmentEmployerEmbed, 
 {
     private readonly MetabaseConfiguration config;
 
-    public AssignmentEmployerEmbedQH(MetabaseConfiguration config)
+    public AssignmentEmployerEmbedQH(IOptions<MetabaseConfiguration> config)
     {
-        this.config = config;
+        this.config = config.Value;
     }
 
     public Task<Uri> ExecuteAsync(HttpContext context, AssignmentEmployerEmbed query)

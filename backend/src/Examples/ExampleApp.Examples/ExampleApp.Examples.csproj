@@ -1,10 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-<!--/-:msbuild-conditional:noEmit -->
-    <DefineConstants Condition="$([MSBuild]::VersionGreaterThan('$(NpgsqlEFCoreVersion)', '8.0.4'))">$(DefineConstants);CHECK_EFCORE_PG_2977</DefineConstants>
-<!--/+:msbuild-conditional:noEmit -->
-
     <OutputType>Exe</OutputType>
     <PackageId>ExampleApp.Examples</PackageId>
   </PropertyGroup>
@@ -80,6 +76,14 @@
     <PackageReference Include="OpenTelemetry.Extensions.Hosting" />
     <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" />
     <PackageReference Include="OpenTelemetry.Instrumentation.Http" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Required to make the EF bundles work (EFC.Design references version 4.8 and one of our libs requires 4.11) -->
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Common" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.Common" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.MSBuild" />
   </ItemGroup>
 
 </Project>
