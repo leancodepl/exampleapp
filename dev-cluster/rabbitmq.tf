@@ -5,7 +5,7 @@ resource "helm_release" "rabbit" {
   namespace = local.k8s_shared_namespace
 
   chart      = "rabbitmq"
-  repository = "https://charts.bitnami.com/bitnami"
+  repository = "oci://registry-1.docker.io/bitnamicharts"
 
   set {
     name  = "auth.username"
