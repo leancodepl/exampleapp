@@ -1,0 +1,16 @@
+meta {
+  name: C_ReserveTimeslot
+  type: http
+  seq: 1
+}
+post {
+  url: {{api_base}}/command/ExampleApp.Examples.Contracts.Booking.Reservations.ReserveTimeslot
+  body: json
+  auth: inherit
+}
+body:json {
+  {
+      "CalendarDayId": "{{calendarday_id}}",
+      "TimeslotId" : "{{timeslot_id}}"
+  }
+}

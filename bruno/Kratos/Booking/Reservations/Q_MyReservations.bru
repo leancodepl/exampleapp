@@ -1,0 +1,16 @@
+meta {
+  name: Q_MyReservations
+  type: http
+  seq: 2
+}
+post {
+  url: {{api_base}}/query/ExampleApp.Examples.Contracts.Booking.Reservations.MyReservations
+  body: json
+  auth: inherit
+}
+body:json {
+  {
+      "PageNumber": 0,
+      "PageSize": 100
+  }
+}

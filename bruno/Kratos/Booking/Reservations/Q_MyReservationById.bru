@@ -1,0 +1,15 @@
+meta {
+  name: Q_MyReservationById
+  type: http
+  seq: 3
+}
+post {
+  url: {{api_base}}/query/ExampleApp.Examples.Contracts.Booking.Reservations.MyReservationById
+  body: json
+  auth: inherit
+}
+body:json {
+  {
+     "ReservationId" : "{{reservation_id}}" 
+  }
+}
