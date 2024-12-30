@@ -1,7 +1,7 @@
 meta {
-  name: MyReservations
+  name: Q_MyReservations
   type: http
-  seq: 1
+  seq: 2
 }
 post {
   url: {{api_base}}/query/ExampleApp.Examples.Contracts.Booking.Reservations.MyReservations
@@ -10,7 +10,7 @@ post {
 }
 body:json {
   {
-    "PageNumber": 0,
-    "PageSize": 100
+      "PageNumber": 0,
+      "PageSize": 100
   }
 }

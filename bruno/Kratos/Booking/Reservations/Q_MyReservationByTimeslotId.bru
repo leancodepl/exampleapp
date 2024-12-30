@@ -1,7 +1,7 @@
 meta {
-  name: MyReservations
+  name: Q_MyReservationByTimeslotId
   type: http
-  seq: 1
+  seq: 4
 }
 post {
   url: {{api_base}}/query/ExampleApp.Examples.Contracts.Booking.Reservations.MyReservationByTimeslotId
@@ -10,6 +10,6 @@ post {
 }
 body:json {
   {
-    "TimeslotId" : "timeslot_01JFSYTXJ0MA7RVHKS9AGJ64HM" 
+     "TimeslotId" : "{{timeslot_id}}" 
   }
 }

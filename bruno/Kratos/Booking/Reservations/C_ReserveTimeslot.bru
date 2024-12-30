@@ -1,5 +1,5 @@
 meta {
-  name: ReserveTimeslot
+  name: C_ReserveTimeslot
   type: http
   seq: 1
 }
@@ -10,7 +10,7 @@ post {
 }
 body:json {
   {
-    "CalendarDayId": "calendarday_01JFSYTXDP1PTS9HETFR85MJJC",
-    "TimeslotId" : "timeslot_01JFSYTXJ0MA7RVHKS9AGJ64HM"
+      "CalendarDayId": "{{calendarday_id}}",
+      "TimeslotId" : "{{timeslot_id}}"
   }
 }

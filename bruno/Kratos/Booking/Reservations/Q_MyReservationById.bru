@@ -1,7 +1,7 @@
 meta {
-  name: MyReservations
+  name: Q_MyReservationById
   type: http
-  seq: 1
+  seq: 3
 }
 post {
   url: {{api_base}}/query/ExampleApp.Examples.Contracts.Booking.Reservations.MyReservationById
@@ -10,6 +10,6 @@ post {
 }
 body:json {
   {
-    "ReservationId" : "reservation_01JG3YGWDV3BBVFT0M95TTNM87" 
+     "ReservationId" : "{{reservation_id}}" 
   }
 }
