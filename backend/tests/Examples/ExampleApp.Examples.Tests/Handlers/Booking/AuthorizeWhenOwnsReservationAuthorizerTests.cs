@@ -73,5 +73,3 @@ public class AuthorizeWhenOwnsReservationAuthorizerTests
             : this(id.ToString()) { }
     }
 }
-
-internal class FakeReservationsRepository : FakeRepositoryBase<Reservation, ReservationId> { }

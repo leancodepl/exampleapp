@@ -25,4 +25,5 @@ public enum ReservationStatusDTO
     Confirmed = 1,
     Rejected = 2,
     Paid = 3,
+    Cancelled = 4,
 }
