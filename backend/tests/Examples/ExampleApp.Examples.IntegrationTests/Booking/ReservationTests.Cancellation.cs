@@ -22,6 +22,9 @@ public class BookingTestsCancellation : BookingTestsBase
 
         var updatedReservation = await App.Query.GetAsync(new MyReservationById { ReservationId = reservation.Id });
         updatedReservation.Should().NotBeNull().And.BeEquivalentTo(new { Status = ReservationStatusDTO.Cancelled });
+
+        var timeslots = await ListTimeslotsAsync(spId);
+        timeslots.Should().ContainSingle(e => e.StartTime.Hour == 14).Which.IsReserved.Should().BeFalse();
     }
 
     private async Task<MyReservationDTO> ReserveAsync(TimeslotDTO timeslot1)

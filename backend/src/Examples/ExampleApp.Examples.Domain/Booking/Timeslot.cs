@@ -56,4 +56,12 @@ public class Timeslot : IEntity<TimeslotId>
 
         ReservedBy = reservationId;
     }
+
+    internal void Release(ReservationId reservationId)
+    {
+        if (ReservedBy == reservationId)
+        {
+            ReservedBy = null;
+        }
+    }
 }

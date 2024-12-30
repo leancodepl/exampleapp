@@ -77,6 +77,14 @@ public partial class EventSerializationTests
             TimeslotId.New(),
             CustomerId.New()
         ),
+        new ReservationCancelled(
+            Guid,
+            DateTime,
+            ReservationId.New(),
+            CalendarDayId.New(),
+            TimeslotId.New(),
+            CustomerId.New()
+        ),
 #endif
         new KratosIdentityUpdated(Guid, DateTime, KratosIdentity),
         new KratosIdentityDeleted(Guid, DateTime, Guid),

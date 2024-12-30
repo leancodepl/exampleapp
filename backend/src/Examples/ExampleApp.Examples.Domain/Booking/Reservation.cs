@@ -67,6 +67,7 @@ public class Reservation : IAggregateRoot<ReservationId>
         }
 
         Status = ReservationStatus.Cancelled;
+        DomainEvents.Raise(new ReservationCancelled(this));
     }
 }
 

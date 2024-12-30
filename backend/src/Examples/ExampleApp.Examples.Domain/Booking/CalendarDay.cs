@@ -64,4 +64,10 @@ public class CalendarDay : IAggregateRoot<CalendarDayId>
     {
         return timeslots.Find(t => t.Id == timeslotId) is { ReservedBy: null };
     }
+
+    public void ReleaseTimeslot(TimeslotId timeslotId, ReservationId fromReservation)
+    {
+        var timeslot = timeslots.Find(t => t.Id == timeslotId);
+        timeslot?.Release(fromReservation);
+    }
 }
