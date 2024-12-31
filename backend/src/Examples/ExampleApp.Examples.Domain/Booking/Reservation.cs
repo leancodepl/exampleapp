@@ -61,7 +61,7 @@ public class Reservation : IAggregateRoot<ReservationId>
 
     public void Cancel()
     {
-        if (Status != ReservationStatus.Confirmed)
+        if (!CanCancel)
         {
             throw new InvalidOperationException("Cannot cancel reservation - it is not confirmed yet.");
         }
@@ -77,5 +77,5 @@ public enum ReservationStatus
     Confirmed = 1,
     Rejected = 2,
     Paid = 3,
-    Cancelled = 4, // New state
+    Cancelled = 4,
 }
