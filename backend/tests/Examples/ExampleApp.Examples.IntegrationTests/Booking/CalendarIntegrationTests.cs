@@ -1,16 +1,12 @@
 using ExampleApp.Examples.Contracts.Booking;
-using ExampleApp.Examples.Contracts.Booking.Management;
 using ExampleApp.Examples.Contracts.Booking.ServiceProviders;
-using ExampleApp.Examples.IntegrationTests.Helpers;
 using FluentAssertions;
 using Xunit;
 
 namespace ExampleApp.Examples.IntegrationTests.Booking;
 
-public class CalendarIntegrationTests : TestsBase<AuthenticatedExampleAppTestApp>
+public class CalendarIntegrationTests : BookingTestsBase
 {
-    private const string Currency = "PLN";
-
     [Fact]
     public async Task Adding_and_listing_timeslots()
     {
@@ -31,8 +27,7 @@ public class CalendarIntegrationTests : TestsBase<AuthenticatedExampleAppTestApp
         timeslots1
             .Should()
             .BeEquivalentTo(
-                new[]
-                {
+                [
                     new
                     {
                         StartTime = new TimeOnly(10, 0),
@@ -40,15 +35,14 @@ public class CalendarIntegrationTests : TestsBase<AuthenticatedExampleAppTestApp
                         Price = new MoneyDTO(1050, Currency),
                         IsReserved = false,
                     },
-                }
+                ]
             );
 
         var timeslots2 = await ListTimeslotsAsync(sp, new(2024, 10, 7));
         timeslots2
             .Should()
             .BeEquivalentTo(
-                new[]
-                {
+                [
                     new
                     {
                         StartTime = new TimeOnly(11, 0),
@@ -63,49 +57,7 @@ public class CalendarIntegrationTests : TestsBase<AuthenticatedExampleAppTestApp
                         Price = new MoneyDTO(1200, Currency),
                         IsReserved = false,
                     },
-                }
+                ]
             );
-    }
-
-    private async Task<List<TimeslotDTO>> ListTimeslotsAsync(string spId, DateOnly date)
-    {
-        var details = await App.Query.GetAsync(
-            new ServiceProviderDetails { ServiceProviderId = spId, CalendarDate = date }
-        );
-        details.Should().NotBeNull();
-        return details!.Timeslots;
-    }
-
-    private async Task AddTimeslotAsync(string spId, DateOnly date, TimeOnly from, TimeOnly to, decimal price)
-    {
-        var addTimeslot = new AddTimeslot
-        {
-            ServiceProviderId = spId,
-            Date = date,
-            StartTime = from,
-            EndTime = to,
-            Price = new MoneyDTO((int)(price * 100), Currency),
-        };
-
-        await App.Command.RunSuccessAsync(addTimeslot);
-    }
-
-    private async Task<string> CreateServiceProviderAsync()
-    {
-        var fakeName = Guid.NewGuid().ToString();
-        var createServiceProvider = new CreateServiceProvider
-        {
-            Name = fakeName,
-            Type = ServiceProviderTypeDTO.Hairdresser,
-            Description = "Description",
-            PromotionalBanner = new Uri("http://example.com"),
-            ListItemPicture = new Uri("http://example.com"),
-            Address = "Address",
-            Location = new LocationDTO(10, 10),
-        };
-
-        await App.Command.RunSuccessAsync(createServiceProvider);
-        var serviceProvider = await App.Query.GetAsync(new AllServiceProviders { PageSize = 100 });
-        return serviceProvider.Items.Should().ContainSingle(e => e.Name == fakeName).Which.Id;
     }
 }

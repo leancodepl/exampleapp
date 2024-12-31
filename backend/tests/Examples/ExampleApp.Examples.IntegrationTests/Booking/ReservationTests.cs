@@ -8,7 +8,7 @@ using Xunit;
 
 namespace ExampleApp.Examples.IntegrationTests.Booking;
 
-public class ReservationTests : TestsBase<AuthenticatedExampleAppTestApp>
+public class BookingTests : BookingTestsBase
 {
     [Fact]
     public async Task Creating_reservation()
@@ -63,45 +63,5 @@ public class ReservationTests : TestsBase<AuthenticatedExampleAppTestApp>
         // This might be a far-fetched assumption, thus if this breaks, consider removing it.
         var reservations = await App.Query.GetAsync(new MyReservations());
         reservations.Items.Should().BeEmpty();
-    }
-
-    private async Task<TimeslotDTO> AddTimeslotAsync(string spId, int hour = 14)
-    {
-        var date = new DateOnly(2024, 10, 23);
-        var from = new TimeOnly(hour, 0);
-        var addTimeslot = new AddTimeslot
-        {
-            ServiceProviderId = spId,
-            Date = date,
-            StartTime = from,
-            EndTime = new(from.Hour + 1, 0),
-            Price = new MoneyDTO((int)(10m * 100), "PLN"),
-        };
-
-        await App.Command.RunSuccessAsync(addTimeslot);
-
-        var details = await App.Query.GetAsync(
-            new ServiceProviderDetails { ServiceProviderId = spId, CalendarDate = date }
-        );
-        return details!.Timeslots.Should().ContainSingle(t => t.StartTime == from).Which;
-    }
-
-    private async Task<string> CreateServiceProviderAsync()
-    {
-        var fakeName = Guid.NewGuid().ToString();
-        var createServiceProvider = new CreateServiceProvider
-        {
-            Name = fakeName,
-            Type = ServiceProviderTypeDTO.Hairdresser,
-            Description = "Description",
-            PromotionalBanner = new Uri("http://example.com"),
-            ListItemPicture = new Uri("http://example.com"),
-            Address = "Address",
-            Location = new LocationDTO(10, 10),
-        };
-
-        await App.Command.RunSuccessAsync(createServiceProvider);
-        var serviceProvider = await App.Query.GetAsync(new AllServiceProviders { PageSize = 100 });
-        return serviceProvider.Items.Should().ContainSingle(e => e.Name == fakeName).Which.Id;
     }
 }

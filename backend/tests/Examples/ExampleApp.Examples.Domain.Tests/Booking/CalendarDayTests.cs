@@ -170,6 +170,51 @@ public class CalendarDayTests
         day.CanReserveTimeslot(timeslot.Id).Should().BeFalse();
     }
 
+    [Fact]
+    public void Releasing_non_existing_timeslot_does_nothing()
+    {
+        var day = TestDayWithSlot();
+
+        day.ReleaseTimeslot(TimeslotId.New(), ReservationId.New());
+    }
+
+    [Fact]
+    public void Releasing_a_not_reserved_timeslot_does_nothing()
+    {
+        var day = TestDayWithSlot();
+        var timeslot = day.Timeslots[0];
+
+        day.ReleaseTimeslot(timeslot.Id, ReservationId.New());
+
+        timeslot.ReservedBy.Should().BeNull();
+    }
+
+    [Fact]
+    public void Releasing_timeslot_reserved_by_a_different_reservation_does_nothing()
+    {
+        var day = TestDayWithSlot();
+        var timeslot = day.Timeslots[0];
+        var reservationId = ReservationId.New();
+        day.ReserveTimeslot(timeslot.Id, reservationId);
+
+        day.ReleaseTimeslot(timeslot.Id, ReservationId.New());
+
+        timeslot.ReservedBy.Should().Be(reservationId);
+    }
+
+    [Fact]
+    public void Releasing_a_reserved_timeslot_releases_it()
+    {
+        var day = TestDayWithSlot();
+        var timeslot = day.Timeslots[0];
+        var reservationId = ReservationId.New();
+
+        day.ReserveTimeslot(timeslot.Id, reservationId);
+        day.ReleaseTimeslot(timeslot.Id, reservationId);
+
+        timeslot.ReservedBy.Should().BeNull();
+    }
+
     private CalendarDay TestDay()
     {
         return CalendarDay.Create(new ServiceProviderId(), new DateOnly(2024, 10, 2));
