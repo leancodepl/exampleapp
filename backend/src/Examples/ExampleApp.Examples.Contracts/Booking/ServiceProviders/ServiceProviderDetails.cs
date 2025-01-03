@@ -25,8 +25,8 @@ public class ServiceProviderDetailsDTO
     public bool IsPromotionActive { get; set; }
     public double Ratings { get; set; }
 
-    public Uri PromotionalBanner { get; set; }
-    public Uri ListItemPicture { get; set; }
+    public Uri CoverPhoto { get; set; }
+    public Uri Thumbnail { get; set; }
 
     public List<TimeslotDTO> Timeslots { get; set; }
 }

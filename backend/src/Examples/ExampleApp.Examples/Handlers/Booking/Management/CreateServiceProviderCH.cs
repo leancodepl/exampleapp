@@ -26,19 +26,19 @@ public class CreateServiceProviderCV : AbstractValidator<CreateServiceProvider>
             .MaximumLength(10000)
             .WithCode(CreateServiceProvider.ErrorCodes.DescriptionIsTooLong);
 
-        RuleFor(cmd => cmd.PromotionalBanner)
+        RuleFor(cmd => cmd.CoverPhoto)
             .Cascade(CascadeMode.Stop)
             .NotNull()
-            .WithCode(CreateServiceProvider.ErrorCodes.PromotionalBannerIsInvalid)
+            .WithCode(CreateServiceProvider.ErrorCodes.CoverPhotoIsInvalid)
             .Must(uri => uri.IsAbsoluteUri)
-            .WithCode(CreateServiceProvider.ErrorCodes.PromotionalBannerIsInvalid);
+            .WithCode(CreateServiceProvider.ErrorCodes.CoverPhotoIsInvalid);
 
-        RuleFor(cmd => cmd.ListItemPicture)
+        RuleFor(cmd => cmd.Thumbnail)
             .Cascade(CascadeMode.Stop)
             .NotNull()
-            .WithCode(CreateServiceProvider.ErrorCodes.ListItemPictureIsInvalid)
+            .WithCode(CreateServiceProvider.ErrorCodes.ThumbnailIsInvalid)
             .Must(uri => uri.IsAbsoluteUri)
-            .WithCode(CreateServiceProvider.ErrorCodes.ListItemPictureIsInvalid);
+            .WithCode(CreateServiceProvider.ErrorCodes.ThumbnailIsInvalid);
 
         RuleFor(cmd => cmd.Address)
             .NotEmpty()
@@ -65,8 +65,8 @@ public class CreateServiceProviderCH(IRepository<ServiceProvider, ServiceProvide
             command.Name,
             (ServiceProviderType)command.Type,
             command.Description,
-            command.PromotionalBanner,
-            command.ListItemPicture,
+            command.CoverPhoto,
+            command.Thumbnail,
             command.Address,
             command.Location.ToDomain(),
             command.Ratings
