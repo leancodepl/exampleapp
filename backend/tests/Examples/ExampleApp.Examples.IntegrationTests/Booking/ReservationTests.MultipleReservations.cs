@@ -62,8 +62,8 @@ public class ReservationTests_MultipleReservations : TestsBase<MultiUserExampleA
             Name = fakeName,
             Type = ServiceProviderTypeDTO.Hairdresser,
             Description = "Description",
-            PromotionalBanner = new Uri("http://example.com"),
-            ListItemPicture = new Uri("http://example.com"),
+            CoverPhoto = new Uri("http://example.com"),
+            Thumbnail = new Uri("http://example.com"),
             Address = "Address",
             Location = new LocationDTO(10, 10),
         };

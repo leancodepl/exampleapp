@@ -26,7 +26,7 @@ public class AllServiceProvidersQH(ExamplesDbContext dbContext)
                 Id = sp.Id,
                 Name = sp.Name,
                 Type = (ServiceProviderTypeDTO)sp.Type,
-                ListItemPicture = sp.ListItemPicture,
+                Thumbnail = sp.Thumbnail,
                 IsPromotionActive = sp.IsPromotionActive,
                 Address = sp.Address,
                 Location = new(sp.Location.Latitude, sp.Location.Longitude),

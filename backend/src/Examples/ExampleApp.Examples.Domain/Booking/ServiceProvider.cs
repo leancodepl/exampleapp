@@ -13,8 +13,8 @@ public class ServiceProvider : IAggregateRoot<ServiceProviderId>
     public string Name { get; private set; }
     public ServiceProviderType Type { get; private set; }
     public string Description { get; private set; }
-    public Uri PromotionalBanner { get; private set; }
-    public Uri ListItemPicture { get; private set; }
+    public Uri CoverPhoto { get; private set; }
+    public Uri Thumbnail { get; private set; }
     public bool IsPromotionActive { get; private set; }
     public double Ratings { get; private set; }
 
@@ -27,8 +27,8 @@ public class ServiceProvider : IAggregateRoot<ServiceProviderId>
     {
         Name = null!;
         Description = null!;
-        PromotionalBanner = null!;
-        ListItemPicture = null!;
+        CoverPhoto = null!;
+        Thumbnail = null!;
         Address = null!;
         Location = null!;
     }
@@ -37,8 +37,8 @@ public class ServiceProvider : IAggregateRoot<ServiceProviderId>
         string name,
         ServiceProviderType type,
         string description,
-        Uri promotionalBanner,
-        Uri listItemPicture,
+        Uri coverPhoto,
+        Uri thumbnail,
         string address,
         Location location,
         double ratings
@@ -50,8 +50,8 @@ public class ServiceProvider : IAggregateRoot<ServiceProviderId>
             Name = name,
             Type = type,
             Description = description,
-            PromotionalBanner = promotionalBanner,
-            ListItemPicture = listItemPicture,
+            CoverPhoto = coverPhoto,
+            Thumbnail = thumbnail,
             Address = address,
             Location = location,
             Ratings = ratings,

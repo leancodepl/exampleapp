@@ -22,7 +22,7 @@ public class ServiceProviderSummaryDTO
     public string Id { get; set; }
     public string Name { get; set; }
     public ServiceProviderTypeDTO Type { get; set; }
-    public Uri ListItemPicture { get; set; }
+    public Uri Thumbnail { get; set; }
     public bool IsPromotionActive { get; set; }
     public string Address { get; set; }
     public LocationDTO Location { get; set; }
