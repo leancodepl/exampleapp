@@ -78,4 +78,5 @@ public enum ReservationStatus
     Rejected = 2,
     Paid = 3,
     Cancelled = 4,
+    Completed = 5,
 }
