@@ -3,11 +3,11 @@
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
     <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
 
-    <CoreLibVersion>9.0.2542-preview</CoreLibVersion>
-    <ExtensionsVersion>9.0.0</ExtensionsVersion>
-    <EFCoreVersion>9.0.0</EFCoreVersion>
-    <AspNetCoreVersion>9.0.0</AspNetCoreVersion>
-    <MassTransitVersion>8.3.3</MassTransitVersion>
+    <CoreLibVersion>9.0.2602-preview</CoreLibVersion>
+    <ExtensionsVersion>9.0.1</ExtensionsVersion>
+    <EFCoreVersion>9.0.1</EFCoreVersion>
+    <AspNetCoreVersion>9.0.1</AspNetCoreVersion>
+    <MassTransitVersion>8.3.4</MassTransitVersion>
     <NpgsqlVersion>9.0.2</NpgsqlVersion>
     <NpgsqlEFCoreVersion>9.0.2</NpgsqlEFCoreVersion>
     <LeanPipeVersion>0.3.0</LeanPipeVersion>
@@ -97,9 +97,9 @@
     <PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="$(NpgsqlEFCoreVersion)" />
     <PackageVersion Include="Npgsql.OpenTelemetry" Version="$(NpgsqlVersion)" />
 
-    <PackageVersion Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.10.0" />
-    <PackageVersion Include="OpenTelemetry.Extensions.Hosting" Version="1.10.0" />
-    <PackageVersion Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.10.0" />
+    <PackageVersion Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.11.0" />
+    <PackageVersion Include="OpenTelemetry.Extensions.Hosting" Version="1.11.0" />
+    <PackageVersion Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.10.1" />
     <PackageVersion Include="OpenTelemetry.Instrumentation.Http" Version="1.10.0" />
 
     <PackageVersion Include="Microsoft.IdentityModel.JsonWebTokens" Version="8.3.0" />
@@ -116,9 +116,9 @@
     <PackageVersion Include="LeanCode.Pipe.TestClient" Version="$(LeanPipeVersion)" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
     <PackageVersion Include="NSubstitute" Version="5.3.0" />
-    <PackageVersion Include="xunit" Version="2.9.2" />
-    <PackageVersion Include="xunit.analyzers" Version="1.17.0" />
-    <PackageVersion Include="xunit.runner.visualstudio" Version="2.8.2" />
+    <PackageVersion Include="xunit.v3" Version="1.0.1" />
+    <PackageVersion Include="xunit.analyzers" Version="1.19.0" />
+    <PackageVersion Include="xunit.runner.visualstudio" Version="3.0.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -129,12 +129,10 @@
 
   <!-- These are overrides of transitive dependencies to either fix broken deps or fix security vulns -->
   <ItemGroup>
-    <PackageVersion Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.11.0" />
-    <PackageVersion Include="Microsoft.CodeAnalysis.Common" Version="4.11.0" />
-    <PackageVersion Include="Microsoft.CodeAnalysis.Workspaces.Common" Version="4.11.0" />
-    <PackageVersion Include="Microsoft.CodeAnalysis.Workspaces.MSBuild" Version="4.11.0" />
-    <PackageVersion Include="System.Formats.Asn1" Version="9.0.0" />
-    <PackageVersion Include="System.Private.Uri" Version="4.3.2" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.12.0" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.Common" Version="4.12.0" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.Workspaces.Common" Version="4.12.0" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.Workspaces.MSBuild" Version="4.12.0" />
   </ItemGroup>
 
 </Project>

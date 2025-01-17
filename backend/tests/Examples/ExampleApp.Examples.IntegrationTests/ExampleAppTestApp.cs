@@ -13,6 +13,8 @@ using LeanCode.Logging;
 using LeanCode.Pipe.TestClient;
 using LeanCode.Startup.MicrosoftDI;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.TestHost;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
@@ -26,13 +28,14 @@ public class ExampleAppTestApp : LeanCodeTestFactory<Startup>
 
     public bool SkipDbContextInitialization { get; init; } = false;
 
-    protected override ConfigurationOverrides Configuration { get; } =
+    protected override TestConnectionString ConnectionStringConfig { get; } =
         new(
-            connectionStringBase: "PostgreSQL__ConnectionStringBase",
-            connectionStringKey: "PostgreSQL:ConnectionString",
-            LogEventLevel.Debug,
-            true
+            connectionStringBaseKey: "PostgreSQL:ConnectionStringBase",
+            connectionStringKey: "PostgreSQL:ConnectionString"
         );
+
+    protected override ConfigurationOverrides ConfigurationOverrides { get; } =
+        ConfigurationOverrides.LoggingOverrides();
 
     static ExampleAppTestApp()
     {
@@ -57,7 +60,13 @@ public class ExampleAppTestApp : LeanCodeTestFactory<Startup>
         return LeanProgram
             .BuildMinimalHost<Startup>()
             .ConfigureDefaultLogging("ExampleApp.Examples.IntegrationTests", [typeof(Program).Assembly])
-            .UseEnvironment(Environments.Development);
+            .UseEnvironment(Environments.Development)
+            .ConfigureAppConfiguration(
+                (context, builder) =>
+                {
+                    builder.AddJsonFile("appsettings.json", optional: false, reloadOnChange: false);
+                }
+            );
     }
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
@@ -95,7 +104,7 @@ public class AuthenticatedExampleAppTestApp : ExampleAppTestApp
     public HttpOperationsExecutor Operation { get; private set; } = default!;
     public LeanPipeTestClient LeanPipe { get; private set; } = default!;
 
-    public override async Task InitializeAsync()
+    public override async ValueTask InitializeAsync()
     {
         AuthenticateAsTestSuperUser();
 
@@ -169,7 +178,7 @@ public class MultiUserExampleAppTestApp : ExampleAppTestApp
         principals = Enumerable.Range(0, principalsCount).Select(_ => TestPrincipal()).ToList();
     }
 
-    public override async Task InitializeAsync()
+    public override async ValueTask InitializeAsync()
     {
         TestPrincipal();
 
@@ -213,7 +222,7 @@ public class UnauthenticatedExampleAppTestApp : ExampleAppTestApp
     public HttpOperationsExecutor Operation { get; private set; } = default!;
     public LeanPipeTestClient LeanPipe { get; private set; } = default!;
 
-    public override async Task InitializeAsync()
+    public override async ValueTask InitializeAsync()
     {
         await base.InitializeAsync();
 
