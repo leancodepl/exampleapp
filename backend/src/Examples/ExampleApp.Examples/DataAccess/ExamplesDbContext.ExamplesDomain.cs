@@ -45,7 +45,6 @@ public partial class ExamplesDbContext : IAppRatingStore<Guid>
         {
             e.HasKey(t => t.Id);
 
-            e.IsOptimisticConcurrent(addRowVersion: false);
             e.HasRowVersion();
         });
 
@@ -63,7 +62,6 @@ public partial class ExamplesDbContext : IAppRatingStore<Guid>
                 }
             );
 
-            e.IsOptimisticConcurrent(addRowVersion: false);
             e.HasRowVersion();
         });
 
@@ -73,7 +71,6 @@ public partial class ExamplesDbContext : IAppRatingStore<Guid>
 
             e.ComplexProperty(t => t.Location);
 
-            e.IsOptimisticConcurrent(addRowVersion: false);
             e.HasRowVersion();
         });
 
@@ -85,7 +82,6 @@ public partial class ExamplesDbContext : IAppRatingStore<Guid>
             e.HasMany(t => t.Timeslots).WithOne(t => t.CalendarDay);
             e.Navigation(t => t.Timeslots).AutoInclude();
 
-            e.IsOptimisticConcurrent(addRowVersion: false);
             e.HasRowVersion();
         });
 
@@ -112,39 +108,7 @@ public partial class ExamplesDbContext : IAppRatingStore<Guid>
             e.HasIndex(t => new { t.CustomerId, t.TimeslotId });
             e.HasIndex(t => new { t.CustomerId, t.Status });
 
-            e.IsOptimisticConcurrent(addRowVersion: false);
             e.HasRowVersion();
         });
-    }
-}
-
-file static class ModelConfigurationBuilderExtensions
-{
-    public static PropertiesConfigurationBuilder<TId> ConfigureId<TId>(
-        this ModelConfigurationBuilder configurationBuilder
-    )
-        where TId : struct, IPrefixedTypedId<TId>
-    {
-        return configurationBuilder
-            .Properties<TId>()
-            .HaveColumnType("citext")
-            .HaveConversion<PrefixedTypedIdConverter<TId>, PrefixedTypedIdComparer<TId>>();
-    }
-
-    public static PropertiesConfigurationBuilder<TId> ConfigureGuidId<TId>(
-        this ModelConfigurationBuilder configurationBuilder
-    )
-        where TId : struct, IRawTypedId<Guid, TId>
-    {
-        return configurationBuilder
-            .Properties<TId>()
-            .HaveColumnType("uuid")
-            .HaveConversion<RawTypedIdConverter<Guid, TId>, RawTypedIdComparer<Guid, TId>>();
-    }
-
-    public static void HasRowVersion<TEntity>(this EntityTypeBuilder<TEntity> e)
-        where TEntity : class
-    {
-        e.Property<uint>("xmin").IsRowVersion();
     }
 }
