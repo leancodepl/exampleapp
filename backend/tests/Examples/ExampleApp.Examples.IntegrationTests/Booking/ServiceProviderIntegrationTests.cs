@@ -10,11 +10,29 @@ public class ServiceProviderIntegrationTests : BookingTestsBase
     [Fact]
     public async Task Creating_and_listing_ServiceProviders()
     {
-        var sp1Id = await CreateServiceProviderAsync("ServiceProvider 1", ServiceProviderTypeDTO.Hairdresser, 2);
-        var sp2Id = await CreateServiceProviderAsync("ServiceProvider 2", ServiceProviderTypeDTO.Groomer, 5);
-        var sp3Id = await CreateServiceProviderAsync("ServiceProvider 3", ServiceProviderTypeDTO.Hairdresser, 3);
+        var sp1Id = await CreateServiceProviderAsync(
+            "ServiceProvider 1",
+            ServiceProviderTypeDTO.Hairdresser,
+            2,
+            TestContext.Current.CancellationToken
+        );
+        var sp2Id = await CreateServiceProviderAsync(
+            "ServiceProvider 2",
+            ServiceProviderTypeDTO.Groomer,
+            5,
+            TestContext.Current.CancellationToken
+        );
+        var sp3Id = await CreateServiceProviderAsync(
+            "ServiceProvider 3",
+            ServiceProviderTypeDTO.Hairdresser,
+            3,
+            TestContext.Current.CancellationToken
+        );
 
-        var serviceProviders = await App.Query.GetAsync(new AllServiceProviders { PageSize = 100 });
+        var serviceProviders = await App.Query.GetAsync(
+            new AllServiceProviders { PageSize = 100 },
+            TestContext.Current.CancellationToken
+        );
         serviceProviders
             .Items.Should()
             .BeEquivalentTo(
@@ -26,7 +44,8 @@ public class ServiceProviderIntegrationTests : BookingTestsBase
             );
 
         var sorted = await App.Query.GetAsync(
-            new AllServiceProviders { SortBy = ServiceProviderSortFieldsDTO.Type, PageSize = 100 }
+            new AllServiceProviders { SortBy = ServiceProviderSortFieldsDTO.Type, PageSize = 100 },
+            TestContext.Current.CancellationToken
         );
         sorted
             .Items.Should()
@@ -41,7 +60,8 @@ public class ServiceProviderIntegrationTests : BookingTestsBase
                 SortBy = ServiceProviderSortFieldsDTO.Ratings,
                 PageSize = 100,
                 SortByDescending = true,
-            }
+            },
+            TestContext.Current.CancellationToken
         );
         sortedByRatings
             .Items.Should()
@@ -51,11 +71,15 @@ public class ServiceProviderIntegrationTests : BookingTestsBase
             );
 
         var filteredServiceProviders = await App.Query.GetAsync(
-            new AllServiceProviders { NameFilter = "2", PageSize = 100 }
+            new AllServiceProviders { NameFilter = "2", PageSize = 100 },
+            TestContext.Current.CancellationToken
         );
         filteredServiceProviders.Items.Should().BeEquivalentTo([new { Id = sp2Id }]);
 
-        var sp1Details = await App.Query.GetAsync(new ServiceProviderDetails { ServiceProviderId = sp1Id });
+        var sp1Details = await App.Query.GetAsync(
+            new ServiceProviderDetails { ServiceProviderId = sp1Id },
+            TestContext.Current.CancellationToken
+        );
         sp1Details
             .Should()
             .BeEquivalentTo(
@@ -67,7 +91,10 @@ public class ServiceProviderIntegrationTests : BookingTestsBase
                 }
             );
 
-        var sp2Details = await App.Query.GetAsync(new ServiceProviderDetails { ServiceProviderId = sp2Id });
+        var sp2Details = await App.Query.GetAsync(
+            new ServiceProviderDetails { ServiceProviderId = sp2Id },
+            TestContext.Current.CancellationToken
+        );
         sp2Details
             .Should()
             .BeEquivalentTo(

@@ -10,20 +10,28 @@ public class CalendarIntegrationTests : BookingTestsBase
     [Fact]
     public async Task Adding_and_listing_timeslots()
     {
-        var sp = await CreateServiceProviderAsync();
+        var sp = await CreateServiceProviderAsync(cancellationToken: TestContext.Current.CancellationToken);
 
         // Ensure that details work even without any timeslots
         var details = await App.Query.GetAsync(
-            new ServiceProviderDetails { ServiceProviderId = sp, CalendarDate = new(2024, 10, 6) }
+            new ServiceProviderDetails { ServiceProviderId = sp, CalendarDate = new(2024, 10, 6) },
+            TestContext.Current.CancellationToken
         );
         details.Should().NotBeNull();
 
         // Test different combination of timeslot
-        await AddTimeslotAsync(sp, new(2024, 10, 6), new(10, 0), new(11, 0), 10.5m);
-        await AddTimeslotAsync(sp, new(2024, 10, 7), new(11, 0), new(12, 0), 11);
-        await AddTimeslotAsync(sp, new(2024, 10, 7), new(12, 0), new(13, 0), 12);
+        await AddTimeslotAsync(
+            sp,
+            new(2024, 10, 6),
+            new(10, 0),
+            new(11, 0),
+            10.5m,
+            TestContext.Current.CancellationToken
+        );
+        await AddTimeslotAsync(sp, new(2024, 10, 7), new(11, 0), new(12, 0), 11, TestContext.Current.CancellationToken);
+        await AddTimeslotAsync(sp, new(2024, 10, 7), new(12, 0), new(13, 0), 12, TestContext.Current.CancellationToken);
 
-        var timeslots1 = await ListTimeslotsAsync(sp, new(2024, 10, 6));
+        var timeslots1 = await ListTimeslotsAsync(sp, new(2024, 10, 6), TestContext.Current.CancellationToken);
         timeslots1
             .Should()
             .BeEquivalentTo(
@@ -38,7 +46,7 @@ public class CalendarIntegrationTests : BookingTestsBase
                 ]
             );
 
-        var timeslots2 = await ListTimeslotsAsync(sp, new(2024, 10, 7));
+        var timeslots2 = await ListTimeslotsAsync(sp, new(2024, 10, 7), TestContext.Current.CancellationToken);
         timeslots2
             .Should()
             .BeEquivalentTo(

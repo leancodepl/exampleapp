@@ -1,7 +1,4 @@
-using ExampleApp.Examples.Contracts.Booking;
-using ExampleApp.Examples.Contracts.Booking.Management;
 using ExampleApp.Examples.Contracts.Booking.Reservations;
-using ExampleApp.Examples.Contracts.Booking.ServiceProviders;
 using ExampleApp.Examples.IntegrationTests.Helpers;
 using FluentAssertions;
 using Xunit;
@@ -13,24 +10,39 @@ public class BookingTests : BookingTestsBase
     [Fact]
     public async Task Creating_reservation()
     {
-        var spId = await CreateServiceProviderAsync();
-        var timeslot1 = await AddTimeslotAsync(spId, hour: 14);
-        var timeslot2 = await AddTimeslotAsync(spId, hour: 15);
+        var spId = await CreateServiceProviderAsync(cancellationToken: TestContext.Current.CancellationToken);
+        var timeslot1 = await AddTimeslotAsync(
+            spId,
+            hour: 14,
+            cancellationToken: TestContext.Current.CancellationToken
+        );
+        var timeslot2 = await AddTimeslotAsync(
+            spId,
+            hour: 15,
+            cancellationToken: TestContext.Current.CancellationToken
+        );
 
         await App.Command.RunSuccessAsync(
             new ReserveTimeslot { TimeslotId = timeslot1.Id, CalendarDayId = timeslot1.CalendarDayId }
         );
 
-        var detailsByTimeslot = await App.Query.GetAsync(new MyReservationByTimeslotId { TimeslotId = timeslot1.Id });
+        var detailsByTimeslot = await App.Query.GetAsync(
+            new MyReservationByTimeslotId { TimeslotId = timeslot1.Id },
+            TestContext.Current.CancellationToken
+        );
         detailsByTimeslot.Should().BeEquivalentTo(new { TimeslotId = timeslot1.Id, ServiceProviderId = spId });
 
-        var detailsById = await App.Query.GetAsync(new MyReservationById { ReservationId = detailsByTimeslot!.Id });
+        var detailsById = await App.Query.GetAsync(
+            new MyReservationById { ReservationId = detailsByTimeslot!.Id },
+            TestContext.Current.CancellationToken
+        );
         detailsById.Should().BeEquivalentTo(detailsByTimeslot);
 
         await App.WaitForBusAsync();
 
         var detailsByIdAfterConfirmation = await App.Query.GetAsync(
-            new MyReservationById { ReservationId = detailsByTimeslot!.Id }
+            new MyReservationById { ReservationId = detailsByTimeslot!.Id },
+            TestContext.Current.CancellationToken
         );
         detailsByIdAfterConfirmation.Should().BeEquivalentTo(new { Status = ReservationStatusDTO.Confirmed });
 
@@ -40,7 +52,10 @@ public class BookingTests : BookingTestsBase
 
         await App.WaitForBusAsync();
 
-        var reservations = await App.Query.GetAsync(new MyReservations { PageSize = 100 });
+        var reservations = await App.Query.GetAsync(
+            new MyReservations { PageSize = 100 },
+            TestContext.Current.CancellationToken
+        );
         reservations
             .Items.Should()
             .BeEquivalentTo(
@@ -52,8 +67,8 @@ public class BookingTests : BookingTestsBase
     [Fact]
     public async Task Non_confirmed_reservations_are_not_returned_on_the_list()
     {
-        var spId = await CreateServiceProviderAsync();
-        var timeslot = await AddTimeslotAsync(spId);
+        var spId = await CreateServiceProviderAsync(cancellationToken: TestContext.Current.CancellationToken);
+        var timeslot = await AddTimeslotAsync(spId, cancellationToken: TestContext.Current.CancellationToken);
 
         await App.Command.RunSuccessAsync(
             new ReserveTimeslot { TimeslotId = timeslot.Id, CalendarDayId = timeslot.CalendarDayId }
@@ -61,7 +76,7 @@ public class BookingTests : BookingTestsBase
 
         // This assumes that the bus will not stabilize between the command and the query.
         // This might be a far-fetched assumption, thus if this breaks, consider removing it.
-        var reservations = await App.Query.GetAsync(new MyReservations());
+        var reservations = await App.Query.GetAsync(new MyReservations(), TestContext.Current.CancellationToken);
         reservations.Items.Should().BeEmpty();
     }
 }

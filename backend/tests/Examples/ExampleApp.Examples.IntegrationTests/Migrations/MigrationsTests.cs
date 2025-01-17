@@ -22,11 +22,11 @@ public class MigrationTests
 
         try
         {
-            await dbContext.Database.MigrateAsync();
+            await dbContext.Database.MigrateAsync(cancellationToken: TestContext.Current.CancellationToken);
         }
         finally
         {
-            await dbContext.Database.EnsureDeletedAsync();
+            await dbContext.Database.EnsureDeletedAsync(TestContext.Current.CancellationToken);
         }
     }
 

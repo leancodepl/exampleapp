@@ -11,8 +11,12 @@ public class BookingTestsCancellation : BookingTestsBase
     [Fact]
     public async Task Cancelling_reservation()
     {
-        var spId = await CreateServiceProviderAsync();
-        var timeslot1 = await AddTimeslotAsync(spId, hour: 14);
+        var spId = await CreateServiceProviderAsync(cancellationToken: TestContext.Current.CancellationToken);
+        var timeslot1 = await AddTimeslotAsync(
+            spId,
+            hour: 14,
+            cancellationToken: TestContext.Current.CancellationToken
+        );
         var reservation = await ReserveAsync(timeslot1);
 
         reservation.Status.Should().Be(ReservationStatusDTO.Confirmed);
@@ -20,10 +24,13 @@ public class BookingTestsCancellation : BookingTestsBase
         await App.Command.RunSuccessAsync(new CancelReservation { ReservationId = reservation.Id });
         await App.WaitForBusAsync();
 
-        var updatedReservation = await App.Query.GetAsync(new MyReservationById { ReservationId = reservation.Id });
+        var updatedReservation = await App.Query.GetAsync(
+            new MyReservationById { ReservationId = reservation.Id },
+            TestContext.Current.CancellationToken
+        );
         updatedReservation.Should().NotBeNull().And.BeEquivalentTo(new { Status = ReservationStatusDTO.Cancelled });
 
-        var timeslots = await ListTimeslotsAsync(spId);
+        var timeslots = await ListTimeslotsAsync(spId, cancellationToken: TestContext.Current.CancellationToken);
         timeslots.Should().ContainSingle(e => e.StartTime.Hour == 14).Which.IsReserved.Should().BeFalse();
     }
 
