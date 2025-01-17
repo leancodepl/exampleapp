@@ -76,7 +76,7 @@ public class ExampleAppTestApp : LeanCodeTestFactory<Startup>
         // This check is required to make it work both in Tilt (which works on binaries) & locally (which works on code)
         if (Environment.GetEnvironmentVariable("ASPNETCORE_TEST_CONTENTROOT_EXAMPLEAPP_EXAMPLES_API") is null)
         {
-            builder.UseSolutionRelativeContentRoot("tests/Examples/ExampleApp.Examples.IntegrationTests");
+            builder.UseSolutionRelativeContentRoot("Examples/ExampleApp.Examples.IntegrationTests");
         }
 
         builder.ConfigureServices(services =>
