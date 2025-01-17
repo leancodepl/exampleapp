@@ -15,14 +15,4 @@
     <PackageReference Include="LeanCode.Pipe.TestClient" />
   </ItemGroup>
 
-  <ItemGroup>
-    <WebApplicationFactoryContentRootAttribute
-      Include="ExampleApp.Examples.IntegrationTests"
-      AssemblyName="ExampleApp.Examples.IntegrationTests"
-      ContentRootPath="$(MSBuildProjectDirectory)"
-      ContentRootTest="ExampleApp.Examples.IntegrationTests.csproj"
-      Priority="-1" />
-  </ItemGroup>
-
-
 </Project>
