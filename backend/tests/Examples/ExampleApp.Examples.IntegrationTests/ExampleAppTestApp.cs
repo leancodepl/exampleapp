@@ -65,6 +65,7 @@ public class ExampleAppTestApp : LeanCodeTestFactory<Startup>
                 (context, builder) =>
                 {
                     builder.AddJsonFile("appsettings.json", optional: false, reloadOnChange: false);
+                    builder.AddEnvironmentVariables(); // Re-add to make it higher priority over json file
                 }
             );
     }
@@ -72,7 +73,11 @@ public class ExampleAppTestApp : LeanCodeTestFactory<Startup>
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         base.ConfigureWebHost(builder);
-        builder.UseSolutionRelativeContentRoot("tests/Examples/ExampleApp.Examples.IntegrationTests");
+        // This check is required to make it work both in Tilt (which works on binaries) & locally (which works on code)
+        if (Environment.GetEnvironmentVariable("ASPNETCORE_TEST_CONTENTROOT_EXAMPLEAPP_EXAMPLES_API") is null)
+        {
+            builder.UseSolutionRelativeContentRoot("tests/Examples/ExampleApp.Examples.IntegrationTests");
+        }
 
         builder.ConfigureServices(services =>
         {
