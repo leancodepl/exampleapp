@@ -20,6 +20,7 @@ using LeanCode.Kratos.Client.Client;
 using LeanCode.Kratos.Client.Extensions;
 using LeanCode.Kratos.Client.Model;
 using LeanCode.Localization;
+using LeanCode.Logging;
 using LeanCode.Npgsql.ActiveDirectory;
 using LeanCode.OpenTelemetry;
 using LeanCode.Pipe;
@@ -143,6 +144,7 @@ public class Startup(IWebHostEnvironment hostEnv, IConfiguration config) : LeanS
         }
 
         app.UseAuthentication()
+            .UseUserIdLogsCorrelation(Auth.KnownClaims.UserId)
             .UseIdentityTraceAttributes(Auth.KnownClaims.UserId, Auth.KnownClaims.Role)
             .UseEndpoints(endpoints =>
             {
