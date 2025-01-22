@@ -12,9 +12,9 @@ public abstract class TestsBase<TApp> : IAsyncLifetime, IDisposable
         App = new TApp();
     }
 
-    Task IAsyncLifetime.InitializeAsync() => App.InitializeAsync();
+    ValueTask IAsyncLifetime.InitializeAsync() => App.InitializeAsync();
 
-    Task IAsyncLifetime.DisposeAsync() => App.DisposeAsync().AsTask();
+    ValueTask IAsyncDisposable.DisposeAsync() => App.DisposeAsync();
 
     void IDisposable.Dispose() => App.Dispose();
 }

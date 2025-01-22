@@ -18,7 +18,10 @@ public class ValidatorExtensionsTests
     {
         var validator = new FakeExistsValidator();
 
-        var result = await validator.TestValidateAsync(Context(WithoutEntity(), "invalid id"));
+        var result = await validator.TestValidateAsync(
+            Context(WithoutEntity(), "invalid id"),
+            cancellationToken: TestContext.Current.CancellationToken
+        );
         result
             .ShouldHaveValidationErrorFor(x => x)
             .Should()
@@ -32,7 +35,10 @@ public class ValidatorExtensionsTests
     {
         var validator = new FakeExistsValidator();
 
-        var result = await validator.TestValidateAsync(Context(WithoutEntity(), FakeId.New()));
+        var result = await validator.TestValidateAsync(
+            Context(WithoutEntity(), FakeId.New()),
+            cancellationToken: TestContext.Current.CancellationToken
+        );
         result
             .ShouldHaveValidationErrorFor(x => x)
             .Should()
@@ -47,7 +53,10 @@ public class ValidatorExtensionsTests
         var validator = new FakeExistsValidator();
         var (repo, id) = WithEntity();
 
-        var result = await validator.TestValidateAsync(Context(repo, id));
+        var result = await validator.TestValidateAsync(
+            Context(repo, id),
+            cancellationToken: TestContext.Current.CancellationToken
+        );
         result.ShouldNotHaveValidationErrorFor(x => x);
     }
 
@@ -56,7 +65,10 @@ public class ValidatorExtensionsTests
     {
         var validator = new FakeExistsValidator();
 
-        var result = await validator.TestValidateAsync(Context(WithoutEntity(), FakeId.New()));
+        var result = await validator.TestValidateAsync(
+            Context(WithoutEntity(), FakeId.New()),
+            cancellationToken: TestContext.Current.CancellationToken
+        );
         result
             .ShouldHaveValidationErrorFor(x => x)
             .Should()
@@ -70,7 +82,10 @@ public class ValidatorExtensionsTests
     {
         var validator = new FakeDoesNotExistValidator();
 
-        var result = await validator.TestValidateAsync(Context(WithoutEntity(), FakeId.New()));
+        var result = await validator.TestValidateAsync(
+            Context(WithoutEntity(), FakeId.New()),
+            cancellationToken: TestContext.Current.CancellationToken
+        );
         result.ShouldNotHaveValidationErrorFor(x => x);
     }
 
@@ -80,7 +95,10 @@ public class ValidatorExtensionsTests
         var validator = new FakeDoesNotExistValidator();
         var (repo, id) = WithEntity();
 
-        var result = await validator.TestValidateAsync(Context(repo, id));
+        var result = await validator.TestValidateAsync(
+            Context(repo, id),
+            cancellationToken: TestContext.Current.CancellationToken
+        );
         result
             .ShouldHaveValidationErrorFor(x => x)
             .Should()

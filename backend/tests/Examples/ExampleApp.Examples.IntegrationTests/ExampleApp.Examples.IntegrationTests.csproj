@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="appsettings.json" CopyToOutputDirectory="Always" CopyToPublishDirectory="Always" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="../../../src/Examples/ExampleApp.Examples/ExampleApp.Examples.csproj" />
 
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
@@ -14,15 +18,5 @@
     <PackageReference Include="LeanCode.IntegrationTestHelpers" />
     <PackageReference Include="LeanCode.Pipe.TestClient" />
   </ItemGroup>
-
-  <ItemGroup>
-    <WebApplicationFactoryContentRootAttribute
-      Include="ExampleApp.Examples.IntegrationTests"
-      AssemblyName="ExampleApp.Examples.IntegrationTests"
-      ContentRootPath="$(MSBuildProjectDirectory)"
-      ContentRootTest="ExampleApp.Examples.IntegrationTests.csproj"
-      Priority="-1" />
-  </ItemGroup>
-
 
 </Project>

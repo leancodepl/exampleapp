@@ -11,13 +11,16 @@ public class ExampleTest : TestsBase<UnauthenticatedExampleAppTestApp>
     {
         await App.Command.RunSuccessAsync(new CreateProject { Name = "Project" });
 
-        var projects = await App.Query.GetAsync(new AllProjects());
+        var projects = await App.Query.GetAsync(new AllProjects(), TestContext.Current.CancellationToken);
         var project = Assert.Single(projects);
 
         Assert.Equal("Project", project.Name);
         Assert.Matches("^project_[0-7][0-9A-HJKMNP-TV-Z]{25}$", project.Id);
 
-        var projectDetails = await App.Query.GetAsync(new ProjectDetails { Id = project.Id });
+        var projectDetails = await App.Query.GetAsync(
+            new ProjectDetails { Id = project.Id },
+            TestContext.Current.CancellationToken
+        );
 
         Assert.NotNull(projectDetails);
         Assert.Equal(project.Id, projectDetails.Id);

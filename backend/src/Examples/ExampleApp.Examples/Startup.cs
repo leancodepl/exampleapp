@@ -29,6 +29,7 @@ using LeanCode.SendGrid;
 using LeanCode.Startup.MicrosoftDI;
 using LeanCode.ViewRenderer.Razor;
 using MassTransit;
+using MassTransit.EntityFrameworkCoreIntegration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -329,8 +330,7 @@ public class Startup(IWebHostEnvironment hostEnv, IConfiguration config) : LeanS
         {
             cfg.AddEntityFrameworkOutbox<ExamplesDbContext>(outboxCfg =>
             {
-                outboxCfg.LockStatementProvider =
-                    new LeanCode.CQRS.MassTransitRelay.LockProviders.CustomPostgresLockStatementProvider();
+                outboxCfg.LockStatementProvider = new PostgresLockStatementProvider();
                 outboxCfg.UseBusOutbox();
             });
 

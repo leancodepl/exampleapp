@@ -24,8 +24,16 @@ public class ReservationTests_MultipleReservations : TestsBase<MultiUserExampleA
         // This test relies on an event handler retry, thus the bus needs more time to stabilize.
         await App.WaitForBusAsync(delay: TimeSpan.FromSeconds(30));
 
-        var details0 = await App.Queries[0].GetAsync(new MyReservationByTimeslotId { TimeslotId = timeslot.Id });
-        var details1 = await App.Queries[1].GetAsync(new MyReservationByTimeslotId { TimeslotId = timeslot.Id });
+        var details0 = await App.Queries[0]
+            .GetAsync(
+                new MyReservationByTimeslotId { TimeslotId = timeslot.Id },
+                TestContext.Current.CancellationToken
+            );
+        var details1 = await App.Queries[1]
+            .GetAsync(
+                new MyReservationByTimeslotId { TimeslotId = timeslot.Id },
+                TestContext.Current.CancellationToken
+            );
 
         details0.Should().NotBeNull();
         details1.Should().NotBeNull();
