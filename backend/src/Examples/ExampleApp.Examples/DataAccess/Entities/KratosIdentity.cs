@@ -2,8 +2,6 @@ using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using LeanCode.DomainModels.Model;
 
-// ReSharper disable EntityFramework.ModelValidation.UnlimitedStringLength
-
 namespace ExampleApp.Examples.DataAccess.Entities;
 
 public class KratosIdentity : IEntity<Guid>
