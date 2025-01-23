@@ -21,7 +21,6 @@ public class CreateEmployeeCV : AbstractValidator<CreateEmployee>
             .WithCode(CreateEmployee.ErrorCodes.NameTooLong);
 
         RuleFor(cmd => cmd.Email)
-            .Cascade(CascadeMode.Stop)
             .EmailAddress()
             .WithCode(CreateEmployee.ErrorCodes.EmailInvalid)
             .CustomAsync(CheckEmployeeExistsAsync);
@@ -33,6 +32,12 @@ public class CreateEmployeeCV : AbstractValidator<CreateEmployee>
         CancellationToken cancellationToken
     )
     {
+        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
+        if (email is null)
+        {
+            return;
+        }
+
         email = email.ToLowerInvariant();
 
         if (
