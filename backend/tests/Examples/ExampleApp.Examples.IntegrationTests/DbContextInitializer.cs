@@ -22,7 +22,7 @@ public class DbContextInitializer<T>(IServiceProvider serviceProvider) : IHosted
         await using var context = scope.ServiceProvider.GetRequiredService<T>();
         logger.Information("Creating database for context {ContextType}", context.GetType());
         await CreatePolicy.ExecuteAsync(
-            async (CancellationToken token) =>
+            async token =>
             {
                 await context.Database.EnsureDeletedAsync(token);
                 await context.Database.EnsureCreatedAsync(token);

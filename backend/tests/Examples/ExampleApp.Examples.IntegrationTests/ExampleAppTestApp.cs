@@ -18,7 +18,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
-using Serilog.Events;
 
 namespace ExampleApp.Examples.IntegrationTests;
 
@@ -62,7 +61,7 @@ public class ExampleAppTestApp : LeanCodeTestFactory<Startup>
             .ConfigureDefaultLogging("ExampleApp.Examples.IntegrationTests", [typeof(Program).Assembly])
             .UseEnvironment(Environments.Development)
             .ConfigureAppConfiguration(
-                (context, builder) =>
+                (_, builder) =>
                 {
                     builder.AddJsonFile("appsettings.json", optional: false, reloadOnChange: false);
                     builder.AddEnvironmentVariables(); // Re-add to make it higher priority over json file
@@ -113,13 +112,13 @@ public class AuthenticatedExampleAppTestApp : ExampleAppTestApp
     {
         AuthenticateAsTestSuperUser();
 
-        void ConfigureClient(HttpClient hc) => hc.UseTestAuthorization(claimsPrincipal);
+        void ConfigureHttpClient(HttpClient hc) => hc.UseTestAuthorization(claimsPrincipal);
 
         await base.InitializeAsync();
 
-        Query = CreateQueriesExecutor(ConfigureClient);
-        Command = CreateCommandsExecutor(ConfigureClient);
-        Operation = CreateOperationsExecutor(ConfigureClient);
+        Query = CreateQueriesExecutor(ConfigureHttpClient);
+        Command = CreateCommandsExecutor(ConfigureHttpClient);
+        Operation = CreateOperationsExecutor(ConfigureHttpClient);
         LeanPipe = new(
             new("http://localhost/leanpipe"),
             Startup.Api,

@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Text.RegularExpressions;
 using ExampleApp.Examples.Contracts;
 using ExampleApp.Examples.Contracts.Identities;
@@ -17,6 +18,7 @@ public class SearchIdentitiesQH : IQueryHandler<SearchIdentities, PaginatedResul
         this.dbContext = dbContext;
     }
 
+    [SuppressMessage("ReSharper", "EntityFramework.UnsupportedServerSideFunctionCall")]
     public Task<PaginatedResult<KratosIdentityDTO>> ExecuteAsync(HttpContext context, SearchIdentities query)
     {
         return dbContext

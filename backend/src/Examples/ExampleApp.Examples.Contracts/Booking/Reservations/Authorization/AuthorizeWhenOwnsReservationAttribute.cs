@@ -10,6 +10,6 @@ public class AuthorizeWhenOwnsReservationAttribute
 
     public interface IReservationRelated
     {
-        public string ReservationId { get; }
+        string ReservationId { get; }
     }
 }

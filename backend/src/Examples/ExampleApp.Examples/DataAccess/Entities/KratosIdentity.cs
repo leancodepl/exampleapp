@@ -2,6 +2,8 @@ using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using LeanCode.DomainModels.Model;
 
+// ReSharper disable EntityFramework.ModelValidation.UnlimitedStringLength
+
 namespace ExampleApp.Examples.DataAccess.Entities;
 
 public class KratosIdentity : IEntity<Guid>
@@ -22,6 +24,7 @@ public class KratosIdentity : IEntity<Guid>
     public IReadOnlyCollection<KratosIdentityRecoveryAddress> RecoveryAddresses => recoveryAddresses;
     public IReadOnlyCollection<KratosIdentityVerifiableAddress> VerifiableAddresses => verifiableAddresses;
 
+    // ReSharper disable once UnusedMember.Local
     private KratosIdentity()
     {
         SchemaId = null!;

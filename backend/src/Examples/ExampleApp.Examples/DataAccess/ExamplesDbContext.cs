@@ -1,4 +1,3 @@
-using System.Text.Json;
 using ExampleApp.Examples.DataAccess.Entities;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;

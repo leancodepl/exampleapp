@@ -18,7 +18,7 @@ public class Program
             .ConfigureDefaultLogging(
                 "ExampleApp.Examples",
                 [typeof(Program).Assembly],
-                additionalLoggingConfiguration: (context, config) =>
+                additionalLoggingConfiguration: (_, config) =>
                 {
                     // Silence noisy libraries
                     config.MinimumLevel.Override("Azure.Messaging.ServiceBus", LogEventLevel.Warning);

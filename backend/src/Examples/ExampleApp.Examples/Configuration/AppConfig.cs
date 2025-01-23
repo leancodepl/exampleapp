@@ -52,13 +52,13 @@ public static class AppConfig
 #if Example
     public static class Google
     {
-        public static string? ApiKey(IConfiguration cfg) => cfg.GetString("Google:ApiKey");
+        public static string? ApiKey(IConfiguration cfg) => cfg.TryGetString("Google:ApiKey");
     }
 #endif
 
     public static class SendGrid
     {
-        public static string? ApiKey(IConfiguration cfg) => cfg.GetString("SendGrid:ApiKey");
+        public static string? ApiKey(IConfiguration cfg) => cfg.TryGetString("SendGrid:ApiKey");
     }
 
     public static class CORS
@@ -78,7 +78,7 @@ public static class AppConfig
 
     public static class Telemetry
     {
-        public static string? OtlpEndpoint(IConfiguration cfg) => cfg.GetString("Telemetry:Otlp:Endpoint");
+        public static string? OtlpEndpoint(IConfiguration cfg) => cfg.TryGetString("Telemetry:Otlp:Endpoint");
     }
 
     public static class AuditLogs
@@ -92,9 +92,14 @@ public static class AppConfig
     public static class AppRating
     {
         public static string[] EmailsTo(IConfiguration cfg) =>
-            cfg?.GetSection("AppRating:EmailsTo").Get<string[]>() ?? Array.Empty<string>();
+            cfg.GetSection("AppRating:EmailsTo").Get<string[]>() ?? Array.Empty<string>();
     }
 #endif
+
+    private static string? TryGetString(this IConfiguration configuration, string key)
+    {
+        return configuration.GetValue<string>(key);
+    }
 
     private static string GetString(this IConfiguration configuration, string key)
     {

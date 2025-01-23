@@ -5,7 +5,6 @@ using LeanCode.CQRS.Execution;
 using LeanCode.CQRS.Validation.Fluent;
 using LeanCode.DomainModels.DataAccess;
 using Microsoft.AspNetCore.Http;
-using Serilog;
 
 namespace ExampleApp.Examples.Handlers.Booking.Reservations;
 
@@ -42,7 +41,7 @@ public class ReserveTimeslotCV : AbstractValidator<ReserveTimeslot>
 
 public class ReserveTimeslotCH(IRepository<Reservation, ReservationId> reservations) : ICommandHandler<ReserveTimeslot>
 {
-    private readonly ILogger logger = Serilog.Log.ForContext<ReserveTimeslotCH>();
+    private readonly Serilog.ILogger logger = Serilog.Log.ForContext<ReserveTimeslotCH>();
 
     public Task ExecuteAsync(HttpContext context, ReserveTimeslot command)
     {

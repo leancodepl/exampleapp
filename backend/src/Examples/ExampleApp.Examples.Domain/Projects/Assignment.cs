@@ -14,7 +14,7 @@ public class Assignment : IEntity<AssignmentId>
     public AssignmentStatus Status { get; private set; }
     public EmployeeId? AssignedEmployeeId { get; private set; }
 
-    public ProjectId ParentProjectId { get; private init; } = default!;
+    public ProjectId ParentProjectId { get; private init; }
     public Project ParentProject { get; private init; } = default!;
 
     private Assignment() { }
