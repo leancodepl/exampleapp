@@ -13,28 +13,28 @@ public static class AppConfig
 {
     public static class Kratos
     {
-        public static string PublicEndpoint(IConfiguration cfg) => cfg.GetString("Kratos:PublicEndpoint");
+        public static string PublicEndpoint(IConfiguration cfg) => cfg.GetString("Kratos:PublicEndpoint")!;
 
-        public static string AdminEndpoint(IConfiguration cfg) => cfg.GetString("Kratos:AdminEndpoint");
+        public static string AdminEndpoint(IConfiguration cfg) => cfg.GetString("Kratos:AdminEndpoint")!;
 
-        public static string WebhookApiKey(IConfiguration cfg) => cfg.GetString("Kratos:WebhookApiKey");
+        public static string WebhookApiKey(IConfiguration cfg) => cfg.GetString("Kratos:WebhookApiKey")!;
     }
 
     public static class PostgreSQL
     {
-        public static string ConnectionString(IConfiguration cfg) => cfg.GetString("PostgreSQL:ConnectionString");
+        public static string ConnectionString(IConfiguration cfg) => cfg.GetString("PostgreSQL:ConnectionString")!;
     }
 
     public static class BlobStorage
     {
-        public static string ConnectionString(IConfiguration cfg) => cfg.GetString("BlobStorage:ConnectionString");
+        public static string ConnectionString(IConfiguration cfg) => cfg.GetString("BlobStorage:ConnectionString")!;
     }
 
     public static class MassTransit
     {
         public static class AzureServiceBus
         {
-            public static string Endpoint(IConfiguration cfg) => cfg.GetString("MassTransit:AzureServiceBus:Endpoint");
+            public static string Endpoint(IConfiguration cfg) => cfg.GetString("MassTransit:AzureServiceBus:Endpoint")!;
         }
 
         public static class RabbitMq
@@ -52,13 +52,13 @@ public static class AppConfig
 #if Example
     public static class Google
     {
-        public static string? ApiKey(IConfiguration cfg) => cfg.TryGetString("Google:ApiKey");
+        public static string? ApiKey(IConfiguration cfg) => cfg.GetString("Google:ApiKey");
     }
 #endif
 
     public static class SendGrid
     {
-        public static string? ApiKey(IConfiguration cfg) => cfg.TryGetString("SendGrid:ApiKey");
+        public static string? ApiKey(IConfiguration cfg) => cfg.GetString("SendGrid:ApiKey");
     }
 
     public static class CORS
@@ -78,14 +78,14 @@ public static class AppConfig
 
     public static class Telemetry
     {
-        public static string? OtlpEndpoint(IConfiguration cfg) => cfg.TryGetString("Telemetry:Otlp:Endpoint");
+        public static string? OtlpEndpoint(IConfiguration cfg) => cfg.GetString("Telemetry:Otlp:Endpoint");
     }
 
     public static class AuditLogs
     {
-        public static string ContainerName(IConfiguration cfg) => cfg.GetString("AuditLogs:ContainerName");
+        public static string ContainerName(IConfiguration cfg) => cfg.GetString("AuditLogs:ContainerName")!;
 
-        public static string TableName(IConfiguration cfg) => cfg.GetString("AuditLogs:TableName");
+        public static string TableName(IConfiguration cfg) => cfg.GetString("AuditLogs:TableName")!;
     }
 
 #if Example
@@ -96,14 +96,9 @@ public static class AppConfig
     }
 #endif
 
-    private static string? TryGetString(this IConfiguration configuration, string key)
+    private static string? GetString(this IConfiguration configuration, string key)
     {
         return configuration.GetValue<string>(key);
-    }
-
-    private static string GetString(this IConfiguration configuration, string key)
-    {
-        return configuration.GetValue<string>(key)!;
     }
 
     private static bool GetBool(this IConfiguration configuration, string key)
