@@ -41,7 +41,7 @@ public class BookingTests : BookingTestsBase
         await App.WaitForBusAsync();
 
         var detailsByIdAfterConfirmation = await App.Query.GetAsync(
-            new MyReservationById { ReservationId = detailsByTimeslot!.Id },
+            new MyReservationById { ReservationId = detailsByTimeslot.Id },
             TestContext.Current.CancellationToken
         );
         detailsByIdAfterConfirmation.Should().BeEquivalentTo(new { Status = ReservationStatusDTO.Confirmed });

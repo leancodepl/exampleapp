@@ -2,11 +2,8 @@ using ExampleApp.Examples.Domain.Booking;
 using ExampleApp.Examples.Domain.Employees;
 using ExampleApp.Examples.Domain.Projects;
 using LeanCode.AppRating.DataAccess;
-using LeanCode.DomainModels.EF;
-using LeanCode.DomainModels.Ids;
 using LeanCode.Firebase.FCM;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ExampleApp.Examples.DataAccess;
 

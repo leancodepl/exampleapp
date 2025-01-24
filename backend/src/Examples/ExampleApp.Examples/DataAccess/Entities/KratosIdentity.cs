@@ -22,6 +22,7 @@ public class KratosIdentity : IEntity<Guid>
     public IReadOnlyCollection<KratosIdentityRecoveryAddress> RecoveryAddresses => recoveryAddresses;
     public IReadOnlyCollection<KratosIdentityVerifiableAddress> VerifiableAddresses => verifiableAddresses;
 
+    // ReSharper disable once UnusedMember.Local
     private KratosIdentity()
     {
         SchemaId = null!;

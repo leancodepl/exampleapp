@@ -1,5 +1,4 @@
 using ExampleApp.Examples.Contracts.Booking.Reservations;
-using ExampleApp.Examples.DataAccess.Queries;
 using ExampleApp.Examples.Domain.Booking;
 using ExampleApp.Examples.Handlers.Booking.Reservations;
 using FluentAssertions;
@@ -88,6 +87,6 @@ public class CancelReservationCVTests
         {
             RootContextData = { [ValidationContextExtensions.HttpContextKey] = httpContext },
         };
-        return await validator.TestValidateAsync(context, default);
+        return await validator.TestValidateAsync(context);
     }
 }

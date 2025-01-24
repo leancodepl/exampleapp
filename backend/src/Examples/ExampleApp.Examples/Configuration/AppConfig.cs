@@ -13,28 +13,28 @@ public static class AppConfig
 {
     public static class Kratos
     {
-        public static string PublicEndpoint(IConfiguration cfg) => cfg.GetString("Kratos:PublicEndpoint");
+        public static string PublicEndpoint(IConfiguration cfg) => cfg.GetString("Kratos:PublicEndpoint")!;
 
-        public static string AdminEndpoint(IConfiguration cfg) => cfg.GetString("Kratos:AdminEndpoint");
+        public static string AdminEndpoint(IConfiguration cfg) => cfg.GetString("Kratos:AdminEndpoint")!;
 
-        public static string WebhookApiKey(IConfiguration cfg) => cfg.GetString("Kratos:WebhookApiKey");
+        public static string WebhookApiKey(IConfiguration cfg) => cfg.GetString("Kratos:WebhookApiKey")!;
     }
 
     public static class PostgreSQL
     {
-        public static string ConnectionString(IConfiguration cfg) => cfg.GetString("PostgreSQL:ConnectionString");
+        public static string ConnectionString(IConfiguration cfg) => cfg.GetString("PostgreSQL:ConnectionString")!;
     }
 
     public static class BlobStorage
     {
-        public static string ConnectionString(IConfiguration cfg) => cfg.GetString("BlobStorage:ConnectionString");
+        public static string ConnectionString(IConfiguration cfg) => cfg.GetString("BlobStorage:ConnectionString")!;
     }
 
     public static class MassTransit
     {
         public static class AzureServiceBus
         {
-            public static string Endpoint(IConfiguration cfg) => cfg.GetString("MassTransit:AzureServiceBus:Endpoint");
+            public static string Endpoint(IConfiguration cfg) => cfg.GetString("MassTransit:AzureServiceBus:Endpoint")!;
         }
 
         public static class RabbitMq
@@ -83,22 +83,22 @@ public static class AppConfig
 
     public static class AuditLogs
     {
-        public static string ContainerName(IConfiguration cfg) => cfg.GetString("AuditLogs:ContainerName");
+        public static string ContainerName(IConfiguration cfg) => cfg.GetString("AuditLogs:ContainerName")!;
 
-        public static string TableName(IConfiguration cfg) => cfg.GetString("AuditLogs:TableName");
+        public static string TableName(IConfiguration cfg) => cfg.GetString("AuditLogs:TableName")!;
     }
 
 #if Example
     public static class AppRating
     {
         public static string[] EmailsTo(IConfiguration cfg) =>
-            cfg?.GetSection("AppRating:EmailsTo").Get<string[]>() ?? Array.Empty<string>();
+            cfg.GetSection("AppRating:EmailsTo").Get<string[]>() ?? Array.Empty<string>();
     }
 #endif
 
-    private static string GetString(this IConfiguration configuration, string key)
+    private static string? GetString(this IConfiguration configuration, string key)
     {
-        return configuration.GetValue<string>(key)!;
+        return configuration.GetValue<string>(key);
     }
 
     private static bool GetBool(this IConfiguration configuration, string key)

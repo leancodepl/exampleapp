@@ -36,7 +36,7 @@ public class AssignmentEmployerEmbedQH : IQueryHandler<AssignmentEmployerEmbed, 
                     {
                         ["question"] = config.AssignmentEmployerEmbedQuestion,
                     },
-                    ["params"] = new Dictionary<string, object?> { },
+                    ["params"] = new Dictionary<string, object?>(),
                 },
                 Expires = expiration,
                 SigningCredentials = credentials,

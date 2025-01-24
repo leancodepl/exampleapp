@@ -32,6 +32,7 @@ public class CreateEmployeeCV : AbstractValidator<CreateEmployee>
         CancellationToken cancellationToken
     )
     {
+        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
         if (email is null)
         {
             return;

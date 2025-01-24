@@ -134,7 +134,7 @@ public class AddTimeslotCVTests
         {
             RootContextData = { [ValidationContextExtensions.HttpContextKey] = httpContext },
         };
-        return await validator.TestValidateAsync(context, default);
+        return await validator.TestValidateAsync(context);
     }
 
     private ServiceProviderId AddServiceProvider()

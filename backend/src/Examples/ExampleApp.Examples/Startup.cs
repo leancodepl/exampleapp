@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using ExampleApp.Examples.Configuration;
 using ExampleApp.Examples.Contracts;
@@ -123,6 +124,7 @@ public class Startup(IWebHostEnvironment hostEnv, IConfiguration config) : LeanS
         });
     }
 
+    [SuppressMessage("ReSharper", "RedundantArgumentDefaultValue")]
     protected override void ConfigureApp(IApplicationBuilder app)
     {
         app.UseRouting().UseForwardedHeaders().UseCors(ApiCorsPolicy);
@@ -229,7 +231,7 @@ public class Startup(IWebHostEnvironment hostEnv, IConfiguration config) : LeanS
 
     private void AddDbContext(IServiceCollection services)
     {
-        services.AddSingleton(sp =>
+        services.AddSingleton(_ =>
         {
             var builder = new NpgsqlDataSourceBuilder(AppConfig.PostgreSQL.ConnectionString(Configuration));
 
