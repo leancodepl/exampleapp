@@ -117,7 +117,7 @@ selfservice:
       ui_url: https://${domain}/registration
       lifespan: 1h
       enabled: true
-      enable_legacy_one_step: true
+      enable_legacy_one_step: false
       after:
         password:
           hooks:
