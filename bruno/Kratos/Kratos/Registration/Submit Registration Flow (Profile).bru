@@ -1,7 +1,7 @@
 meta {
-  name: Submit Registration Flow (Google)
+  name: Submit Registration Flow (Profile)
   type: http
-  seq: 4
+  seq: 6
 }
 
 post {
@@ -17,9 +17,11 @@ headers {
 body:json {
   {
     "csrf_token": "{{kratos_registration_csrf_token}}",
-    "method": "oidc",
-    "provider": "google",
+    "method": "profile",
     "traits": {
+      "email": "{{identifier}}",
+      "given_name": "Krzysztof",
+      "family_name": "Bogacki",
       "regulations_accepted": true
     }
   }

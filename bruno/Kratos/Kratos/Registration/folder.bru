@@ -19,28 +19,35 @@ script:post-response {
   
       const verification = response.continue_with?.find(a => a?.action === "show_verification_ui");
       
-      if (verification) {
+      if (verification && verification.flow) {
         bru.setEnvVar("kratos_verification_flow_id", verification.flow.id);
         bru.setEnvVar("kratos_verification_flow", verification.flow.url);
       }
   
-      const nodes = response.ui.nodes;
-  
-      bru.setEnvVar("kratos_registration_flow", response.ui.action);
       bru.setEnvVar("kratos_registration_session_token_exchange_code", response.session_token_exchange_code);
+      
+      const ui = response.ui;
   
-      const csrf = nodes.find(n => n?.attributes?.name === "csrf_token");
+      if (ui) {
+        bru.setEnvVar("kratos_registration_flow", ui.action);
   
-      if (csrf && csrf.attributes.value) {
-        bru.setEnvVar("kratos_registration_csrf_token", csrf.attributes.value);
-      }
+        const nodes = ui.nodes;
   
-      const passkey = nodes.find(n => n?.attributes?.name === "passkey_create_data");
+        if (nodes) {
+          const csrf = nodes.find(n => n?.attributes?.name === "csrf_token");
   
-      if (passkey) {
-        const data = JSON.parse(passkey.attributes.value);
-        const request = JSON.stringify(data.publicKey);
-        bru.setEnvVar("kratos_passkey_registration_request", request);
+          if (csrf && csrf.attributes.value) {
+            bru.setEnvVar("kratos_registration_csrf_token", csrf.attributes.value);
+          }
+  
+          const passkey = nodes.find(n => n?.attributes?.name === "passkey_create_data");
+  
+          if (passkey) {
+            const data = JSON.parse(passkey.attributes.value);
+            const request = JSON.stringify(data.publicKey);
+            bru.setEnvVar("kratos_passkey_registration_request", request);
+          }
+        }
       }
     }
   }
