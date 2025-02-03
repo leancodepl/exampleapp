@@ -9,7 +9,7 @@
     <AspNetCoreVersion>9.0.1</AspNetCoreVersion>
     <MassTransitVersion>8.3.4</MassTransitVersion>
     <NpgsqlVersion>9.0.2</NpgsqlVersion>
-    <NpgsqlEFCoreVersion>9.0.2</NpgsqlEFCoreVersion>
+    <NpgsqlEFCoreVersion>9.0.3</NpgsqlEFCoreVersion>
     <LeanPipeVersion>0.3.0</LeanPipeVersion>
     <AppRatingVersion>2.0.52</AppRatingVersion>
   </PropertyGroup>
