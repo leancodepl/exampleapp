@@ -10,11 +10,15 @@
     "importHelpers": true,
     "target": "es2015",
     "module": "esnext",
-    "lib": ["es2020", "dom"],
+    "lib": ["es2020", "ESNext", "dom"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
+    "strict": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@web/design-system": ["design-system/src/index.ts"],
+      "@web/design-system/icons": ["design-system/src/lib/icons/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

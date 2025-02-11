@@ -1,0 +1,888 @@
+{
+  "auth.error.errorValidationAddressNotVerified": [
+    {
+      "type": 0,
+      "value": "Verify your email address"
+    }
+  ],
+  "auth.error.errorValidationDuplicateCredentials": [
+    {
+      "type": 0,
+      "value": "An account with these login credentials already exists"
+    }
+  ],
+  "auth.error.errorValidationFormat": [
+    {
+      "type": 0,
+      "value": "Invalid data format ("
+    },
+    {
+      "type": 1,
+      "value": "expected_format"
+    },
+    {
+      "type": 0,
+      "value": ")"
+    }
+  ],
+  "auth.error.errorValidationGeneric": [
+    {
+      "type": 0,
+      "value": "Field has an invalid format"
+    }
+  ],
+  "auth.error.errorValidationGenericOpenIDConnect": [
+    {
+      "type": 0,
+      "value": "The entered data is invalid. Please check its correctness"
+    }
+  ],
+  "auth.error.errorValidationGenericRegistrationDisabled": [
+    {
+      "type": 0,
+      "value": "Make sure an account for your email exists, use a login option connected to your account, or contact the Administrator"
+    }
+  ],
+  "auth.error.errorValidationIdentifierMissing": [
+    {
+      "type": 0,
+      "value": "No login credentials found"
+    }
+  ],
+  "auth.error.errorValidationInvalidCredentials": [
+    {
+      "type": 0,
+      "value": "Email or password incorrect. Try using password recovery or contact your supervisor"
+    }
+  ],
+  "auth.error.errorValidationLookupAlreadyUsed": [
+    {
+      "type": 0,
+      "value": "Recovery code has already been used"
+    }
+  ],
+  "auth.error.errorValidationLookupInvalid": [
+    {
+      "type": 0,
+      "value": "Recovery code is invalid"
+    }
+  ],
+  "auth.error.errorValidationNoLookup": [
+    {
+      "type": 0,
+      "value": "You don't have any recovery codes set up"
+    }
+  ],
+  "auth.error.errorValidationNoTOTPDevice": [
+    {
+      "type": 0,
+      "value": "No TOTP device detected for authentication"
+    }
+  ],
+  "auth.error.errorValidationNoWebAuthnDevice": [
+    {
+      "type": 0,
+      "value": "No authentication device detected"
+    }
+  ],
+  "auth.error.errorValidationPasswordPolicyViolation": [
+    {
+      "type": 0,
+      "value": "Min. 8 characters"
+    },
+    {
+      "type": 1,
+      "value": "br"
+    },
+    {
+      "type": 0,
+      "value": "Cannot be on the list of leaked passwords. Check at "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "haveibeenpwned"
+        }
+      ],
+      "type": 8,
+      "value": "leakedPasswordsLink"
+    },
+    {
+      "type": 1,
+      "value": "br"
+    },
+    {
+      "type": 0,
+      "value": "Cannot be too similar to email address"
+    }
+  ],
+  "auth.error.errorValidationRecoveryCodeInvalidOrAlreadyUsed": [
+    {
+      "type": 0,
+      "value": "Code is invalid or has already been used"
+    }
+  ],
+  "auth.error.errorValidationRecoveryFlowExpired": [
+    {
+      "type": 0,
+      "value": "Activation link has expired"
+    }
+  ],
+  "auth.error.errorValidationRecoveryMissingRecoveryToken": [
+    {
+      "type": 0,
+      "value": "Code is invalid"
+    }
+  ],
+  "auth.error.errorValidationRecoveryRetrySuccess": [
+    {
+      "type": 0,
+      "value": "Request has already been sent successfully and cannot be repeated"
+    }
+  ],
+  "auth.error.errorValidationRecoveryStateFailure": [
+    {
+      "type": 0,
+      "value": "An error occurred during recovery. Please try again"
+    }
+  ],
+  "auth.error.errorValidationRecoveryTokenInvalidOrAlreadyUsed": [
+    {
+      "type": 0,
+      "value": "Code is invalid or has already been used"
+    }
+  ],
+  "auth.error.errorValidationRequired": [
+    {
+      "type": 0,
+      "value": "This field is required"
+    }
+  ],
+  "auth.error.errorValidationSuchNoWebAuthnUser": [
+    {
+      "type": 0,
+      "value": "This account doesn't exist or doesn't have authentication codes set up yet"
+    }
+  ],
+  "auth.error.errorValidationTOTPVerifierWrong": [
+    {
+      "type": 0,
+      "value": "The verification code provided is incorrect"
+    }
+  ],
+  "auth.error.errorValidationVerificationCodeInvalidOrAlreadyUsed": [
+    {
+      "type": 0,
+      "value": "The code provided is invalid or has already been used. Please try again"
+    }
+  ],
+  "auth.error.errorValidationVerificationFlowExpired": [
+    {
+      "type": 0,
+      "value": "Link has expired"
+    }
+  ],
+  "auth.error.errorValidationVerificationMissingVerificationToken": [
+    {
+      "type": 0,
+      "value": "Code is invalid"
+    }
+  ],
+  "auth.error.errorValidationVerificationRetrySuccess": [
+    {
+      "type": 0,
+      "value": "Request has already been sent successfully and cannot be repeated"
+    }
+  ],
+  "auth.error.errorValidationVerificationStateFailure": [
+    {
+      "type": 0,
+      "value": "An error occurred during verification. Please try again"
+    }
+  ],
+  "auth.error.errorValidationVerificationTokenInvalidOrAlreadyUsed": [
+    {
+      "type": 0,
+      "value": "Code is invalid or has already been used"
+    }
+  ],
+  "auth.label.infoNodeLabelContinue": [
+    {
+      "type": 0,
+      "value": "Continue"
+    }
+  ],
+  "auth.label.infoNodeLabelEmail": [
+    {
+      "type": 0,
+      "value": "Email"
+    }
+  ],
+  "auth.label.infoNodeLabelFamilyName": [
+    {
+      "type": 0,
+      "value": "Last name"
+    }
+  ],
+  "auth.label.infoNodeLabelGenerated": [
+    {
+      "type": 0,
+      "value": "Unknown field"
+    }
+  ],
+  "auth.label.infoNodeLabelGivenName": [
+    {
+      "type": 0,
+      "value": "First name"
+    }
+  ],
+  "auth.label.infoNodeLabelID": [
+    {
+      "type": 0,
+      "value": "Identifier"
+    }
+  ],
+  "auth.label.infoNodeLabelInputPassword": [
+    {
+      "type": 0,
+      "value": "Password"
+    }
+  ],
+  "auth.label.infoNodeLabelRecoveryCode": [
+    {
+      "type": 0,
+      "value": "Code"
+    }
+  ],
+  "auth.label.infoNodeLabelRegulations": [
+    {
+      "type": 0,
+      "value": "I accept the terms and privacy policy"
+    }
+  ],
+  "auth.label.infoNodeLabelResendOTP": [
+    {
+      "type": 0,
+      "value": "Resend code"
+    }
+  ],
+  "auth.label.infoNodeLabelSave": [
+    {
+      "type": 0,
+      "value": "Save"
+    }
+  ],
+  "auth.label.infoNodeLabelSubmit": [
+    {
+      "type": 0,
+      "value": "Confirm"
+    }
+  ],
+  "auth.label.infoNodeLabelVerificationCode": [
+    {
+      "type": 0,
+      "value": "Code"
+    }
+  ],
+  "auth.label.infoNodeLabelVerifyOTP": [
+    {
+      "type": 0,
+      "value": "Confirmation code"
+    }
+  ],
+  "auth.login.action.forgotPassword": [
+    {
+      "type": 0,
+      "value": "Forgot password?"
+    }
+  ],
+  "auth.login.action.logout": [
+    {
+      "type": 0,
+      "value": "Log out"
+    }
+  ],
+  "auth.login.action.register": [
+    {
+      "type": 0,
+      "value": "Don't have an account? Sign up"
+    }
+  ],
+  "auth.login.infoLoginLookup": [
+    {
+      "type": 0,
+      "value": "Enter recovery code"
+    }
+  ],
+  "auth.login.infoLoginLookupLabel": [
+    {
+      "type": 0,
+      "value": "Recovery code"
+    }
+  ],
+  "auth.login.infoLoginTOTP": [
+    {
+      "type": 0,
+      "value": "Confirm and log in"
+    }
+  ],
+  "auth.login.infoSelfServiceLogin": [
+    {
+      "type": 0,
+      "value": "Log in"
+    }
+  ],
+  "auth.login.infoSelfServiceLoginContinue": [
+    {
+      "type": 0,
+      "value": "Continue"
+    }
+  ],
+  "auth.login.infoSelfServiceLoginContinueWebAuthn": [
+    {
+      "type": 0,
+      "value": "Continue with security key"
+    }
+  ],
+  "auth.login.infoSelfServiceLoginMFA": [
+    {
+      "type": 0,
+      "value": "Complete the next login step"
+    }
+  ],
+  "auth.login.infoSelfServiceLoginPasskey": [
+    {
+      "type": 0,
+      "value": "Passkey"
+    }
+  ],
+  "auth.login.infoSelfServiceLoginReAuth": [
+    {
+      "type": 0,
+      "value": "Confirm this action using an existing login method"
+    }
+  ],
+  "auth.login.infoSelfServiceLoginTOTPLabel": [
+    {
+      "type": 0,
+      "value": "Authentication code"
+    }
+  ],
+  "auth.login.infoSelfServiceLoginVerify": [
+    {
+      "type": 0,
+      "value": "Verify"
+    }
+  ],
+  "auth.login.infoSelfServiceLoginWebAuthn": [
+    {
+      "type": 0,
+      "value": "Enter security key"
+    }
+  ],
+  "auth.login.infoSelfServiceLoginWebAuthnPasswordless": [
+    {
+      "type": 0,
+      "value": "Prepare your device (e.g., security key, biometric scanner) and click Continue"
+    }
+  ],
+  "auth.login.infoSelfServiceLoginWith": [
+    {
+      "type": 1,
+      "value": "provider"
+    }
+  ],
+  "auth.login.label.orLoginWith": [
+    {
+      "type": 0,
+      "value": "or log in with"
+    }
+  ],
+  "auth.login.message.sessionExpired": [
+    {
+      "type": 0,
+      "value": "Your session has expired. Recover access to your account"
+    }
+  ],
+  "auth.login.title.main": [
+    {
+      "type": 0,
+      "value": "Login"
+    }
+  ],
+  "auth.login.title.reAuthenticate": [
+    {
+      "type": 0,
+      "value": "Confirm action"
+    }
+  ],
+  "auth.oidc.label.orLoginWith": [
+    {
+      "type": 0,
+      "value": "or log in with"
+    }
+  ],
+  "auth.oidc.title.main": [
+    {
+      "type": 0,
+      "value": "Set login method"
+    }
+  ],
+  "auth.password.action.setPassword": [
+    {
+      "type": 0,
+      "value": "Set password"
+    }
+  ],
+  "auth.password.label.newPassword": [
+    {
+      "type": 0,
+      "value": "New password"
+    }
+  ],
+  "auth.profile.passkeys.action.addAccessKey": [
+    {
+      "type": 0,
+      "value": "Add access key"
+    }
+  ],
+  "auth.profile.passkeys.action.connect": [
+    {
+      "type": 0,
+      "value": "Connect"
+    }
+  ],
+  "auth.profile.passkeys.action.delete": [
+    {
+      "type": 0,
+      "value": "Delete"
+    }
+  ],
+  "auth.profile.passkeys.action.disconnect": [
+    {
+      "type": 0,
+      "value": "Disconnect"
+    }
+  ],
+  "auth.profile.passkeys.label.accessKey": [
+    {
+      "type": 0,
+      "value": "Access key"
+    }
+  ],
+  "auth.profile.socials.action.connect": [
+    {
+      "type": 0,
+      "value": "Connect"
+    }
+  ],
+  "auth.profile.socials.action.disconnect": [
+    {
+      "type": 0,
+      "value": "Disconnect"
+    }
+  ],
+  "auth.profile.title.accessKeys": [
+    {
+      "type": 0,
+      "value": "Access keys"
+    }
+  ],
+  "auth.profile.title.authApps": [
+    {
+      "type": 0,
+      "value": "Authentication apps"
+    }
+  ],
+  "auth.profile.title.backupCodes": [
+    {
+      "type": 0,
+      "value": "Backup codes"
+    }
+  ],
+  "auth.profile.title.connectedAccounts": [
+    {
+      "type": 0,
+      "value": "Connected accounts"
+    }
+  ],
+  "auth.profile.title.loginMethods": [
+    {
+      "type": 0,
+      "value": "Login methods"
+    }
+  ],
+  "auth.recovery.infoSelfServiceRecoveryEmailSent": [
+    {
+      "type": 0,
+      "value": "We've sent you an email with a password reset link"
+    }
+  ],
+  "auth.recovery.infoSelfServiceRecoveryEmailWithCodeSent": [
+    {
+      "type": 0,
+      "value": "An email with a verification code has been sent to your address"
+    }
+  ],
+  "auth.recovery.infoSelfServiceRecoverySuccessful": [
+    {
+      "type": 0,
+      "value": "The access recovery process has been completed"
+    }
+  ],
+  "auth.register.label.orRegisterWith": [
+    {
+      "type": 0,
+      "value": "or register with"
+    }
+  ],
+  "auth.register.title.main": [
+    {
+      "type": 0,
+      "value": "Registration"
+    }
+  ],
+  "auth.registration.infoSelfServiceRegistration": [
+    {
+      "type": 0,
+      "value": "Register"
+    }
+  ],
+  "auth.registration.infoSelfServiceRegistrationContinue": [
+    {
+      "type": 0,
+      "value": "Continue"
+    }
+  ],
+  "auth.registration.infoSelfServiceRegistrationRegisterWebAuthn": [
+    {
+      "type": 0,
+      "value": "Register with security key"
+    }
+  ],
+  "auth.registration.infoSelfServiceRegistrationWith": [
+    {
+      "type": 0,
+      "value": "Register with "
+    },
+    {
+      "type": 1,
+      "value": "provider"
+    }
+  ],
+  "auth.settings.action.setPassword": [
+    {
+      "type": 0,
+      "value": "Set password"
+    }
+  ],
+  "auth.settings.infoSelfServiceSettingsPasskey": [
+    {
+      "type": 0,
+      "value": "Access key"
+    }
+  ],
+  "auth.settings.infoSelfServiceSettingsTOTPSecretLabel": [
+    {
+      "type": 0,
+      "value": "If you can't use the QR code, enter this activation key in the app:"
+    }
+  ],
+  "auth.settings.infoSelfServiceSettingsUpdateLinkOidc": [
+    {
+      "type": 1,
+      "value": "provider"
+    }
+  ],
+  "auth.settings.infoSelfServiceSettingsUpdateSuccess": [
+    {
+      "type": 0,
+      "value": "Changes have been saved"
+    }
+  ],
+  "auth.settings.infoSelfServiceSettingsUpdateUnlinkOidc": [
+    {
+      "type": 0,
+      "value": "Disconnect "
+    },
+    {
+      "type": 1,
+      "value": "provider"
+    },
+    {
+      "type": 0,
+      "value": " account"
+    }
+  ],
+  "auth.settings.infoSelfServiceSettingsUpdateUnlinkTOTP": [
+    {
+      "type": 0,
+      "value": "Disable two-factor authentication"
+    }
+  ],
+  "auth.verification.infoSelfServiceVerificationEmailSent": [
+    {
+      "type": 0,
+      "value": "An email with a verification link has been sent to your address"
+    }
+  ],
+  "auth.verification.infoSelfServiceVerificationEmailWithCodeSent": [
+    {
+      "type": 0,
+      "value": "An email with a verification code has been sent to your address"
+    }
+  ],
+  "auth.verification.infoSelfServiceVerificationSuccessful": [
+    {
+      "type": 0,
+      "value": "Your email address has been confirmed"
+    }
+  ],
+  "auth.verification.title.main": [
+    {
+      "type": 0,
+      "value": "Verification"
+    }
+  ],
+  "notFound.action.backToHome": [
+    {
+      "type": 0,
+      "value": "Back to homepage"
+    }
+  ],
+  "notFound.description.details": [
+    {
+      "type": 0,
+      "value": "It may have been moved or deleted."
+    }
+  ],
+  "notFound.description.main": [
+    {
+      "type": 0,
+      "value": "The page you're looking for doesn't exist."
+    }
+  ],
+  "notFound.title": [
+    {
+      "type": 0,
+      "value": "Page not found"
+    }
+  ],
+  "profile.language.label.languageSelect": [
+    {
+      "type": 0,
+      "value": "Language selection"
+    }
+  ],
+  "profile.language.label.themeSelect": [
+    {
+      "type": 0,
+      "value": "Theme selection"
+    }
+  ],
+  "profile.language.theme.dark": [
+    {
+      "type": 0,
+      "value": "Dark"
+    }
+  ],
+  "profile.language.theme.light": [
+    {
+      "type": 0,
+      "value": "Light"
+    }
+  ],
+  "profile.language.theme.system": [
+    {
+      "type": 0,
+      "value": "System"
+    }
+  ],
+  "profile.language.title": [
+    {
+      "type": 0,
+      "value": "Language and appearance"
+    }
+  ],
+  "profile.menu.label.changePassword": [
+    {
+      "type": 0,
+      "value": "Change password"
+    }
+  ],
+  "profile.menu.label.languageAndAppearance": [
+    {
+      "type": 0,
+      "value": "Language and appearance"
+    }
+  ],
+  "profile.menu.label.loginMethods": [
+    {
+      "type": 0,
+      "value": "Login methods"
+    }
+  ],
+  "profile.menu.title.settings": [
+    {
+      "type": 0,
+      "value": "Profile and settings"
+    }
+  ],
+  "profile.password.title": [
+    {
+      "type": 0,
+      "value": "Change password"
+    }
+  ],
+  "profile.tab.label.language": [
+    {
+      "type": 0,
+      "value": "Language and appearance"
+    }
+  ],
+  "profile.tab.label.login": [
+    {
+      "type": 0,
+      "value": "Login methods"
+    }
+  ],
+  "profile.tab.label.password": [
+    {
+      "type": 0,
+      "value": "Change password"
+    }
+  ],
+  "profile.title.settings": [
+    {
+      "type": 0,
+      "value": "Profile and settings"
+    }
+  ],
+  "recovery.action.backToLogin": [
+    {
+      "type": 0,
+      "value": "Back to login page"
+    }
+  ],
+  "recovery.action.confirmCode": [
+    {
+      "type": 0,
+      "value": "Confirm code"
+    }
+  ],
+  "recovery.action.resend": [
+    {
+      "type": 0,
+      "value": "Resend"
+    }
+  ],
+  "recovery.action.resendLink": [
+    {
+      "type": 0,
+      "value": "Resend link"
+    }
+  ],
+  "recovery.action.sendRecoveryCode": [
+    {
+      "type": 0,
+      "value": "Send recovery code"
+    }
+  ],
+  "recovery.description.checkEmailForCode": [
+    {
+      "type": 0,
+      "value": "Check your email and enter the recovery code below to regain access to your account"
+    }
+  ],
+  "recovery.description.checkEmailForLink": [
+    {
+      "type": 0,
+      "value": "Check your email and use the recovery link. If the email doesn't arrive within 5 minutes, resend the link"
+    }
+  ],
+  "recovery.description.clickResendLink": [
+    {
+      "type": 0,
+      "value": "Click \"Resend link\" to receive a link to recover access to your account"
+    }
+  ],
+  "recovery.description.clickSendCode": [
+    {
+      "type": 0,
+      "value": "Click \"Send recovery code\" to receive a code to recover access to your account"
+    }
+  ],
+  "recovery.settings.action.loginWithoutPassword": [
+    {
+      "type": 0,
+      "value": "Log in without setting a password"
+    }
+  ],
+  "recovery.settings.description.setPasswordOrLogin": [
+    {
+      "type": 0,
+      "value": "Set a new password or log in directly to the panel"
+    }
+  ],
+  "recovery.settings.title.setNewPassword": [
+    {
+      "type": 0,
+      "value": "Set new password"
+    }
+  ],
+  "recovery.title.enterCode": [
+    {
+      "type": 0,
+      "value": "Enter code"
+    }
+  ],
+  "recovery.title.recoverAccess": [
+    {
+      "type": 0,
+      "value": "Recover account access"
+    }
+  ],
+  "recovery.title.resendLink": [
+    {
+      "type": 0,
+      "value": "Resend link"
+    }
+  ],
+  "sidebar.menu.logout.label": [
+    {
+      "type": 0,
+      "value": "Log out"
+    }
+  ],
+  "sidebar.menu.logout.tooltip": [
+    {
+      "type": 0,
+      "value": "Log out"
+    }
+  ],
+  "sidebar.menu.payments.label": [
+    {
+      "type": 0,
+      "value": "Payment schedule"
+    }
+  ],
+  "sidebar.menu.payments.tooltip": [
+    {
+      "type": 0,
+      "value": "Payment schedule"
+    }
+  ],
+  "sidebar.menu.profile.label": [
+    {
+      "type": 0,
+      "value": "Profile and settings"
+    }
+  ],
+  "sidebar.menu.profile.tooltip": [
+    {
+      "type": 0,
+      "value": "Profile and settings"
+    }
+  ]
+}

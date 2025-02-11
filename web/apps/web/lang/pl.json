@@ -1,0 +1,884 @@
+{
+  "auth.error.errorValidationAddressNotVerified": [
+    {
+      "type": 0,
+      "value": "Potwierdź swój adres e-mail"
+    }
+  ],
+  "auth.error.errorValidationDuplicateCredentials": [
+    {
+      "type": 0,
+      "value": "Konto z takimi danymi logowania już istnieje"
+    }
+  ],
+  "auth.error.errorValidationFormat": [
+    {
+      "type": 0,
+      "value": "Niepoprawny format danych ("
+    },
+    {
+      "type": 1,
+      "value": "expected_format"
+    },
+    {
+      "type": 0,
+      "value": ")"
+    }
+  ],
+  "auth.error.errorValidationGeneric": [
+    {
+      "type": 0,
+      "value": "Pole ma niepoprawny format"
+    }
+  ],
+  "auth.error.errorValidationGenericOpenIDConnect": [
+    {
+      "type": 0,
+      "value": "Wprowadzone dane są nieprawidłowe. Sprawdź ich poprawność"
+    }
+  ],
+  "auth.error.errorValidationGenericRegistrationDisabled": [
+    {
+      "type": 0,
+      "value": "Upewnij się, że konto dla Twojego adresu email istnieje, użyj połączonej z Twoim kontem opcji logowania albo skontaktuj się z Administratorem"
+    }
+  ],
+  "auth.error.errorValidationIdentifierMissing": [
+    {
+      "type": 0,
+      "value": "Nie znaleziono żadnych danych logowania"
+    }
+  ],
+  "auth.error.errorValidationInvalidCredentials": [
+    {
+      "type": 0,
+      "value": "Email lub hasło nieprawidłowe. Spróbuj użyć przypomnienia hasła albo skontaktuj się ze swoim opiekunem w Develii"
+    }
+  ],
+  "auth.error.errorValidationLookupAlreadyUsed": [
+    {
+      "type": 0,
+      "value": "Kod przywracania został już wykorzystany"
+    }
+  ],
+  "auth.error.errorValidationLookupInvalid": [
+    {
+      "type": 0,
+      "value": "Kod przywracania jest niepoprawny"
+    }
+  ],
+  "auth.error.errorValidationNoLookup": [
+    {
+      "type": 0,
+      "value": "Nie posiadasz ustawionych kodów przywracania"
+    }
+  ],
+  "auth.error.errorValidationNoTOTPDevice": [
+    {
+      "type": 0,
+      "value": "Nie wykryto żadnego urządzenia TOTP do uwierzytelnienia"
+    }
+  ],
+  "auth.error.errorValidationNoWebAuthnDevice": [
+    {
+      "type": 0,
+      "value": "Nie wykryto żadnego urządzenia do uwierzytelnienia"
+    }
+  ],
+  "auth.error.errorValidationPasswordPolicyViolation": [
+    {
+      "type": 0,
+      "value": "Min. 8 znaków"
+    },
+    {
+      "type": 1,
+      "value": "br"
+    },
+    {
+      "type": 0,
+      "value": "Nie może być na liście haseł, które wyciekły. Sprawdź na "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "haveibeenpwned"
+        }
+      ],
+      "type": 8,
+      "value": "leakedPasswordsLink"
+    },
+    {
+      "type": 1,
+      "value": "br"
+    },
+    {
+      "type": 0,
+      "value": "Nie może być zbyt podobne do adresu e-mail"
+    }
+  ],
+  "auth.error.errorValidationRecoveryCodeInvalidOrAlreadyUsed": [
+    {
+      "type": 0,
+      "value": "Kod jest nieprawidłowy lub został już wykorzystany"
+    }
+  ],
+  "auth.error.errorValidationRecoveryFlowExpired": [
+    {
+      "type": 0,
+      "value": "Link do aktywacji wygasł"
+    }
+  ],
+  "auth.error.errorValidationRecoveryMissingRecoveryToken": [
+    {
+      "type": 0,
+      "value": "Kod jest nieprawidłowy"
+    }
+  ],
+  "auth.error.errorValidationRecoveryRetrySuccess": [
+    {
+      "type": 0,
+      "value": "Zapytanie zostało już wysłane poprawnie i nie może zostać powtórzone"
+    }
+  ],
+  "auth.error.errorValidationRecoveryStateFailure": [
+    {
+      "type": 0,
+      "value": "Wystąpił błąd w trakcie przywracania. Spróbuj ponownie"
+    }
+  ],
+  "auth.error.errorValidationRecoveryTokenInvalidOrAlreadyUsed": [
+    {
+      "type": 0,
+      "value": "Kod jest nieprawidłowy lub został już wykorzystany"
+    }
+  ],
+  "auth.error.errorValidationRequired": [
+    {
+      "type": 0,
+      "value": "To pole jest wymagane"
+    }
+  ],
+  "auth.error.errorValidationSuchNoWebAuthnUser": [
+    {
+      "type": 0,
+      "value": "Takie konto nie istnieje lub nie ma jeszcze ustawionych kodów uwierzytelnienia"
+    }
+  ],
+  "auth.error.errorValidationTOTPVerifierWrong": [
+    {
+      "type": 0,
+      "value": "Podany kod weryfikacyjny jest nieprawidłowy"
+    }
+  ],
+  "auth.error.errorValidationVerificationCodeInvalidOrAlreadyUsed": [
+    {
+      "type": 0,
+      "value": "Podany kod jest niepoprawny lub został już użyty. Spróbuj ponownie"
+    }
+  ],
+  "auth.error.errorValidationVerificationFlowExpired": [
+    {
+      "type": 0,
+      "value": "Link wygasł"
+    }
+  ],
+  "auth.error.errorValidationVerificationMissingVerificationToken": [
+    {
+      "type": 0,
+      "value": "Kod jest nieprawidłowy"
+    }
+  ],
+  "auth.error.errorValidationVerificationRetrySuccess": [
+    {
+      "type": 0,
+      "value": "Zapytanie zostało już wysłane poprawnie i nie może zostać powtórzone"
+    }
+  ],
+  "auth.error.errorValidationVerificationStateFailure": [
+    {
+      "type": 0,
+      "value": "Wystąpił błąd w trakcie weryfikacji. Spróbuj ponownie"
+    }
+  ],
+  "auth.error.errorValidationVerificationTokenInvalidOrAlreadyUsed": [
+    {
+      "type": 0,
+      "value": "Kod jest nieprawidłowy lub został już wykorzystany"
+    }
+  ],
+  "auth.label.infoNodeLabelContinue": [
+    {
+      "type": 0,
+      "value": "Kontynuuj"
+    }
+  ],
+  "auth.label.infoNodeLabelEmail": [
+    {
+      "type": 0,
+      "value": "E-mail"
+    }
+  ],
+  "auth.label.infoNodeLabelFamilyName": [
+    {
+      "type": 0,
+      "value": "Nazwisko"
+    }
+  ],
+  "auth.label.infoNodeLabelGenerated": [
+    {
+      "type": 0,
+      "value": "Nieznane pole"
+    }
+  ],
+  "auth.label.infoNodeLabelGivenName": [
+    {
+      "type": 0,
+      "value": "Imię"
+    }
+  ],
+  "auth.label.infoNodeLabelID": [
+    {
+      "type": 0,
+      "value": "Identyfikator"
+    }
+  ],
+  "auth.label.infoNodeLabelInputPassword": [
+    {
+      "type": 0,
+      "value": "Hasło"
+    }
+  ],
+  "auth.label.infoNodeLabelRecoveryCode": [
+    {
+      "type": 0,
+      "value": "Kod"
+    }
+  ],
+  "auth.label.infoNodeLabelRegulations": [
+    {
+      "type": 0,
+      "value": "Akceptuję regulamin i politykę prywatności"
+    }
+  ],
+  "auth.label.infoNodeLabelResendOTP": [
+    {
+      "type": 0,
+      "value": "Wyślij kod ponownie"
+    }
+  ],
+  "auth.label.infoNodeLabelSave": [
+    {
+      "type": 0,
+      "value": "Zapisz"
+    }
+  ],
+  "auth.label.infoNodeLabelSubmit": [
+    {
+      "type": 0,
+      "value": "Potwierdź"
+    }
+  ],
+  "auth.label.infoNodeLabelVerificationCode": [
+    {
+      "type": 0,
+      "value": "Kod"
+    }
+  ],
+  "auth.label.infoNodeLabelVerifyOTP": [
+    {
+      "type": 0,
+      "value": "Kod potwierdzający"
+    }
+  ],
+  "auth.login.action.forgotPassword": [
+    {
+      "type": 0,
+      "value": "Nie pamiętasz hasła?"
+    }
+  ],
+  "auth.login.action.logout": [
+    {
+      "type": 0,
+      "value": "Wyloguj się"
+    }
+  ],
+  "auth.login.action.register": [
+    {
+      "type": 0,
+      "value": "Nie masz konta? Zarejestruj się"
+    }
+  ],
+  "auth.login.infoLoginLookup": [
+    {
+      "type": 0,
+      "value": "Wprowadź kod przywracania"
+    }
+  ],
+  "auth.login.infoLoginLookupLabel": [
+    {
+      "type": 0,
+      "value": "Kod przywracania"
+    }
+  ],
+  "auth.login.infoLoginTOTP": [
+    {
+      "type": 0,
+      "value": "Potwierdź i zaloguj się"
+    }
+  ],
+  "auth.login.infoSelfServiceLogin": [
+    {
+      "type": 0,
+      "value": "Zaloguj się"
+    }
+  ],
+  "auth.login.infoSelfServiceLoginContinue": [
+    {
+      "type": 0,
+      "value": "Kontynuuj"
+    }
+  ],
+  "auth.login.infoSelfServiceLoginContinueWebAuthn": [
+    {
+      "type": 0,
+      "value": "Kontynuuj z kodem bezpieczeństwa"
+    }
+  ],
+  "auth.login.infoSelfServiceLoginMFA": [
+    {
+      "type": 0,
+      "value": "Wypełnij kolejny krok logowania"
+    }
+  ],
+  "auth.login.infoSelfServiceLoginPasskey": [
+    {
+      "type": 0,
+      "value": "Klucz dostępu"
+    }
+  ],
+  "auth.login.infoSelfServiceLoginReAuth": [
+    {
+      "type": 0,
+      "value": "Potwierdź tę akcję korzystając z istniejącej metody logowania"
+    }
+  ],
+  "auth.login.infoSelfServiceLoginTOTPLabel": [
+    {
+      "type": 0,
+      "value": "Kod uwierzytelnienia"
+    }
+  ],
+  "auth.login.infoSelfServiceLoginVerify": [
+    {
+      "type": 0,
+      "value": "Zweryfikuj"
+    }
+  ],
+  "auth.login.infoSelfServiceLoginWebAuthn": [
+    {
+      "type": 0,
+      "value": "Wprowadź kod bezpieczeństwa"
+    }
+  ],
+  "auth.login.infoSelfServiceLoginWebAuthnPasswordless": [
+    {
+      "type": 0,
+      "value": "Przygotuj swoje urządzenie (np. klucz bezpieczeństwa, skaner biometryczny) i kliknij przycisk Kontynuuj"
+    }
+  ],
+  "auth.login.infoSelfServiceLoginWith": [
+    {
+      "type": 1,
+      "value": "provider"
+    }
+  ],
+  "auth.login.label.orLoginWith": [
+    {
+      "type": 0,
+      "value": "lub zaloguj się przy użyciu"
+    }
+  ],
+  "auth.login.message.sessionExpired": [
+    {
+      "type": 0,
+      "value": "Twoja sesja straciła ważność. Odzyskaj dostęp do konta"
+    }
+  ],
+  "auth.login.title.main": [
+    {
+      "type": 0,
+      "value": "Logowanie"
+    }
+  ],
+  "auth.login.title.reAuthenticate": [
+    {
+      "type": 0,
+      "value": "Potwierdź akcję"
+    }
+  ],
+  "auth.oidc.label.orLoginWith": [
+    {
+      "type": 0,
+      "value": "lub zaloguj się przy użyciu"
+    }
+  ],
+  "auth.oidc.title.main": [
+    {
+      "type": 0,
+      "value": "Ustaw sposób logowania"
+    }
+  ],
+  "auth.password.action.setPassword": [
+    {
+      "type": 0,
+      "value": "Ustaw hasło"
+    }
+  ],
+  "auth.password.label.newPassword": [
+    {
+      "type": 0,
+      "value": "Nowe hasło"
+    }
+  ],
+  "auth.profile.passkeys.action.addAccessKey": [
+    {
+      "type": 0,
+      "value": "Dodaj klucz dostępu"
+    }
+  ],
+  "auth.profile.passkeys.action.connect": [
+    {
+      "type": 0,
+      "value": "Połącz"
+    }
+  ],
+  "auth.profile.passkeys.action.delete": [
+    {
+      "type": 0,
+      "value": "Usuń"
+    }
+  ],
+  "auth.profile.passkeys.action.disconnect": [
+    {
+      "type": 0,
+      "value": "Odłącz"
+    }
+  ],
+  "auth.profile.passkeys.label.accessKey": [
+    {
+      "type": 0,
+      "value": "Klucz dostępu"
+    }
+  ],
+  "auth.profile.socials.action.connect": [
+    {
+      "type": 0,
+      "value": "Połącz"
+    }
+  ],
+  "auth.profile.socials.action.disconnect": [
+    {
+      "type": 0,
+      "value": "Odłącz"
+    }
+  ],
+  "auth.profile.title.accessKeys": [
+    {
+      "type": 0,
+      "value": "Klucze dostępu"
+    }
+  ],
+  "auth.profile.title.authApps": [
+    {
+      "type": 0,
+      "value": "Aplikacje do uwierzytelnienia"
+    }
+  ],
+  "auth.profile.title.backupCodes": [
+    {
+      "type": 0,
+      "value": "Kody zapasowe"
+    }
+  ],
+  "auth.profile.title.connectedAccounts": [
+    {
+      "type": 0,
+      "value": "Połączone konta"
+    }
+  ],
+  "auth.profile.title.loginMethods": [
+    {
+      "type": 0,
+      "value": "Metody logowania"
+    }
+  ],
+  "auth.recovery.infoSelfServiceRecoveryEmailSent": [
+    {
+      "type": 0,
+      "value": "Na podany adres e-mail wysłaliśmy Ci wiadomość z linkiem do resetowania hasła"
+    }
+  ],
+  "auth.recovery.infoSelfServiceRecoveryEmailWithCodeSent": [
+    {
+      "type": 0,
+      "value": "Wiadomość e-mail z kodem weryfikacyjnym została wysłana na podany przez Ciebie adres"
+    }
+  ],
+  "auth.recovery.infoSelfServiceRecoverySuccessful": [
+    {
+      "type": 0,
+      "value": "Proces odzyskiwania dostępu został zakończony"
+    }
+  ],
+  "auth.register.label.orRegisterWith": [
+    {
+      "type": 0,
+      "value": "lub zarejestruj się przy użyciu"
+    }
+  ],
+  "auth.register.title.main": [
+    {
+      "type": 0,
+      "value": "Rejestracja"
+    }
+  ],
+  "auth.registration.infoSelfServiceRegistration": [
+    {
+      "type": 0,
+      "value": "Zarejestruj się"
+    }
+  ],
+  "auth.registration.infoSelfServiceRegistrationContinue": [
+    {
+      "type": 0,
+      "value": "Kontynuuj"
+    }
+  ],
+  "auth.registration.infoSelfServiceRegistrationRegisterWebAuthn": [
+    {
+      "type": 0,
+      "value": "Zarejestruj się z kluczem bezpieczeństwa"
+    }
+  ],
+  "auth.registration.infoSelfServiceRegistrationWith": [
+    {
+      "type": 0,
+      "value": "Zarejestruj się z "
+    },
+    {
+      "type": 1,
+      "value": "provider"
+    }
+  ],
+  "auth.settings.action.setPassword": [
+    {
+      "type": 0,
+      "value": "Ustaw hasło"
+    }
+  ],
+  "auth.settings.infoSelfServiceSettingsPasskey": [
+    {
+      "type": 0,
+      "value": "Klucz dostępu"
+    }
+  ],
+  "auth.settings.infoSelfServiceSettingsTOTPSecretLabel": [
+    {
+      "type": 0,
+      "value": "Jeśli nie możesz użyć kodu QR, podaj w aplikacji ten klucz aktywacyjny:"
+    }
+  ],
+  "auth.settings.infoSelfServiceSettingsUpdateLinkOidc": [
+    {
+      "type": 1,
+      "value": "provider"
+    }
+  ],
+  "auth.settings.infoSelfServiceSettingsUpdateSuccess": [
+    {
+      "type": 0,
+      "value": "Zmiany zostały zapisane"
+    }
+  ],
+  "auth.settings.infoSelfServiceSettingsUpdateUnlinkOidc": [
+    {
+      "type": 0,
+      "value": "Odłącz konto "
+    },
+    {
+      "type": 1,
+      "value": "provider"
+    }
+  ],
+  "auth.settings.infoSelfServiceSettingsUpdateUnlinkTOTP": [
+    {
+      "type": 0,
+      "value": "Wyłącz weryfikację dwuetapową"
+    }
+  ],
+  "auth.verification.infoSelfServiceVerificationEmailSent": [
+    {
+      "type": 0,
+      "value": "Wiadomość e-mail z linkiem weryfikacyjnym została wysłana na podany przez Ciebie adres"
+    }
+  ],
+  "auth.verification.infoSelfServiceVerificationEmailWithCodeSent": [
+    {
+      "type": 0,
+      "value": "Wiadomość e-mail z kodem weryfikacyjnym została wysłana na podany przez Ciebie adres"
+    }
+  ],
+  "auth.verification.infoSelfServiceVerificationSuccessful": [
+    {
+      "type": 0,
+      "value": "Twój adres e-mail został potwierdzony"
+    }
+  ],
+  "auth.verification.title.main": [
+    {
+      "type": 0,
+      "value": "Weryfikacja"
+    }
+  ],
+  "notFound.action.backToHome": [
+    {
+      "type": 0,
+      "value": "Wróć do strony głównej"
+    }
+  ],
+  "notFound.description.details": [
+    {
+      "type": 0,
+      "value": "Możliwe, że zmienił się jej adres lub została usunięta."
+    }
+  ],
+  "notFound.description.main": [
+    {
+      "type": 0,
+      "value": "Strona, której szukasz, nie istnieje."
+    }
+  ],
+  "notFound.title": [
+    {
+      "type": 0,
+      "value": "Strona nie została znaleziona"
+    }
+  ],
+  "profile.language.label.languageSelect": [
+    {
+      "type": 0,
+      "value": "Wybór języka"
+    }
+  ],
+  "profile.language.label.themeSelect": [
+    {
+      "type": 0,
+      "value": "Wybór motywu"
+    }
+  ],
+  "profile.language.theme.dark": [
+    {
+      "type": 0,
+      "value": "Ciemny"
+    }
+  ],
+  "profile.language.theme.light": [
+    {
+      "type": 0,
+      "value": "Jasny"
+    }
+  ],
+  "profile.language.theme.system": [
+    {
+      "type": 0,
+      "value": "System"
+    }
+  ],
+  "profile.language.title": [
+    {
+      "type": 0,
+      "value": "Język i wygląd"
+    }
+  ],
+  "profile.menu.label.changePassword": [
+    {
+      "type": 0,
+      "value": "Zmiana hasła"
+    }
+  ],
+  "profile.menu.label.languageAndAppearance": [
+    {
+      "type": 0,
+      "value": "Język i wygląd"
+    }
+  ],
+  "profile.menu.label.loginMethods": [
+    {
+      "type": 0,
+      "value": "Metody logowania"
+    }
+  ],
+  "profile.menu.title.settings": [
+    {
+      "type": 0,
+      "value": "Profil i ustawienia"
+    }
+  ],
+  "profile.password.title": [
+    {
+      "type": 0,
+      "value": "Zmiana hasła"
+    }
+  ],
+  "profile.tab.label.language": [
+    {
+      "type": 0,
+      "value": "Język i wygląd"
+    }
+  ],
+  "profile.tab.label.login": [
+    {
+      "type": 0,
+      "value": "Metody logowania"
+    }
+  ],
+  "profile.tab.label.password": [
+    {
+      "type": 0,
+      "value": "Zmiana hasła"
+    }
+  ],
+  "profile.title.settings": [
+    {
+      "type": 0,
+      "value": "Profil i ustawienia"
+    }
+  ],
+  "recovery.action.backToLogin": [
+    {
+      "type": 0,
+      "value": "Wróć do strony logowania"
+    }
+  ],
+  "recovery.action.confirmCode": [
+    {
+      "type": 0,
+      "value": "Potwierdź kod"
+    }
+  ],
+  "recovery.action.resend": [
+    {
+      "type": 0,
+      "value": "Wyślij ponownie"
+    }
+  ],
+  "recovery.action.resendLink": [
+    {
+      "type": 0,
+      "value": "Wyślij link ponownie"
+    }
+  ],
+  "recovery.action.sendRecoveryCode": [
+    {
+      "type": 0,
+      "value": "Wyślij kod odzyskiwania"
+    }
+  ],
+  "recovery.description.checkEmailForCode": [
+    {
+      "type": 0,
+      "value": "Sprawdź maila i podaj kod odzyskiwania poniżej, żeby odzyskać dostęp do swojego konta"
+    }
+  ],
+  "recovery.description.checkEmailForLink": [
+    {
+      "type": 0,
+      "value": "Sprawdź maila i użyj linku do odzyskiwania dostępu, Jeśli mail nie przyjdzie w ciągu 5 minut, wyślij link ponownie"
+    }
+  ],
+  "recovery.description.clickResendLink": [
+    {
+      "type": 0,
+      "value": "Kliknij \"Wyślij link ponownie\", aby otrzymać link do odzyskania dostępu do Twojego konta"
+    }
+  ],
+  "recovery.description.clickSendCode": [
+    {
+      "type": 0,
+      "value": "Kliknij \"Wyślij kod odzyskiwania\" aby otrzymać kod do odzyskania dostępu do Twojego konta"
+    }
+  ],
+  "recovery.settings.action.loginWithoutPassword": [
+    {
+      "type": 0,
+      "value": "Zaloguj się bez ustawiania hasła"
+    }
+  ],
+  "recovery.settings.description.setPasswordOrLogin": [
+    {
+      "type": 0,
+      "value": "Ustaw nowe hasło lub zaloguj się bezpośrednio do panelu"
+    }
+  ],
+  "recovery.settings.title.setNewPassword": [
+    {
+      "type": 0,
+      "value": "Ustaw nowe hasło"
+    }
+  ],
+  "recovery.title.enterCode": [
+    {
+      "type": 0,
+      "value": "Podaj kod"
+    }
+  ],
+  "recovery.title.recoverAccess": [
+    {
+      "type": 0,
+      "value": "Odzyskaj dostęp do konta"
+    }
+  ],
+  "recovery.title.resendLink": [
+    {
+      "type": 0,
+      "value": "Wyślij link ponownie"
+    }
+  ],
+  "sidebar.menu.logout.label": [
+    {
+      "type": 0,
+      "value": "Wyloguj"
+    }
+  ],
+  "sidebar.menu.logout.tooltip": [
+    {
+      "type": 0,
+      "value": "Wyloguj"
+    }
+  ],
+  "sidebar.menu.payments.label": [
+    {
+      "type": 0,
+      "value": "Harmonogram"
+    }
+  ],
+  "sidebar.menu.payments.tooltip": [
+    {
+      "type": 0,
+      "value": "Harmonogram"
+    }
+  ],
+  "sidebar.menu.profile.label": [
+    {
+      "type": 0,
+      "value": "Profil i ustawienia"
+    }
+  ],
+  "sidebar.menu.profile.tooltip": [
+    {
+      "type": 0,
+      "value": "Profil i ustawienia"
+    }
+  ]
+}
