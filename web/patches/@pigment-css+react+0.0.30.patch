@@ -1,0 +1,25 @@
+diff --git a/node_modules/@pigment-css/react/build/index.mjs b/node_modules/@pigment-css/react/build/index.mjs
+index 220995e..72044b9 100644
+--- a/node_modules/@pigment-css/react/build/index.mjs
++++ b/node_modules/@pigment-css/react/build/index.mjs
+@@ -2,7 +2,6 @@ export { styled } from './chunk-AFZBAV6Q.mjs';
+ export { css } from './chunk-FV633G5R.mjs';
+ export { atomics, generateAtomics } from './chunk-N7I2UQMS.mjs';
+ import { __spreadValues } from './chunk-L25ZX2YK.mjs';
+-import { internal_resolveProps } from '@mui/utils';
+ 
+ /**
+   * @pigment-css/react v0.0.30
+@@ -75,12 +74,6 @@ function createUseThemeProps(nameOrDefaultProps) {
+           output[propName] = slotProps;
+         } else {
+           output[propName] = __spreadValues({}, slotProps);
+-          Object.keys(defaultSlotProps).forEach((slotPropName) => {
+-            output[propName][slotPropName] = internal_resolveProps(
+-              defaultSlotProps[slotPropName],
+-              slotProps[slotPropName]
+-            );
+-          });
+         }
+       } else if (output[propName] === void 0) {
+         output[propName] = defaultProps[propName];
