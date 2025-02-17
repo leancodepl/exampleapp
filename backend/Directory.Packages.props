@@ -4,9 +4,9 @@
     <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
 
     <CoreLibVersion>9.0.2602-preview</CoreLibVersion>
-    <ExtensionsVersion>9.0.1</ExtensionsVersion>
+    <ExtensionsVersion>9.0.2</ExtensionsVersion>
     <EFCoreVersion>9.0.1</EFCoreVersion>
-    <AspNetCoreVersion>9.0.1</AspNetCoreVersion>
+    <AspNetCoreVersion>9.0.2</AspNetCoreVersion>
     <MassTransitVersion>8.3.4</MassTransitVersion>
     <NpgsqlVersion>9.0.2</NpgsqlVersion>
     <NpgsqlEFCoreVersion>9.0.2</NpgsqlEFCoreVersion>
@@ -102,8 +102,8 @@
     <PackageVersion Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.10.1" />
     <PackageVersion Include="OpenTelemetry.Instrumentation.Http" Version="1.10.0" />
 
-    <PackageVersion Include="Microsoft.IdentityModel.JsonWebTokens" Version="8.3.0" />
-    <PackageVersion Include="Microsoft.IdentityModel.Tokens" Version="8.3.0" />
+    <PackageVersion Include="Microsoft.IdentityModel.JsonWebTokens" Version="8.5.0" />
+    <PackageVersion Include="Microsoft.IdentityModel.Tokens" Version="8.5.0" />
   </ItemGroup>
 
   <ItemGroup>
