@@ -1,5 +1,5 @@
 locals {
-  traefik_image_version = "3.1.0"
+  traefik_image_version = "3.3.3"
   traefik_image         = "${local.registry_address}/traefik:${local.traefik_image_version}"
 
   traefik_triggers = {

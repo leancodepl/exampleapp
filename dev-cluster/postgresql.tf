@@ -34,7 +34,7 @@ resource "kubernetes_deployment_v1" "postgresql_deployment" {
             name  = "POSTGRES_PASSWORD"
             value = "Passw12#"
           }
-          image = "postgres:15"
+          image = "postgres:17"
           name  = "postgresql"
           volume_mount {
             mount_path = "/var/lib/postgresql/data"

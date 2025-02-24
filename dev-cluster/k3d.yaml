@@ -2,7 +2,7 @@ apiVersion: k3d.io/v1alpha5
 kind: Simple
 metadata:
   name: exampleapp
-image: docker.io/rancher/k3s:v1.31.0-k3s1
+image: docker.io/rancher/k3s:v1.31.5-k3s1
 # image: leancode.azurecr.io/rancher/k3s:v1.31.0-k3s1-fuseoverlayfs
 # Check apps/Dockerfile.k3s to see how to build this image
 servers: 1
@@ -12,19 +12,19 @@ kubeAPI:
   hostIP: "127.0.0.1"
   hostPort: "6445"
 ports:
-  - port: 80:80
+  - port: 80:80 # Traefik HTTP
     nodeFilters:
       - loadbalancer
-  - port: 443:443
+  - port: 443:443 # Traefik HTTPS
     nodeFilters:
       - loadbalancer
-  - port: 1433:1433
+  - port: 5432:5432 # PostgreSQL
     nodeFilters:
       - loadbalancer
-  - port: 5432:5432
+  - port: 5672:5672 # RabbitMQ
     nodeFilters:
       - loadbalancer
-  - port: 10000:10000
+  - port: 10000:10000 # Azure Blob Storage Emulator
     nodeFilters:
       - loadbalancer
 registries:

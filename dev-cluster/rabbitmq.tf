@@ -18,7 +18,7 @@ resource "helm_release" "rabbit" {
   }
   set {
     name  = "service.type"
-    value = "ClusterIP"
+    value = "LoadBalancer"
   }
 
   set {

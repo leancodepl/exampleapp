@@ -35,10 +35,13 @@ resource "kubernetes_deployment_v1" "blobstorage_deployment" {
             name  = "AZURITE_ACCOUNTS"
             value = "blobstorage:Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw=="
           }
-          image = "mcr.microsoft.com/azure-storage/azurite:3.30.0"
+          image = "mcr.microsoft.com/azure-storage/azurite:3.33.0"
           name  = "blobstorage"
           port {
             container_port = 10000
+          }
+          port {
+            container_port = 10001
           }
           port {
             container_port = 10002
