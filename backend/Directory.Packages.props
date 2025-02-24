@@ -4,9 +4,9 @@
     <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
 
     <CoreLibVersion>9.0.2602-preview</CoreLibVersion>
-    <ExtensionsVersion>9.0.1</ExtensionsVersion>
-    <EFCoreVersion>9.0.1</EFCoreVersion>
-    <AspNetCoreVersion>9.0.1</AspNetCoreVersion>
+    <ExtensionsVersion>9.0.2</ExtensionsVersion>
+    <EFCoreVersion>9.0.2</EFCoreVersion>
+    <AspNetCoreVersion>9.0.2</AspNetCoreVersion>
     <MassTransitVersion>8.3.4</MassTransitVersion>
     <NpgsqlVersion>9.0.2</NpgsqlVersion>
     <NpgsqlEFCoreVersion>9.0.2</NpgsqlEFCoreVersion>
@@ -69,7 +69,7 @@
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="$(EFCoreVersion)" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.InMemory" Version="$(EFCoreVersion)" />
 
-    <PackageVersion Include="Microsoft.Extensions.Azure" Version="1.9.0" />
+    <PackageVersion Include="Microsoft.Extensions.Azure" Version="1.10.0" />
 
     <PackageVersion Include="Microsoft.Extensions.Configuration" Version="$(ExtensionsVersion)" />
     <PackageVersion Include="Microsoft.Extensions.Configuration.AzureKeyVault" Version="$(ExtensionsVersion)" />
@@ -102,8 +102,8 @@
     <PackageVersion Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.10.1" />
     <PackageVersion Include="OpenTelemetry.Instrumentation.Http" Version="1.10.0" />
 
-    <PackageVersion Include="Microsoft.IdentityModel.JsonWebTokens" Version="8.3.0" />
-    <PackageVersion Include="Microsoft.IdentityModel.Tokens" Version="8.3.0" />
+    <PackageVersion Include="Microsoft.IdentityModel.JsonWebTokens" Version="8.6.0" />
+    <PackageVersion Include="Microsoft.IdentityModel.Tokens" Version="8.6.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -114,7 +114,7 @@
   <ItemGroup>
     <PackageVersion Include="FluentAssertions" Version="7.0.0" />
     <PackageVersion Include="LeanCode.Pipe.TestClient" Version="$(LeanPipeVersion)" />
-    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
     <PackageVersion Include="NSubstitute" Version="5.3.0" />
     <PackageVersion Include="xunit.v3" Version="1.0.1" />
     <PackageVersion Include="xunit.analyzers" Version="1.19.0" />
