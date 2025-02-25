@@ -1,6 +1,7 @@
 using LeanCode.AzureIdentity;
 using LeanCode.Logging;
 using LeanCode.Startup.MicrosoftDI;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Serilog.Events;
 
@@ -15,6 +16,15 @@ public class Program
         return LeanProgram
             .BuildMinimalHost<Startup>()
             .AddAppConfigurationFromAzureKeyVaultOnNonDevelopmentEnvironment()
+            .ConfigureAppConfiguration(
+                (host, opts) =>
+                {
+                    if (host.HostingEnvironment.IsDevelopment())
+                    {
+                        opts.AddJsonFile("appsettings.local.json", optional: true);
+                    }
+                }
+            )
             .ConfigureDefaultLogging(
                 "ExampleApp.Examples",
                 [typeof(Program).Assembly],
