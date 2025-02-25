@@ -14,6 +14,7 @@ using LeanCode.CQRS.MassTransitRelay;
 using LeanCode.CQRS.MassTransitRelay.Middleware;
 using LeanCode.CQRS.Validation.Fluent;
 using LeanCode.DomainModels.DataAccess;
+using LeanCode.DomainModels.EF;
 using LeanCode.DomainModels.Model;
 using LeanCode.ForceUpdate;
 using LeanCode.Kratos.Client.Api;
@@ -253,10 +254,10 @@ public class Startup(IWebHostEnvironment hostEnv, IConfiguration config) : LeanS
 
         services.AddDbContext<ExamplesDbContext>(
             (sp, opts) =>
-                opts
-                //-:cnd:noEmit
+                opts.AddTimestampTzExpressionInterceptor()
+                    //-:cnd:noEmit
 #if DEBUG
-                .EnableSensitiveDataLogging()
+                    .EnableSensitiveDataLogging()
 #endif
                     //+:cnd:noEmit
                     .UseNpgsql(
