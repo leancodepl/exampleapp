@@ -54,6 +54,10 @@ resource "docker_registry_image" "traefik" {
   triggers = local.traefik_triggers
 
   depends_on = [null_resource.cluster_kubeconfig]
+
+  lifecycle {
+    replace_triggered_by = [docker_image.traefik]
+  }
 }
 
 resource "helm_release" "traefik" {
@@ -124,4 +128,8 @@ resource "helm_release" "traefik" {
   depends_on = [
     docker_registry_image.traefik
   ]
+
+  lifecycle {
+    replace_triggered_by = [docker_registry_image.traefik]
+  }
 }
