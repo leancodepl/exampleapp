@@ -112,7 +112,7 @@
 
   <ItemGroup>
     <!-- Do not update to v8, as it changed license that is mostly unusable for us -->
-    <PackageVersion Include="FluentAssertions" Version="7.2.0" />
+    <PackageVersion Include="FluentAssertions" Version="8.1.1" />
 
     <PackageVersion Include="LeanCode.Pipe.TestClient" Version="$(LeanPipeVersion)" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
