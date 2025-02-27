@@ -1,6 +1,7 @@
 leancode.builder('exampleapp-template')
     .withMonorepoTest(['backend', 'dev-cluster', 'infrastructure', '.template.config', 'FinalizeTemplate.proj', 'Jenkinsfile.template'])
-    .withDotnet([version: '9.0', image: 'mcr.microsoft.com/dotnet/sdk'])
+    // Pinning the version because `dotnet format` is broken on 9.0.200: https://github.com/dotnet/sdk/issues/46780
+    .withDotnet([version: '9.0.102', image: 'mcr.microsoft.com/dotnet/sdk'])
     .runOnSpot()
     .run {
 
