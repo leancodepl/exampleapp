@@ -9,7 +9,7 @@ export Kratos__AdminEndpoint='http://exampleapp-kratos-svc.kratos.svc.cluster.lo
 export Kratos__WebhookApiKey='Passw12#'
 
 export PostgreSQL__ConnectionString='Host=postgresql-svc.shared.svc.cluster.local;Database=examples;Username=examples;Password=Passw12#'
-export BlobStorage__ConnectionString='DefaultEndpointsProtocol=http;AccountName=blobstorage;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://blobstorage.blob.svc.cluster.local:80/;TableEndpoint=http://blobstorage.blob.svc.cluster.local:82/;'
+export BlobStorage__ConnectionString='DefaultEndpointsProtocol=http;AccountName=azurite;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://azurite.shared.svc.cluster.local:80/;TableEndpoint=http://azurite.shared.svc.cluster.local:82/;'
 
 export MassTransit__RabbitMq__Url='rabbitmq://user:user@rabbit-rabbitmq.shared.svc.cluster.local/'
 

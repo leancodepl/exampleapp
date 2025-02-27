@@ -18,7 +18,7 @@ resource "kubernetes_deployment_v1" "metabase" {
       spec {
         container {
           name  = "metabase"
-          image = "docker.io/metabase/metabase:v0.47.5"
+          image = "docker.io/metabase/metabase:v0.53.x"
 
           env {
             name  = "MB_DB_TYPE"

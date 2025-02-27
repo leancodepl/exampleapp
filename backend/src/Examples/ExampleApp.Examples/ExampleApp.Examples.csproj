@@ -11,6 +11,9 @@
     </None>
     <Content Remove="Templates/**" />
     <Watch Include="Templates/**/*.cshtml" />
+    <None Update="appsettings.local.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <ItemGroup>

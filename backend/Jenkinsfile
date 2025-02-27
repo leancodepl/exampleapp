@@ -10,7 +10,7 @@ leancode.builder('exampleapp-backend')
     .withDefaultContainer(
         name: 'postgres',
         image: 'postgres',
-        version: '15',
+        version: '17',
         defCpuReq: '2',
         defCpuLim: '4',
         defMemReq: '12Gi',
@@ -19,7 +19,7 @@ leancode.builder('exampleapp-backend')
     .withDefaultContainer(
         name: 'storage',
         image: 'mcr.microsoft.com/azure-storage/azurite',
-        version: '3.16.0',
+        version: '3.33.0',
         defCpuReq: '500m',
         defCpuLim: '1',
         defMemReq: '500Mi',

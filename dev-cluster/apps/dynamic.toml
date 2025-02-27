@@ -1,15 +1,28 @@
 [http]
   [http.routers]
-    [http.routers.local]
+    [http.routers.host]
       entryPoints = ["web", "websecure"]
-      service = "local"
-      rule = "Host(`local.lncd.pl`)"
+      service = "host"
+      rule = "Host(`host.local.lncd.pl`)"
       priority = 99
-      [http.routers.local.tls]
+      [http.routers.host.tls]
+    [http.routers.hostBackend]
+      entryPoints = ["web", "websecure"]
+      service = "hostBackend"
+      rule = "Host(`backend.host.local.lncd.pl`)"
+      priority = 99
+      [http.routers.hostBackend.tls]
+    [http.routers.traefik]
+      rule = "Host(`traefik.local.lncd.pl`)"
+      service = "api@internal"
+      [http.routers.traefik.tls]
 [http.services]
-  [http.services.local.loadBalancer]
-    [[http.services.local.loadBalancer.servers]]
+  [http.services.host.loadBalancer]
+    [[http.services.host.loadBalancer.servers]]
       url = "http://host.k3d.internal:4200/"
+  [http.services.hostBackend.loadBalancer]
+    [[http.services.hostBackend.loadBalancer.servers]]
+      url = "http://host.k3d.internal:5000/"
 
 [http.middlewares]
   [http.middlewares.redirecthttps.redirectScheme]

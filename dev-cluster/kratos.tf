@@ -78,6 +78,31 @@ resource "kubernetes_secret_v1" "kratos_ui_secret" {
   }
 }
 
+resource "kubernetes_ingress_v1" "kratos_admin_ingress" {
+  metadata {
+    name      = "exampleapp-kratos-admin-ingress"
+    namespace = kubernetes_namespace_v1.kratos.metadata[0].name
+  }
+  spec {
+    rule {
+      host = "kratos-admin.local.lncd.pl"
+      http {
+        path {
+          backend {
+            service {
+              name = module.kratos.service_name
+              port {
+                name = "admin"
+              }
+            }
+          }
+          path_type = "ImplementationSpecific"
+        }
+      }
+    }
+  }
+}
+
 resource "kubernetes_deployment_v1" "kratos_ui" {
   count = var.optional_features.kratos_ui ? 1 : 0
 
