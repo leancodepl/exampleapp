@@ -5,7 +5,7 @@ module "kratos" {
   namespace    = kubernetes_namespace_v1.kratos.metadata[0].name
   project      = "exampleapp"
   ingress_host = "auth.local.lncd.pl"
-  image        = "leancodepublic.azurecr.io/kratos:v1.2.0-3-gdcc4a5c5"
+  image        = "leancodepublic.azurecr.io/kratos:v1.3.1-2-gc1d53a6f9"
   replicas     = 1
 
   resources = {
