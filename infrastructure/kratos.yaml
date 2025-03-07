@@ -138,7 +138,7 @@ selfservice:
                   parse: false
         oidc:
           hooks:
-            - hook: session
+            - hook: show_verification_ui
             - hook: web_hook
               config:
                 url: "${api}/kratos/sync-identity"
