@@ -3,6 +3,25 @@ resource "random_password" "metabase_embedding_key" {
   special = false
 }
 
+resource "kubernetes_secret_v1" "exampleapp_metabase_secret" {
+  metadata {
+    name      = "exampleapp-metabase-secret"
+    namespace = data.kubernetes_namespace_v1.main.metadata[0].name
+    labels    = local.labels_metabase
+  }
+
+  data = {
+    "MB_DB_TYPE"              = "postgres",
+    "MB_DB_DBNAME"            = "metabase"
+    "MB_DB_PORT"              = "5432"
+    "MB_DB_USER"              = module.postgresql.roles["metabase"].name,
+    "MB_DB_PASS"              = module.postgresql.roles["metabase"].password,
+    "MB_DB_HOST"              = module.postgresql.server_fqdn,
+    "MB_EMBEDDING_SECRET_KEY" = random_password.metabase_embedding_key.result,
+    "MB_ENABLE_EMBEDDING"     = true,
+  }
+}
+
 resource "kubernetes_deployment_v1" "exampleapp_metabase" {
   metadata {
     name      = "exampleapp-metabase"
@@ -23,37 +42,10 @@ resource "kubernetes_deployment_v1" "exampleapp_metabase" {
           name  = "metabase"
           image = "docker.io/metabase/metabase:v0.47.5"
 
-          env {
-            name  = "MB_DB_TYPE"
-            value = "postgres"
-          }
-          env {
-            name  = "MB_DB_DBNAME"
-            value = "metabase"
-          }
-          env {
-            name  = "MB_DB_PORT"
-            value = "5432"
-          }
-          env {
-            name  = "MB_DB_USER"
-            value = module.postgresql.roles["metabase"].name
-          }
-          env {
-            name  = "MB_DB_PASS"
-            value = module.postgresql.roles["metabase"].password
-          }
-          env {
-            name  = "MB_DB_HOST"
-            value = module.postgresql.server_fqdn
-          }
-          env {
-            name  = "MB_EMBEDDING_SECRET_KEY"
-            value = random_password.metabase_embedding_key.result
-          }
-          env {
-            name  = "MB_ENABLE_EMBEDDING"
-            value = true
+          env_from {
+            secret_ref {
+              name = kubernetes_secret_v1.exampleapp_metabase_secret.metadata[0].name
+            }
           }
 
           resources {
