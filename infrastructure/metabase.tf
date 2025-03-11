@@ -18,7 +18,8 @@ resource "kubernetes_secret_v1" "exampleapp_metabase_secret" {
     "MB_DB_PASS"              = module.postgresql.roles["metabase"].password,
     "MB_DB_HOST"              = module.postgresql.server_fqdn,
     "MB_EMBEDDING_SECRET_KEY" = random_password.metabase_embedding_key.result,
-    "MB_ENABLE_EMBEDDING"     = true,
+
+    "MB_ENABLE_EMBEDDING_STATIC" = true,
   }
 }
 
@@ -27,6 +28,9 @@ resource "kubernetes_deployment_v1" "exampleapp_metabase" {
     name      = "exampleapp-metabase"
     namespace = data.kubernetes_namespace_v1.main.metadata[0].name
     labels    = local.labels_metabase
+    annotations = {
+      "metabase-secret/checksum" = sha256(jsonencode(kubernetes_secret_v1.exampleapp_metabase_secret.data))
+    }
   }
   spec {
     replicas = 1
