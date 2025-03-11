@@ -48,13 +48,18 @@ resource "kubernetes_deployment_v1" "exampleapp_metabase" {
             }
           }
 
+          port {
+            name           = "public"
+            container_port = 3000
+          }
+
           resources {
             requests = {
               cpu    = "100m"
               memory = "250Mi"
             }
             limits = {
-              cpu    = "200m"
+              cpu    = "1"
               memory = "1Gi"
             }
           }
