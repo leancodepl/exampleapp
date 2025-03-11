@@ -40,7 +40,7 @@ resource "kubernetes_deployment_v1" "exampleapp_metabase" {
       spec {
         container {
           name  = "metabase"
-          image = "docker.io/metabase/metabase:v0.47.5"
+          image = "docker.io/metabase/metabase:v0.53.5"
 
           env_from {
             secret_ref {
