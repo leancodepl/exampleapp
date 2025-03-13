@@ -26,6 +26,7 @@
         "**/Migrations/*.cs",
         "**/Configuration/MetabaseConfiguration.cs",
         "**/DataAccess/*.ExamplesDomain.cs",
+        "**/DataAccess/Blobs/ServiceProviderLogoStorage.cs",
         "**/DataAccess/Queries/*.cs",
         "**/DataAccess/Repositories/*.cs",
         "**/Handlers/Booking/**/*.cs",
@@ -43,6 +44,7 @@
         "**/*.Domain.Tests/**/*.cs",
         "**/*.IntegrationTests/Booking/**",
         "**/*.IntegrationTests/Example/**",
+        "**/*.IntegrationTests/Helpers/ServiceProviderLogoStorageMock.cs",
         "**/*.Tests/Handlers/**",
         "**/Jenkinsfile",
         "**/docs"

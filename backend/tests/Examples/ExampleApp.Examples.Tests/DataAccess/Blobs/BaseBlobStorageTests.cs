@@ -149,6 +149,7 @@ public class BaseBlobStorageMock : BaseBlobStorage
     public BlobServiceClientMock ClientMock => (BlobServiceClientMock)Client;
 
     protected override string ContainerName => FakeContainerName;
+    protected override PublicAccessType DefaultAccessType => PublicAccessType.Blob;
 
     protected override bool IsValidBlobName(string blobName) => AllowedBlobName == blobName;
 

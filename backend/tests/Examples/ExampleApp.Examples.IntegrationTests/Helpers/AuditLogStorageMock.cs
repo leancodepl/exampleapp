@@ -1,3 +1,4 @@
+using Azure.Storage.Blobs;
 using LeanCode.AuditLogs;
 
 namespace ExampleApp.Examples.IntegrationTests.Helpers;
