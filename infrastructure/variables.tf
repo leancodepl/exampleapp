@@ -77,3 +77,7 @@ variable "kratos_dev_allowed_origins" {
 variable "backend_dev_allowed_origins" {
   type = list(string)
 }
+
+variable "tags" {
+  type = map(string)
+}

@@ -8,7 +8,7 @@ module "kratos" {
   depends_on = [postgresql_grant.public["kratos"]]
 
   namespace    = data.kubernetes_namespace_v1.main.metadata[0].name
-  labels       = merge(local.tags, { component = "kratos" })
+  labels       = merge(var.tags, { component = "kratos" })
   project      = local.project
   ingress_host = null
   image        = "leancodepublic.azurecr.io/kratos:v1.3.1-2-gc1d53a6f9"

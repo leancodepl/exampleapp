@@ -122,7 +122,7 @@ resource "kubernetes_ingress_v1" "metabase_ingress" {
 }
 
 locals {
-  labels_metabase = merge(local.tags, { component = "metabase" })
+  labels_metabase = merge(var.tags, { component = "metabase" })
 }
 
 output "metabase_roles_script" {
