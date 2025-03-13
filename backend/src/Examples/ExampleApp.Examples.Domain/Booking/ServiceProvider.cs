@@ -1,3 +1,4 @@
+using ExampleApp.Examples.Domain.Booking.Events;
 using LeanCode.DomainModels.Ids;
 using LeanCode.DomainModels.Model;
 
@@ -44,7 +45,7 @@ public class ServiceProvider : IAggregateRoot<ServiceProviderId>
         double ratings
     )
     {
-        return new ServiceProvider
+        var serviceProvider = new ServiceProvider
         {
             Id = ServiceProviderId.New(),
             Name = name,
@@ -56,6 +57,10 @@ public class ServiceProvider : IAggregateRoot<ServiceProviderId>
             Location = location,
             Ratings = ratings,
         };
+
+        DomainEvents.Raise(new ServiceProviderCreated(serviceProvider));
+
+        return serviceProvider;
     }
 }
 

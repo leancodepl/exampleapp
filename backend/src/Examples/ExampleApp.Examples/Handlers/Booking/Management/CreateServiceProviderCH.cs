@@ -1,4 +1,5 @@
 using ExampleApp.Examples.Contracts.Booking.Management;
+using ExampleApp.Examples.DataAccess.Blobs;
 using ExampleApp.Examples.Domain.Booking;
 using FluentValidation;
 using LeanCode.CQRS.Execution;
@@ -10,7 +11,7 @@ namespace ExampleApp.Examples.Handlers.Booking.Management;
 
 public class CreateServiceProviderCV : AbstractValidator<CreateServiceProvider>
 {
-    public CreateServiceProviderCV()
+    public CreateServiceProviderCV(ServiceProviderLogoStorage logoStorage)
     {
         RuleFor(cmd => cmd.Name)
             .NotEmpty()
@@ -30,14 +31,14 @@ public class CreateServiceProviderCV : AbstractValidator<CreateServiceProvider>
             .Cascade(CascadeMode.Stop)
             .NotNull()
             .WithCode(CreateServiceProvider.ErrorCodes.CoverPhotoIsInvalid)
-            .Must(uri => uri.IsAbsoluteUri)
+            .Must(logoStorage.IsValid)
             .WithCode(CreateServiceProvider.ErrorCodes.CoverPhotoIsInvalid);
 
         RuleFor(cmd => cmd.Thumbnail)
             .Cascade(CascadeMode.Stop)
             .NotNull()
             .WithCode(CreateServiceProvider.ErrorCodes.ThumbnailIsInvalid)
-            .Must(uri => uri.IsAbsoluteUri)
+            .Must(logoStorage.IsValid)
             .WithCode(CreateServiceProvider.ErrorCodes.ThumbnailIsInvalid);
 
         RuleFor(cmd => cmd.Address)
@@ -54,8 +55,10 @@ public class CreateServiceProviderCV : AbstractValidator<CreateServiceProvider>
     }
 }
 
-public class CreateServiceProviderCH(IRepository<ServiceProvider, ServiceProviderId> serviceProviders)
-    : ICommandHandler<CreateServiceProvider>
+public class CreateServiceProviderCH(
+    IRepository<ServiceProvider, ServiceProviderId> serviceProviders,
+    ServiceProviderLogoStorage logoStorage
+) : ICommandHandler<CreateServiceProvider>
 {
     private readonly Serilog.ILogger logger = Serilog.Log.ForContext<CreateServiceProviderCH>();
 
@@ -65,8 +68,8 @@ public class CreateServiceProviderCH(IRepository<ServiceProvider, ServiceProvide
             command.Name,
             (ServiceProviderType)command.Type,
             command.Description,
-            command.CoverPhoto,
-            command.Thumbnail,
+            logoStorage.PrepareForStorage(command.CoverPhoto),
+            logoStorage.PrepareForStorage(command.Thumbnail),
             command.Address,
             command.Location.ToDomain(),
             command.Ratings

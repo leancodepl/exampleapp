@@ -20,6 +20,7 @@ public partial class EventSerializationTests
     private static readonly AssignmentId AssignmentId = AssignmentId.New();
     private static readonly EmployeeId EmployeeId = EmployeeId.New();
     private static readonly ProjectId ProjectId = ProjectId.New();
+    private static readonly ServiceProviderId ServiceProviderId = ServiceProviderId.New();
 #endif
     private static readonly Guid Guid = Guid.NewGuid();
     private static readonly DateTime DateTime = DateTime.UtcNow;
@@ -85,6 +86,7 @@ public partial class EventSerializationTests
             TimeslotId.New(),
             CustomerId.New()
         ),
+        new ServiceProviderCreated(Guid, DateTime, ServiceProviderId),
 #endif
         new KratosIdentityUpdated(Guid, DateTime, KratosIdentity),
         new KratosIdentityDeleted(Guid, DateTime, Guid),
@@ -95,7 +97,7 @@ public partial class EventSerializationTests
 #if Example
         typeof(Employee).Assembly,
 #endif
-        typeof(DataAccess.ExamplesDbContext).Assembly,
+        typeof(Examples.DataAccess.ExamplesDbContext).Assembly,
     ];
 
     private static readonly JsonSerializerOptions SerializerOptions = KnownConverters.AddAll(new());
