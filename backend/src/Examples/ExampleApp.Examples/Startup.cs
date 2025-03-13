@@ -3,6 +3,7 @@ using System.Globalization;
 using ExampleApp.Examples.Configuration;
 using ExampleApp.Examples.Contracts;
 using ExampleApp.Examples.DataAccess;
+using ExampleApp.Examples.DataAccess.Blobs;
 using ExampleApp.Examples.DataAccess.Serialization;
 using ExampleApp.Examples.Handlers.HealthCheck;
 using ExampleApp.Examples.Handlers.Identities;
@@ -98,6 +99,7 @@ public class Startup(IWebHostEnvironment hostEnv, IConfiguration config) : LeanS
             )
         );
         services.AddConfigCat(true);
+        services.AddMemoryCache();
 
 #if Example
         services.AddFCM<Guid>(fcm => fcm.AddTokenStore<ExamplesDbContext>());
@@ -111,6 +113,7 @@ public class Startup(IWebHostEnvironment hostEnv, IConfiguration config) : LeanS
         AddMassTransit(services);
         AddOpenTelemetry(services);
         AddRepositories(services);
+        AddBlobStorage(services);
 
         services.AddSingleton<LeanCode.CQRS.Security.IRoleRegistration, AppRoles>();
         services.AddScoped<KratosIdentitySyncHandler>();
@@ -456,6 +459,14 @@ public class Startup(IWebHostEnvironment hostEnv, IConfiguration config) : LeanS
         services.AddRepository<CalendarDayId, CalendarDay, CalendarDaysRepository>();
         services.AddRepository<ReservationId, Reservation, ReservationsRepository>();
         services.AliasScoped<ICalendarDayByDate, CalendarDaysRepository>();
+#endif
+    }
+
+    private void AddBlobStorage(IServiceCollection services)
+    {
+        services.AddScoped<BlobStorageDelegationKeyProvider>();
+#if Example
+        services.AddScoped<ServiceProviderLogoStorage>();
 #endif
     }
 }

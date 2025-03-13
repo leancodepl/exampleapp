@@ -32,3 +32,35 @@ resource "azurerm_storage_table" "audit_logs" {
   name                 = "auditlogs"
   storage_account_name = module.storage.storage_account_name
 }
+
+//#if Example
+resource "azurerm_storage_container" "service_providers" {
+  name = "service-providers"
+
+  storage_account_id    = module.storage.storage_account_id
+  container_access_type = "blob"
+}
+
+resource "azurerm_storage_management_policy" "rules" {
+  storage_account_id = module.storage.storage_account_id
+
+  rule {
+    name    = "delete_unused_blobs"
+    enabled = true
+    filters {
+      prefix_match = ["${azurerm_storage_container.service_providers.name}/"]
+      blob_types   = ["blockBlob"]
+      match_blob_index_tag {
+        name      = "ToDelete"
+        operation = "=="
+        value     = "1"
+      }
+    }
+    actions {
+      base_blob {
+        delete_after_days_since_modification_greater_than = 1
+      }
+    }
+  }
+}
+//#endif
