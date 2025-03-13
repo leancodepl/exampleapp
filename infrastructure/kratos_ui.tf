@@ -1,5 +1,5 @@
 locals {
-  labels_ui = merge(local.tags, { component = "kratos-ui" })
+  labels_ui = merge(var.tags, { component = "kratos-ui" })
 }
 
 resource "random_password" "kratos_ui_csrf_cookie_secret" {

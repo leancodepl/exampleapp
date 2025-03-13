@@ -16,7 +16,7 @@ module "storage" {
   }
 
   blob_cors_rules = []
-  tags            = local.tags
+  tags            = var.tags
 }
 
 module "storage_assets" {

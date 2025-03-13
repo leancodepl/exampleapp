@@ -55,7 +55,7 @@ resource "kubernetes_manifest" "response_compression" {
     "metadata" = {
       "name"      = "${local.project}-compress-response"
       "namespace" = data.kubernetes_namespace_v1.main.metadata[0].name
-      "labels"    = local.tags
+      "labels"    = var.tags
     }
     "spec" = {
       "compress" = {}
@@ -70,7 +70,7 @@ resource "kubernetes_manifest" "ingress" {
     "metadata" = {
       "name"      = "${local.project}-ingress"
       "namespace" = data.kubernetes_namespace_v1.main.metadata[0].name
-      "labels"    = local.tags
+      "labels"    = var.tags
     }
     "spec" = {
       "entryPoints" = [
@@ -111,7 +111,7 @@ resource "kubernetes_manifest" "ingress_external_dns_hack" {
     "metadata" = {
       "name"      = "${local.project}-ingress-external-dns"
       "namespace" = data.kubernetes_namespace_v1.main.metadata[0].name
-      "labels"    = local.tags
+      "labels"    = var.tags
     }
     "spec" = {
       "rules" = [

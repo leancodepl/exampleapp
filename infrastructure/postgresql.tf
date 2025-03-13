@@ -67,7 +67,7 @@ module "postgresql" {
     }
   }
 
-  tags = local.tags
+  tags = var.tags
 }
 
 resource "postgresql_grant" "public" {

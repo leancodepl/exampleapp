@@ -13,7 +13,7 @@ module "managed_identity_examples_api" {
 
   azure_role_assignments = []
 
-  tags = local.tags
+  tags = var.tags
 
   depends_on = [data.azurerm_resource_group.main]
 }
@@ -33,7 +33,7 @@ module "managed_identity_examples_migrations" {
 
   azure_role_assignments = []
 
-  tags = local.tags
+  tags = var.tags
 
   depends_on = [data.azurerm_resource_group.main]
 }

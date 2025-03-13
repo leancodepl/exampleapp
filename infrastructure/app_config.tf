@@ -21,12 +21,12 @@ module "app_config" {
 
   k8s_config_maps = {
     "exampleapp-wellknown" = {
-      labels = local.tags
+      labels = var.tags
       data   = var.well_known
     }
 
     "exampleapp-web-config" = {
-      labels = merge(local.tags, { component = "web" })
+      labels = merge(var.tags, { component = "web" })
       data = {
         "NX_API_BASE"  = "https://api.${var.domain}",
         "NX_AUTH_BASE" = "https://auth.${var.domain}",
@@ -36,7 +36,7 @@ module "app_config" {
 
   k8s_secrets = {
     "exampleapp-examples-api-secret" = {
-      labels = merge(local.tags, { component = "api" })
+      labels = merge(var.tags, { component = "api" })
       data = merge(local.backend_cors_allowed_origins, {
         "ASPNETCORE_ENVIRONMENT" = title(var.environment)
 
@@ -60,7 +60,7 @@ module "app_config" {
       })
     }
     "exampleapp-examples-migrations-secret" = {
-      labels = merge(local.tags, { component = "migrations" })
+      labels = merge(var.tags, { component = "migrations" })
       data = {
         "Azure__UseAzureWorkloadIdentity" = "true"
 

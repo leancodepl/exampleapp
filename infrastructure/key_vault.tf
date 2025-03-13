@@ -15,7 +15,7 @@ module "key_vault" {
     object_id = data.azuread_group.project.object_id
   }
 
-  tags = local.tags
+  tags = var.tags
 }
 
 resource "azurerm_key_vault_key" "sops" {

@@ -6,5 +6,5 @@ module "service_bus" {
 
   data_owners_object_ids = { examples_api = module.managed_identity_examples_api.managed_identity.object_id }
 
-  tags = local.tags
+  tags = var.tags
 }

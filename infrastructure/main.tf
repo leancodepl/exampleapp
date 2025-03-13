@@ -49,9 +49,4 @@ locals {
     local.project,
     var.environment
   ])
-
-  tags = {
-    project     = local.project
-    environment = var.environment
-  }
 }
