@@ -1,26 +1,26 @@
 terraform {
-  required_version = ">= 1.5.0"
+  required_version = ">= 1.11.0"
 
   required_providers {
     azuread = {
       source  = "hashicorp/azuread"
-      version = ">= 2.40"
+      version = ">= 3.1"
     }
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = ">= 3.65"
+      version = ">= 4.22"
     }
     kubernetes = {
       source  = "hashicorp/kubernetes"
-      version = ">= 2.20"
+      version = ">= 2.36"
     }
     postgresql = {
       source  = "cyrilgdn/postgresql"
-      version = ">= 1.20"
+      version = ">= 1.25"
     }
     random = {
       source  = "hashicorp/random"
-      version = ">= 3.5"
+      version = ">= 3.7"
     }
   }
 }

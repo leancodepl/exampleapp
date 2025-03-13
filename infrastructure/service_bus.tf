@@ -1,5 +1,5 @@
 module "service_bus" {
-  source = "git::https://github.com/leancodepl/terraform-common-modules.git//azure_service_bus?ref=v0.1.0"
+  source = "git::https://github.com/leancodepl/terraform-common-modules.git//azure_service_bus?ref=v0.4.3"
 
   resource_group_name = data.azurerm_resource_group.main.name
   service_bus_name    = local.azure_resource_name
