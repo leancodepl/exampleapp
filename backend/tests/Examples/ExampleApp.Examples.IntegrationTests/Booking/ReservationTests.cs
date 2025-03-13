@@ -25,6 +25,7 @@ public class BookingTests : BookingTestsBase
         await App.Command.RunSuccessAsync(
             new ReserveTimeslot { TimeslotId = timeslot1.Id, CalendarDayId = timeslot1.CalendarDayId }
         );
+        await App.WaitForBusAsync();
 
         var detailsByTimeslot = await App.Query.GetAsync(
             new MyReservationByTimeslotId { TimeslotId = timeslot1.Id },
