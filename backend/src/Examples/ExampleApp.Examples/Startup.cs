@@ -169,16 +169,14 @@ public class Startup(IWebHostEnvironment hostEnv, IConfiguration config) : LeanS
                     cqrs =>
                     {
                         cqrs.Commands = c =>
-                            c.CQRSTrace()
-                                .Secure()
+                            c.Secure()
                                 .Validate()
                                 .CommitTransaction<ExamplesDbContext>()
                                 .PublishEvents()
                                 .Audit<ExamplesDbContext>();
-                        cqrs.Queries = c => c.CQRSTrace().Secure();
+                        cqrs.Queries = c => c.Secure();
                         cqrs.Operations = c =>
-                            c.CQRSTrace()
-                                .Secure()
+                            c.Secure()
                                 .CommitTransaction<ExamplesDbContext>()
                                 .PublishEvents()
                                 .Audit<ExamplesDbContext>();
@@ -436,7 +434,7 @@ public class Startup(IWebHostEnvironment hostEnv, IConfiguration config) : LeanS
                         .AddHttpClientInstrumentation()
                         .AddNpgsql()
                         .AddSource(MassTransit.Logging.DiagnosticHeaders.DefaultListenerName)
-                        .AddLeanCodeTelemetry()
+                        .AddLeanCodeInstrumentation()
                         .AddOtlpExporter(cfg => cfg.Endpoint = new(otlp));
                 })
                 .WithMetrics(builder =>

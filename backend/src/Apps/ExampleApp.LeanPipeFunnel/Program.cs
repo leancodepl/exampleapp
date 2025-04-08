@@ -140,7 +140,7 @@ if (!string.IsNullOrWhiteSpace(otlp))
                 )
                 .AddHttpClientInstrumentation()
                 .AddSource(MassTransit.Logging.DiagnosticHeaders.DefaultListenerName)
-                .AddLeanCodeTelemetry()
+                .AddLeanCodeInstrumentation()
                 .AddOtlpExporter(cfg => cfg.Endpoint = new(otlp));
         })
         .WithMetrics(builder =>
