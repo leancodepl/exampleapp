@@ -41,7 +41,7 @@ module "kratos" {
     authority_name      = "ExampleApp (dev)"
     web_hook_api_key    = "Passw12#"
     passkey_origins     = var.passkey_origins
-    dev_allowed_origins = []
+    dev_allowed_origins = ["host.local.lncd.pl"]
   })
 
   dsn = "postgresql://${urlencode(postgresql_role.kratos.name)}:${urlencode(postgresql_role.kratos.password)}@${kubernetes_service_v1.postgresql_service.metadata[0].name}.${kubernetes_service_v1.postgresql_service.metadata[0].namespace}.svc.cluster.local/${postgresql_database.kratos.name}?sslmode=disable"

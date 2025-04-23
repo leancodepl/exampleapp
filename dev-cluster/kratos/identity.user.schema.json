@@ -23,6 +23,10 @@
                             },
                             "passkey": {
                                 "display_name": true
+                            },
+                            "code": {
+                                "identifier": true,
+                                "via": "email"
                             }
                         },
                         "recovery": {
