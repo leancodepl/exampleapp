@@ -30,10 +30,9 @@ variable "passkey_origins" {
 
 variable "optional_features" {
   type = object({
-    rabbit           = optional(bool, true),
-    metabase         = optional(bool, false),
-    kratos_ui        = optional(bool, false),
-    self_signed_cert = optional(bool, false),
+    rabbit    = optional(bool, true),
+    metabase  = optional(bool, false),
+    kratos_ui = optional(bool, false),
   })
   default = {}
 }
