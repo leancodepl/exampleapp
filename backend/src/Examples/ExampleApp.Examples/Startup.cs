@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using ExampleApp.Examples.Configuration;
@@ -7,6 +8,7 @@ using ExampleApp.Examples.DataAccess.Blobs;
 using ExampleApp.Examples.DataAccess.Serialization;
 using ExampleApp.Examples.Handlers.HealthCheck;
 using ExampleApp.Examples.Handlers.Identities;
+using ExampleApp.Examples.Observability;
 using LeanCode.AuditLogs;
 using LeanCode.AzureIdentity;
 using LeanCode.Components;
@@ -428,13 +430,22 @@ public class Startup(IWebHostEnvironment hostEnv, IConfiguration config) : LeanS
                 {
                     builder
                         .AddProcessor<IdentityTraceAttributesFromBaggageProcessor>()
-                        .AddAspNetCoreInstrumentation(opts =>
-                            opts.Filter = ctx => !ctx.Request.Path.StartsWithSegments("/live")
-                        )
-                        .AddHttpClientInstrumentation()
+                        .AddAspNetCoreInstrumentation(o =>
+                        {
+                            o.RecordException = true;
+                            o.Filter = ctx => !ctx.Request.Path.StartsWithSegments("/live");
+                        })
+                        .AddHttpClientInstrumentation(o =>
+                        {
+                            o.RecordException = true;
+                            o.FilterHttpRequestMessage = _ => Activity.Current?.Parent?.Source.Name != "Azure.Core.Http";
+                        })
+                        .AddSource("Azure.*") // Azure SDK
                         .AddNpgsql()
                         .AddSource(MassTransit.Logging.DiagnosticHeaders.DefaultListenerName)
+                        .AddProcessor<MassTransitActivityFilteringProcessor>()
                         .AddLeanCodeInstrumentation()
+                        .SetErrorStatusOnException()
                         .AddOtlpExporter(cfg => cfg.Endpoint = new(otlp));
                 })
                 .WithMetrics(builder =>
@@ -442,6 +453,8 @@ public class Startup(IWebHostEnvironment hostEnv, IConfiguration config) : LeanS
                     builder
                         .AddAspNetCoreInstrumentation()
                         .AddHttpClientInstrumentation()
+                        .AddRuntimeInstrumentation()
+                        .AddNpgsqlInstrumentation()
                         .AddMeter(MassTransit.Monitoring.InstrumentationOptions.MeterName)
                         .AddOtlpExporter(cfg => cfg.Endpoint = new(otlp));
                 });
