@@ -433,12 +433,13 @@ public class Startup(IWebHostEnvironment hostEnv, IConfiguration config) : LeanS
                         .AddAspNetCoreInstrumentation(o =>
                         {
                             o.RecordException = true;
-                            o.Filter = ctx => !ctx.Request.Path.StartsWithSegments("/live");
                         })
+                        .AddProcessor<HealthCheckActivityFilteringProcessor>()
                         .AddHttpClientInstrumentation(o =>
                         {
                             o.RecordException = true;
-                            o.FilterHttpRequestMessage = _ => Activity.Current?.Parent?.Source.Name != "Azure.Core.Http";
+                            o.FilterHttpRequestMessage = _ =>
+                                Activity.Current?.Parent?.Source.Name != "Azure.Core.Http";
                         })
                         .AddSource("Azure.*") // Azure SDK
                         .AddNpgsql()

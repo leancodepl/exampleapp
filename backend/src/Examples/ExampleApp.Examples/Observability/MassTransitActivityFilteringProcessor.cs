@@ -7,7 +7,7 @@ public class MassTransitActivityFilteringProcessor : BaseProcessor<Activity>
 {
     public override void OnStart(Activity activity)
     {
-        if (activity.Source.Name is not MassTransit.Logging.DiagnosticHeaders.DefaultListenerName)
+        if (activity.Source.Name != MassTransit.Logging.DiagnosticHeaders.DefaultListenerName)
         {
             return;
         }
@@ -20,7 +20,7 @@ public class MassTransitActivityFilteringProcessor : BaseProcessor<Activity>
 
     public override void OnEnd(Activity activity)
     {
-        if (activity.Source.Name is not MassTransit.Logging.DiagnosticHeaders.DefaultListenerName)
+        if (activity.Source.Name != MassTransit.Logging.DiagnosticHeaders.DefaultListenerName)
         {
             return;
         }
