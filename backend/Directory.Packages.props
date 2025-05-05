@@ -100,6 +100,7 @@
     <PackageVersion Include="OpenTelemetry.Extensions.Hosting" Version="1.11.2" />
     <PackageVersion Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.11.1" />
     <PackageVersion Include="OpenTelemetry.Instrumentation.Http" Version="1.11.1" />
+    <PackageVersion Include="OpenTelemetry.Instrumentation.Runtime" Version="1.11.1" />
 
     <PackageVersion Include="Microsoft.IdentityModel.JsonWebTokens" Version="8.8.0" />
     <PackageVersion Include="Microsoft.IdentityModel.Tokens" Version="8.8.0" />
