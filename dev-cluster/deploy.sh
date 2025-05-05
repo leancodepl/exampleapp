@@ -3,6 +3,10 @@ set -e
 
 cd "${0:A:h}"
 
+if [[ $(uname) == "Darwin" ]]; then
+  export K3D_FIX_DNS=0
+fi
+
 k3d cluster delete exampleapp || true
 k3d registry delete k3d-exampleapp-registry.local.lncd.pl || true
 rm *.tfstate* || true
