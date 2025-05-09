@@ -26,6 +26,8 @@ using LeanCode.Kratos.Client.Extensions;
 using LeanCode.Kratos.Client.Model;
 using LeanCode.Localization;
 using LeanCode.Logging;
+using LeanCode.NotificationCenter;
+using LeanCode.NotificationCenter.DataAccess;
 using LeanCode.Npgsql.ActiveDirectory;
 using LeanCode.OpenTelemetry;
 using LeanCode.Pipe;
@@ -58,6 +60,7 @@ using ExampleApp.Examples.Domain.Booking;
 using ExampleApp.Examples.Domain.Employees;
 using ExampleApp.Examples.Domain.Projects;
 using ExampleApp.Examples.Handlers.Booking.Reservations.Authorization;
+using ExampleApp.Examples.Services;
 using LeanCode.AppRating;
 using LeanCode.Firebase.FCM;
 using Booking = ExampleApp.Examples.Domain.Booking;
@@ -83,6 +86,12 @@ public class Startup(IWebHostEnvironment hostEnv, IConfiguration config) : LeanS
                 new AndroidVersionsConfiguration(new Version(1, 0), new Version(1, 1)),
                 new IOSVersionsConfiguration(new Version(1, 0), new Version(1, 1))
             );
+
+#if Example
+        services
+            .AddNotificationCenter<Guid>(new(Consts.FromEmail, Consts.FromName, null))
+            .AddUserConfigurationProvider<NotificationsUserConfigurationProvider>();
+#endif
 
         services.AddSendGridClient(
             AppConfig.SendGrid.ApiKey(Configuration) is var sendGridApiKey && !string.IsNullOrEmpty(sendGridApiKey)
@@ -270,6 +279,8 @@ public class Startup(IWebHostEnvironment hostEnv, IConfiguration config) : LeanS
                                 .SetPostgresVersion(15, 0)
                     )
         );
+
+        services.AddScoped<INotificationsDbContext<Guid>>(sp => sp.GetRequiredService<ExamplesDbContext>());
     }
 
     private void AddKratos(IServiceCollection services)
@@ -343,6 +354,7 @@ public class Startup(IWebHostEnvironment hostEnv, IConfiguration config) : LeanS
             cfg.AddAuditLogsConsumer();
 #if Example
             cfg.AddAppRatingConsumers<Guid>();
+            cfg.AddNotificationCenter<Guid>();
 #endif
 
             var leanPipeFunnelEnabled = AppConfig.LeanPipe.EnableLeanPipeFunnel(Configuration);

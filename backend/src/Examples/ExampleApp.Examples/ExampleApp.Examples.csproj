@@ -90,4 +90,10 @@
     <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.MSBuild" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="LeanCode.NotificationCenter">
+      <HintPath>..\..\..\..\..\NotificationCenter\backend\src\LeanCode.NotificationCenter\bin\publish\LeanCode.NotificationCenter.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

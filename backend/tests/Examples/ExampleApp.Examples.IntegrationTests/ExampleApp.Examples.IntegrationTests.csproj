@@ -19,4 +19,10 @@
     <PackageReference Include="LeanCode.Pipe.TestClient" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="LeanCode.NotificationCenter">
+      <HintPath>..\..\..\..\..\NotificationCenter\backend\src\LeanCode.NotificationCenter\bin\publish\LeanCode.NotificationCenter.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

@@ -9,6 +9,9 @@
   <ItemGroup>
     <!--#if Example -->
     <PackageReference Include="LeanCode.AppRating.Contracts" />
+    <Reference Include="LeanCode.NotificationCenter.Contracts">
+      <HintPath>..\..\..\..\..\NotificationCenter\backend\src\LeanCode.NotificationCenter\bin\publish\LeanCode.NotificationCenter.Contracts.dll</HintPath>
+    </Reference>
     <!--#endif -->
     <PackageReference Include="LeanCode.Contracts" />
     <PackageReference Include="LeanCode.Contracts.Admin" />
