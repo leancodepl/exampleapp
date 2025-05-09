@@ -1,0 +1,15 @@
+meta {
+  name: Q_UnreadMessagesCount
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{api_base}}/query/LeanCode.NotificationCenter.Contracts.UnreadMessagesCount
+  body: json
+  auth: inherit
+}
+
+body:json {
+  { }
+}

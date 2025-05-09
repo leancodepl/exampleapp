@@ -1,0 +1,17 @@
+meta {
+  name: C_SetNotificationToken
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{api_base}}/command/LeanCode.NotificationCenter.Contracts.SetNotificationToken
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "Token": "{{fcm_token}}"
+  }
+}

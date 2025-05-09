@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
+using System.Security.Claims;
 using ExampleApp.Examples.Configuration;
 using ExampleApp.Examples.Contracts;
 using ExampleApp.Examples.DataAccess;
@@ -8,6 +9,7 @@ using ExampleApp.Examples.DataAccess.Blobs;
 using ExampleApp.Examples.DataAccess.Serialization;
 using ExampleApp.Examples.Handlers.HealthCheck;
 using ExampleApp.Examples.Handlers.Identities;
+using ExampleApp.Examples.Notifications;
 using ExampleApp.Examples.Observability;
 using LeanCode.AuditLogs;
 using LeanCode.AzureIdentity;
@@ -26,8 +28,6 @@ using LeanCode.Kratos.Client.Extensions;
 using LeanCode.Kratos.Client.Model;
 using LeanCode.Localization;
 using LeanCode.Logging;
-using LeanCode.NotificationCenter;
-using LeanCode.NotificationCenter.DataAccess;
 using LeanCode.Npgsql.ActiveDirectory;
 using LeanCode.OpenTelemetry;
 using LeanCode.Pipe;
@@ -60,9 +60,11 @@ using ExampleApp.Examples.Domain.Booking;
 using ExampleApp.Examples.Domain.Employees;
 using ExampleApp.Examples.Domain.Projects;
 using ExampleApp.Examples.Handlers.Booking.Reservations.Authorization;
-using ExampleApp.Examples.Services;
 using LeanCode.AppRating;
 using LeanCode.Firebase.FCM;
+using LeanCode.NotificationCenter;
+using LeanCode.NotificationCenter.DataAccess;
+using LeanCode.UserIdExtractors;
 using Booking = ExampleApp.Examples.Domain.Booking;
 #endif
 
@@ -81,6 +83,7 @@ public class Startup(IWebHostEnvironment hostEnv, IConfiguration config) : LeanS
             .AddCQRS(Api, AllHandlers)
 #if Example
             .AddAppRating<Guid, ExamplesDbContext, UserIdExtractor>()
+            .AddNotificationCenter<Guid>()
 #endif
             .AddForceUpdate(
                 new AndroidVersionsConfiguration(new Version(1, 0), new Version(1, 1)),
@@ -90,7 +93,9 @@ public class Startup(IWebHostEnvironment hostEnv, IConfiguration config) : LeanS
 #if Example
         services
             .AddNotificationCenter<Guid>(new(Consts.FromEmail, Consts.FromName, null))
-            .AddUserConfigurationProvider<NotificationsUserConfigurationProvider>();
+            .AddUserConfigurationProvider<NotificationsUserConfigurationProvider>()
+            .Configure<SampleNotificationPayload>(true, true, true);
+        services.AddSingleton<LeanCode.UserIdExtractors.IUserIdExtractor<Guid>, UserIdExtractor>();
 #endif
 
         services.AddSendGridClient(
@@ -533,10 +538,18 @@ file static class ServiceCollectionExtensions
 }
 
 #if Example
-public sealed class UserIdExtractor : IUserIdExtractor<Guid>
+public sealed class UserIdExtractor : LeanCode.AppRating.IUserIdExtractor<Guid>, LeanCode.UserIdExtractors.IUserIdExtractor<Guid>
 {
     public Guid Extract(HttpContext httpContext) => httpContext.GetUserId();
 
     public bool TryExtract(HttpContext httpContext, out Guid userId) => httpContext.TryGetUserId(out userId);
+    public Guid Extract(ClaimsPrincipal user)
+    {
+        var claim = user.FindFirstValue(Auth.KnownClaims.UserId);
+
+        ArgumentException.ThrowIfNullOrEmpty(claim);
+
+        return Guid.Parse(claim);
+    }
 }
 #endif

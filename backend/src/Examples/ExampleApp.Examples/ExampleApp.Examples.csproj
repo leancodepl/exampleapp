@@ -54,6 +54,7 @@
     <PackageReference Include="LeanCode.SendGrid" />
     <PackageReference Include="LeanCode.Startup.MicrosoftDI" />
     <PackageReference Include="LeanCode.UrlHelper" />
+    <PackageReference Include="LeanCode.UserIdExtractors" />
     <PackageReference Include="LeanCode.ViewRenderer.Razor" />
 
     <PackageReference Include="MassTransit" />
@@ -80,6 +81,8 @@
     <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" />
     <PackageReference Include="OpenTelemetry.Instrumentation.Http" />
     <PackageReference Include="OpenTelemetry.Instrumentation.Runtime" />
+    
+    <PackageReference Include="Serilog.Sinks.OpenTelemetry" />
   </ItemGroup>
 
   <ItemGroup>
@@ -93,6 +96,9 @@
   <ItemGroup>
     <Reference Include="LeanCode.NotificationCenter">
       <HintPath>..\..\..\..\..\NotificationCenter\backend\src\LeanCode.NotificationCenter\bin\publish\LeanCode.NotificationCenter.dll</HintPath>
+    </Reference>
+    <Reference Include="LeanCode.NotificationCenter.Contracts">
+      <HintPath>..\..\..\..\..\NotificationCenter\backend\src\LeanCode.NotificationCenter\bin\publish\LeanCode.NotificationCenter.Contracts.dll</HintPath>
     </Reference>
   </ItemGroup>
 

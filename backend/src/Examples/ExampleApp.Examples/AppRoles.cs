@@ -9,6 +9,7 @@ internal class AppRoles : IRoleRegistration
         [new Role(R.User, R.User
 #if Example
                 , LeanCode.AppRating.Contracts.RatingPermissions.RateApp
+                , LeanCode.NotificationCenter.Contracts.Permissions.NotificationCenter
 #endif
             ), new Role(R.Admin, R.Admin)];
 }

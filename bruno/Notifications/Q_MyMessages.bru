@@ -1,0 +1,17 @@
+meta {
+  name: Q_MyMessages
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{api_base}}/query/LeanCode.NotificationCenter.Contracts.MyMessages
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "PaginationToken": null
+  }
+}
