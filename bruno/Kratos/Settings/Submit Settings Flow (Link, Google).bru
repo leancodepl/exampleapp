@@ -1,5 +1,5 @@
 meta {
-  name: Submit Settings Flow (AddPasskey)
+  name: Submit Settings Flow (Link, Google)
   type: http
   seq: 1
 }
@@ -17,7 +17,7 @@ headers {
 body:json {
   {
     "csrf_token": "{{kratos_settings_csrf_token}}",
-    "method": "passkey",
-    "passkey_settings_register": "{{kratos_passkey_settings_response}}"
+    "method": "oidc",
+    "link": "google"
   }
 }
