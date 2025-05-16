@@ -3,10 +3,10 @@
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
     <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
 
-    <CoreLibVersion>9.0.2663-preview</CoreLibVersion>
-    <ExtensionsVersion>9.0.3</ExtensionsVersion>
-    <EFCoreVersion>9.0.3</EFCoreVersion>
-    <AspNetCoreVersion>9.0.3</AspNetCoreVersion>
+    <CoreLibVersion>9.0.2667-preview</CoreLibVersion>
+    <ExtensionsVersion>9.0.5</ExtensionsVersion>
+    <EFCoreVersion>9.0.5</EFCoreVersion>
+    <AspNetCoreVersion>9.0.5</AspNetCoreVersion>
     <MassTransitVersion>8.4.0</MassTransitVersion>
     <NpgsqlVersion>9.0.3</NpgsqlVersion>
     <LeanPipeVersion>0.3.0</LeanPipeVersion>

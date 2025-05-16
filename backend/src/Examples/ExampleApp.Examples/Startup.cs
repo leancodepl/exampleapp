@@ -285,7 +285,7 @@ public class Startup(IWebHostEnvironment hostEnv, IConfiguration config) : LeanS
                     )
         );
 
-        services.AddScoped<INotificationsDbContext<Guid>>(sp => sp.GetRequiredService<ExamplesDbContext>());
+        services.AddScoped<INCDbContext<Guid>>(sp => sp.GetRequiredService<ExamplesDbContext>());
     }
 
     private void AddKratos(IServiceCollection services)

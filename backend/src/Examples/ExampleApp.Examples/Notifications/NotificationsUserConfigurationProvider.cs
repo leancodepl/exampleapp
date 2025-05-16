@@ -21,8 +21,6 @@ public class NotificationsUserConfigurationProvider : IUserConfigurationProvider
         var identity = await dbContext.KratosIdentities.Where(ki => ki.Id == userId).Select(ki => new { ki.Email })
             .FirstAsync(cancellationToken);
 
-        logger.Warning("Identity {@Identity}", identity);
-
         return new(stringId, "pl", identity.Email);
     }
 }
