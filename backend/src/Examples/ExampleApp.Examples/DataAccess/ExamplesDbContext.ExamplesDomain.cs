@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ExampleApp.Examples.DataAccess;
 
-public partial class ExamplesDbContext : IAppRatingStore<Guid>, INCDbContext<Guid>
+public partial class ExamplesDbContext : IAppRatingStore<Guid>, INotificationsDbContext<Guid>
 {
     public DbSet<Employee> Employees => Set<Employee>();
     public DbSet<Project> Projects => Set<Project>();
@@ -24,7 +24,7 @@ public partial class ExamplesDbContext : IAppRatingStore<Guid>, INCDbContext<Gui
     public DbSet<AppRating<Guid>> AppRatings => Set<AppRating<Guid>>();
 
     public DbSet<UserData<Guid>> NotificationsUsers => Set<UserData<Guid>>();
-    DbSet<UserData<Guid>> INCDbContext<Guid>.Users => NotificationsUsers;
+    DbSet<UserData<Guid>> INotificationsDbContext<Guid>.Users => NotificationsUsers;
     public DbSet<DbMessage<Guid>> Messages => Set<DbMessage<Guid>>();
 
     private void ConfigureExampleAppConventions(ModelConfigurationBuilder configurationBuilder)
