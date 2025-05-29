@@ -4,7 +4,7 @@ def isReleaseBuild = isMaster || isHotfix
 def dbPassword = 'Passw12#'
 
 leancode.builder('exampleapp-backend')
-    .withMonorepoTest(['backend'])
+    .withMonorepoTest(['backend', '.config'])
     .withBuildKit()
     .withDotnet([version: '9.0', image: 'mcr.microsoft.com/dotnet/sdk'])
     .withDefaultContainer(
