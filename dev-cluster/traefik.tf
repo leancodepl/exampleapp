@@ -3,33 +3,8 @@ locals {
   traefik_image         = "${local.registry_address}/traefik:${local.traefik_image_version}"
 
   traefik_triggers = {
-    dockerfile_trigger   = filemd5(var.optional_features.self_signed_cert ? "./apps/Dockerfile.traefik-self-signed" : "./apps/Dockerfile.traefik")
+    dockerfile_trigger   = filemd5("./apps/Dockerfile.traefik")
     dynamic_toml_trigger = filemd5("./apps/dynamic.toml")
-  }
-}
-
-resource "docker_image" "alpine" {
-  name         = "docker.io/library/alpine:latest"
-  keep_locally = true
-}
-
-resource "docker_container" "certificates" {
-  count = var.optional_features.self_signed_cert ? 1 : 0
-
-  image = docker_image.alpine.image_id
-  name  = "exampleapp-certificates"
-
-  start       = true
-  attach      = true
-  must_run    = false
-  working_dir = "/mnt"
-  command     = ["./generate_certs.sh"]
-  env         = ["TIME=${timestamp()}"]
-
-  mounts {
-    type   = "bind"
-    source = abspath("${path.module}/apps")
-    target = "/mnt"
   }
 }
 
@@ -38,12 +13,10 @@ resource "docker_image" "traefik" {
 
   build {
     context    = "./apps"
-    dockerfile = var.optional_features.self_signed_cert ? "Dockerfile.traefik-self-signed" : "Dockerfile.traefik"
+    dockerfile = "Dockerfile.traefik"
   }
 
   triggers = local.traefik_triggers
-
-  depends_on = [docker_container.certificates]
 }
 
 resource "docker_registry_image" "traefik" {
