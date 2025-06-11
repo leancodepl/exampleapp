@@ -5,13 +5,17 @@ cd "${0:A:h}"
 
 if [[ $(uname) == "Darwin" ]]; then
   export K3D_FIX_DNS=0
+  if command -v colima >/dev/null 2>&1; then
+    if colima status >/dev/null 2>&1; then
+      export DOCKER_CONTEXT='colima'
+    fi
+  fi
 fi
 
 k3d cluster delete exampleapp || true
 k3d registry delete k3d-exampleapp-registry.local.lncd.pl || true
 rm .terraform.lock.hcl || true
 rm *.tfstate* || true
-docker rm exampleapp-certificates || true
 
 # Docker provider will not be able to use the token
 az acr login -n leancode && docker pull leancode.azurecr.io/locallncdpl-certs || true
