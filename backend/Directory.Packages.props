@@ -114,7 +114,6 @@
   <ItemGroup>
     <PackageVersion Include="Dapper" Version="2.1.35" />
     <PackageVersion Include="LeanCode.Pipe" Version="$(LeanPipeVersion)" />
-    <PackageVersion Include="Serilog.Sinks.OpenTelemetry" Version="4.1.1" />
   </ItemGroup>
 
   <ItemGroup>
