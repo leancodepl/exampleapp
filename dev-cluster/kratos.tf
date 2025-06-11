@@ -123,7 +123,7 @@ resource "kubernetes_deployment_v1" "kratos_ui" {
       spec {
         container {
           name  = "kratos-ui"
-          image = "docker.io/oryd/kratos-selfservice-ui-node:v1.2.0"
+          image = "docker.io/oryd/kratos-selfservice-ui-node:v1.3.1"
           env_from {
             secret_ref {
               name = kubernetes_secret_v1.kratos_ui_secret[0].metadata[0].name

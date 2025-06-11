@@ -40,7 +40,7 @@ resource "kubernetes_deployment_v1" "azurite_deployment" {
             name  = "AZURITE_ACCOUNTS"
             value = "${local.azurite_account}:${local.azurite_key}"
           }
-          image = "mcr.microsoft.com/azure-storage/azurite:3.33.0"
+          image = "mcr.microsoft.com/azure-storage/azurite:3.34.0"
           name  = "azurite"
           port {
             container_port = 10000
