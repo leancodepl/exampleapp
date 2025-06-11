@@ -4,6 +4,7 @@ using LeanCode.Contracts.Security;
 namespace ExampleApp.Examples.Contracts.Firebase;
 
 [AuthorizeWhenHasAnyOf(Auth.Roles.User)]
+[Obsolete("Use LeanCode.Notifications.Contracts.AddPushNotificationToken instead.")]
 public class AddNotificationToken : ICommand
 {
     public string Token { get; set; }

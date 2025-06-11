@@ -4,6 +4,7 @@ using LeanCode.CQRS.Execution;
 using LeanCode.CQRS.Validation.Fluent;
 using LeanCode.Firebase.FCM;
 using Microsoft.AspNetCore.Http;
+#pragma warning disable CS0618 // Type or member is obsolete
 
 namespace ExampleApp.Examples.Handlers.Firebase;
 
