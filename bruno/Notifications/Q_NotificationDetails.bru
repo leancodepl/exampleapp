@@ -1,0 +1,17 @@
+meta {
+  name: Q_NotificationDetails
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{api_base}}/query/LeanCode.NotificationCenter.Contracts.NotificationDetails
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "Id": "notification_01JXFAMD2QJ67V5SHR353FKCTN"
+  }
+}
