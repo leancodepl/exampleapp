@@ -4,9 +4,9 @@
     <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
 
     <CoreLibVersion>9.0.2667-preview</CoreLibVersion>
-    <ExtensionsVersion>9.0.5</ExtensionsVersion>
-    <EFCoreVersion>9.0.5</EFCoreVersion>
-    <AspNetCoreVersion>9.0.5</AspNetCoreVersion>
+    <ExtensionsVersion>9.0.6</ExtensionsVersion>
+    <EFCoreVersion>9.0.6</EFCoreVersion>
+    <AspNetCoreVersion>9.0.6</AspNetCoreVersion>
     <MassTransitVersion>8.4.0</MassTransitVersion>
     <NpgsqlVersion>9.0.3</NpgsqlVersion>
     <LeanPipeVersion>0.3.0</LeanPipeVersion>
