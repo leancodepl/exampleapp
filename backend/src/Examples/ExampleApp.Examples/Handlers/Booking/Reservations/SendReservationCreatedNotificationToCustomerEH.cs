@@ -8,8 +8,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ExampleApp.Examples.Handlers.Booking.Reservations;
 
-public class SendReservationCreatedNotificationToCustomerEH(ExamplesDbContext dbContext, NotificationSender<Guid> notificationSender)
-    : IConsumer<ReservationCreated>
+public class SendReservationCreatedNotificationToCustomerEH(
+    ExamplesDbContext dbContext,
+    NotificationSender<Guid> notificationSender
+) : IConsumer<ReservationCreated>
 {
     private readonly Serilog.ILogger logger = Serilog.Log.ForContext<SendReservationCreatedNotificationToCustomerEH>();
 
@@ -17,17 +19,23 @@ public class SendReservationCreatedNotificationToCustomerEH(ExamplesDbContext db
     {
         var msg = context.Message;
 
-        var notificationData = await dbContext.Timeslots
-            .Where(t => t.Id == msg.TimeslotId)
-            .Join(dbContext.ServiceProviders, t => t.CalendarDay.ServiceProviderId, sp => sp.Id, (t, sp) => new
-            {
-                t.Date,
-                t.StartTime,
-                t.EndTime,
-                ServiceProviderId = sp.Id,
-                ServiceProviderName = sp.Name,
-                ServiceProviderThumbnail = sp.Thumbnail,
-            })
+        var notificationData = await dbContext
+            .Timeslots.Where(t => t.Id == msg.TimeslotId)
+            .Join(
+                dbContext.ServiceProviders,
+                t => t.CalendarDay.ServiceProviderId,
+                sp => sp.Id,
+                (t, sp) =>
+                    new
+                    {
+                        t.Date,
+                        t.StartTime,
+                        t.EndTime,
+                        ServiceProviderId = sp.Id,
+                        ServiceProviderName = sp.Name,
+                        ServiceProviderThumbnail = sp.Thumbnail,
+                    }
+            )
             .FirstAsync(context.CancellationToken);
 
         var notification = new Notification<ReservationCreatedNotificationDTO, Guid>(
@@ -56,6 +64,7 @@ public class SendReservationCreatedNotificationToCustomerEH(ExamplesDbContext db
             "Sending reservation created notification {NotificationId} about reservation {ReservationId} to user {UserId}",
             notification.Id,
             msg.ReservationId,
-            msg.CustomerId);
+            msg.CustomerId
+        );
     }
 }
