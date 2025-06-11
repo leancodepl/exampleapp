@@ -10,12 +10,6 @@
   <data name="emails.low-rate-submitted.subject" xml:space="preserve">
     <value>Your app got a low rate</value>
   </data>
-  <data name="notifications.sample-notification.title" xml:space="preserve">
-    <value>Check out this notification!</value>
-  </data>
-  <data name="notifications.sample-notification.content" xml:space="preserve">
-    <value>This is quite a notification to user {{ReceiversId}} indeed.</value>
-  </data>
   <data name="notifications.reservation-created.title" xml:space="preserve">
     <value>Reservation with {{ServiceProviderName}} has been made.</value>
   </data>
