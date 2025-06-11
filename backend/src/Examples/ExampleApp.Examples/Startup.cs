@@ -93,7 +93,8 @@ public class Startup(IWebHostEnvironment hostEnv, IConfiguration config) : LeanS
         services
             .AddNotificationCenter<Guid>(new(Consts.FromEmail, Consts.FromName, null))
             .AddUserConfigurationProvider<NotificationsUserConfigurationProvider>()
-            .Configure<SampleNotificationPayload>(true, true, true);
+            .Configure<Contracts.Booking.Reservations.ReservationCreatedNotificationDTO>(push: true, leanPipe: true)
+            .Configure<Contracts.Booking.Reservations.ReservationCancelledNotificationDTO>(push: true, email: true, leanPipe: true);
         services.AddGuidUserIdExtractor(Auth.KnownClaims.UserId);
 #endif
 
