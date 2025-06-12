@@ -8,7 +8,6 @@ using ExampleApp.Examples.DataAccess.Blobs;
 using ExampleApp.Examples.DataAccess.Serialization;
 using ExampleApp.Examples.Handlers.HealthCheck;
 using ExampleApp.Examples.Handlers.Identities;
-using ExampleApp.Examples.Notifications;
 using ExampleApp.Examples.Observability;
 using LeanCode.AuditLogs;
 using LeanCode.AzureIdentity;
@@ -59,6 +58,7 @@ using ExampleApp.Examples.Domain.Booking;
 using ExampleApp.Examples.Domain.Employees;
 using ExampleApp.Examples.Domain.Projects;
 using ExampleApp.Examples.Handlers.Booking.Reservations.Authorization;
+using ExampleApp.Examples.Notifications;
 using LeanCode.AppRating;
 using LeanCode.Firebase.FCM;
 using LeanCode.NotificationCenter;
@@ -289,7 +289,9 @@ public class Startup(IWebHostEnvironment hostEnv, IConfiguration config) : LeanS
                     )
         );
 
+#if Example
         services.AddScoped<INotificationsDbContext<Guid>>(sp => sp.GetRequiredService<ExamplesDbContext>());
+#endif
     }
 
     private void AddKratos(IServiceCollection services)
