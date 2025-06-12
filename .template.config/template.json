@@ -47,6 +47,8 @@
         "**/*.Domain.Tests/**/*.cs",
         "**/*.IntegrationTests/Booking/**",
         "**/*.IntegrationTests/Example/**",
+        "**/*.IntegrationTests/Helpers/NotificationsUserConfigurationProviderMock.cs",
+        "**/*.IntegrationTests/Helpers/SendGridRazorClientMock.cs",
         "**/*.IntegrationTests/Helpers/ServiceProviderLogoStorageMock.cs",
         "**/*.Tests/Handlers/**",
         "**/Jenkinsfile",

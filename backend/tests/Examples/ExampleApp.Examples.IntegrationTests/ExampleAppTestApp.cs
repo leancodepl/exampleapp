@@ -19,6 +19,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
+#if Example
+using LeanCode.NotificationCenter.Configuration;
+using LeanCode.SendGrid;
+#endif
 
 namespace ExampleApp.Examples.IntegrationTests;
 
@@ -97,8 +101,16 @@ public class ExampleAppTestApp : LeanCodeTestFactory<Startup>
             services.AddAuthentication(TestAuthenticationHandler.SchemeName).AddTestAuthenticationHandler();
             services.Replace(ServiceDescriptor.Singleton<IAuditLogStorage>(new AuditLogStorageMock()));
 #if Example
+            services.Replace(ServiceDescriptor.Transient<SendGridRazorClient>(_ => new SendGridRazorClientMock()));
+
             services.Replace(
                 ServiceDescriptor.Scoped<ServiceProviderLogoStorage>(_ => new ServiceProviderLogoStorageMock())
+            );
+
+            services.Replace(
+                ServiceDescriptor.Scoped<IUserConfigurationProvider<Guid>>(
+                    _ => new NotificationsUserConfigurationProviderMock()
+                )
             );
 #endif
         });
