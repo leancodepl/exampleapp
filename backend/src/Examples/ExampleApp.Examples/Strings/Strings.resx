@@ -10,5 +10,17 @@
   <data name="emails.low-rate-submitted.subject" xml:space="preserve">
     <value>Your app got a low rate</value>
   </data>
+  <data name="notifications.reservation-created.title" xml:space="preserve">
+    <value>Reservation with {{ServiceProviderName}} has been made.</value>
+  </data>
+  <data name="notifications.reservation-created.content" xml:space="preserve">
+    <value>Reservation with {{ServiceProviderName}} at {{Date}} {{StartTime}}-{{EndTime}} has been made.</value>
+  </data>
+  <data name="notifications.reservation-cancelled.title" xml:space="preserve">
+    <value>Reservation with {{ServiceProviderName}} has been cancelled.</value>
+  </data>
+  <data name="notifications.reservation-cancelled.content" xml:space="preserve">
+    <value>Reservation with {{ServiceProviderName}} at {{Date}} {{StartTime}}-{{EndTime}} has been cancelled.</value>
+  </data>
 <!--#endif -->
 </root>

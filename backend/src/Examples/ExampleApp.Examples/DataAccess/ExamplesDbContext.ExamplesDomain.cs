@@ -3,11 +3,12 @@ using ExampleApp.Examples.Domain.Employees;
 using ExampleApp.Examples.Domain.Projects;
 using LeanCode.AppRating.DataAccess;
 using LeanCode.Firebase.FCM;
+using LeanCode.NotificationCenter.DataAccess;
 using Microsoft.EntityFrameworkCore;
 
 namespace ExampleApp.Examples.DataAccess;
 
-public partial class ExamplesDbContext : IAppRatingStore<Guid>
+public partial class ExamplesDbContext : IAppRatingStore<Guid>, INotificationsDbContext<Guid>
 {
     public DbSet<Employee> Employees => Set<Employee>();
     public DbSet<Project> Projects => Set<Project>();
@@ -20,6 +21,9 @@ public partial class ExamplesDbContext : IAppRatingStore<Guid>
 
     public DbSet<PushNotificationTokenEntity<Guid>> PushNotificationTokens => Set<PushNotificationTokenEntity<Guid>>();
     public DbSet<AppRating<Guid>> AppRatings => Set<AppRating<Guid>>();
+
+    public DbSet<UserData<Guid>> NotificationsUsers => Set<UserData<Guid>>();
+    public DbSet<NotificationEntity<Guid>> Notifications => Set<NotificationEntity<Guid>>();
 
     private void ConfigureExampleAppConventions(ModelConfigurationBuilder configurationBuilder)
     {
@@ -36,7 +40,8 @@ public partial class ExamplesDbContext : IAppRatingStore<Guid>
     private void OnExampleModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ConfigurePushNotificationTokenEntity<Guid>(false);
-        modelBuilder.ConfigureAppRatingEntity<Guid>(SqlDbType.PostgreSql);
+        modelBuilder.ConfigureAppRatingEntity<Guid>(LeanCode.AppRating.DataAccess.SqlDbType.PostgreSql);
+        modelBuilder.ConfigureNotificationCenter<Guid>(LeanCode.NotificationCenter.DataAccess.SqlDbType.PostgreSql);
 
         modelBuilder.Entity<Employee>(e =>
         {

@@ -58,8 +58,12 @@ using ExampleApp.Examples.Domain.Booking;
 using ExampleApp.Examples.Domain.Employees;
 using ExampleApp.Examples.Domain.Projects;
 using ExampleApp.Examples.Handlers.Booking.Reservations.Authorization;
+using ExampleApp.Examples.Notifications;
 using LeanCode.AppRating;
 using LeanCode.Firebase.FCM;
+using LeanCode.NotificationCenter;
+using LeanCode.NotificationCenter.DataAccess;
+using LeanCode.UserIdExtractors;
 using Booking = ExampleApp.Examples.Domain.Booking;
 #endif
 
@@ -78,11 +82,25 @@ public class Startup(IWebHostEnvironment hostEnv, IConfiguration config) : LeanS
             .AddCQRS(Api, AllHandlers)
 #if Example
             .AddAppRating<Guid, ExamplesDbContext, UserIdExtractor>()
+            .AddNotificationCenter<Guid>()
 #endif
             .AddForceUpdate(
                 new AndroidVersionsConfiguration(new Version(1, 0), new Version(1, 1)),
                 new IOSVersionsConfiguration(new Version(1, 0), new Version(1, 1))
             );
+
+#if Example
+        services
+            .AddNotificationCenter<Guid>(new(Consts.FromEmail, Consts.FromName, null))
+            .AddUserConfigurationProvider<NotificationsUserConfigurationProvider>()
+            .Configure<Contracts.Booking.Reservations.ReservationCreatedNotificationDTO>(push: true, leanPipe: true)
+            .Configure<Contracts.Booking.Reservations.ReservationCancelledNotificationDTO>(
+                push: true,
+                email: true,
+                leanPipe: true
+            );
+        services.AddGuidUserIdExtractor(Auth.KnownClaims.UserId);
+#endif
 
         services.AddSendGridClient(
             AppConfig.SendGrid.ApiKey(Configuration) is var sendGridApiKey && !string.IsNullOrEmpty(sendGridApiKey)
@@ -270,6 +288,10 @@ public class Startup(IWebHostEnvironment hostEnv, IConfiguration config) : LeanS
                                 .SetPostgresVersion(15, 0)
                     )
         );
+
+#if Example
+        services.AddScoped<INotificationsDbContext<Guid>>(sp => sp.GetRequiredService<ExamplesDbContext>());
+#endif
     }
 
     private void AddKratos(IServiceCollection services)
@@ -319,15 +341,12 @@ public class Startup(IWebHostEnvironment hostEnv, IConfiguration config) : LeanS
     private void AddLeanPipe(IServiceCollection services)
     {
         var leanPipeFunnelEnabled = AppConfig.LeanPipe.EnableLeanPipeFunnel(Configuration);
-
-        if (leanPipeFunnelEnabled)
-        {
-            services.AddFunnelledLeanPipe(Api, AllHandlers);
-        }
-        else
-        {
-            services.AddLeanPipe(Api, AllHandlers);
-        }
+        var builder = leanPipeFunnelEnabled
+            ? services.AddFunnelledLeanPipe(Api, AllHandlers)
+            : services.AddLeanPipe(Api, AllHandlers);
+#if Example
+        builder.AddNotificationCenter();
+#endif
     }
 
     private void AddMassTransit(IServiceCollection services)
@@ -343,6 +362,7 @@ public class Startup(IWebHostEnvironment hostEnv, IConfiguration config) : LeanS
             cfg.AddAuditLogsConsumer();
 #if Example
             cfg.AddAppRatingConsumers<Guid>();
+            cfg.AddNotificationCenter<Guid>(typeof(DefaultConsumerDefinition<>));
 #endif
 
             var leanPipeFunnelEnabled = AppConfig.LeanPipe.EnableLeanPipeFunnel(Configuration);
@@ -521,7 +541,7 @@ file static class ServiceCollectionExtensions
 }
 
 #if Example
-public sealed class UserIdExtractor : IUserIdExtractor<Guid>
+public sealed class UserIdExtractor : LeanCode.AppRating.IUserIdExtractor<Guid>
 {
     public Guid Extract(HttpContext httpContext) => httpContext.GetUserId();
 

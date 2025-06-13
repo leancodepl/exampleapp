@@ -1,0 +1,15 @@
+meta {
+  name: C_UpdateNotificationsReadTime
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{api_base}}/command/LeanCode.NotificationCenter.Contracts.UpdateNotificationsReadTime
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {}
+}

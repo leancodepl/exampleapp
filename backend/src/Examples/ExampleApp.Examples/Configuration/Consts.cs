@@ -5,4 +5,8 @@ namespace ExampleApp.Examples.Configuration;
 public static class Consts
 {
     public static readonly CultureInfo DefaultUserCulture = CultureInfo.InvariantCulture;
+#if Example
+    public const string FromEmail = "example.app@leancode.co";
+    public const string FromName = "LeanCode Example App";
+#endif
 }

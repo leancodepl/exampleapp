@@ -3,14 +3,15 @@
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
     <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
 
-    <CoreLibVersion>9.0.2663-preview</CoreLibVersion>
-    <ExtensionsVersion>9.0.3</ExtensionsVersion>
-    <EFCoreVersion>9.0.3</EFCoreVersion>
-    <AspNetCoreVersion>9.0.3</AspNetCoreVersion>
+    <CoreLibVersion>9.0.2667-preview</CoreLibVersion>
+    <ExtensionsVersion>9.0.6</ExtensionsVersion>
+    <EFCoreVersion>9.0.6</EFCoreVersion>
+    <AspNetCoreVersion>9.0.6</AspNetCoreVersion>
     <MassTransitVersion>8.4.0</MassTransitVersion>
     <NpgsqlVersion>9.0.3</NpgsqlVersion>
     <LeanPipeVersion>0.3.0</LeanPipeVersion>
     <AppRatingVersion>2.0.52</AppRatingVersion>
+    <NotificationCenterVersion>0.1.0-preview</NotificationCenterVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -52,10 +53,14 @@
     <PackageVersion Include="LeanCode.Startup.MicrosoftDI" Version="$(CoreLibVersion)" />
     <PackageVersion Include="LeanCode.TimeProvider" Version="$(CoreLibVersion)" />
     <PackageVersion Include="LeanCode.UrlHelper" Version="$(CoreLibVersion)" />
+    <PackageVersion Include="LeanCode.UserIdExtractors" Version="$(CoreLibVersion)" />
     <PackageVersion Include="LeanCode.ViewRenderer.Razor" Version="$(CoreLibVersion)" />
 
     <PackageVersion Include="LeanCode.AppRating" Version="$(AppRatingVersion)" />
     <PackageVersion Include="LeanCode.AppRating.Contracts" Version="$(AppRatingVersion)" />
+
+    <PackageVersion Include="LeanCode.NotificationCenter" Version="$(NotificationCenterVersion)" />
+    <PackageVersion Include="LeanCode.NotificationCenter.Contracts" Version="$(NotificationCenterVersion)" />
   </ItemGroup>
 
   <ItemGroup>

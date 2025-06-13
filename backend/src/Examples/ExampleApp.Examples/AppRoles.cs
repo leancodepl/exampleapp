@@ -6,9 +6,16 @@ namespace ExampleApp.Examples;
 internal class AppRoles : IRoleRegistration
 {
     public IEnumerable<Role> Roles { get; } =
-        [new Role(R.User, R.User
+        [
+            new Role(
+                R.User,
+                R.User
 #if Example
-                , LeanCode.AppRating.Contracts.RatingPermissions.RateApp
+                ,
+                LeanCode.AppRating.Contracts.RatingPermissions.RateApp,
+                LeanCode.NotificationCenter.Contracts.Permissions.NotificationCenter
 #endif
-            ), new Role(R.Admin, R.Admin)];
+            ),
+            new Role(R.Admin, R.Admin),
+        ];
 }

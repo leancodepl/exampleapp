@@ -9,6 +9,7 @@
   <ItemGroup>
     <!--#if Example -->
     <PackageReference Include="LeanCode.AppRating.Contracts" />
+    <PackageReference Include="LeanCode.NotificationCenter.Contracts" />
     <!--#endif -->
     <PackageReference Include="LeanCode.Contracts" />
     <PackageReference Include="LeanCode.Contracts.Admin" />

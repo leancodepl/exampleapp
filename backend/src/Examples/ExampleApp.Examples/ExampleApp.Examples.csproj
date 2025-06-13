@@ -48,12 +48,16 @@
     <PackageReference Include="LeanCode.Kratos" />
     <PackageReference Include="LeanCode.Localization" />
     <PackageReference Include="LeanCode.Logging" />
+<!--#if Example -->
+    <PackageReference Include="LeanCode.NotificationCenter" />
+<!--#endif -->
     <PackageReference Include="LeanCode.Npgsql.ActiveDirectory" />
     <PackageReference Include="LeanCode.OpenTelemetry" />
     <PackageReference Include="LeanCode.Pipe" />
     <PackageReference Include="LeanCode.SendGrid" />
     <PackageReference Include="LeanCode.Startup.MicrosoftDI" />
     <PackageReference Include="LeanCode.UrlHelper" />
+    <PackageReference Include="LeanCode.UserIdExtractors" />
     <PackageReference Include="LeanCode.ViewRenderer.Razor" />
 
     <PackageReference Include="MassTransit" />
