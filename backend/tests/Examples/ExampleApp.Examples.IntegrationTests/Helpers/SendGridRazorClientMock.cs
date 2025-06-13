@@ -10,12 +10,12 @@ public class SendGridRazorClientMock : SendGridRazorClient
     public SendGridRazorClientMock()
         : base(default!, default!, default!) { }
 
-    public override Task SendEmailAsync(SendGridMessage msg, CancellationToken cancellationToken = new())
+    public override Task SendEmailAsync(SendGridMessage msg, CancellationToken cancellationToken = default)
     {
         var razorMsg = msg as SendGridRazorMessage;
 
         logger.Debug(
-            "Email {EmailMode} would be sent",
+            "Email {EmailModel} would be sent",
             razorMsg?.HtmlContentModel?.GetType().Name
                 ?? razorMsg?.PlainTextContentModel?.GetType().Name
                 ?? nameof(SendGridMessage)
