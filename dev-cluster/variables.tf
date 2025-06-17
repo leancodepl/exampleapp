@@ -33,7 +33,6 @@ variable "optional_features" {
     rabbit           = optional(bool, true),
     metabase         = optional(bool, false),
     kratos_ui        = optional(bool, false),
-    self_signed_cert = optional(bool, false),
   })
   default = {}
 }
