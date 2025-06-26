@@ -18,7 +18,7 @@ public class NotificationsUserConfigurationProvider : IUserConfigurationProvider
         var stringId = userId.ToString();
         var identity = await dbContext
             .KratosIdentities.Where(ki => ki.Id == userId)
-            .Select(ki => new { ki.Email })
+            .Select(ki => new { Email = ki.Traits.GetProperty("email").GetString()! })
             .FirstAsync(cancellationToken);
 
         return new(stringId, "pl", identity.Email);

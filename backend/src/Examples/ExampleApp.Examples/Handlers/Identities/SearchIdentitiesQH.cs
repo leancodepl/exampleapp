@@ -42,7 +42,7 @@ public class SearchIdentitiesQH : IQueryHandler<SearchIdentities, PaginatedResul
                 CreatedAt = ki.CreatedAt,
                 UpdatedAt = ki.UpdatedAt,
                 SchemaId = ki.SchemaId,
-                Email = ki.Email,
+                Email = ki.Traits.GetProperty("email").GetString()!,
                 Traits = ki.Traits,
             })
             .ToPaginatedResultAsync(query, context.RequestAborted);
