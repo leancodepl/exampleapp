@@ -6,7 +6,7 @@ namespace ExampleApp.Examples.Contracts.Identities;
 [AuthorizeWhenHasAnyOf(Auth.Roles.Admin)]
 public class SearchIdentities : PaginatedQuery<KratosIdentityDTO>
 {
-    public string? SchemaId { get; private set; }
+    public string? SchemaId { get; set; }
     public string? EmailPattern { get; set; }
     public string? GivenNamePattern { get; set; }
     public string? FamilyNamePattern { get; set; }
