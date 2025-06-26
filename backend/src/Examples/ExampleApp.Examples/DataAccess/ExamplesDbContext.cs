@@ -22,11 +22,29 @@ public partial class ExamplesDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
         modelBuilder.HasPostgresExtension("citext");
+        modelBuilder.HasPostgresExtension("pg_trgm");
 
         modelBuilder.AddTransactionalOutboxEntities();
 
         modelBuilder.Entity<KratosIdentity>(e =>
         {
+            e.HasIndex(ki => ki.CreatedAt);
+
+            if (false) // EF Core can't deal with indexes on inner properties :(
+            {
+#pragma warning disable CS0162, IDE0035
+                e.HasIndex(ki => ki.Traits.GetProperty("email").GetString())
+                    .HasMethod("gin")
+                    .HasOperators("gin_trgm_ops");
+                e.HasIndex(ki => ki.Traits.GetProperty("given_name").GetString())
+                    .HasMethod("gin")
+                    .HasOperators("gin_trgm_ops");
+                e.HasIndex(ki => ki.Traits.GetProperty("family_name").GetString())
+                    .HasMethod("gin")
+                    .HasOperators("gin_trgm_ops");
+#pragma warning restore CS0162, IDE0035
+            }
+
             e.OwnsMany(
                 ki => ki.RecoveryAddresses,
                 b =>
