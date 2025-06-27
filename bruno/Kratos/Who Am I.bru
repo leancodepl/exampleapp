@@ -13,3 +13,14 @@ get {
 headers {
   Accept: application/json
 }
+
+script:post-response {
+  if (res.getStatus() === 200) {
+    const response = res.getBody();
+    const id = response?.identity?.id;
+    
+    if (id) {
+      bru.setEnvVar("identity_id", id);
+    }
+  }
+}
