@@ -1,0 +1,17 @@
+meta {
+  name: Q_IdentityDetails
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{api_base}}/query/ExampleApp.Examples.Contracts.Identities.IdentityDetails
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "Id": "{{identity_id}}"
+  }
+}
