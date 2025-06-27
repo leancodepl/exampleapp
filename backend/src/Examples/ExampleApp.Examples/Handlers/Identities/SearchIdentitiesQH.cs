@@ -3,6 +3,7 @@ using System.Text.RegularExpressions;
 using ExampleApp.Examples.Contracts;
 using ExampleApp.Examples.Contracts.Identities;
 using ExampleApp.Examples.DataAccess;
+using ExampleApp.Examples.DataAccess.Entities;
 using LeanCode.CQRS.Execution;
 using LeanCode.QueryableExtensions;
 using Microsoft.AspNetCore.Http;
@@ -35,16 +36,48 @@ public class SearchIdentitiesQH : IQueryHandler<SearchIdentities, PaginatedResul
                 ki => Regex.IsMatch(ki.Traits.GetProperty("family_name").GetString()!, query.FamilyNamePattern!),
                 query.FamilyNamePattern is not null
             )
-            .OrderBy(ki => ki.Traits.GetProperty("email").GetString())
+            .OrderBy(query)
             .Select(ki => new KratosIdentityDTO
             {
                 Id = ki.Id,
                 CreatedAt = ki.CreatedAt,
                 UpdatedAt = ki.UpdatedAt,
                 SchemaId = ki.SchemaId,
-                Email = ki.Email,
+                Email = ki.Traits.GetProperty("email").GetString()!,
+                GivenName = ki.Traits.GetProperty("given_name").GetString()!,
+                FamilyName = ki.Traits.GetProperty("family_name").GetString(),
                 Traits = ki.Traits,
+                MetadataPublic = ki.MetadataPublic,
+                MetadataAdmin = ki.MetadataAdmin,
             })
             .ToPaginatedResultAsync(query, context.RequestAborted);
+    }
+}
+
+file static class Extensions
+{
+    public static IOrderedQueryable<KratosIdentity> OrderBy(
+        this IQueryable<KratosIdentity> queryable,
+        SearchIdentities query
+    )
+    {
+        var ordered = query.SortBy switch
+        {
+            KratosIdentitySortKeyDTO.Email => queryable.OrderBy(
+                ki => ki.Traits.GetProperty("email").GetString()!,
+                query.SortByDescending
+            ),
+            KratosIdentitySortKeyDTO.GivenName => queryable.OrderBy(
+                ki => ki.Traits.GetProperty("given_name").GetString()!,
+                query.SortByDescending
+            ),
+            KratosIdentitySortKeyDTO.FamilyName => queryable.OrderBy(
+                ki => ki.Traits.GetProperty("family_name").GetString()!,
+                query.SortByDescending
+            ),
+            KratosIdentitySortKeyDTO.CreatedAt or _ => queryable.OrderBy(ki => ki.CreatedAt, query.SortByDescending),
+        };
+
+        return ordered.ThenBy(ki => ki.Id);
     }
 }

@@ -5,7 +5,7 @@ namespace ExampleApp.Examples.Contracts;
 public abstract class PaginatedQuery<TResult> : IQuery<PaginatedResult<TResult>>
 {
     public const int MinPageSize = 1;
-    public const int MaxPageSize = 100;
+    public const int MaxPageSize = 500;
 
     /// <remarks>Zero-based.</remarks>
     public int PageNumber { get; set; }

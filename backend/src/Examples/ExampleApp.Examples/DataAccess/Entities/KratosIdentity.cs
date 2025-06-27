@@ -14,7 +14,6 @@ public class KratosIdentity : IEntity<Guid>
 
     public DateTime UpdatedAt { get; private set; }
     public string SchemaId { get; private set; }
-    public string Email { get; private set; }
     public JsonElement Traits { get; private set; }
     public JsonElement? MetadataPublic { get; private set; }
     public JsonElement? MetadataAdmin { get; private set; }
@@ -26,7 +25,6 @@ public class KratosIdentity : IEntity<Guid>
     private KratosIdentity()
     {
         SchemaId = null!;
-        Email = null!;
     }
 
     public KratosIdentity(LeanCode.Kratos.Model.Identity identity)
@@ -40,8 +38,6 @@ public class KratosIdentity : IEntity<Guid>
         Traits = identity.Traits;
         MetadataPublic = identity.MetadataPublic;
         MetadataAdmin = identity.MetadataAdmin;
-
-        ExtractEmailFromTraits();
 
         CopyRecoveryAddresses(identity.RecoveryAddresses);
         CopyVerifiableAddresses(identity.VerifiableAddresses);
@@ -60,8 +56,6 @@ public class KratosIdentity : IEntity<Guid>
         Traits = identity.Traits;
         MetadataPublic = identity.MetadataPublic;
         MetadataAdmin = identity.MetadataAdmin;
-
-        ExtractEmailFromTraits();
 
         recoveryAddresses.Clear();
         CopyRecoveryAddresses(identity.RecoveryAddresses);
@@ -109,14 +103,6 @@ public class KratosIdentity : IEntity<Guid>
                 VerifiedAt = kvia.Verified ? kvia.VerifiedAt : null,
             })
         );
-    }
-
-    [MemberNotNull(nameof(Email))]
-    private void ExtractEmailFromTraits()
-    {
-        Email =
-            Traits.GetProperty("email").GetString()
-            ?? throw new InvalidOperationException("Failed to read email trait.");
     }
 }
 
